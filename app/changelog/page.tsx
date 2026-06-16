@@ -1,0 +1,363 @@
+﻿'use client';
+
+import { useEffect, useState } from 'react';
+
+type ChangeType = 'feat' | 'fix' | 'change';
+
+interface Change {
+  type: ChangeType;
+  text: string;
+}
+
+interface Version {
+  version: string;
+  date: string;
+  changes: Change[];
+}
+
+const CHANGELOG: Version[] = [
+  {
+    version: '3.11',
+    date: '16. 6. 2026',
+    changes: [
+      { type: 'feat', text: 'Animace otevření modalu — backdrop fade-in, karta slide-up ze spodu s ease-out cubic-bezier' },
+      { type: 'feat', text: 'Success stav — animované SVG: kolečko se "nakreslí" stroke-dashoffset animací, fajfka vyjede z kolečka s půl-sekundovým zpožděním' },
+      { type: 'feat', text: 'Pop-in efekt kolečka s přestřelením (scale 0→1.18→1) a postupný fade-in textu "Poptávka odeslána" a "Těšíme se na spolupráci"' },
+      { type: 'feat', text: 'Spinner animace na tlačítku Odesílám...' },
+    ],
+  },
+  {
+    version: '3.10',
+    date: '16. 6. 2026',
+    changes: [
+      { type: 'feat', text: 'Kalkulace odesílá lead přímo do adminu přes /api/kalkulace — bez redirectu na kontaktní formulář' },
+      { type: 'feat', text: 'Modal na kalkulaci — jméno, email, telefon; po submitu lead okamžitě přistane v přehledu' },
+      { type: 'feat', text: 'Leady z webu označeny "Z webu" badge v dashboardu i v detailu leadu' },
+      { type: 'feat', text: 'Detail leadu — karta "Poptávka z kalkulace" zobrazuje vybrané doplňky, cenu a speciální požadavky přehledně' },
+    ],
+  },
+  {
+    version: '3.9',
+    date: '16. 6. 2026',
+    changes: [
+      { type: 'feat', text: 'Kalkulační stránka pro každou službu (/kalkulace/[slug]) — výběr doplňků s live výpočtem ceny a polem pro speciální požadavky' },
+      { type: 'feat', text: 'Ceny na homepage i /sluzby zobrazeny jako "od X Kč" — kliknutí na kartu otevře kalkulaci místo přehledu služeb' },
+      { type: 'feat', text: 'Kontaktní formulář pre-filluje zprávu z kalkulace přes URL param ?message=...' },
+      { type: 'change', text: 'Tlačítko "Chci tuto službu" na /sluzby přejmenováno na "Spočítat cenu" a odkazuje na kalkulaci' },
+    ],
+  },
+  {
+    version: '3.8',
+    date: '16. 6. 2026',
+    changes: [
+      { type: 'feat', text: 'Nové logo — modernizovaný W+i mark se hvězdou, sjednoceno ve všech komponentách (nav, footer, login)' },
+      { type: 'change', text: 'Barevná paleta přepnuta z indigo na modrou (#2563EB) dle nového loga — platí pro celý web i admin' },
+    ],
+  },
+  {
+    version: '3.7',
+    date: '15. 6. 2026',
+    changes: [
+      { type: 'feat', text: 'Sekce "Říkáme to rovnou" na homepage — upřímná zpráva o tom, že web není zázrak, ale dobrý start' },
+    ],
+  },
+  {
+    version: '3.6',
+    date: '15. 6. 2026',
+    changes: [
+      { type: 'feat', text: 'Unsplash fotky na homepage, /o-nas a dalších stránkách — reálné vizuály místo abstraktních placeholderů' },
+      { type: 'feat', text: 'DM Serif Display font pro nadpisy — lepší typografický kontrast, více „rozbitá" stránka' },
+      { type: 'feat', text: 'Odstraněny emoji ikony ze služeb a nahrazeny SVG ikonami, odstraněn „AI Engine" tým' },
+      { type: 'feat', text: 'Tmavá sekce pro statistiky na homepage, fialový gradient v process sekci, více barevných pozadí' },
+      { type: 'change', text: 'Kopie webu přepsána — přirozený tón, Max zmíněn jménem, přístup k AI nástrojům přirozený' },
+    ],
+  },
+  {
+    version: '3.5',
+    date: '15. 6. 2026',
+    changes: [
+      { type: 'feat', text: 'Kompletní marketingový web — 6 stránek: Domů, Služby, Portfolio, Jak pracujeme, O nás, Reference, Kontakt' },
+      { type: 'feat', text: 'Kontaktní formulář na /kontakt posílá poptávky přímo do admin panelu s Discord notifikací' },
+      { type: 'feat', text: 'Scroll animace, hover efekty, mobilní responsivita a SEO metadata na všech veřejných stránkách' },
+    ],
+  },
+  {
+    version: '3.4',
+    date: '15. 6. 2026',
+    changes: [
+      { type: 'feat', text: 'Marketing homepage na / — hero, jak to funguje, obory, features, formulář pro zákazníky' },
+      { type: 'feat', text: 'Admin přesunut na /admin — celý interní nástroj na /admin/dashboard, /admin/leads atd.' },
+      { type: 'feat', text: 'Veřejný formulář "Chci web" na homepage vytvoří lead přímo v databázi a pošle Discord notifikaci' },
+    ],
+  },
+  {
+    version: '3.3',
+    date: '15. 6. 2026',
+    changes: [
+      { type: 'feat', text: 'Aktivity na leadech — přidej připomínku (📞 Zavolat / ✉️ Napsat / 🤝 Schůzka) s datem a časem přímo na detailu leadu' },
+      { type: 'feat', text: 'Sdílený kalendář — webcal:// odkaz v Nastavení, celý tým si přidá do Apple/Google/Outlook Calendar a aktivity se syncují automaticky každou hodinu' },
+    ],
+  },
+  {
+    version: '3.2',
+    date: '15. 6. 2025',
+    changes: [
+      { type: 'feat', text: 'Hodnota dealu (Kč) — pole na každém leadu, inline editace v detailu, zadání při vytvoření' },
+      { type: 'feat', text: 'Revenue dashboard — Pipeline / Uzavřeno celkem / Tento měsíc / Průměr na deal + conversion rate (zobrazí se po zadání první hodnoty)' },
+    ],
+  },
+  {
+    version: '3.1',
+    date: '15. 6. 2025',
+    changes: [
+      { type: 'feat', text: 'Kanban board — drag & drop leady mezi sloupci pipeline (Nový / Vygenerováno / Schváleno / Draft hotov / Zamítnuto)' },
+      { type: 'feat', text: 'Toggle Tabulka ↔ Kanban na dashboardu, volba se uloží' },
+    ],
+  },
+  {
+    version: '3.0',
+    date: '15. 6. 2025',
+    changes: [
+      { type: 'fix', text: 'Jméno profilu se okamžitě aktualizuje všude (navbar, dashboard) po uložení v nastavení — sdílený ProfileContext' },
+    ],
+  },
+  {
+    version: '2.9',
+    date: '15. 6. 2025',
+    changes: [
+      { type: 'feat', text: 'Stránka Nastavení — změna jména profilu (zobrazuje se v dashboardu)' },
+      { type: 'feat', text: 'Tmavý / světlý režim — přepínač v navbaru, volba přetrvá po dalším otevření' },
+    ],
+  },
+  {
+    version: '2.8',
+    date: '15. 6. 2025',
+    changes: [
+      { type: 'feat', text: 'Kompletní redesign UI — nová barevná paleta dle loga (tmavá navy + modrá), SVG logo mark v navbaru, přehlednější karty a hierarchie' },
+      { type: 'feat', text: 'Login stránka s prominentním logem a čistším layoutem' },
+      { type: 'change', text: 'StatusBadge přeložen do češtiny' },
+    ],
+  },
+  {
+    version: '2.7',
+    date: '15. 6. 2025',
+    changes: [
+      { type: 'fix', text: 'Discord notifikace na Vercelu — oprava serverless prostředí kde fire-and-forget fetch nestihl odeslat před ukončením funkce' },
+    ],
+  },
+  {
+    version: '2.6',
+    date: '15. 6. 2025',
+    changes: [
+      { type: 'fix', text: 'Discord webhook URL se čte při každém volání místo při startu modulu — opravuje nefunkční notifikace na Vercelu' },
+    ],
+  },
+  {
+    version: '2.5',
+    date: '15. 6. 2025',
+    changes: [
+      { type: 'feat', text: 'Discord notifikace — webhook posílá zprávy při vytvoření leadu, změně statusu, úpravě, smazání a vygenerování stránky' },
+    ],
+  },
+  {
+    version: '2.4',
+    date: '15. 6. 2025',
+    changes: [
+      { type: 'feat', text: 'Changelog dostupný přímo z hlavní lišty (odkaz v Navbaru)' },
+      { type: 'feat', text: 'Přihlášení do dashboardu automaticky odemkne changelog — externí heslo jen pro sdílení' },
+    ],
+  },
+  {
+    version: '2.3',
+    date: '15. 6. 2025',
+    changes: [
+      { type: 'feat', text: 'Changelog stránka s historií verzí a přehledem změn, chráněná heslem' },
+    ],
+  },
+  {
+    version: '2.2',
+    date: '15. 6. 2025',
+    changes: [
+      { type: 'feat', text: 'Automatická synchronizace uživatelských profilů — jména se zobrazují ve sloupci Zpracovává a Přidal' },
+      { type: 'feat', text: 'Sekce Tým nyní zobrazuje statistiky všech členů (přidáno, zpracovává, vygenerováno, schváleno, drafty)' },
+    ],
+  },
+  {
+    version: '2.1',
+    date: '15. 6. 2025',
+    changes: [
+      { type: 'feat', text: 'Preview stránky vygenerovaných webů jsou veřejně přístupné bez přihlášení — lze sdílet odkaz přímo klientovi' },
+    ],
+  },
+  {
+    version: '2.0',
+    date: '15. 6. 2025',
+    changes: [
+      { type: 'change', text: 'Generování přepnuto zpět na Anthropic claude-sonnet-4-6' },
+    ],
+  },
+  {
+    version: '1.9',
+    date: '15. 6. 2025',
+    changes: [
+      { type: 'change', text: 'Generování přepnuto na Google Gemini 2.0 Flash (free tier, nulové náklady)' },
+    ],
+  },
+  {
+    version: '1.8',
+    date: '15. 6. 2025',
+    changes: [
+      { type: 'fix', text: 'Oprava duplicitního klíče při regeneraci webu' },
+      { type: 'fix', text: 'Odblokování zaseknutého leadu ve stavu generating' },
+      { type: 'fix', text: 'Prázdný preview se nyní správně rozpozná a nezobrazuje' },
+    ],
+  },
+  {
+    version: '1.7',
+    date: '15. 6. 2025',
+    changes: [
+      { type: 'fix', text: 'Oprava 5min timeoutu — vypnuty SDK retry pokusy, nastaven 90s timeout na generování' },
+    ],
+  },
+];
+
+const TYPE_CONFIG: Record<ChangeType, { label: string; className: string }> = {
+  feat:   { label: 'Nové',   className: 'bg-blue-50 text-blue-700 border-blue-200' },
+  fix:    { label: 'Oprava', className: 'bg-amber-50 text-amber-700 border-amber-200' },
+  change: { label: 'Změna',  className: 'bg-slate-100 text-slate-600 border-slate-200' },
+};
+
+export default function ChangelogPage() {
+  const [authenticated, setAuthenticated] = useState<boolean | null>(null);
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    fetch('/api/changelog/auth')
+      .then((r) => r.json())
+      .then((d) => setAuthenticated(d.authenticated));
+  }, []);
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setLoading(true);
+    setError('');
+    const res = await fetch('/api/changelog/auth', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password }),
+    });
+    if (res.ok) {
+      setAuthenticated(true);
+    } else {
+      setError('Nesprávné heslo.');
+    }
+    setLoading(false);
+  }
+
+  if (authenticated === null) {
+    return <div className="min-h-screen bg-[#f8fafc] flex items-center justify-center text-slate-300 text-sm">Načítání…</div>;
+  }
+
+  if (!authenticated) {
+    return (
+      <div className="min-h-screen bg-[#f8fafc] flex items-center justify-center px-4">
+        <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-8 w-full max-w-sm">
+          <div className="mb-6">
+            <p className="text-xs font-semibold text-blue-600 uppercase tracking-widest mb-1">WebsiteAgent</p>
+            <h1 className="text-xl font-bold text-slate-900">Changelog</h1>
+            <p className="text-sm text-slate-400 mt-1">Zadejte heslo pro zobrazení</p>
+          </div>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            {error && (
+              <div className="bg-red-50 border border-red-200 text-red-700 text-sm px-4 py-3 rounded-lg">
+                {error}
+              </div>
+            )}
+            <div>
+              <label className="label">Heslo</label>
+              <input
+                className="input"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                autoFocus
+              />
+            </div>
+            <button type="submit" className="btn-primary w-full" disabled={loading}>
+              {loading ? 'Ověřuji…' : 'Vstoupit'}
+            </button>
+          </form>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-[#f8fafc]">
+      <div className="max-w-2xl mx-auto px-4 py-12">
+        {/* Header */}
+        <div className="mb-10">
+          <p className="text-xs font-semibold text-blue-600 uppercase tracking-widest mb-2">WebsiteAgent</p>
+          <h1 className="text-3xl font-bold text-slate-900 tracking-tight">Changelog</h1>
+          <p className="text-sm text-slate-400 mt-1">Historie verzí a provedených změn</p>
+        </div>
+
+        {/* Timeline */}
+        <div className="relative">
+          <div className="absolute left-[11px] top-2 bottom-2 w-px bg-gray-200" />
+
+          <div className="space-y-8">
+            {CHANGELOG.map((v, i) => (
+              <div key={v.version} className="relative flex gap-5">
+                {/* Dot */}
+                <div className={`relative z-10 w-6 h-6 rounded-full border-2 flex-shrink-0 mt-0.5 flex items-center justify-center ${
+                  i === 0
+                    ? 'bg-blue-600 border-blue-600'
+                    : 'bg-white border-gray-300'
+                }`}>
+                  {i === 0 && <div className="w-2 h-2 rounded-full bg-white" />}
+                </div>
+
+                {/* Content */}
+                <div className="flex-1 min-w-0 pb-2">
+                  <div className="flex items-center gap-3 mb-3">
+                    <span className={`text-sm font-bold px-2.5 py-0.5 rounded-full border font-mono ${
+                      i === 0
+                        ? 'bg-blue-600 text-white border-blue-600'
+                        : 'bg-white text-gray-700 border-gray-200'
+                    }`}>
+                      v{v.version}
+                    </span>
+                    <span className="text-xs text-gray-400">{v.date}</span>
+                    {i === 0 && (
+                      <span className="text-xs font-medium text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full">
+                        Aktuální
+                      </span>
+                    )}
+                  </div>
+
+                  <div className="bg-white rounded-xl border border-gray-200 shadow-sm divide-y divide-gray-50">
+                    {v.changes.map((c, j) => {
+                      const cfg = TYPE_CONFIG[c.type];
+                      return (
+                        <div key={j} className="flex items-start gap-3 px-4 py-3">
+                          <span className={`mt-0.5 text-xs font-semibold px-2 py-0.5 rounded border flex-shrink-0 ${cfg.className}`}>
+                            {cfg.label}
+                          </span>
+                          <p className="text-sm text-gray-700 leading-relaxed">{c.text}</p>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
