@@ -23,6 +23,7 @@ export interface Lead {
   assigned_to: string | null;
   assigned_to_name: string | null;
   deal_value: number | null;
+  deleted_at: string | null;
 }
 
 export interface GeneratedPage {

@@ -17,6 +17,26 @@ interface Version {
 
 const CHANGELOG: Version[] = [
   {
+    version: '3.13',
+    date: '16. 6. 2026',
+    changes: [
+      { type: 'feat', text: 'Soft-delete leadů — smazaný lead jde do koše, ne ihned pryč' },
+      { type: 'feat', text: 'Koš (/admin/trash) — přehled smazaných leadů s odpočtem zbývajícího času (12h okno)' },
+      { type: 'feat', text: 'Obnovení leadu z koše — tlačítko Obnovit vrátí lead zpět do přehledu' },
+      { type: 'feat', text: 'Vyprázdnit koš — okamžité natrvalo smazání všech položek v koši' },
+      { type: 'feat', text: 'Checkboxy v tabulce — výběr více leadů najednou (select all v headeru)' },
+      { type: 'feat', text: 'Bulk delete — smazání vybraných leadů najednou přes červenou action bar' },
+      { type: 'feat', text: 'Trash ikona per řádek — hover odhalí ikonu koše, klik vyžaduje potvrzení inline' },
+    ],
+  },
+  {
+    version: '3.12',
+    date: '16. 6. 2026',
+    changes: [
+      { type: 'feat', text: 'Mobilní responsivita admin navbaru — hamburger menu s rozbalovacím dropdownem' },
+    ],
+  },
+  {
     version: '3.11',
     date: '16. 6. 2026',
     changes: [

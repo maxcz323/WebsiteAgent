@@ -77,6 +77,10 @@ ALTER TABLE leads ADD COLUMN IF NOT EXISTS created_by UUID REFERENCES auth.users
 -- Deal value in CZK
 ALTER TABLE leads ADD COLUMN IF NOT EXISTS deal_value INTEGER DEFAULT NULL;
 
+-- Soft delete — lead zůstane v koši 12 hodin, pak se natrvalo smaže
+ALTER TABLE leads ADD COLUMN IF NOT EXISTS deleted_at TIMESTAMPTZ DEFAULT NULL;
+CREATE INDEX IF NOT EXISTS leads_deleted_at_idx ON leads(deleted_at) WHERE deleted_at IS NOT NULL;
+
 -- ── Row Level Security ─────────────────────────────────────────────────────────
 -- API routes use the service role key (bypasses RLS).
 -- RLS is needed for Realtime subscriptions from the browser (anon/user key).

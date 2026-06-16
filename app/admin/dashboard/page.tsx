@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useEffect, useState, useCallback } from 'react';
 import Link from 'next/link';
@@ -38,6 +38,17 @@ function KanbanIcon() {
   );
 }
 
+function TrashIcon({ size = 14 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <polyline points="3 6 5 6 21 6" />
+      <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
+      <path d="M10 11v6M14 11v6" />
+      <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" />
+    </svg>
+  );
+}
+
 export default function DashboardPage() {
   const [leads, setLeads] = useState<Lead[]>([]);
   const [loading, setLoading] = useState(true);
@@ -45,6 +56,9 @@ export default function DashboardPage() {
   const [view, setView] = useState<ViewMode>('table');
   const [gmailConnected, setGmailConnected] = useState(false);
   const [currentUserId, setCurrentUserId] = useState<string | null>(null);
+  const [selected, setSelected] = useState<Set<string>>(new Set());
+  const [deleting, setDeleting] = useState(false);
+  const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
 
   useEffect(() => {
     const stored = localStorage.getItem('wa-view') as ViewMode | null;
@@ -93,11 +107,46 @@ export default function DashboardPage() {
     });
   }
 
+  async function handleDelete(id: string) {
+    setLeads((prev) => prev.filter((l) => l.id !== id));
+    setSelected((prev) => { const s = new Set(prev); s.delete(id); return s; });
+    setConfirmDeleteId(null);
+    await fetch(`/api/leads/${id}`, { method: 'DELETE' });
+  }
+
+  async function handleBulkDelete() {
+    const ids = [...selected];
+    setDeleting(true);
+    setLeads((prev) => prev.filter((l) => !ids.includes(l.id)));
+    setSelected(new Set());
+    await Promise.all(ids.map((id) => fetch(`/api/leads/${id}`, { method: 'DELETE' })));
+    setDeleting(false);
+  }
+
+  function toggleSelect(id: string) {
+    setSelected((prev) => {
+      const s = new Set(prev);
+      if (s.has(id)) s.delete(id); else s.add(id);
+      return s;
+    });
+  }
+
+  function toggleSelectAll() {
+    if (selected.size === filtered.length && filtered.length > 0) {
+      setSelected(new Set());
+    } else {
+      setSelected(new Set(filtered.map((l) => l.id)));
+    }
+  }
+
   const filtered = leads.filter((l) => {
     if (filter === 'mine') return l.assigned_to === currentUserId;
     if (filter === 'all') return true;
     return l.status === filter;
   });
+
+  const allSelected = filtered.length > 0 && selected.size === filtered.length;
+  const someSelected = selected.size > 0 && !allSelected;
 
   const stats = [
     { label: 'Celkem', value: leads.length, accent: 'border-slate-300 dark:border-slate-600', num: 'text-slate-900 dark:text-slate-100' },
@@ -149,6 +198,14 @@ export default function DashboardPage() {
           ) : (
             <a href="/api/gmail/auth" className="btn-secondary text-xs">Připojit Gmail</a>
           )}
+          <Link
+            href="/admin/trash"
+            className="flex items-center gap-1.5 text-xs font-medium text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 border border-slate-200 dark:border-slate-700 px-3 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
+            title="Koš"
+          >
+            <TrashIcon />
+            Koš
+          </Link>
           <div className="flex items-center bg-slate-100 dark:bg-slate-800 rounded-lg p-1 gap-0.5">
             <button onClick={() => toggleView('table')} className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-semibold transition-all ${view === 'table' ? 'bg-white dark:bg-slate-700 text-slate-800 dark:text-slate-100 shadow-sm' : 'text-slate-400 hover:text-slate-600 dark:hover:text-slate-300'}`} title="Tabulka">
               <TableIcon /> Tabulka
@@ -215,6 +272,29 @@ export default function DashboardPage() {
             ))}
           </div>
 
+          {/* Bulk action bar */}
+          {selected.size > 0 && (
+            <div className="flex items-center gap-3 px-4 py-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl">
+              <span className="text-sm font-semibold text-red-700 dark:text-red-400">
+                Vybráno: {selected.size} {selected.size === 1 ? 'lead' : selected.size < 5 ? 'leady' : 'leadů'}
+              </span>
+              <button
+                onClick={handleBulkDelete}
+                disabled={deleting}
+                className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-white bg-red-600 hover:bg-red-700 rounded-lg transition-colors disabled:opacity-50"
+              >
+                <TrashIcon />
+                {deleting ? 'Mažu…' : 'Smazat vybrané'}
+              </button>
+              <button
+                onClick={() => setSelected(new Set())}
+                className="text-xs text-red-400 hover:text-red-600 ml-auto"
+              >
+                Zrušit výběr
+              </button>
+            </div>
+          )}
+
           <div className="card overflow-hidden">
             {loading ? (
               <div className="p-16 text-center text-slate-300 dark:text-slate-600 text-sm">Načítání…</div>
@@ -225,33 +305,68 @@ export default function DashboardPage() {
               </div>
             ) : (
               <>
+                {/* Mobile cards */}
                 <div className="divide-y divide-slate-100 dark:divide-slate-800 md:hidden">
                   {filtered.map((lead) => {
                     const isWeb = lead.notes?.startsWith('__KALKULACE__');
+                    const isSelected = selected.has(lead.id);
+                    const isConfirming = confirmDeleteId === lead.id;
                     return (
-                    <Link key={lead.id} href={`/admin/leads/${lead.id}`} className="block p-4 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
-                      <div className="flex items-start justify-between gap-2 mb-2">
-                        <div className="min-w-0">
-                          <p className="font-semibold text-slate-900 dark:text-slate-100 text-sm truncate">{lead.business_name || lead.business_niche}</p>
-                          <p className="text-xs text-slate-400 mt-0.5">{lead.business_niche} · {lead.city}</p>
-                        </div>
-                        <div className="flex items-center gap-1.5 shrink-0">
-                          {isWeb && <span className="text-[10px] font-bold bg-blue-50 text-blue-600 border border-blue-200 px-1.5 py-0.5 rounded">Z webu</span>}
-                          <StatusBadge status={lead.status} />
-                        </div>
+                      <div key={lead.id} className={`flex items-center gap-3 p-4 transition-colors ${isSelected ? 'bg-blue-50/60 dark:bg-blue-900/10' : ''}`}>
+                        <input
+                          type="checkbox"
+                          checked={isSelected}
+                          onChange={() => toggleSelect(lead.id)}
+                          className="w-4 h-4 rounded border-slate-300 text-blue-600 shrink-0 cursor-pointer"
+                        />
+                        <Link href={`/admin/leads/${lead.id}`} className="flex-1 min-w-0">
+                          <div className="flex items-start justify-between gap-2 mb-1">
+                            <div className="min-w-0">
+                              <p className="font-semibold text-slate-900 dark:text-slate-100 text-sm truncate">{lead.business_name || lead.business_niche}</p>
+                              <p className="text-xs text-slate-400 mt-0.5">{lead.business_niche} · {lead.city}</p>
+                            </div>
+                            <div className="flex items-center gap-1.5 shrink-0">
+                              {isWeb && <span className="text-[10px] font-bold bg-blue-50 text-blue-600 border border-blue-200 px-1.5 py-0.5 rounded">Z webu</span>}
+                              <StatusBadge status={lead.status} />
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-3 text-xs text-slate-400">
+                            {lead.assigned_to_name && <span className="text-blue-500 font-medium">↳ {lead.assigned_to_name}</span>}
+                            <span>{new Date(lead.created_at).toLocaleDateString('cs-CZ')}</span>
+                          </div>
+                        </Link>
+                        {isConfirming ? (
+                          <div className="flex gap-1 shrink-0">
+                            <button onClick={() => handleDelete(lead.id)} className="text-xs font-semibold text-white bg-red-600 hover:bg-red-700 px-2 py-1 rounded transition-colors">Smazat</button>
+                            <button onClick={() => setConfirmDeleteId(null)} className="text-xs text-slate-400 hover:text-slate-600 px-2 py-1 rounded transition-colors">Ne</button>
+                          </div>
+                        ) : (
+                          <button
+                            onClick={() => setConfirmDeleteId(lead.id)}
+                            className="text-slate-300 dark:text-slate-600 hover:text-red-500 dark:hover:text-red-500 transition-colors shrink-0 p-1"
+                            title="Smazat"
+                          >
+                            <TrashIcon />
+                          </button>
+                        )}
                       </div>
-                      <div className="flex items-center gap-3 text-xs text-slate-400">
-                        {lead.assigned_to_name && <span className="text-blue-500 font-medium">↳ {lead.assigned_to_name}</span>}
-                        <span>{new Date(lead.created_at).toLocaleDateString('cs-CZ')}</span>
-                      </div>
-                    </Link>
                     );
                   })}
                 </div>
 
+                {/* Desktop table */}
                 <table className="hidden md:table w-full text-sm">
                   <thead>
                     <tr className="border-b border-slate-100 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-800/40">
+                      <th className="px-4 py-3 w-10">
+                        <input
+                          type="checkbox"
+                          checked={allSelected}
+                          ref={(el) => { if (el) el.indeterminate = someSelected; }}
+                          onChange={toggleSelectAll}
+                          className="w-4 h-4 rounded border-slate-300 text-blue-600 cursor-pointer"
+                        />
+                      </th>
                       <th className="text-left px-5 py-3 section-title">Firma</th>
                       <th className="text-left px-5 py-3 section-title">Obor</th>
                       <th className="text-left px-5 py-3 section-title">Město</th>
@@ -266,31 +381,59 @@ export default function DashboardPage() {
                   <tbody className="divide-y divide-slate-50 dark:divide-slate-800/60">
                     {filtered.map((lead) => {
                       const isWeb = lead.notes?.startsWith('__KALKULACE__');
+                      const isSelected = selected.has(lead.id);
+                      const isConfirming = confirmDeleteId === lead.id;
                       return (
-                      <tr key={lead.id} className="hover:bg-slate-50/80 dark:hover:bg-slate-800/30 transition-colors group">
-                        <td className="px-5 py-3.5 font-semibold text-slate-900 dark:text-slate-100">
-                          <div className="flex items-center gap-2">
-                            {lead.business_name || <span className="text-slate-300 dark:text-slate-600 font-normal italic">Bez názvu</span>}
-                            {isWeb && <span className="text-[10px] font-bold bg-blue-50 text-blue-600 border border-blue-200 px-1.5 py-0.5 rounded">Z webu</span>}
-                          </div>
-                        </td>
-                        <td className="px-5 py-3.5 text-slate-500 dark:text-slate-400">{lead.business_niche}</td>
-                        <td className="px-5 py-3.5 text-slate-500 dark:text-slate-400">{lead.city}</td>
-                        <td className="px-5 py-3.5 text-slate-400 dark:text-slate-500 hidden lg:table-cell">{STYLE_LABELS[lead.website_style] ?? lead.website_style}</td>
-                        <td className="px-5 py-3.5"><StatusBadge status={lead.status} /></td>
-                        <td className="px-5 py-3.5">{lead.assigned_to_name ? <span className="text-blue-600 dark:text-blue-400 font-semibold text-xs">{lead.assigned_to_name}</span> : <span className="text-slate-200 dark:text-slate-700">—</span>}</td>
-                        <td className="px-5 py-3.5 hidden xl:table-cell text-xs">
-                          {isWeb
-                            ? <span className="text-blue-500 font-semibold">Z webu</span>
-                            : lead.created_by_name || <span className="text-slate-200 dark:text-slate-700">—</span>}
-                        </td>
-                        <td className="px-5 py-3.5 text-slate-400 dark:text-slate-500 hidden lg:table-cell text-xs">{new Date(lead.created_at).toLocaleDateString('cs-CZ')}</td>
-                        <td className="px-5 py-3.5 text-right">
-                          <Link href={`/admin/leads/${lead.id}`} className="text-blue-500 hover:text-blue-700 dark:hover:text-blue-300 font-semibold text-xs opacity-0 group-hover:opacity-100 transition-opacity">
-                            Detail →
-                          </Link>
-                        </td>
-                      </tr>
+                        <tr key={lead.id} className={`hover:bg-slate-50/80 dark:hover:bg-slate-800/30 transition-colors group ${isSelected ? 'bg-blue-50/40 dark:bg-blue-900/10' : ''}`}>
+                          <td className="px-4 py-3.5">
+                            <input
+                              type="checkbox"
+                              checked={isSelected}
+                              onChange={() => toggleSelect(lead.id)}
+                              className="w-4 h-4 rounded border-slate-300 text-blue-600 cursor-pointer"
+                            />
+                          </td>
+                          <td className="px-5 py-3.5 font-semibold text-slate-900 dark:text-slate-100">
+                            <div className="flex items-center gap-2">
+                              {lead.business_name || <span className="text-slate-300 dark:text-slate-600 font-normal italic">Bez názvu</span>}
+                              {isWeb && <span className="text-[10px] font-bold bg-blue-50 text-blue-600 border border-blue-200 px-1.5 py-0.5 rounded">Z webu</span>}
+                            </div>
+                          </td>
+                          <td className="px-5 py-3.5 text-slate-500 dark:text-slate-400">{lead.business_niche}</td>
+                          <td className="px-5 py-3.5 text-slate-500 dark:text-slate-400">{lead.city}</td>
+                          <td className="px-5 py-3.5 text-slate-400 dark:text-slate-500 hidden lg:table-cell">{STYLE_LABELS[lead.website_style] ?? lead.website_style}</td>
+                          <td className="px-5 py-3.5"><StatusBadge status={lead.status} /></td>
+                          <td className="px-5 py-3.5">{lead.assigned_to_name ? <span className="text-blue-600 dark:text-blue-400 font-semibold text-xs">{lead.assigned_to_name}</span> : <span className="text-slate-200 dark:text-slate-700">—</span>}</td>
+                          <td className="px-5 py-3.5 hidden xl:table-cell text-xs">
+                            {isWeb
+                              ? <span className="text-blue-500 font-semibold">Z webu</span>
+                              : lead.created_by_name || <span className="text-slate-200 dark:text-slate-700">—</span>}
+                          </td>
+                          <td className="px-5 py-3.5 text-slate-400 dark:text-slate-500 hidden lg:table-cell text-xs">{new Date(lead.created_at).toLocaleDateString('cs-CZ')}</td>
+                          <td className="px-5 py-3.5 text-right">
+                            <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                              {isConfirming ? (
+                                <>
+                                  <button onClick={() => handleDelete(lead.id)} className="text-xs font-semibold text-white bg-red-600 hover:bg-red-700 px-2.5 py-1 rounded transition-colors">Smazat</button>
+                                  <button onClick={() => setConfirmDeleteId(null)} className="text-xs text-slate-400 hover:text-slate-600 px-2 py-1 rounded transition-colors">Ne</button>
+                                </>
+                              ) : (
+                                <>
+                                  <Link href={`/admin/leads/${lead.id}`} className="text-blue-500 hover:text-blue-700 dark:hover:text-blue-300 font-semibold text-xs">
+                                    Detail →
+                                  </Link>
+                                  <button
+                                    onClick={() => setConfirmDeleteId(lead.id)}
+                                    className="text-slate-300 dark:text-slate-600 hover:text-red-500 dark:hover:text-red-500 transition-colors p-0.5"
+                                    title="Smazat"
+                                  >
+                                    <TrashIcon />
+                                  </button>
+                                </>
+                              )}
+                            </div>
+                          </td>
+                        </tr>
                       );
                     })}
                   </tbody>

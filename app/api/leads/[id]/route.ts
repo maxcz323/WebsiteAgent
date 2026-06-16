@@ -83,7 +83,10 @@ export async function DELETE(_req: NextRequest, { params }: Params) {
 
   const { data: lead } = await supabaseAdmin.from('leads').select('*').eq('id', id).single();
 
-  const { error } = await supabaseAdmin.from('leads').delete().eq('id', id);
+  const { error } = await supabaseAdmin
+    .from('leads')
+    .update({ deleted_at: new Date().toISOString() })
+    .eq('id', id);
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
 
   await notifyLeadDeleted(id, lead ?? undefined);
