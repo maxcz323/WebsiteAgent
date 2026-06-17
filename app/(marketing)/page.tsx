@@ -115,19 +115,15 @@ function S1() {
   return (
     <section id="s1" aria-label="Intro" style={{ height: '100vh', display: 'flex', alignItems: 'center', pointerEvents: 'none', position: 'relative', zIndex: 10 }}>
       <ScrollIndicator />
-      <div id="s1i" style={{ maxWidth: '560px', padding: '0 48px 0 52px', opacity: 0, transform: 'translateY(28px)' }}>
+      <div id="s1i" style={{ maxWidth: '560px', padding: '0 48px 0 52px', opacity: 0 }}>
         <div style={{ display: 'inline-flex', alignItems: 'center', gap: '7px', background: 'rgba(37,99,235,0.1)', border: '1px solid rgba(37,99,235,0.22)', borderRadius: '20px', padding: '5px 14px', marginBottom: '26px' }}>
           <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#60a5fa', animation: 'pulse 2s infinite', flexShrink: 0 }} />
           <span style={{ color: '#60a5fa', fontSize: '11px', fontWeight: 600 }}>Profesionální weby pro lokální firmy</span>
         </div>
-        <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(44px,5.5vw,72px)', fontWeight: 400, lineHeight: 1.02, letterSpacing: '-0.025em', color: 'white', margin: '0 0 20px' }}>
-          Web, který vaší firmě
-          <em style={{ display: 'block', background: 'linear-gradient(135deg,#93c5fd,#60a5fa,#3b82f6)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>posune vpřed.</em>
+        <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(52px,6.5vw,88px)', fontWeight: 300, lineHeight: 1.0, letterSpacing: '-0.04em', color: 'white', margin: '0 0 36px' }}>
+          Web, který<br />
+          <em style={{ display: 'block', background: 'linear-gradient(135deg,#93c5fd,#60a5fa,#3b82f6)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>prodává.</em>
         </h1>
-        <p style={{ fontSize: '17px', color: '#8892a4', lineHeight: 1.72, maxWidth: '440px', margin: '0 0 36px' }}>
-          Navrhujeme moderní weby pro lokální podnikatele.{' '}
-          <strong style={{ color: '#a8b4c4', fontWeight: 600 }}>Hotovo za 48 hodin. Platíte až po schválení.</strong>
-        </p>
         <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', pointerEvents: 'auto' }}>
           <Mag href="/kontakt" primary>
             Chci web pro svou firmu
@@ -161,27 +157,18 @@ function S1() {
 function S2() {
   return (
     <section id="s2" aria-label="Výhody" style={{ height: '100vh', display: 'flex', alignItems: 'center', pointerEvents: 'none', position: 'relative', zIndex: 10 }}>
-      <div id="s2i" style={{ maxWidth: '520px', padding: '0 48px 0 52px', opacity: 0, transform: 'translateY(28px)' }}>
-        <p style={{ fontSize: '11px', fontWeight: 600, color: '#3b82f6', textTransform: 'uppercase', letterSpacing: '0.14em', margin: '0 0 14px' }}>Naše výhody</p>
-        <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(30px,4vw,52px)', fontWeight: 400, color: 'white', lineHeight: 1.06, letterSpacing: '-0.025em', margin: '0 0 24px' }}>
-          Rychle. Profesionálně.<br />
-          <em style={{ color: '#60a5fa' }}>Bez stresu.</em>
-        </h2>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-          {[
-            { icon: '⚡', t: '48 hodin od poptávky', d: 'Web navrhneme a postavíme za 48 hodin od vašeho formuláře.' },
-            { icon: '🔒', t: 'Platíte až po schválení', d: 'Vidíte hotový návrh dříve, než zaplatíte korunu. Bez závazku.' },
-            { icon: '🎯', t: 'Přesně na míru', d: 'Každý web navrhujeme nově. Váš obor, váš styl, vaši zákazníci.' },
-          ].map(f => (
-            <div key={f.t} style={{ display: 'flex', gap: '14px', padding: '14px 16px', background: 'rgba(255,255,255,0.05)', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.09)' }}>
-              <span style={{ fontSize: '18px', flexShrink: 0 }}>{f.icon}</span>
-              <div>
-                <p style={{ fontSize: '14px', fontWeight: 700, color: 'white', margin: '0 0 3px' }}>{f.t}</p>
-                <p style={{ fontSize: '12px', color: '#8892a4', margin: 0, lineHeight: 1.55 }}>{f.d}</p>
-              </div>
-            </div>
-          ))}
-        </div>
+      <div id="s2i" style={{ maxWidth: '480px', padding: '0 48px 0 52px', opacity: 0 }}>
+        <p style={{ fontSize: '11px', fontWeight: 600, color: '#3b82f6', textTransform: 'uppercase', letterSpacing: '0.14em', margin: '0 0 28px' }}>Proč si nás vybrat</p>
+        {[
+          { n: '48h',  c: '#60a5fa', d: 'od poptávky po doručení' },
+          { n: '0 Kč', c: '#a78bfa', d: 'záloha — platíte po schválení' },
+          { n: '100%', c: '#34d399', d: 'přesně na míru vašemu oboru' },
+        ].map(({ n, c, d }, i) => (
+          <div key={n} style={{ display: 'flex', alignItems: 'center', gap: '22px', padding: '18px 0', borderBottom: i < 2 ? '1px solid rgba(255,255,255,0.07)' : 'none' }}>
+            <span style={{ fontSize: 'clamp(38px,4.5vw,58px)', fontWeight: 800, color: c, letterSpacing: '-0.05em', minWidth: '100px', lineHeight: 1 }}>{n}</span>
+            <span style={{ fontSize: '14px', color: '#7a8a9e', lineHeight: 1.5 }}>{d}</span>
+          </div>
+        ))}
       </div>
     </section>
   );
@@ -190,22 +177,20 @@ function S2() {
 function S3() {
   return (
     <section id="s3" aria-label="Služby" style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', pointerEvents: 'none', position: 'relative', zIndex: 10 }}>
-      <div id="s3i" style={{ maxWidth: '480px', padding: '0 52px', opacity: 0, transform: 'translateX(28px)' }}>
+      <div id="s3i" style={{ maxWidth: '480px', padding: '0 52px', opacity: 0 }}>
         <p style={{ fontSize: '11px', fontWeight: 600, color: '#a78bfa', textTransform: 'uppercase', letterSpacing: '0.14em', margin: '0 0 14px' }}>Naše služby</p>
         <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(28px,3.5vw,46px)', fontWeight: 400, color: 'white', lineHeight: 1.08, letterSpacing: '-0.025em', margin: '0 0 22px' }}>
           Vše, co vaše firma<br />
           <em style={{ color: '#a78bfa' }}>potřebuje online.</em>
         </h2>
         {[
-          { n: '01', t: 'Landing page', p: 'od 9 900 Kč',  c: '#2563eb', slug: 'landing-page' },
-          { n: '02', t: 'Firemní web',  p: 'od 14 900 Kč', c: '#7c3aed', slug: 'firemni-web'  },
-          { n: '03', t: 'E-commerce',   p: 'od 24 900 Kč', c: '#059669', slug: 'ecommerce'    },
+          { n: '01', t: 'Landing page', c: '#2563eb' },
+          { n: '02', t: 'Firemní web',  c: '#7c3aed' },
+          { n: '03', t: 'E-commerce',   c: '#059669' },
         ].map((s, i) => (
-          <div key={s.n} style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '14px 0', borderBottom: i < 2 ? '1px solid rgba(255,255,255,0.09)' : 'none' }}>
-            <span style={{ fontFamily: 'monospace', fontSize: '10px', color: '#6b7a8d', width: '22px', flexShrink: 0 }}>{s.n}</span>
-            <div style={{ width: '3px', height: '32px', background: s.c, borderRadius: '2px', flexShrink: 0 }} />
-            <span style={{ flex: 1, fontSize: '17px', fontWeight: 700, color: 'white', letterSpacing: '-0.01em' }}>{s.t}</span>
-            <span style={{ fontSize: '12px', fontWeight: 600, color: '#6b7a8d' }}>{s.p}</span>
+          <div key={s.n} style={{ display: 'flex', alignItems: 'center', gap: '16px', padding: '18px 0', borderBottom: i < 2 ? '1px solid rgba(255,255,255,0.07)' : 'none' }}>
+            <div style={{ width: '3px', height: '36px', background: s.c, borderRadius: '2px', flexShrink: 0 }} />
+            <span style={{ fontSize: '20px', fontWeight: 700, color: 'white', letterSpacing: '-0.02em' }}>{s.t}</span>
           </div>
         ))}
         <div style={{ marginTop: '22px', pointerEvents: 'auto' }}>
@@ -221,14 +206,12 @@ function S3() {
 function S4() {
   return (
     <section id="s4" aria-label="Portfolio" style={{ height: '100vh', display: 'flex', alignItems: 'flex-end', justifyContent: 'center', paddingBottom: '15vh', pointerEvents: 'none', position: 'relative', zIndex: 10 }}>
-      <div id="s4i" style={{ textAlign: 'center', opacity: 0, transform: 'translateY(24px)' }}>
+      <div id="s4i" style={{ textAlign: 'center', opacity: 0 }}>
         <p style={{ fontSize: '11px', fontWeight: 600, color: '#3b82f6', textTransform: 'uppercase', letterSpacing: '0.14em', margin: '0 0 12px' }}>Naše práce</p>
-        <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(28px,4vw,52px)', fontWeight: 400, color: 'white', lineHeight: 1.06, letterSpacing: '-0.025em', margin: '0 0 14px' }}>
-          Weby, které vydělávají.
+        <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(38px,5.5vw,72px)', fontWeight: 300, color: 'white', lineHeight: 1.0, letterSpacing: '-0.04em', margin: '0 0 28px' }}>
+          Weby, které<br />
+          <em style={{ color: '#60a5fa' }}>vydělávají.</em>
         </h2>
-        <p style={{ fontSize: '14px', color: '#8892a4', maxWidth: '420px', margin: '0 auto 22px', lineHeight: 1.65 }}>
-          Každý web měříme výsledky — kontakty, rezervace, prodeje. Ne jen estetiku.
-        </p>
         <div style={{ pointerEvents: 'auto' }}>
           <Link href="/portfolio" style={{ display: 'inline-flex', alignItems: 'center', gap: '7px', fontSize: '13px', fontWeight: 700, color: '#3b82f6', textDecoration: 'none' }}>
             Celé portfolio →
@@ -242,21 +225,21 @@ function S4() {
 function S5() {
   return (
     <section id="s5" aria-label="Statistiky" style={{ height: '100vh', display: 'flex', alignItems: 'center', pointerEvents: 'none', position: 'relative', zIndex: 10 }}>
-      <div id="s5i" style={{ maxWidth: '480px', padding: '0 48px 0 52px', opacity: 0, transform: 'translateY(24px)' }}>
-        <p style={{ fontSize: '11px', fontWeight: 600, color: '#34d399', textTransform: 'uppercase', letterSpacing: '0.14em', margin: '0 0 14px' }}>Čísla, která mluví</p>
-        <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(28px,3.5vw,46px)', fontWeight: 400, color: 'white', lineHeight: 1.08, letterSpacing: '-0.025em', margin: '0 0 18px' }}>
-          Výsledky, na které<br />
-          <em style={{ color: '#34d399' }}>se můžete spolehnout.</em>
-        </h2>
-        <p style={{ fontSize: '14px', color: '#8892a4', lineHeight: 1.72, marginBottom: '22px' }}>
-          Za každým číslem je skutečný klient s reálným výsledkem. Žádné slevy na pravdě.
-        </p>
-        {['Bez zálohy — platíte jen za hotový schválený web','Do 48 hodin od poptávky po doručení','Každý web měříme a optimalizujeme'].map(t => (
-          <div key={t} style={{ display: 'flex', gap: '9px', alignItems: 'flex-start', marginBottom: '9px' }}>
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#34d399" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ marginTop: '2px', flexShrink: 0 }}><polyline points="20 6 9 17 4 12"/></svg>
-            <span style={{ fontSize: '13px', color: '#a8b4c4', lineHeight: 1.55 }}>{t}</span>
-          </div>
-        ))}
+      <div id="s5i" style={{ maxWidth: '460px', padding: '0 48px 0 52px', opacity: 0 }}>
+        <p style={{ fontSize: '11px', fontWeight: 600, color: '#34d399', textTransform: 'uppercase', letterSpacing: '0.14em', margin: '0 0 28px' }}>Výsledky v číslech</p>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '32px 24px' }}>
+          {[
+            { n: '48h',  l: 'Dodání',       c: '#60a5fa' },
+            { n: '50+',  l: 'Webů',          c: '#a78bfa' },
+            { n: '100%', l: 'Spokojení',     c: '#34d399' },
+            { n: '0 Kč', l: 'Záloha',        c: '#fbbf24' },
+          ].map(({ n, l, c }) => (
+            <div key={n}>
+              <div style={{ fontSize: 'clamp(38px,5vw,62px)', fontWeight: 800, color: c, letterSpacing: '-0.05em', lineHeight: 1 }}>{n}</div>
+              <div style={{ fontSize: '11px', color: '#5a6e85', marginTop: '8px', textTransform: 'uppercase', letterSpacing: '0.12em' }}>{l}</div>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );
@@ -265,15 +248,12 @@ function S5() {
 function S6() {
   return (
     <section id="s6" aria-label="Výzva k akci" style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', pointerEvents: 'none', position: 'relative', zIndex: 10 }}>
-      <div id="s6i" style={{ textAlign: 'center', maxWidth: '700px', padding: '0 36px', opacity: 0, transform: 'translateY(24px)' }}>
+      <div id="s6i" style={{ textAlign: 'center', maxWidth: '700px', padding: '0 36px', opacity: 0 }}>
         <p style={{ fontSize: '11px', fontWeight: 600, color: '#3b82f6', textTransform: 'uppercase', letterSpacing: '0.14em', margin: '0 0 20px' }}>Začněte ještě dnes</p>
-        <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(38px,6vw,72px)', fontWeight: 400, color: 'white', lineHeight: 1.02, letterSpacing: '-0.04em', margin: '0 0 18px' }}>
-          Váš nový web<br />
-          <em style={{ background: 'linear-gradient(135deg,#93c5fd,#3b82f6)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>čeká na vás.</em>
+        <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(44px,7vw,88px)', fontWeight: 300, color: 'white', lineHeight: 1.0, letterSpacing: '-0.04em', margin: '0 0 36px' }}>
+          Začněte<br />
+          <em style={{ background: 'linear-gradient(135deg,#93c5fd,#3b82f6)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>dnes.</em>
         </h2>
-        <p style={{ fontSize: '16px', color: '#8892a4', marginBottom: '38px', lineHeight: 1.65 }}>
-          Poptávka je zdarma a nezávazná.<br />Do 24 hodin se ozveme s první ukázkou.
-        </p>
         <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap', pointerEvents: 'auto' }}>
           <Mag href="/kontakt" primary>
             Získat web ke shlédnutí zdarma

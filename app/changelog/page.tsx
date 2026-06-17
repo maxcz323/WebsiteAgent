@@ -17,6 +17,22 @@ interface Version {
 
 const CHANGELOG: Version[] = [
   {
+    version: '3.27',
+    date: '18. 6. 2026',
+    changes: [
+      { type: 'feat', text: 'S1 hero: odstraněn odstavec, h1 zvětšen (clamp 52→88px), fontWeight 300 — více prostoru a luxusnější dojem, kopie zkrácena na "Web, který prodává."' },
+      { type: 'feat', text: 'S2 výhody: feature card grid nahrazen třemi řadami s velkými čísly (48h / 0 Kč / 100%) v accent barvách (800 weight, 58px) — čistší vizuální hierachie' },
+      { type: 'feat', text: 'S3 služby: odebrány ceny z řádků služeb — zbyly jen barevné bary + název, sekce působí čistěji a méně jako ceník' },
+      { type: 'feat', text: 'S4 portfolio: odstraněn odstavec s popisem, h2 zvětšen (38→72px, weight 300) — text ustupuje 3D portfoliu v pozadí' },
+      { type: 'feat', text: 'S5 statistiky: bullet-list nahrazen 2×2 gridem s velkými čísly (62px, 800 weight) v accent barvách a malými uppercase štítky' },
+      { type: 'feat', text: 'S6 CTA: odstraněn odstavec, h2 zkrácen na "Začněte / dnes." (88px, weight 300) — silnější impact při menším textu' },
+      { type: 'feat', text: 'Particles: přidána druhá sada fialových částic (500 ks, kontrrotace) — bohatší vizuální atmosféra bez dopadu na výkon' },
+      { type: 'feat', text: 'RingAccent: přidány 2 další prstence (fialový ø9, zelený ø5.2) s různými osami rotace a rychlostmi — více vrstvená hloubka scény' },
+      { type: 'feat', text: 'Osvětlení: zvýšena intenzita klíčového světla (4→5.5), fill (2.2→3.0), přidáno zadní světlo za monitor (1.4) a horní zelený akcent (0.8) — dramatičtější kontrasty' },
+      { type: 'change', text: 'Odstraněny přebytečné transform: translateY/X z textových kontejnerů — GSAP nyní používá čistý opacity fade' },
+    ],
+  },
+  {
     version: '3.26',
     date: '18. 6. 2026',
     changes: [

@@ -607,32 +607,51 @@ function StatPanels() {
 /* ═══════════════════════════════════════════════════════════════
    PARTICLES
 ═══════════════════════════════════════════════════════════════ */
+function makeParticlePositions(count: number, rMin: number, rMax: number) {
+  const arr = new Float32Array(count * 3);
+  for (let i = 0; i < count; i++) {
+    const r = rMin + Math.random() * (rMax - rMin);
+    const θ = Math.random() * Math.PI * 2;
+    const φ = Math.acos(2 * Math.random() - 1);
+    arr[i*3]   = r * Math.sin(φ) * Math.cos(θ);
+    arr[i*3+1] = r * Math.sin(φ) * Math.sin(θ);
+    arr[i*3+2] = r * Math.cos(φ);
+  }
+  return arr;
+}
+
 function Particles({ mobile }: { mobile?: boolean }) {
-  const count = mobile ? 500 : 2200;
-  const positions = useMemo(() => {
-    const arr = new Float32Array(count * 3);
-    for (let i = 0; i < count; i++) {
-      const r = 9 + Math.random() * 10;
-      const θ = Math.random() * Math.PI * 2;
-      const φ = Math.acos(2 * Math.random() - 1);
-      arr[i*3]   = r * Math.sin(φ) * Math.cos(θ);
-      arr[i*3+1] = r * Math.sin(φ) * Math.sin(θ);
-      arr[i*3+2] = r * Math.cos(φ);
-    }
-    return arr;
-  }, []);
-  const ref = useRef<THREE.Points>(null!);
+  const count  = mobile ? 500 : 2000;
+  const count2 = mobile ? 0 : 500;
+  const pos1 = useMemo(() => makeParticlePositions(count,  9, 19), [count]);
+  const pos2 = useMemo(() => makeParticlePositions(count2, 6, 14), [count2]);
+  const ref1 = useRef<THREE.Points>(null!);
+  const ref2 = useRef<THREE.Points>(null!);
   useFrame(({ clock: c }) => {
-    ref.current.rotation.y = c.elapsedTime * 0.018;
-    ref.current.rotation.x = Math.sin(c.elapsedTime * 0.007) * 0.05;
+    ref1.current.rotation.y =  c.elapsedTime * 0.018;
+    ref1.current.rotation.x =  Math.sin(c.elapsedTime * 0.007) * 0.05;
+    if (ref2.current) {
+      ref2.current.rotation.y = -c.elapsedTime * 0.012;
+      ref2.current.rotation.x =  Math.sin(c.elapsedTime * 0.009) * 0.04;
+    }
   });
   return (
-    <points ref={ref}>
-      <bufferGeometry>
-        <bufferAttribute attach="attributes-position" args={[positions, 3]} />
-      </bufferGeometry>
-      <pointsMaterial size={mobile ? 0.02 : 0.024} color="#4f8ef7" sizeAttenuation transparent opacity={0.65} />
-    </points>
+    <>
+      <points ref={ref1}>
+        <bufferGeometry>
+          <bufferAttribute attach="attributes-position" args={[pos1, 3]} />
+        </bufferGeometry>
+        <pointsMaterial size={mobile ? 0.02 : 0.022} color="#4f8ef7" sizeAttenuation transparent opacity={0.6} />
+      </points>
+      {!mobile && (
+        <points ref={ref2}>
+          <bufferGeometry>
+            <bufferAttribute attach="attributes-position" args={[pos2, 3]} />
+          </bufferGeometry>
+          <pointsMaterial size={0.028} color="#9b7ef8" sizeAttenuation transparent opacity={0.38} />
+        </points>
+      )}
+    </>
   );
 }
 
@@ -640,16 +659,34 @@ function Particles({ mobile }: { mobile?: boolean }) {
    RING + CAMERA
 ═══════════════════════════════════════════════════════════════ */
 function RingAccent() {
-  const r = useRef<THREE.Mesh>(null!);
+  const r1 = useRef<THREE.Mesh>(null!);
+  const r2 = useRef<THREE.Mesh>(null!);
+  const r3 = useRef<THREE.Mesh>(null!);
   useFrame(({ clock: c }) => {
-    r.current.rotation.z = c.elapsedTime * 0.07;
-    r.current.rotation.x = Math.sin(c.elapsedTime * 0.04) * 0.25 + 0.45;
+    const t = c.elapsedTime;
+    r1.current.rotation.z = t * 0.07;
+    r1.current.rotation.x = Math.sin(t * 0.04) * 0.25 + 0.45;
+    r2.current.rotation.z = -t * 0.045;
+    r2.current.rotation.y = t * 0.028;
+    r2.current.rotation.x = Math.cos(t * 0.035) * 0.3 + 0.9;
+    r3.current.rotation.y = t * 0.06;
+    r3.current.rotation.z = Math.sin(t * 0.05) * 0.4;
   });
   return (
-    <mesh ref={r} position={[0.4, 0.1, -2]}>
-      <torusGeometry args={[3.2, 0.014, 8, 90]} />
-      <meshStandardMaterial color="#1e4090" emissive="#1e4090" emissiveIntensity={1.4} transparent opacity={0.5} />
-    </mesh>
+    <>
+      <mesh ref={r1} position={[0.4, 0.1, -2]}>
+        <torusGeometry args={[3.2, 0.014, 8, 90]} />
+        <meshStandardMaterial color="#1e4090" emissive="#1e4090" emissiveIntensity={1.4} transparent opacity={0.5} />
+      </mesh>
+      <mesh ref={r2} position={[-0.5, 0.2, -3]}>
+        <torusGeometry args={[4.5, 0.008, 8, 120]} />
+        <meshStandardMaterial color="#5b21b6" emissive="#5b21b6" emissiveIntensity={1.0} transparent opacity={0.3} />
+      </mesh>
+      <mesh ref={r3} position={[1.0, -0.5, -4]}>
+        <torusGeometry args={[2.6, 0.006, 8, 80]} />
+        <meshStandardMaterial color="#0d4f3c" emissive="#059669" emissiveIntensity={0.8} transparent opacity={0.25} />
+      </mesh>
+    </>
   );
 }
 
@@ -736,11 +773,19 @@ export function ImmersiveScene({ scrollContainerRef, mobile = false }: Props) {
       {/* Dark background — no transparency issues */}
       <color attach="background" args={['#06060a']} />
 
-      <ambientLight intensity={0.15} />
-      <pointLight position={[-6, 5, 4]}  intensity={4.0} color="#3b82f6" />
-      <pointLight position={[5, -3, 3]}  intensity={2.2} color="#8b5cf6" />
-      <pointLight position={[0, 3, 8]}   intensity={0.6} color="#ffffff" />
-      <pointLight position={[3, 1, 2]}   intensity={1.2} color="#60a5fa" />
+      <ambientLight intensity={0.12} />
+      {/* Key light — cool blue from upper left */}
+      <pointLight position={[-6, 5, 4]}   intensity={5.5} color="#3b82f6" />
+      {/* Fill — purple from lower right */}
+      <pointLight position={[5, -3, 3]}   intensity={3.0} color="#8b5cf6" />
+      {/* Front fill — soft white */}
+      <pointLight position={[0, 3, 8]}    intensity={0.7} color="#ffffff" />
+      {/* Rim accent — cyan from right */}
+      <pointLight position={[3, 1, 2]}    intensity={1.8} color="#60a5fa" />
+      {/* Back light — deep blue behind monitor for depth */}
+      <pointLight position={[0, 0, -6]}   intensity={1.4} color="#1a3c9a" />
+      {/* Top back accent — green tint */}
+      <pointLight position={[-3, 4, -3]}  intensity={0.8} color="#0d9488" />
 
       <Particles mobile={mobile} />
       {!mobile && <RingAccent />}
