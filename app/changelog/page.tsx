@@ -17,6 +17,18 @@ interface Version {
 
 const CHANGELOG: Version[] = [
   {
+    version: '3.18',
+    date: '17. 6. 2026',
+    changes: [
+      { type: 'feat', text: 'ServiceCards redesign: karty vyletí zpoza monitoru (staggered x: 0 → -2.75) — text z S2: 48 hodin / Bez závazku / Přesně na míru + subtituly' },
+      { type: 'feat', text: 'ServiceCards: pulzující glow strip vlevo, dot ikona, divider linka — proporcionální ke monitoru (2.05 × 0.60)' },
+      { type: 'feat', text: 'PortCards redesign: text z S4 — projekt + velké výsledkové číslo + metrika, tmavá karta s barevným bottom bandem, blíže monitoru (±2.55)' },
+      { type: 'feat', text: 'StatOrbs redesign: gyro systém — 2 prstence na různých osách s různými rychlostmi, 4 tick dot značky kolem rovníku, text číslo + label' },
+      { type: 'feat', text: 'StatOrbs: každá koule vlastní barevnou sadu (modrá/fialová/zelená/cyan), pulzující emissive sféra' },
+      { type: 'fix', text: 'Oprava prázdné stránky: canvas alpha:false + color attachment, S1 text animovaný na mount, layout bg-white přepsán' },
+    ],
+  },
+  {
     version: '3.17',
     date: '17. 6. 2026',
     changes: [
