@@ -17,6 +17,17 @@ interface Version {
 
 const CHANGELOG: Version[] = [
   {
+    version: '3.23',
+    date: '17. 6. 2026',
+    changes: [
+      { type: 'feat', text: 'Monitor pohyb zleva doprava: monX swings zvětšeny — S2: monitor jede vpravo (+1.9), S3: vlevo (−1.6), S4: vpravo (+1.6), S5: střed (0)' },
+      { type: 'feat', text: 'CameraRig lookAt: zvýšen tracking faktor (0.3→0.42) — kamera lépe sleduje monitor při pohybu' },
+      { type: 'change', text: 'Text animace: odstraněn y-slide offset, text se nyní materializuje čistým fade-in bez pohybu' },
+      { type: 'change', text: 'Text triggery zpřísněny: end: bottom 38% místo 20% — sekce texty mizí dříve, žádné překrývání na konci' },
+      { type: 'feat', text: 'Scroll indikátor: tenká animovaná čára + text "Scroll" ve spodní části S1 — zmizí při prvním scrollu (>60px)' },
+    ],
+  },
+  {
     version: '3.22',
     date: '17. 6. 2026',
     changes: [

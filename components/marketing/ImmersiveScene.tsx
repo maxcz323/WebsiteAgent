@@ -682,7 +682,7 @@ function CameraRig() {
     camera.position.x += (SV.camX - camera.position.x) * 0.038;
     camera.position.y += (SV.camY - camera.position.y) * 0.038;
     camera.position.z += (SV.camZ - camera.position.z) * 0.038;
-    camera.lookAt(SV.monX * 0.3, SV.monY * 0.15, 0);
+    camera.lookAt(SV.monX * 0.42, SV.monY * 0.18, 0);
   });
   return null;
 }
@@ -714,20 +714,20 @@ export function ImmersiveScene({ scrollContainerRef }: Props) {
     });
 
     /* S1 — drift forward & subtle tilt as page begins to scroll */
-    tl.to(SV, { camZ: 7.6, camY: 0.05, monX: 0.42, monScale: 1.16, duration: 0.55 }, 0);
-    tl.to(SV, { monRotY: -0.06, duration: 0.4 }, 0.5);
+    tl.to(SV, { camZ: 7.8, camY: 0.05, monX: 0.4, monScale: 1.15, duration: 0.6 }, 0);
+    tl.to(SV, { monRotY: -0.05, duration: 0.4 }, 0.5);
 
-    /* S2: wide left arc — camera sweeps past the monitor, cards flank right */
-    tl.to(SV, { camX: -2.4, camY: 0.45, camZ: 8.5, monX: 0.65, monRotY: 0.32, monScale: 1.0, svcVis: 1, duration: 1 }, 1);
+    /* S2: camera swings far LEFT — monitor travels to the RIGHT side of screen */
+    tl.to(SV, { camX: -2.2, camY: 0.4, camZ: 8.8, monX: 1.9, monRotY: 0.28, monScale: 0.98, svcVis: 1, duration: 1 }, 1);
 
-    /* S3: dramatic close-up from below-right, intimate angle */
-    tl.to(SV, { camX: 0.9, camY: -0.55, camZ: 5.0, monX: 0.05, monRotX: 0.14, monRotY: -0.14, monScale: 1.22, portVis: 1, svcVis: 0, duration: 1 }, 2);
+    /* S3: camera swings RIGHT + close — monitor travels to the LEFT side */
+    tl.to(SV, { camX: 1.1, camY: -0.45, camZ: 5.2, monX: -1.6, monRotX: 0.12, monRotY: -0.18, monScale: 1.18, portVis: 1, svcVis: 0, duration: 1 }, 2);
 
-    /* S4: pull way up and back — elevated bird-eye reveals stat orbs */
-    tl.to(SV, { camX: -1.5, camY: 1.2, camZ: 11.5, monX: 0.35, monRotX: -0.22, monRotY: 0.18, monScale: 0.92, statVis: 1, portVis: 0, duration: 1 }, 3);
+    /* S4: camera pulls LEFT + up — monitor swings back RIGHT */
+    tl.to(SV, { camX: -1.2, camY: 1.0, camZ: 11.8, monX: 1.6, monRotX: -0.18, monRotY: 0.2, monScale: 0.9, statVis: 1, portVis: 0, duration: 1 }, 3);
 
-    /* S5: slow elegant retreat — monitor shrinks, emphasise CTA text */
-    tl.to(SV, { camX: 0, camY: 0, camZ: 14, monX: 0, monRotX: 0, monRotY: 0, monScale: 0.68, statVis: 0, duration: 1 }, 4);
+    /* S5: center + retreat — monitor returns to center */
+    tl.to(SV, { camX: 0, camY: 0, camZ: 14, monX: 0, monRotX: 0, monRotY: 0, monScale: 0.65, statVis: 0, duration: 1 }, 4);
 
     const onScroll = () => {
       const s = Math.min(5, Math.max(0, Math.floor(window.scrollY / window.innerHeight)));

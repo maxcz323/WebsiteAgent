@@ -96,9 +96,25 @@ function Mag({ children, href, primary = false }: { children: React.ReactNode; h
    SECTION TEXT LAYERS  (pointer-events: none so canvas gets mouse)
 ═══════════════════════════════════════════════════════════════ */
 
+function ScrollIndicator() {
+  return (
+    <div id="scroll-ind" aria-hidden style={{
+      position: 'absolute', bottom: '36px', left: '50%', transform: 'translateX(-50%)',
+      display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px',
+      opacity: 0, pointerEvents: 'none',
+    }}>
+      <span style={{ fontSize: '9px', fontWeight: 700, color: '#3d4e64', textTransform: 'uppercase', letterSpacing: '0.18em' }}>Scroll</span>
+      <div style={{ position: 'relative', width: '1px', height: '44px', overflow: 'hidden', background: 'rgba(37,99,235,0.15)' }}>
+        <div style={{ position: 'absolute', top: 0, left: 0, width: '1px', height: '50%', background: 'linear-gradient(to bottom, transparent, #2563eb)', animation: 'scrollbar 1.6s ease-in-out infinite' }} />
+      </div>
+    </div>
+  );
+}
+
 function S1() {
   return (
     <section id="s1" aria-label="Intro" style={{ height: '100vh', display: 'flex', alignItems: 'center', pointerEvents: 'none', position: 'relative', zIndex: 10 }}>
+      <ScrollIndicator />
       <div id="s1i" style={{ maxWidth: '560px', padding: '0 48px 0 52px', opacity: 0, transform: 'translateY(28px)' }}>
         <div style={{ display: 'inline-flex', alignItems: 'center', gap: '7px', background: 'rgba(37,99,235,0.1)', border: '1px solid rgba(37,99,235,0.22)', borderRadius: '20px', padding: '5px 14px', marginBottom: '26px' }}>
           <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#60a5fa', animation: 'pulse 2s infinite', flexShrink: 0 }} />
@@ -286,67 +302,80 @@ export default function HomePage() {
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
 
-    /* S1 — stagger children in on mount, fade container out on scroll */
+    /* S1 — stagger children in on mount (pure fade, no y slide) */
     gsap.set('#s1i', { opacity: 1, y: 0 });
     gsap.fromTo('#s1i > *',
-      { opacity: 0, y: 26 },
-      { opacity: 1, y: 0, duration: 0.88, stagger: 0.13, ease: 'power3.out', delay: 0.3 },
+      { opacity: 0 },
+      { opacity: 1, duration: 0.8, stagger: 0.12, ease: 'power2.out', delay: 0.35 },
     );
+
+    /* Scroll indicator — appears after intro, hides on first scroll */
+    gsap.to('#scroll-ind', { opacity: 1, duration: 0.6, delay: 1.4, ease: 'power2.out' });
+    const hideInd = () => {
+      if (window.scrollY > 60) {
+        gsap.to('#scroll-ind', { opacity: 0, duration: 0.4 });
+        window.removeEventListener('scroll', hideInd);
+      }
+    };
+    window.addEventListener('scroll', hideInd, { passive: true });
 
     const s1hide = ScrollTrigger.create({
       trigger: '#s1',
-      start: 'bottom 20%',
-      onEnter: () => gsap.to('#s1i', { opacity: 0, y: -10, duration: 0.55, ease: 'power2.inOut' }),
+      start: 'bottom 25%',
+      onEnter: () => gsap.to('#s1i', { opacity: 0, duration: 0.5, ease: 'power2.inOut' }),
       onLeaveBack: () => {
         gsap.set('#s1i', { opacity: 1, y: 0 });
         gsap.fromTo('#s1i > *',
-          { opacity: 0, y: 18 },
-          { opacity: 1, y: 0, duration: 0.75, stagger: 0.1, ease: 'power3.out' },
+          { opacity: 0 },
+          { opacity: 1, duration: 0.7, stagger: 0.1, ease: 'power2.out' },
         );
       },
     });
 
-    /* S2-S6 — per-element stagger; container controls visibility only */
-    const pairs: Array<{ t: string; i: string; ax: 'y' | 'x' }> = [
-      { t: '#s2', i: '#s2i', ax: 'y' },
-      { t: '#s3', i: '#s3i', ax: 'x' },
-      { t: '#s4', i: '#s4i', ax: 'y' },
-      { t: '#s5', i: '#s5i', ax: 'y' },
-      { t: '#s6', i: '#s6i', ax: 'y' },
+    /* S2-S6 — pure opacity fade, per-element stagger; no position shift */
+    const pairs: Array<{ t: string; i: string }> = [
+      { t: '#s2', i: '#s2i' },
+      { t: '#s3', i: '#s3i' },
+      { t: '#s4', i: '#s4i' },
+      { t: '#s5', i: '#s5i' },
+      { t: '#s6', i: '#s6i' },
     ];
 
-    const triggers = pairs.map(({ t, i, ax }) => {
-      /* Reset container transform, hide it; hide children at offset position */
+    const triggers = pairs.map(({ t, i }) => {
       gsap.set(i, { opacity: 0, x: 0, y: 0 });
-      gsap.set(`${i} > *`, { opacity: 0, [ax]: 22 });
+      gsap.set(`${i} > *`, { opacity: 0 });
 
       return ScrollTrigger.create({
-        trigger: t, start: 'top 20%', end: 'bottom 20%',
+        trigger: t, start: 'top 22%', end: 'bottom 38%',
 
         onEnter: () => {
           gsap.set(i, { opacity: 1 });
-          gsap.to(`${i} > *`, { opacity: 1, [ax]: 0, duration: 0.8, stagger: 0.1, ease: 'power3.out' });
+          gsap.to(`${i} > *`, { opacity: 1, duration: 0.75, stagger: 0.1, ease: 'power2.out' });
         },
         onLeave: () => {
           gsap.to(i, {
-            opacity: 0, duration: 0.45, ease: 'power2.inOut',
-            onComplete: () => gsap.set(`${i} > *`, { opacity: 0, [ax]: 22 }),
+            opacity: 0, duration: 0.4, ease: 'power2.inOut',
+            onComplete: () => gsap.set(`${i} > *`, { opacity: 0 }),
           });
         },
         onEnterBack: () => {
           gsap.set(i, { opacity: 1 });
-          gsap.to(`${i} > *`, { opacity: 1, [ax]: 0, duration: 0.8, stagger: { each: 0.1, from: 'end' }, ease: 'power3.out' });
+          gsap.to(`${i} > *`, { opacity: 1, duration: 0.75, stagger: { each: 0.1, from: 'end' }, ease: 'power2.out' });
         },
         onLeaveBack: () => {
           gsap.to(i, {
-            opacity: 0, duration: 0.45, ease: 'power2.inOut',
-            onComplete: () => gsap.set(`${i} > *`, { opacity: 0, [ax]: 22 }),
+            opacity: 0, duration: 0.4, ease: 'power2.inOut',
+            onComplete: () => gsap.set(`${i} > *`, { opacity: 0 }),
           });
         },
       });
     });
 
-    return () => { s1hide.kill(); triggers.forEach(t => t.kill()); };
+    return () => {
+      s1hide.kill();
+      triggers.forEach(t => t.kill());
+      window.removeEventListener('scroll', hideInd);
+    };
   }, []);
 
   return (
@@ -370,6 +399,7 @@ export default function HomePage() {
 
       <style>{`
         @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.35} }
+        @keyframes scrollbar { 0%{transform:translateY(-100%);opacity:0} 40%{opacity:1} 100%{transform:translateY(200%);opacity:0} }
         html,body { scroll-behavior: smooth; }
       `}</style>
     </>
