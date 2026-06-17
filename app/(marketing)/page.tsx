@@ -417,17 +417,7 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* Scroll hint */}
-        <div style={{ position: 'absolute', bottom: '28px', left: '50%', transform: 'translateX(-50%)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px', opacity: 0.3 }}>
-          <span style={{ fontSize: '10px', letterSpacing: '0.12em', color: '#94a3b8', textTransform: 'uppercase' }}>Scroll</span>
-          <div style={{ width: '1px', height: '32px', background: '#94a3b8', animation: 'slideDown 1.5s ease infinite' }} />
-        </div>
       </section>
-
-      {/* ══ MARQUEE STRIP ════════════════════════════════════════════ */}
-      <div style={{ background: '#0f1629', borderTop: '1px solid rgba(255,255,255,0.04)', borderBottom: '1px solid rgba(255,255,255,0.04)', padding: '16px 0', overflow: 'hidden' }}>
-        <Marquee items={['Landing page', 'Firemní web', 'E-commerce', '48 hodin dodání', '0 Kč záloha', '50+ projektů', 'Platíte po schválení', 'Na míru vaší firmě']} />
-      </div>
 
       {/* ══ SERVICES ═════════════════════════════════════════════════ */}
       <section style={{ background: 'white', padding: '100px 0' }}>
