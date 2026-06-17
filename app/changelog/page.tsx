@@ -17,6 +17,18 @@ interface Version {
 
 const CHANGELOG: Version[] = [
   {
+    version: '3.24',
+    date: '17. 6. 2026',
+    changes: [
+      { type: 'feat', text: 'Monitor hardware: připraven GLTF loader (useGLTF + Suspense) pro model z Sketchfab — umísti monitor.glb do /public/models/' },
+      { type: 'feat', text: 'Monitor fallback: pokud GLB soubor chybí, zobrazí se původní procedurální geometrie — stránka se nerozbije' },
+      { type: 'change', text: 'Kamera: monX range zúžen na ±0.15 — monitor zůstává celý viditelný vždy, kamera obíhá' },
+      { type: 'change', text: 'Kamera S2: orbit vlevo (camX: -2.6), monitor mírně vpravo (+0.15) — pohled ze strany na celý monitor' },
+      { type: 'change', text: 'Kamera S3: přímý záběr zezdola (camY: -0.4, camZ: 5.2) — monitor na středu, dramatický detail' },
+      { type: 'change', text: 'Kamera S4: orbit vpravo + nahoru (camX: 2.5, camY: 0.8) — monitor mírně vlevo (-0.15), statistiky obklopují' },
+    ],
+  },
+  {
     version: '3.23',
     date: '17. 6. 2026',
     changes: [

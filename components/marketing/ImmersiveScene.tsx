@@ -1,8 +1,8 @@
 'use client';
 
-import { useRef, useMemo, useEffect, useState } from 'react';
+import { useRef, useMemo, useEffect, useState, Suspense } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { Text } from '@react-three/drei';
+import { Text, useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -14,8 +14,8 @@ if (typeof window !== 'undefined') gsap.registerPlugin(ScrollTrigger);
 ═══════════════════════════════════════════════════════════════ */
 const SV = {
   camX: 0, camY: 0.15, camZ: 8.5,
-  monRotX: 0, monRotY: 0, monScale: 1.28,
-  monX: 0.45, monY: 0.05,
+  monRotX: 0, monRotY: 0, monScale: 1.22,
+  monX: 0.1, monY: 0.05,
   svcVis: 0, portVis: 0, statVis: 0,
 };
 
@@ -28,7 +28,79 @@ if (typeof window !== 'undefined') {
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   MONITOR — pure Three.js geometry, no Html
+   MONITOR HARDWARE — GLTF model (fallback = procedural geometry)
+   Place the downloaded GLB at: /public/models/monitor.glb
+   Download from: https://sketchfab.com/3d-models/office-monitor-workstation-monitor-6a7b0147890242418a49f6db26657ab4
+   Select "Autoconverted model (GLTF)" → rename to monitor.glb
+═══════════════════════════════════════════════════════════════ */
+
+/* Adjust these two constants after placing the GLB file */
+const GLB_SCALE    = 0.145; /* scale up/down if monitor appears wrong size  */
+const GLB_ROT_Y    = Math.PI; /* 180° — SketchUp models usually face backward */
+
+function MonitorFallback() {
+  return (
+    <>
+      <mesh>
+        <boxGeometry args={[3.76, 2.58, 0.11]} />
+        <meshStandardMaterial color="#07090f" metalness={0.9} roughness={0.1} />
+      </mesh>
+      <mesh position={[0,  1.285, 0.028]} rotation={[Math.PI/4, 0, 0]}>
+        <boxGeometry args={[3.76, 0.038, 0.038]} />
+        <meshStandardMaterial color="#0e1828" metalness={0.9} roughness={0.08} />
+      </mesh>
+      <mesh position={[0, -1.285, 0.028]} rotation={[-Math.PI/4, 0, 0]}>
+        <boxGeometry args={[3.76, 0.038, 0.038]} />
+        <meshStandardMaterial color="#0e1828" metalness={0.9} roughness={0.08} />
+      </mesh>
+      <mesh position={[0, -1.38, -0.02]}>
+        <boxGeometry args={[0.09, 0.52, 0.09]} />
+        <meshStandardMaterial color="#06080e" metalness={0.88} roughness={0.12} />
+      </mesh>
+      <mesh position={[0, -1.62, -0.12]} rotation={[0.32, 0, 0]}>
+        <boxGeometry args={[0.09, 0.24, 0.09]} />
+        <meshStandardMaterial color="#06080e" metalness={0.88} roughness={0.12} />
+      </mesh>
+      <mesh position={[0, -1.79, -0.3]}>
+        <boxGeometry args={[1.55, 0.055, 0.72]} />
+        <meshStandardMaterial color="#05070c" metalness={0.9} roughness={0.1} />
+      </mesh>
+    </>
+  );
+}
+
+function MonitorGLTF() {
+  const { scene } = useGLTF('/models/monitor.glb');
+  const cloned = useMemo(() => {
+    const c = scene.clone(true);
+    c.traverse(obj => {
+      if ((obj as THREE.Mesh).isMesh) {
+        const mesh = obj as THREE.Mesh;
+        /* Detect screen mesh by its position (front-facing, flat) and
+           give it a dark emissive material; everything else gets metal */
+        mesh.material = new THREE.MeshStandardMaterial({
+          color: '#07090f',
+          metalness: 0.88,
+          roughness: 0.12,
+        });
+        mesh.castShadow = true;
+        mesh.receiveShadow = true;
+      }
+    });
+    return c;
+  }, [scene]);
+
+  return (
+    <primitive
+      object={cloned}
+      scale={GLB_SCALE}
+      rotation={[0, GLB_ROT_Y, 0]}
+    />
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   MONITOR — animation wrapper + screen content overlay
 ═══════════════════════════════════════════════════════════════ */
 function Monitor({ section }: { section: number }) {
   const group   = useRef<THREE.Group>(null!);
@@ -89,117 +161,23 @@ function Monitor({ section }: { section: number }) {
   return (
     <group ref={group} position={[SV.monX, SV.monY, 0]}>
 
-      {/* ══ HARDWARE — premium dark aluminium ══ */}
+      {/* ══ HARDWARE — GLTF model (fallback = procedural geometry) ══ */}
+      <Suspense fallback={<MonitorFallback />}>
+        <MonitorGLTF />
+      </Suspense>
 
-      {/* Main body */}
-      <mesh>
-        <boxGeometry args={[3.76, 2.58, 0.11]} />
-        <meshStandardMaterial color="#07090f" metalness={0.9} roughness={0.1} />
-      </mesh>
-
-      {/* Chamfer strips — top / bottom / left / right edges for depth */}
-      <mesh position={[0,  1.285, 0.028]} rotation={[Math.PI/4, 0, 0]}>
-        <boxGeometry args={[3.76, 0.038, 0.038]} />
-        <meshStandardMaterial color="#0e1828" metalness={0.9} roughness={0.08} />
-      </mesh>
-      <mesh position={[0, -1.285, 0.028]} rotation={[-Math.PI/4, 0, 0]}>
-        <boxGeometry args={[3.76, 0.038, 0.038]} />
-        <meshStandardMaterial color="#0e1828" metalness={0.9} roughness={0.08} />
-      </mesh>
-      <mesh position={[ 1.875, 0, 0.028]} rotation={[0,  Math.PI/4, 0]}>
-        <boxGeometry args={[0.038, 2.58, 0.038]} />
-        <meshStandardMaterial color="#0e1828" metalness={0.9} roughness={0.08} />
-      </mesh>
-      <mesh position={[-1.875, 0, 0.028]} rotation={[0, -Math.PI/4, 0]}>
-        <boxGeometry args={[0.038, 2.58, 0.038]} />
-        <meshStandardMaterial color="#0e1828" metalness={0.9} roughness={0.08} />
-      </mesh>
-
-      {/* Thin top bezel highlight */}
-      <mesh position={[0, 1.27, 0.056]}>
-        <boxGeometry args={[3.76, 0.006, 0.001]} />
-        <meshBasicMaterial color="#1e3050" transparent opacity={0.5} />
-      </mesh>
-
-      {/* Screen recess inset */}
-      <mesh position={[0, 0.035, 0.052]}>
-        <boxGeometry args={[3.45, 2.26, 0.008]} />
-        <meshStandardMaterial color="#020408" metalness={0.1} roughness={0.95} />
-      </mesh>
-
-      {/* Screen glass */}
+      {/* Screen glass overlay (keeps emissive animation on any hardware) */}
       <mesh position={[0, 0.035, 0.0575]}>
         <boxGeometry args={[3.38, 2.2, 0.005]} />
         <meshStandardMaterial ref={scrMat} color="#01030a" emissive="#0a1e50"
-          emissiveIntensity={0.25} roughness={0.95} transparent opacity={0.98} />
+          emissiveIntensity={0.25} roughness={0.95} transparent opacity={0.92} />
       </mesh>
 
       {/* Screen rim glow */}
       <mesh position={[0, 0.035, 0.061]}>
         <boxGeometry args={[3.4, 2.22, 0.001]} />
         <meshStandardMaterial ref={rimMat} color="#1a3c9a" emissive="#1a3c9a"
-          emissiveIntensity={0.6} transparent opacity={0.28} />
-      </mesh>
-
-      {/* Bottom chin */}
-      <mesh position={[0, -1.205, 0.057]}>
-        <boxGeometry args={[3.76, 0.1, 0.002]} />
-        <meshStandardMaterial color="#060810" metalness={0.7} roughness={0.3} />
-      </mesh>
-
-      {/* Power LED on chin */}
-      <mesh position={[0, -1.205, 0.06]}>
-        <sphereGeometry args={[0.018, 8, 8]} />
-        <meshStandardMaterial color="#2563eb" emissive="#2563eb" emissiveIntensity={2.5} />
-      </mesh>
-
-      {/* Back panel raised oval */}
-      <mesh position={[0, 0.1, -0.058]}>
-        <boxGeometry args={[1.6, 1.6, 0.012]} />
-        <meshStandardMaterial color="#060810" metalness={0.85} roughness={0.15} />
-      </mesh>
-
-      {/* Back vents */}
-      {[-0.3, -0.1, 0.1, 0.3].map((y, i) => (
-        <mesh key={i} position={[0, y - 0.3, -0.056]}>
-          <boxGeometry args={[0.9, 0.016, 0.004]} />
-          <meshStandardMaterial color="#030507" metalness={0.6} roughness={0.4} />
-        </mesh>
-      ))}
-
-      {/* Subtle screen light bleed (behind screen, soft glow plane) */}
-      <mesh position={[0, 0.035, 0.054]}>
-        <boxGeometry args={[3.4, 2.22, 0.001]} />
-        <meshStandardMaterial color="#0a1e50" emissive="#0a1e50"
-          emissiveIntensity={0.12} transparent opacity={0.06} />
-      </mesh>
-
-      {/* ══ STAND — slim arc design ══ */}
-      {/* Neck */}
-      <mesh position={[0, -1.38, -0.02]}>
-        <boxGeometry args={[0.09, 0.52, 0.09]} />
-        <meshStandardMaterial color="#06080e" metalness={0.88} roughness={0.12} />
-      </mesh>
-      {/* Neck taper */}
-      <mesh position={[0, -1.62, -0.12]} rotation={[0.32, 0, 0]}>
-        <boxGeometry args={[0.09, 0.24, 0.09]} />
-        <meshStandardMaterial color="#06080e" metalness={0.88} roughness={0.12} />
-      </mesh>
-      {/* Base */}
-      <mesh position={[0, -1.79, -0.3]}>
-        <boxGeometry args={[1.55, 0.055, 0.72]} />
-        <meshStandardMaterial color="#05070c" metalness={0.9} roughness={0.1} />
-      </mesh>
-      {/* Base front bevel */}
-      <mesh position={[0, -1.815, 0.05]} rotation={[Math.PI/4, 0, 0]}>
-        <boxGeometry args={[1.55, 0.04, 0.04]} />
-        <meshStandardMaterial color="#0e1828" metalness={0.9} roughness={0.08} />
-      </mesh>
-      {/* Base reflection */}
-      <mesh position={[0, -1.82, -0.3]} rotation={[-Math.PI/2, 0, 0]}>
-        <planeGeometry args={[1.55, 0.72]} />
-        <meshStandardMaterial color="#0a1830" transparent opacity={0.12}
-          metalness={1} roughness={0} />
+          emissiveIntensity={0.6} transparent opacity={0.22} />
       </mesh>
 
       {/* ── NAV BAR ── */}
@@ -701,7 +679,7 @@ export function ImmersiveScene({ scrollContainerRef }: Props) {
     if (!el) return;
 
     /* Reset SV to initial values on each mount */
-    Object.assign(SV, { camX: 0, camY: 0.15, camZ: 8.5, monRotX: 0, monRotY: 0, monScale: 1.28, monX: 0.45, monY: 0.05, svcVis: 0, portVis: 0, statVis: 0 });
+    Object.assign(SV, { camX: 0, camY: 0.15, camZ: 8.5, monRotX: 0, monRotY: 0, monScale: 1.22, monX: 0.1, monY: 0.05, svcVis: 0, portVis: 0, statVis: 0 });
 
     const tl = gsap.timeline({
       scrollTrigger: {
@@ -713,21 +691,21 @@ export function ImmersiveScene({ scrollContainerRef }: Props) {
       },
     });
 
-    /* S1 — drift forward & subtle tilt as page begins to scroll */
-    tl.to(SV, { camZ: 7.8, camY: 0.05, monX: 0.4, monScale: 1.15, duration: 0.6 }, 0);
-    tl.to(SV, { monRotY: -0.05, duration: 0.4 }, 0.5);
+    /* S1 → S2: gentle zoom-in, monitor stays centered */
+    tl.to(SV, { camZ: 7.6, camY: 0.05, monScale: 1.12, duration: 0.6 }, 0);
+    tl.to(SV, { monRotY: -0.04, duration: 0.4 }, 0.5);
 
-    /* S2: camera swings far LEFT — monitor travels to the RIGHT side of screen */
-    tl.to(SV, { camX: -2.2, camY: 0.4, camZ: 8.8, monX: 1.9, monRotY: 0.28, monScale: 0.98, svcVis: 1, duration: 1 }, 1);
+    /* S2: camera orbits FAR LEFT — monitor barely shifts right (+0.15), fully visible */
+    tl.to(SV, { camX: -2.6, camY: 0.35, camZ: 8.8, monX: 0.15, monRotY: 0.22, monScale: 1.05, svcVis: 1, duration: 1 }, 1);
 
-    /* S3: camera swings RIGHT + close — monitor travels to the LEFT side */
-    tl.to(SV, { camX: 1.1, camY: -0.45, camZ: 5.2, monX: -1.6, monRotX: 0.12, monRotY: -0.18, monScale: 1.18, portVis: 1, svcVis: 0, duration: 1 }, 2);
+    /* S3: camera swings to front-low — monitor at center, close-up */
+    tl.to(SV, { camX: 0, camY: -0.4, camZ: 5.2, monX: 0, monRotX: 0.1, monRotY: 0, monScale: 1.18, portVis: 1, svcVis: 0, duration: 1 }, 2);
 
-    /* S4: camera pulls LEFT + up — monitor swings back RIGHT */
-    tl.to(SV, { camX: -1.2, camY: 1.0, camZ: 11.8, monX: 1.6, monRotX: -0.18, monRotY: 0.2, monScale: 0.9, statVis: 1, portVis: 0, duration: 1 }, 3);
+    /* S4: camera orbits FAR RIGHT + elevated — monitor barely shifts left (−0.15), fully visible */
+    tl.to(SV, { camX: 2.5, camY: 0.8, camZ: 9.5, monX: -0.15, monRotX: -0.14, monRotY: -0.22, monScale: 0.95, statVis: 1, portVis: 0, duration: 1 }, 3);
 
-    /* S5: center + retreat — monitor returns to center */
-    tl.to(SV, { camX: 0, camY: 0, camZ: 14, monX: 0, monRotX: 0, monRotY: 0, monScale: 0.65, statVis: 0, duration: 1 }, 4);
+    /* S5: pull back, centered, CTA moment */
+    tl.to(SV, { camX: 0, camY: 0, camZ: 13.5, monX: 0, monRotX: 0, monRotY: 0, monScale: 0.7, statVis: 0, duration: 1 }, 4);
 
     const onScroll = () => {
       const s = Math.min(5, Math.max(0, Math.floor(window.scrollY / window.innerHeight)));
