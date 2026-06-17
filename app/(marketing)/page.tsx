@@ -8,71 +8,86 @@ const Monitor3D = dynamic(
   () => import('@/components/marketing/Monitor3D').then(m => ({ default: m.Monitor3D })),
   { ssr: false }
 );
+const Cursor = dynamic(
+  () => import('@/components/marketing/Cursor').then(m => ({ default: m.Cursor })),
+  { ssr: false }
+);
 
-/* ─── Scroll reveal ─────────────────────────────────────────────────── */
-function useReveal(delay = 0, dir: 'up' | 'left' | 'right' | 'scale' = 'up') {
-  const ref = useRef<HTMLDivElement>(null);
+/* ─── Scroll progress bar ───────────────────────────────────────────── */
+function ScrollBar() {
+  const [w, setW] = useState(0);
+  useEffect(() => {
+    const fn = () => {
+      const el = document.documentElement;
+      setW((window.scrollY / (el.scrollHeight - el.clientHeight)) * 100);
+    };
+    window.addEventListener('scroll', fn, { passive: true });
+    return () => window.removeEventListener('scroll', fn);
+  }, []);
+  return (
+    <div style={{ position: 'fixed', top: 0, left: 0, right: 0, height: '2px', zIndex: 200, background: 'rgba(255,255,255,0.04)' }}>
+      <div style={{ width: `${w}%`, height: '100%', background: 'linear-gradient(90deg,#3b82f6,#60a5fa)', transition: 'width 0.05s linear' }} />
+    </div>
+  );
+}
+
+/* ─── Line reveal (clip-path wipe from bottom) ─────────────────────── */
+function LineReveal({
+  children, delay = 0, as: Tag = 'div', className = '', startOnMount = false,
+}: {
+  children: React.ReactNode;
+  delay?: number;
+  as?: keyof React.JSX.IntrinsicElements;
+  className?: string;
+  startOnMount?: boolean;
+}) {
   const [v, setV] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (startOnMount) { setTimeout(() => setV(true), delay); return; }
+    const el = ref.current;
+    if (!el) return;
+    const o = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) { setV(true); o.disconnect(); }
+    }, { threshold: 0.1 });
+    o.observe(el);
+    return () => o.disconnect();
+  }, [delay, startOnMount]);
+  return (
+    // @ts-expect-error dynamic tag
+    <Tag ref={ref} className={className} style={{ overflow: 'hidden', display: 'block' }}>
+      <span style={{
+        display: 'block',
+        transform: v ? 'translateY(0)' : 'translateY(108%)',
+        transition: `transform 0.9s cubic-bezier(0.16,1,0.3,1) ${delay}ms`,
+      }}>
+        {children}
+      </span>
+    </Tag>
+  );
+}
+
+/* ─── Fade reveal ───────────────────────────────────────────────────── */
+function FadeReveal({ children, delay = 0, className = '' }: { children: React.ReactNode; delay?: number; className?: string }) {
+  const [v, setV] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    const o = new IntersectionObserver(
-      ([e]) => { if (e.isIntersecting) { setV(true); o.disconnect(); } },
-      { threshold: 0.06, rootMargin: '0px 0px -40px 0px' }
-    );
+    const o = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) { setV(true); o.disconnect(); }
+    }, { threshold: 0.05, rootMargin: '0px 0px -30px 0px' });
     o.observe(el);
     return () => o.disconnect();
   }, []);
-  const t: Record<string, string> = {
-    up:    v ? 'translateY(0)'   : 'translateY(28px)',
-    left:  v ? 'translateX(0)'   : 'translateX(-28px)',
-    right: v ? 'translateX(0)'   : 'translateX(28px)',
-    scale: v ? 'scale(1)'        : 'scale(0.93)',
-  };
-  return { ref, style: { opacity: v ? 1 : 0, transform: t[dir], transition: `opacity 0.7s ease ${delay}ms, transform 0.7s ease ${delay}ms` } };
-}
-
-/* ─── 3D tilt card ──────────────────────────────────────────────────── */
-function TiltCard({ children, className = '', style = {}, onClick }: {
-  children: React.ReactNode;
-  className?: string;
-  style?: React.CSSProperties;
-  onClick?: () => void;
-}) {
-  const [t, setT] = useState({ x: 0, y: 0, sx: 50, sy: 50 });
   return (
-    <div
-      className={className}
-      style={{
-        ...style,
-        transform: `perspective(900px) rotateX(${t.x}deg) rotateY(${t.y}deg)`,
-        transition: 'transform 0.12s ease-out, box-shadow 0.2s ease',
-        transformStyle: 'preserve-3d',
-        position: 'relative',
-        cursor: onClick ? 'pointer' : undefined,
-      }}
-      onMouseMove={e => {
-        const r = e.currentTarget.getBoundingClientRect();
-        const x = (e.clientX - r.left) / r.width - 0.5;
-        const y = (e.clientY - r.top) / r.height - 0.5;
-        setT({ x: y * -7, y: x * 7, sx: (x + 0.5) * 100, sy: (y + 0.5) * 100 });
-      }}
-      onMouseLeave={() => setT({ x: 0, y: 0, sx: 50, sy: 50 })}
-      onClick={onClick}
-    >
-      <div style={{
-        position: 'absolute', inset: 0, borderRadius: 'inherit',
-        background: `radial-gradient(circle at ${t.sx}% ${t.sy}%, rgba(255,255,255,0.12) 0%, transparent 65%)`,
-        pointerEvents: 'none', zIndex: 1,
-        opacity: Math.abs(t.x) + Math.abs(t.y) > 0.5 ? 1 : 0,
-        transition: 'opacity 0.2s',
-      }} />
+    <div ref={ref} className={className} style={{ opacity: v ? 1 : 0, transform: v ? 'translateY(0)' : 'translateY(22px)', transition: `opacity 0.7s ease ${delay}ms, transform 0.7s ease ${delay}ms` }}>
       {children}
     </div>
   );
 }
 
-/* ─── Animated stat counter ─────────────────────────────────────────── */
+/* ─── Count-up number ───────────────────────────────────────────────── */
 function CountUp({ target, suffix = '' }: { target: number; suffix?: string }) {
   const [val, setVal] = useState(0);
   const ref = useRef<HTMLSpanElement>(null);
@@ -83,12 +98,11 @@ function CountUp({ target, suffix = '' }: { target: number; suffix?: string }) {
       if (!e.isIntersecting) return;
       o.disconnect();
       let start: number | null = null;
-      const dur = 1400;
+      const dur = 1600;
       const step = (ts: number) => {
         if (!start) start = ts;
         const p = Math.min((ts - start) / dur, 1);
-        const ease = 1 - Math.pow(1 - p, 3);
-        setVal(Math.round(ease * target));
+        setVal(Math.round((1 - Math.pow(1 - p, 3)) * target));
         if (p < 1) requestAnimationFrame(step);
       };
       requestAnimationFrame(step);
@@ -99,413 +113,561 @@ function CountUp({ target, suffix = '' }: { target: number; suffix?: string }) {
   return <span ref={ref}>{val}{suffix}</span>;
 }
 
-/* ─── Data ──────────────────────────────────────────────────────────── */
-const SERVICES = [
-  {
-    title: 'Landing page',
-    slug: 'landing-page',
-    desc: 'Jednostránkový web zaměřený na konverzi. Ideální pro řemeslníky, terapeuty a specialisty.',
-    price: 'od 9 900 Kč',
-    accent: '#2563EB',
-    accentBg: '#eff6ff',
-    icon: (
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="2" y="3" width="20" height="14" rx="2" /><line x1="8" y1="21" x2="16" y2="21" /><line x1="12" y1="17" x2="12" y2="21" />
-      </svg>
-    ),
-  },
-  {
-    title: 'Firemní web',
-    slug: 'firemni-web',
-    desc: 'Kompletní prezentace firmy. Více stránek, galerie realizací, reference a vše co zákazníci hledají.',
-    price: 'od 14 900 Kč',
-    accent: '#7c3aed',
-    accentBg: '#f5f3ff',
-    icon: (
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /><polyline points="9 22 9 12 15 12 15 22" />
-      </svg>
-    ),
-  },
-  {
-    title: 'E-commerce',
-    slug: 'ecommerce',
-    desc: 'Plnohodnotný online obchod s produkty, košíkem a platební bránou. Prodávejte online.',
-    price: 'od 24 900 Kč',
-    accent: '#059669',
-    accentBg: '#ecfdf5',
-    icon: (
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="9" cy="21" r="1" /><circle cx="20" cy="21" r="1" />
-        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
-      </svg>
-    ),
-  },
-];
-
-const TESTIMONIALS = [
-  { quote: 'Čekal jsem, že web bude trvat měsíce. Dostal jsem ho za 48 hodin a hned první týden mi volali noví zákazníci.', name: 'Pavel Novák', role: 'Instalatér, Praha', initials: 'P', color: '#2563EB' },
-  { quote: 'Cena odpovídala kvalitě. Web vypadá profesionálně, zákazníci důvěřují mé ordinaci ještě předtím, než vůbec přijdou.', name: 'MUDr. Jana Procházková', role: 'Zubní lékařka, Brno', initials: 'J', color: '#0d9488' },
-  { quote: 'Jednání bylo rychlé, bez zbytečných otázek. Přesně takový web jsem chtěl — moderní, přehledný a funkční.', name: 'Martin Kovář', role: 'Restauratér, Ostrava', initials: 'M', color: '#7c3aed' },
-];
-
-function StepItem({ step, title, desc, delay }: { step: string; title: string; desc: string; delay: number }) {
-  const r = useReveal(delay, 'right');
+/* ─── Expandable service row ────────────────────────────────────────── */
+function ServiceRow({ num, title, price, desc, accent, slug, delay }: {
+  num: string; title: string; price: string; desc: string;
+  accent: string; slug: string; delay: number;
+}) {
+  const [open, setOpen] = useState(false);
   return (
-    <div ref={r.ref} style={r.style}
-      className="flex gap-5 p-5 rounded-2xl border border-slate-100 hover:border-blue-100 bg-white hover:bg-blue-50/30 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md">
-      <div className="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center shrink-0">
-        <span className="text-xs font-bold text-white">{step}</span>
+    <FadeReveal delay={delay}>
+      <div
+        onMouseEnter={() => setOpen(true)}
+        onMouseLeave={() => setOpen(false)}
+        onClick={() => { window.location.href = `/kalkulace/${slug}`; }}
+        style={{
+          borderTop: '1px solid #e2e8f0',
+          cursor: 'none',
+          transition: 'background 0.25s, padding 0.2s, margin 0.2s',
+          borderRadius: open ? '12px' : '0',
+          padding: open ? '22px 16px' : '22px 0',
+          background: open ? `${accent}0d` : 'transparent',
+          marginInline: open ? '-16px' : '0',
+        }}
+      >
+        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+          <span style={{ fontSize: '11px', fontFamily: 'monospace', color: '#94a3b8', width: '24px', flexShrink: 0 }}>{num}</span>
+          <span style={{ flex: 1, fontSize: '18px', fontWeight: 700, color: '#0f172a', transition: 'color 0.2s', ...(open && { color: accent }) }}>
+            {title}
+          </span>
+          <span style={{ fontSize: '13px', fontWeight: 700, color: open ? accent : '#94a3b8', transition: 'color 0.2s', marginRight: '12px' }}>{price}</span>
+          <div style={{
+            width: '30px', height: '30px', borderRadius: '50%', flexShrink: 0,
+            background: open ? accent : '#f1f5f9',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            transition: 'background 0.25s, transform 0.3s',
+            transform: open ? 'rotate(45deg)' : 'rotate(0)',
+          }}>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={open ? 'white' : '#64748b'} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+          </div>
+        </div>
+        <div style={{ overflow: 'hidden', maxHeight: open ? '48px' : '0', transition: 'max-height 0.35s ease' }}>
+          <p style={{ fontSize: '14px', color: '#64748b', paddingTop: '10px', paddingLeft: '40px' }}>{desc}</p>
+        </div>
       </div>
-      <div>
-        <p className="font-bold text-slate-900 text-sm">{title}</p>
-        <p className="text-sm text-slate-500 mt-0.5">{desc}</p>
+    </FadeReveal>
+  );
+}
+
+/* ─── Marquee strip ─────────────────────────────────────────────────── */
+function Marquee({ items }: { items: string[] }) {
+  const doubled = [...items, ...items];
+  return (
+    <div style={{ overflow: 'hidden', position: 'relative' }}>
+      <div style={{ display: 'flex', width: 'max-content', animation: 'marqueeScroll 22s linear infinite' }}>
+        {doubled.map((item, i) => (
+          <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '0', flexShrink: 0 }}>
+            <span style={{ fontSize: '13px', fontWeight: 600, color: '#475569', padding: '0 28px', whiteSpace: 'nowrap' }}>{item}</span>
+            <span style={{ color: '#2563eb', fontSize: '10px' }}>✦</span>
+          </div>
+        ))}
       </div>
     </div>
   );
 }
 
+/* ─── Testimonial marquee ───────────────────────────────────────────── */
+const TESTIMONIALS = [
+  { quote: 'Za 48 hodin jsem měl hotový web a hned první týden mi volali noví zákazníci.', name: 'Pavel Novák', role: 'Instalatér · Praha', initials: 'P', color: '#2563EB' },
+  { quote: 'Web vypadá profesionálně. Zákazníci důvěřují mé ordinaci ještě předtím, než přijdou.', name: 'MUDr. Jana Procházková', role: 'Zubní lékařka · Brno', initials: 'J', color: '#0d9488' },
+  { quote: 'Přesně takový web jsem chtěl — moderní, přehledný a funkční. Bez zbytečných otázek.', name: 'Martin Kovář', role: 'Restauratér · Ostrava', initials: 'M', color: '#7c3aed' },
+  { quote: 'Přidali jsme online rezervace a okamžitě jsme zaznamenali +40 % rezervací.', name: 'Lucie Bláhová', role: 'Kavárna · Jihlava', initials: 'L', color: '#f59e0b' },
+];
+
+function TestimonialMarquee() {
+  const doubled = [...TESTIMONIALS, ...TESTIMONIALS];
+  return (
+    <div style={{ overflow: 'hidden' }}>
+      <div style={{ display: 'flex', gap: '16px', width: 'max-content', animation: 'marqueeScroll 40s linear infinite' }}
+        onMouseEnter={e => (e.currentTarget.style.animationPlayState = 'paused')}
+        onMouseLeave={e => (e.currentTarget.style.animationPlayState = 'running')}
+      >
+        {doubled.map((t, i) => (
+          <div key={i} style={{
+            flexShrink: 0, width: '320px',
+            background: 'white', borderRadius: '16px',
+            border: '1px solid #f1f5f9',
+            padding: '20px',
+            boxShadow: '0 2px 12px rgba(0,0,0,0.04)',
+          }}>
+            <div style={{ display: 'flex', gap: '0.5px', marginBottom: '12px' }}>
+              {[1,2,3,4,5].map(s => (
+                <svg key={s} width="11" height="11" viewBox="0 0 24 24" fill="#f59e0b" stroke="none">
+                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                </svg>
+              ))}
+            </div>
+            <p style={{ fontSize: '13px', color: '#475569', lineHeight: '1.6', marginBottom: '14px' }}>&ldquo;{t.quote}&rdquo;</p>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: t.color, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontSize: '12px', fontWeight: 700, flexShrink: 0 }}>{t.initials}</div>
+              <div>
+                <p style={{ fontSize: '12px', fontWeight: 700, color: '#0f172a' }}>{t.name}</p>
+                <p style={{ fontSize: '11px', color: '#94a3b8' }}>{t.role}</p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ─── Portfolio horizontal scroll ───────────────────────────────────── */
+const PORTFOLIO = [
+  { client: 'Pavel Novák Instalace', obor: 'Instalatér', city: 'Praha', result: '+340% kontaktů z webu', color: ['#1d4ed8', '#3b82f6'] },
+  { client: 'Zubní ordinace Procházková', obor: 'Zubař', city: 'Brno', result: '70% nových pacientů přes web', color: ['#0f766e', '#0d9488'] },
+  { client: 'Kavárna Na Rohu', obor: 'Kavárna', city: 'Jihlava', result: '+40% rezervací online', color: ['#d97706', '#f59e0b'] },
+  { client: 'Autoservis Procházka', obor: 'Autoservis', city: 'Plzeň', result: '+120% poptávek za měsíc', color: ['#7c3aed', '#a78bfa'] },
+  { client: 'Florista Dvořák', obor: 'Kvěťinářství', city: 'Olomouc', result: 'Spuštění e-shopu za 48h', color: ['#059669', '#34d399'] },
+];
+
+function PortfolioTrack() {
+  const trackRef = useRef<HTMLDivElement>(null);
+  const scroll = (dir: 1 | -1) => {
+    trackRef.current?.scrollBy({ left: dir * 380, behavior: 'smooth' });
+  };
+  return (
+    <FadeReveal>
+      <div style={{ position: 'relative' }}>
+        <div ref={trackRef} style={{
+          display: 'flex', gap: '16px',
+          overflowX: 'auto', scrollSnapType: 'x mandatory',
+          scrollbarWidth: 'none', paddingBottom: '2px',
+          WebkitOverflowScrolling: 'touch' as React.CSSProperties['WebkitOverflowScrolling'],
+        }}>
+          {PORTFOLIO.map(p => (
+            <div key={p.client} style={{
+              scrollSnapAlign: 'start', flexShrink: 0,
+              width: '340px', borderRadius: '18px', overflow: 'hidden',
+              background: `linear-gradient(145deg, ${p.color[0]}, ${p.color[1]})`,
+              cursor: 'none',
+            }}
+              data-hover
+            >
+              {/* Browser chrome */}
+              <div style={{ padding: '14px 16px 0' }}>
+                <div style={{ background: 'rgba(255,255,255,0.12)', borderRadius: '8px', overflow: 'hidden' }}>
+                  <div style={{ height: '24px', background: 'rgba(255,255,255,0.08)', display: 'flex', alignItems: 'center', padding: '0 8px', gap: '4px', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+                    {['#ff5f57', '#ffbd2e', '#28ca41'].map(c => <div key={c} style={{ width: '6px', height: '6px', borderRadius: '50%', background: c, opacity: 0.8 }} />)}
+                    <div style={{ flex: 1, height: '11px', background: 'rgba(255,255,255,0.1)', borderRadius: '3px', margin: '0 6px' }} />
+                  </div>
+                  <div style={{ padding: '12px', display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                    <div style={{ height: '8px', background: 'rgba(255,255,255,0.4)', borderRadius: '2px', width: '55%' }} />
+                    <div style={{ height: '8px', background: 'rgba(255,255,255,0.25)', borderRadius: '2px', width: '40%' }} />
+                    <div style={{ height: '5px', background: 'rgba(255,255,255,0.15)', borderRadius: '2px', marginTop: '4px' }} />
+                    <div style={{ height: '5px', background: 'rgba(255,255,255,0.15)', borderRadius: '2px', width: '80%' }} />
+                    <div style={{ marginTop: '6px', display: 'flex', gap: '5px' }}>
+                      <div style={{ height: '16px', background: 'rgba(255,255,255,0.3)', borderRadius: '4px', width: '60px' }} />
+                      <div style={{ height: '16px', background: 'rgba(255,255,255,0.1)', borderRadius: '4px', width: '50px', border: '1px solid rgba(255,255,255,0.2)' }} />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {/* Info */}
+              <div style={{ padding: '16px' }}>
+                <div style={{ display: 'flex', gap: '6px', alignItems: 'center', marginBottom: '8px' }}>
+                  <span style={{ fontSize: '10px', fontWeight: 600, color: 'rgba(255,255,255,0.6)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>{p.obor}</span>
+                  <span style={{ color: 'rgba(255,255,255,0.3)', fontSize: '10px' }}>·</span>
+                  <span style={{ fontSize: '10px', color: 'rgba(255,255,255,0.5)' }}>{p.city}</span>
+                </div>
+                <p style={{ fontSize: '15px', fontWeight: 700, color: 'white', marginBottom: '10px' }}>{p.client}</p>
+                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: 'rgba(255,255,255,0.15)', borderRadius: '20px', padding: '5px 12px', backdropFilter: 'blur(8px)' }}>
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18" /><polyline points="17 6 23 6 23 12" /></svg>
+                  <span style={{ fontSize: '12px', fontWeight: 600, color: 'white' }}>{p.result}</span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Nav arrows */}
+        <div style={{ display: 'flex', gap: '8px', marginTop: '20px' }}>
+          {([-1, 1] as const).map(dir => (
+            <button key={dir} onClick={() => scroll(dir)} data-hover style={{
+              width: '40px', height: '40px', borderRadius: '50%',
+              border: '1.5px solid #e2e8f0', background: 'white',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              cursor: 'none', transition: 'background 0.2s, border-color 0.2s',
+            }}
+              onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = '#2563eb'; (e.currentTarget as HTMLButtonElement).style.borderColor = '#2563eb'; }}
+              onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = 'white'; (e.currentTarget as HTMLButtonElement).style.borderColor = '#e2e8f0'; }}
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
+                style={{ transform: dir === -1 ? 'rotate(180deg)' : 'none' }}>
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+            </button>
+          ))}
+        </div>
+      </div>
+    </FadeReveal>
+  );
+}
+
 /* ─── Page ──────────────────────────────────────────────────────────── */
 export default function HomePage() {
-  /* hero text reveals */
-  const h1 = useReveal(0, 'up');
-  const h2 = useReveal(100, 'up');
-  const h3 = useReveal(220, 'up');
-
-  /* section titles */
-  const svcTitle   = useReveal(0);
-  const portTitle  = useReveal(0);
-  const tTitle     = useReveal(0);
-  const ctaSection = useReveal(0, 'scale');
-  const processLeft = useReveal(0, 'left');
-
-  /* cards */
-  const svcRevs = [useReveal(0, 'scale'), useReveal(100, 'scale'), useReveal(200, 'scale')];
-  const portRevs = [useReveal(0, 'up'), useReveal(130, 'up'), useReveal(260, 'up')];
-  const testRevs = [useReveal(0, 'up'), useReveal(130, 'up'), useReveal(260, 'up')];
+  /* Hero mouse glow */
+  const [glow, setGlow] = useState({ x: 60, y: 40 });
+  useEffect(() => {
+    const fn = (e: MouseEvent) => {
+      setGlow({ x: (e.clientX / window.innerWidth) * 100, y: (e.clientY / window.innerHeight) * 100 });
+    };
+    window.addEventListener('mousemove', fn, { passive: true });
+    return () => window.removeEventListener('mousemove', fn);
+  }, []);
 
   return (
     <>
-      {/* ═══ HERO (dark, 3D monitor) ═══════════════════════════════════ */}
-      <section className="relative min-h-screen flex flex-col justify-center px-5 sm:px-8 pt-20 overflow-hidden" style={{ background: '#0b1220' }}>
+      <Cursor />
+      <ScrollBar />
+
+      {/* ══ HERO ═════════════════════════════════════════════════════ */}
+      <section style={{ background: '#080e1c', minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '100px 0 60px', position: 'relative', overflow: 'hidden' }}>
+        {/* Reactive glow */}
+        <div style={{
+          position: 'absolute', inset: 0, pointerEvents: 'none',
+          background: `radial-gradient(ellipse 70% 60% at ${glow.x}% ${glow.y}%, rgba(37,99,235,0.13) 0%, transparent 65%)`,
+          transition: 'background 0.3s ease',
+        }} />
         {/* Dot grid */}
-        <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle, rgba(37,99,235,0.18) 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
-        {/* Radial glow top-center */}
-        <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(ellipse 80% 60% at 70% 40%, rgba(37,99,235,0.1) 0%, transparent 70%)' }} />
+        <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', backgroundImage: 'radial-gradient(circle, rgba(37,99,235,0.2) 1px, transparent 1px)', backgroundSize: '36px 36px' }} />
 
-        <div className="relative max-w-6xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-          {/* Left: text */}
-          <div>
-            <div ref={h1.ref} style={h1.style} className="mb-6">
-              <span className="inline-flex items-center gap-2 text-xs font-semibold text-blue-400 bg-blue-950/60 border border-blue-800/50 px-3.5 py-1.5 rounded-full">
-                <span className="w-1.5 h-1.5 rounded-full bg-blue-400" style={{ animation: 'pulse 2s infinite' }} />
-                Profesionální weby pro lokální firmy
-              </span>
-            </div>
+        <div style={{ maxWidth: '1200px', margin: '0 auto', width: '100%', padding: '0 32px', position: 'relative' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '48px', alignItems: 'center' }}>
 
-            <div ref={h2.ref} style={h2.style}>
-              <h1 className="text-5xl sm:text-6xl font-bold tracking-tight leading-[1.07] text-white mb-6" style={{ fontFamily: 'var(--font-display)' }}>
-                Web, který vaši firmu{' '}
-                <span className="italic" style={{ background: 'linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-                  posune vpřed.
-                </span>
-              </h1>
-            </div>
-
-            <div ref={h3.ref} style={h3.style}>
-              <p className="text-lg text-slate-400 leading-relaxed mb-8 max-w-lg">
-                Navrhujeme a stavíme moderní weby pro lokální podnikatele. Zkušení designéři, pečlivě odvedená práce,{' '}
-                <strong className="text-slate-200 font-semibold">hotovo do 48 hodin.</strong> Platíte až po schválení.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-3">
-                <Link href="/kontakt"
-                  className="inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-semibold px-7 py-3.5 rounded-xl text-sm transition-all duration-200 hover:shadow-xl hover:shadow-blue-500/30 hover:-translate-y-px">
-                  Chci web pro svou firmu
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
-                </Link>
-                <Link href="/jak-pracujeme"
-                  className="inline-flex items-center justify-center gap-2 text-slate-300 hover:text-white font-semibold px-7 py-3.5 rounded-xl text-sm border border-white/10 hover:border-white/25 hover:bg-white/5 transition-all duration-200">
-                  Jak to funguje
-                </Link>
+            {/* Left: text */}
+            <div>
+              {/* Badge */}
+              <div style={{ overflow: 'hidden', marginBottom: '28px' }}>
+                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', fontSize: '11px', fontWeight: 600, color: '#60a5fa', background: 'rgba(37,99,235,0.12)', border: '1px solid rgba(37,99,235,0.2)', padding: '6px 14px', borderRadius: '20px', animation: 'fadeSlide 0.6s 0.1s both' }}>
+                  <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#60a5fa', animation: 'pulse 2s infinite', flexShrink: 0 }} />
+                  Profesionální weby pro lokální firmy
+                </div>
               </div>
-              <div className="mt-9 flex flex-wrap gap-x-7 gap-y-3">
-                {['Bez zálohy', 'Platíte až po schválení', 'Hotovo za 48 hodin', 'Na míru vaší firmě'].map(t => (
-                  <div key={t} className="flex items-center gap-2 text-sm text-slate-500">
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
+
+              {/* Headline — per-line wipe */}
+              <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(42px, 5vw, 64px)', fontWeight: 700, lineHeight: 1.05, color: 'white', margin: '0 0 24px' }}>
+                <LineReveal delay={100} startOnMount>Web, který</LineReveal>
+                <LineReveal delay={200} startOnMount>
+                  vaši firmu{' '}
+                  <span style={{ background: 'linear-gradient(135deg, #60a5fa, #3b82f6)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', fontStyle: 'italic' }}>
+                    posune
+                  </span>
+                </LineReveal>
+                <LineReveal delay={300} startOnMount>vpřed.</LineReveal>
+              </h1>
+
+              {/* Subtitle */}
+              <div style={{ animation: 'fadeSlide 0.7s 0.6s both' }}>
+                <p style={{ fontSize: '17px', color: '#94a3b8', lineHeight: 1.7, marginBottom: '32px', maxWidth: '440px' }}>
+                  Moderní weby pro lokální podnikatele. Zkušení designéři, pečlivá práce —{' '}
+                  <strong style={{ color: '#cbd5e1', fontWeight: 600 }}>hotovo za 48 hodin.</strong> Platíte až po schválení.
+                </p>
+                <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+                  <Link href="/kontakt" data-hover style={{
+                    display: 'inline-flex', alignItems: 'center', gap: '8px',
+                    background: '#2563eb', color: 'white', fontWeight: 600, fontSize: '14px',
+                    padding: '14px 28px', borderRadius: '12px', textDecoration: 'none',
+                    transition: 'background 0.2s, transform 0.15s',
+                    boxShadow: '0 0 32px rgba(37,99,235,0.35)',
+                  }}
+                    onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.background = '#1d4ed8'; }}
+                    onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.background = '#2563eb'; }}
+                  >
+                    Chci web pro svou firmu
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+                  </Link>
+                  <Link href="/jak-pracujeme" data-hover style={{
+                    display: 'inline-flex', alignItems: 'center', gap: '8px',
+                    color: '#94a3b8', fontWeight: 600, fontSize: '14px',
+                    padding: '14px 24px', borderRadius: '12px', textDecoration: 'none',
+                    border: '1px solid rgba(255,255,255,0.08)',
+                    transition: 'color 0.2s, border-color 0.2s',
+                  }}
+                    onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.color = 'white'; (e.currentTarget as HTMLAnchorElement).style.borderColor = 'rgba(255,255,255,0.2)'; }}
+                    onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.color = '#94a3b8'; (e.currentTarget as HTMLAnchorElement).style.borderColor = 'rgba(255,255,255,0.08)'; }}
+                  >
+                    Jak to funguje
+                  </Link>
+                </div>
+              </div>
+
+              {/* Trust row */}
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px', marginTop: '36px', animation: 'fadeSlide 0.7s 0.9s both' }}>
+                {['Bez zálohy', 'Platíte až po schválení', '48 hodin', 'Na míru'].map(t => (
+                  <div key={t} style={{ display: 'flex', alignItems: 'center', gap: '7px', fontSize: '12px', color: '#64748b' }}>
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
                     {t}
                   </div>
                 ))}
               </div>
             </div>
-          </div>
 
-          {/* Right: 3D Monitor */}
-          <div className="hidden lg:block relative">
-            <Monitor3D />
-          </div>
-        </div>
-
-        {/* Scroll indicator */}
-        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-30">
-          <span className="text-xs text-slate-500">Scroll</span>
-          <div className="w-px h-8 bg-slate-500" style={{ animation: 'slideDown 1.5s ease infinite' }} />
-        </div>
-      </section>
-
-      {/* ═══ STATS (dark) ═══════════════════════════════════════════════ */}
-      <section className="py-16" style={{ background: '#0f1629' }}>
-        <div className="max-w-6xl mx-auto px-5 sm:px-8">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center">
-            {[
-              { num: 48, suffix: 'h', label: 'Průměrná doba dodání' },
-              { num: 50, suffix: '+', label: 'Hotových webů' },
-              { num: 100, suffix: '%', label: 'Klientů by nás doporučilo' },
-              { num: 0, suffix: ' Kč', label: 'Záloha předem' },
-            ].map(s => (
-              <div key={s.label}>
-                <p className="text-4xl font-bold text-white tracking-tight" style={{ fontFamily: 'var(--font-display)' }}>
-                  <CountUp target={s.num} suffix={s.suffix} />
-                </p>
-                <p className="text-sm text-slate-400 mt-2">{s.label}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ═══ SERVICES ═══════════════════════════════════════════════════ */}
-      <section className="py-28 px-5 sm:px-8 bg-white">
-        <div className="max-w-6xl mx-auto">
-          <div ref={svcTitle.ref} style={svcTitle.style} className="mb-14">
-            <p className="text-xs font-semibold text-blue-600 uppercase tracking-widest mb-3">Naše služby</p>
-            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-              <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-slate-900 max-w-lg leading-tight" style={{ fontFamily: 'var(--font-display)' }}>
-                Vše co vaše firma potřebuje online
-              </h2>
-              <Link href="/sluzby" className="text-sm font-semibold text-blue-600 hover:text-blue-800 transition-colors whitespace-nowrap">Všechny služby →</Link>
+            {/* Right: Monitor */}
+            <div className="hidden lg:block">
+              <Monitor3D />
             </div>
           </div>
+        </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-            {SERVICES.map((s, i) => (
-              <div key={s.title} ref={svcRevs[i].ref} style={svcRevs[i].style}>
-                <TiltCard
-                  className="relative p-8 rounded-2xl border border-slate-100 bg-white hover:shadow-2xl transition-shadow duration-300 overflow-hidden h-full"
-                  onClick={() => { window.location.href = `/kalkulace/${s.slug}`; }}
-                >
-                  <div className="absolute top-0 left-0 right-0 h-1 rounded-t-2xl" style={{ background: s.accent }} />
-                  <div className="w-11 h-11 rounded-2xl flex items-center justify-center mb-5" style={{ background: s.accentBg, color: s.accent }}>
-                    {s.icon}
-                  </div>
-                  <h3 className="text-xl font-bold text-slate-900 mb-2">{s.title}</h3>
-                  <p className="text-sm text-slate-500 leading-relaxed mb-6">{s.desc}</p>
-                  <div className="flex items-center justify-between mt-auto">
-                    <span className="text-sm font-bold" style={{ color: s.accent }}>{s.price}</span>
-                    <span className="text-xs text-slate-300 group-hover:text-slate-600 font-medium">Detail →</span>
-                  </div>
-                </TiltCard>
-              </div>
-            ))}
-          </div>
+        {/* Scroll hint */}
+        <div style={{ position: 'absolute', bottom: '28px', left: '50%', transform: 'translateX(-50%)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px', opacity: 0.3 }}>
+          <span style={{ fontSize: '10px', letterSpacing: '0.12em', color: '#94a3b8', textTransform: 'uppercase' }}>Scroll</span>
+          <div style={{ width: '1px', height: '32px', background: '#94a3b8', animation: 'slideDown 1.5s ease infinite' }} />
         </div>
       </section>
 
-      {/* ═══ PROCESS ════════════════════════════════════════════════════ */}
-      <section className="overflow-hidden" style={{ background: 'linear-gradient(135deg, #f0f9ff 0%, #eff6ff 100%)' }}>
-        <div className="max-w-6xl mx-auto px-5 sm:px-8 py-28">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <div ref={processLeft.ref} style={processLeft.style}>
-              <p className="text-xs font-semibold text-blue-600 uppercase tracking-widest mb-4">Jak pracujeme</p>
-              <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-slate-900 mb-5 leading-tight" style={{ fontFamily: 'var(--font-display)' }}>
-                Od formuláře<br />
-                <span className="italic text-blue-600">po hotový web</span><br />
-                za 48 hodin.
+      {/* ══ MARQUEE STRIP ════════════════════════════════════════════ */}
+      <div style={{ background: '#0f1629', borderTop: '1px solid rgba(255,255,255,0.04)', borderBottom: '1px solid rgba(255,255,255,0.04)', padding: '16px 0', overflow: 'hidden' }}>
+        <Marquee items={['Landing page', 'Firemní web', 'E-commerce', '48 hodin dodání', '0 Kč záloha', '50+ projektů', 'Platíte po schválení', 'Na míru vaší firmě']} />
+      </div>
+
+      {/* ══ SERVICES ═════════════════════════════════════════════════ */}
+      <section style={{ background: 'white', padding: '100px 0' }}>
+        <div style={{ maxWidth: '860px', margin: '0 auto', padding: '0 32px' }}>
+          <FadeReveal>
+            <p style={{ fontSize: '11px', fontWeight: 600, color: '#2563eb', textTransform: 'uppercase', letterSpacing: '0.14em', marginBottom: '12px' }}>Naše služby</p>
+          </FadeReveal>
+          <div style={{ overflow: 'hidden', marginBottom: '48px' }}>
+            <LineReveal>
+              <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(28px, 4vw, 48px)', fontWeight: 700, color: '#0f172a', lineHeight: 1.1, margin: 0 }}>
+                Vše co vaše firma potřebuje online
               </h2>
-              <p className="text-slate-500 leading-relaxed mb-8">
-                Říkáte nám o firmě. My web navrhneme, vy schválíte. Bez schůzek, bez čekání, bez zálohy.
-              </p>
-              <Link href="/jak-pracujeme" className="inline-flex items-center gap-2 text-sm font-semibold text-slate-900 hover:text-blue-600 transition-colors">
-                Celý postup
+            </LineReveal>
+          </div>
+
+          <ServiceRow num="01" title="Landing page" price="od 9 900 Kč" desc="Jednostránkový web zaměřený na konverzi. Ideální pro řemeslníky, terapeuty a specialisty." accent="#2563EB" slug="landing-page" delay={0} />
+          <ServiceRow num="02" title="Firemní web" price="od 14 900 Kč" desc="Kompletní prezentace firmy. Více stránek, galerie realizací, reference a vše co zákazníci hledají." accent="#7c3aed" slug="firemni-web" delay={80} />
+          <ServiceRow num="03" title="E-commerce" price="od 24 900 Kč" desc="Plnohodnotný online obchod s produkty, košíkem a platební bránou." accent="#059669" slug="ecommerce" delay={160} />
+
+          <FadeReveal delay={200}>
+            <div style={{ marginTop: '32px' }}>
+              <Link href="/sluzby" data-hover style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', fontSize: '13px', fontWeight: 600, color: '#2563eb', textDecoration: 'none' }}
+                onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.gap = '14px'; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.gap = '8px'; }}
+              >
+                Všechny služby
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
               </Link>
             </div>
-            <div className="space-y-4">
-              <StepItem step="01" title="Vyplníte formulář" desc="Řeknete nám o vaší firmě. Zabere to 5 minut." delay={0} />
-              <StepItem step="02" title="Navrhneme web na míru" desc="Do 48 hodin máte hotový web přesně pro vás." delay={110} />
-              <StepItem step="03" title="Schválíte a spustíte" desc="Zapracujeme připomínky. Platíte až po schválení." delay={220} />
+          </FadeReveal>
+        </div>
+      </section>
+
+      {/* ══ STATS ════════════════════════════════════════════════════ */}
+      <section style={{ background: '#080e1c', padding: '100px 0' }}>
+        <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 32px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1px', background: 'rgba(255,255,255,0.06)' }}>
+            {[
+              { num: 48, suffix: 'h', label: 'Průměrná doba dodání', sub: 'od poptávky po hotový web' },
+              { num: 50, suffix: '+', label: 'Hotových webů', sub: 'pro lokální podnikatele' },
+              { num: 100, suffix: '%', label: 'Spokojených klientů', sub: 'kteří by nás doporučili' },
+              { num: 0, suffix: ' Kč', label: 'Záloha předem', sub: 'platíte až po schválení' },
+            ].map((s, i) => (
+              <div key={i} style={{ padding: '48px 40px', background: '#080e1c', position: 'relative', overflow: 'hidden' }}>
+                <div style={{ position: 'absolute', top: 0, left: 0, width: '2px', height: '40px', background: 'linear-gradient(180deg, #3b82f6, transparent)' }} />
+                <p style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(44px, 5vw, 64px)', fontWeight: 700, color: 'white', lineHeight: 1, marginBottom: '8px' }}>
+                  <CountUp target={s.num} suffix={s.suffix} />
+                </p>
+                <p style={{ fontSize: '16px', fontWeight: 700, color: '#e2e8f0', marginBottom: '4px' }}>{s.label}</p>
+                <p style={{ fontSize: '12px', color: '#475569' }}>{s.sub}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ══ PROCESS ══════════════════════════════════════════════════ */}
+      <section style={{ background: 'linear-gradient(135deg, #f0f9ff 0%, #eff6ff 100%)', padding: '100px 0' }}>
+        <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 32px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '80px', alignItems: 'start' }}>
+            <div className="lg:sticky" style={{ top: '120px' }}>
+            <FadeReveal>
+              <p style={{ fontSize: '11px', fontWeight: 600, color: '#2563eb', textTransform: 'uppercase', letterSpacing: '0.14em', marginBottom: '12px' }}>Jak pracujeme</p>
+              <div style={{ overflow: 'hidden', marginBottom: '16px' }}>
+                <LineReveal>
+                  <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(28px, 3.5vw, 44px)', fontWeight: 700, color: '#0f172a', lineHeight: 1.1, margin: 0 }}>
+                    Od formuláře po hotový web za 48 hodin.
+                  </h2>
+                </LineReveal>
+              </div>
+              <p style={{ fontSize: '15px', color: '#64748b', lineHeight: 1.7, marginBottom: '24px' }}>
+                Říkáte nám o firmě. My web navrhneme, vy schválíte. Bez schůzek, bez čekání, bez zálohy.
+              </p>
+              <Link href="/jak-pracujeme" data-hover style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', fontSize: '13px', fontWeight: 600, color: '#0f172a', textDecoration: 'none' }}>
+                Celý postup →
+              </Link>
+            </FadeReveal>
+            </div>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0' }}>
+              {[
+                { n: '01', title: 'Vyplníte formulář', desc: 'Řeknete nám o vaší firmě — obor, město, styl. Zabere to 5 minut.' },
+                { n: '02', title: 'Navrhneme web na míru', desc: 'Do 48 hodin máte hotový web přesně pro vás — bez schůzek.' },
+                { n: '03', title: 'Schválíte a spustíte', desc: 'Zapracujeme připomínky. Platíte až po schválení návrhu.' },
+              ].map((s, i) => (
+                <FadeReveal key={s.n} delay={i * 100}>
+                  <div style={{
+                    display: 'flex', gap: '20px', padding: '28px 0',
+                    borderBottom: i < 2 ? '1px solid rgba(37,99,235,0.12)' : 'none',
+                  }}>
+                    <span style={{ fontSize: '11px', fontFamily: 'monospace', color: '#94a3b8', paddingTop: '3px', flexShrink: 0, width: '24px' }}>{s.n}</span>
+                    <div>
+                      <p style={{ fontSize: '17px', fontWeight: 700, color: '#0f172a', marginBottom: '6px' }}>{s.title}</p>
+                      <p style={{ fontSize: '14px', color: '#64748b', lineHeight: 1.6 }}>{s.desc}</p>
+                    </div>
+                  </div>
+                </FadeReveal>
+              ))}
             </div>
           </div>
         </div>
       </section>
 
-      {/* ═══ HONEST MESSAGE ═════════════════════════════════════════════ */}
-      <section className="py-20 px-5 sm:px-8 border-y border-slate-100 bg-white">
-        <div className="max-w-4xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-10 items-start">
-            <div className="pt-1">
-              <p className="text-xs font-semibold text-amber-600 uppercase tracking-widest mb-3">Říkáme to rovnou</p>
-              <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 leading-tight" style={{ fontFamily: 'var(--font-display)' }}>
+      {/* ══ HONEST MESSAGE ═══════════════════════════════════════════ */}
+      <section style={{ background: 'white', padding: '80px 0', borderTop: '1px solid #f1f5f9' }}>
+        <div style={{ maxWidth: '860px', margin: '0 auto', padding: '0 32px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: '48px', alignItems: 'start' }}>
+            <FadeReveal>
+              <p style={{ fontSize: '11px', fontWeight: 600, color: '#d97706', textTransform: 'uppercase', letterSpacing: '0.14em', marginBottom: '12px' }}>Říkáme to rovnou</p>
+              <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '28px', fontWeight: 700, color: '#0f172a', lineHeight: 1.2 }}>
                 Web sám o sobě vás nezachrání.
               </h2>
-            </div>
-            <div className="space-y-4 text-slate-500 leading-relaxed">
-              <p>
-                Dobrý web je mocný nástroj — ale není zázrak. Pokud prodáváte nekvalitní produkt nebo nemáte co nabídnout, žádný design vám zákazníky neudží. To si musíme říct rovnou.
-              </p>
-              <p>
-                Úspěch stojí na více věcech najednou: na kvalitě toho, co děláte, na důvěře kterou budujete, na tom jak se o zákazníky staráte — a samozřejmě na dobrém marketingu, kde web hraje důležitou, ale ne jedinou roli.
-              </p>
-              <p className="text-slate-700 font-medium">
-                Co ale víme jistě: firma, která dělá skvělou práci a nemá kde to ukázat, přichází o zákazníky každý den. Tady vstupujeme my. Pomůžeme vám jít úspěchu naproti — zbytek je ve vašich rukách.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ═══ PORTFOLIO TEASER ═══════════════════════════════════════════ */}
-      <section className="py-28 px-5 sm:px-8 bg-white">
-        <div className="max-w-6xl mx-auto">
-          <div ref={portTitle.ref} style={portTitle.style} className="mb-14">
-            <p className="text-xs font-semibold text-blue-600 uppercase tracking-widest mb-3">Naše práce</p>
-            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-              <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-slate-900 leading-tight" style={{ fontFamily: 'var(--font-display)' }}>
-                Weby, které<br />mluví za sebe
-              </h2>
-              <Link href="/portfolio" className="text-sm font-semibold text-blue-600 hover:text-blue-800 transition-colors whitespace-nowrap">Celé portfolio →</Link>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-            {[
-              { client: 'Pavel Novák Instalace', obor: 'Instalatér', city: 'Praha', result: '+340% kontaktů z webu', color: 'from-blue-500 to-blue-600', r: portRevs[0] },
-              { client: 'Zubní ordinace Procházková', obor: 'Zubař', city: 'Brno', result: '70% nových pacientů přes web', color: 'from-teal-500 to-cyan-600', r: portRevs[1] },
-              { client: 'Kavárna Na Rohu', obor: 'Kavárna', city: 'Jihlava', result: '+40% rezervací online', color: 'from-amber-400 to-orange-500', r: portRevs[2] },
-            ].map(p => (
-              <div key={p.client} ref={p.r.ref} style={p.r.style}>
-                <TiltCard className="rounded-2xl overflow-hidden bg-white border border-slate-100 hover:shadow-xl transition-shadow duration-300">
-                  <div className={`h-44 bg-gradient-to-br ${p.color} relative overflow-hidden`}>
-                    <div className="absolute inset-3 rounded-lg bg-white/10 border border-white/20">
-                      <div className="flex items-center gap-1.5 px-3 py-2 border-b border-white/10">
-                        <div className="w-2 h-2 rounded-full bg-white/30" /><div className="w-2 h-2 rounded-full bg-white/30" /><div className="w-2 h-2 rounded-full bg-white/30" />
-                        <div className="flex-1 mx-2 h-3 rounded bg-white/20" />
-                      </div>
-                      <div className="p-3 space-y-2">
-                        <div className="h-3 rounded bg-white/30 w-3/4" />
-                        <div className="h-2 rounded bg-white/20 w-full" />
-                        <div className="h-2 rounded bg-white/20 w-5/6" />
-                      </div>
-                    </div>
-                  </div>
-                  <div className="p-6">
-                    <div className="flex items-center gap-2 mb-3">
-                      <span className="text-xs font-semibold text-slate-400 uppercase tracking-wide">{p.obor}</span>
-                      <span className="text-slate-200">·</span>
-                      <span className="text-xs text-slate-400">{p.city}</span>
-                    </div>
-                    <h3 className="font-bold text-slate-900 mb-2 text-sm">{p.client}</h3>
-                    <p className="text-xs text-emerald-600 font-semibold bg-emerald-50 border border-emerald-100 px-3 py-1.5 rounded-full inline-block">{p.result}</p>
-                  </div>
-                </TiltCard>
+            </FadeReveal>
+            <FadeReveal delay={100}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', fontSize: '15px', color: '#64748b', lineHeight: 1.7 }}>
+                <p>Dobrý web je mocný nástroj — ale není zázrak. Pokud prodáváte nekvalitní produkt, žádný design vám zákazníky neudží.</p>
+                <p style={{ color: '#475569', fontWeight: 500 }}>Firma, která dělá skvělou práci a nemá kde to ukázat, přichází o zákazníky každý den. Tady vstupujeme my.</p>
               </div>
-            ))}
+            </FadeReveal>
           </div>
         </div>
       </section>
 
-      {/* ═══ PHOTO STRIP ════════════════════════════════════════════════ */}
-      <section className="h-[380px] overflow-hidden relative">
-        <img
-          src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=1600&q=80&auto=format&fit=crop"
-          alt="Práce na webu"
-          className="w-full h-full object-cover"
-          loading="lazy"
-        />
-        <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, rgba(11,18,32,0.82) 0%, rgba(11,18,32,0.35) 55%, transparent 100%)' }} />
-        <div className="absolute inset-0 flex items-center px-8 sm:px-16">
-          <div className="max-w-xl">
-            <p className="text-white/60 text-sm font-semibold uppercase tracking-widest mb-3">Náš přístup</p>
-            <h2 className="text-3xl sm:text-4xl font-bold text-white leading-snug" style={{ fontFamily: 'var(--font-display)' }}>
-              Kombinujeme zkušenost designérů s rychlostí moderních nástrojů.
-            </h2>
-            <Link href="/o-nas" className="inline-flex items-center gap-2 mt-6 text-sm font-semibold text-white/80 hover:text-white transition-colors">
-              Více o nás →
-            </Link>
+      {/* ══ PORTFOLIO ════════════════════════════════════════════════ */}
+      <section style={{ background: '#080e1c', padding: '100px 0' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 32px' }}>
+          <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', marginBottom: '40px', gap: '20px', flexWrap: 'wrap' }}>
+            <FadeReveal>
+              <p style={{ fontSize: '11px', fontWeight: 600, color: '#3b82f6', textTransform: 'uppercase', letterSpacing: '0.14em', marginBottom: '10px' }}>Naše práce</p>
+              <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(28px, 4vw, 44px)', fontWeight: 700, color: 'white', margin: 0, lineHeight: 1.1 }}>
+                Weby, které mluví za sebe
+              </h2>
+            </FadeReveal>
+            <FadeReveal delay={100}>
+              <Link href="/portfolio" data-hover style={{ fontSize: '13px', fontWeight: 600, color: '#3b82f6', textDecoration: 'none', whiteSpace: 'nowrap' }}>
+                Celé portfolio →
+              </Link>
+            </FadeReveal>
           </div>
+
+          <PortfolioTrack />
         </div>
       </section>
 
-      {/* ═══ TESTIMONIALS ═══════════════════════════════════════════════ */}
-      <section className="py-28 px-5 sm:px-8" style={{ background: '#f8fafc' }}>
-        <div className="max-w-6xl mx-auto">
-          <div ref={tTitle.ref} style={tTitle.style} className="mb-14">
-            <p className="text-xs font-semibold text-blue-600 uppercase tracking-widest mb-3">Reference</p>
-            <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-slate-900 leading-tight" style={{ fontFamily: 'var(--font-display)' }}>
+      {/* ══ TESTIMONIALS MARQUEE ════════════════════════════════════ */}
+      <section style={{ background: '#f8fafc', padding: '80px 0', overflow: 'hidden' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 0 40px 32px' }}>
+          <FadeReveal>
+            <p style={{ fontSize: '11px', fontWeight: 600, color: '#2563eb', textTransform: 'uppercase', letterSpacing: '0.14em', marginBottom: '10px' }}>Reference</p>
+            <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(28px, 4vw, 44px)', fontWeight: 700, color: '#0f172a', marginBottom: '40px', lineHeight: 1.1 }}>
               Co říkají naši klienti
             </h2>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-            {TESTIMONIALS.map((t, i) => (
-              <div key={t.name} ref={testRevs[i].ref} style={testRevs[i].style}>
-                <TiltCard className="p-8 bg-white rounded-2xl border border-slate-100 hover:shadow-lg transition-shadow duration-300 h-full">
-                  <div className="flex gap-0.5 mb-6">
-                    {[1,2,3,4,5].map(s => (
-                      <svg key={s} width="14" height="14" viewBox="0 0 24 24" fill="#f59e0b" stroke="none">
-                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-                      </svg>
-                    ))}
-                  </div>
-                  <p className="text-slate-600 text-sm leading-relaxed mb-6">&ldquo;{t.quote}&rdquo;</p>
-                  <div className="flex items-center gap-3">
-                    <div className="w-9 h-9 rounded-full flex items-center justify-center text-white text-sm font-bold shrink-0" style={{ background: t.color }}>{t.initials}</div>
-                    <div>
-                      <p className="font-bold text-slate-900 text-sm">{t.name}</p>
-                      <p className="text-xs text-slate-400">{t.role}</p>
-                    </div>
-                  </div>
-                </TiltCard>
-              </div>
-            ))}
-          </div>
-          <div className="text-center mt-10">
-            <Link href="/reference" className="text-sm font-semibold text-blue-600 hover:text-blue-800 transition-colors">Zobrazit všechny reference →</Link>
-          </div>
+          </FadeReveal>
+        </div>
+        <TestimonialMarquee />
+        <div style={{ textAlign: 'center', marginTop: '32px' }}>
+          <Link href="/reference" data-hover style={{ fontSize: '13px', fontWeight: 600, color: '#2563eb', textDecoration: 'none' }}>
+            Všechny reference →
+          </Link>
         </div>
       </section>
 
-      {/* ═══ CTA ════════════════════════════════════════════════════════ */}
-      <section className="py-28 px-5 sm:px-8" style={{ background: '#0b1220' }}>
-        <div className="max-w-4xl mx-auto">
-          <div ref={ctaSection.ref} style={ctaSection.style} className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <p className="text-xs font-semibold text-blue-400 uppercase tracking-widest mb-4">Začněte ještě dnes</p>
-              <h2 className="text-4xl sm:text-5xl font-bold text-white tracking-tight mb-6 leading-tight" style={{ fontFamily: 'var(--font-display)' }}>
-                Váš nový web<br />
-                <span className="italic text-blue-400">čeká na vás.</span>
+      {/* ══ PHOTO STRIP ══════════════════════════════════════════════ */}
+      <section style={{ height: '320px', overflow: 'hidden', position: 'relative' }}>
+        <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=1600&q=80&auto=format&fit=crop" alt="Práce na webu" style={{ width: '100%', height: '100%', objectFit: 'cover' }} loading="lazy" />
+        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, rgba(8,14,28,0.85) 0%, rgba(8,14,28,0.3) 55%, transparent 100%)' }} />
+        <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', padding: '0 64px' }}>
+          <FadeReveal>
+            <p style={{ fontSize: '11px', fontWeight: 600, color: 'rgba(255,255,255,0.5)', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: '10px' }}>Náš přístup</p>
+            <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(22px, 3vw, 34px)', fontWeight: 700, color: 'white', lineHeight: 1.3, maxWidth: '460px', margin: '0 0 16px' }}>
+              Zkušenost designérů + rychlost moderních nástrojů.
+            </h2>
+            <Link href="/o-nas" data-hover style={{ fontSize: '13px', fontWeight: 600, color: 'rgba(255,255,255,0.7)', textDecoration: 'none' }}>
+              Více o nás →
+            </Link>
+          </FadeReveal>
+        </div>
+      </section>
+
+      {/* ══ CTA ══════════════════════════════════════════════════════ */}
+      <section style={{ background: '#080e1c', padding: '120px 0', position: 'relative', overflow: 'hidden' }}>
+        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'radial-gradient(circle, rgba(37,99,235,0.12) 1px, transparent 1px)', backgroundSize: '36px 36px', pointerEvents: 'none' }} />
+        <div style={{ maxWidth: '800px', margin: '0 auto', padding: '0 32px', textAlign: 'center', position: 'relative' }}>
+          <FadeReveal>
+            <p style={{ fontSize: '11px', fontWeight: 600, color: '#3b82f6', textTransform: 'uppercase', letterSpacing: '0.14em', marginBottom: '20px' }}>Začněte ještě dnes</p>
+          </FadeReveal>
+          <div style={{ overflow: 'hidden', marginBottom: '20px' }}>
+            <LineReveal>
+              <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(36px, 5vw, 60px)', fontWeight: 700, color: 'white', lineHeight: 1.05, margin: 0 }}>
+                Váš nový web čeká na vás.
               </h2>
-              <p className="text-slate-400 leading-relaxed">
-                Poptávka je zdarma a nezávazná. Do 24 hodin se ozveme s první ukázkou vašeho webu.
-              </p>
-            </div>
-            <div className="flex flex-col gap-3">
-              <Link href="/kontakt"
-                className="inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-semibold px-8 py-4 rounded-xl text-sm transition-all duration-200 hover:shadow-2xl hover:shadow-blue-500/30 hover:-translate-y-px">
+            </LineReveal>
+          </div>
+          <FadeReveal delay={200}>
+            <p style={{ fontSize: '16px', color: '#64748b', marginBottom: '36px', lineHeight: 1.6 }}>
+              Poptávka je zdarma a nezávazná. Do 24 hodin se ozveme s první ukázkou.
+            </p>
+            <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
+              <Link href="/kontakt" data-hover style={{
+                display: 'inline-flex', alignItems: 'center', gap: '8px',
+                background: '#2563eb', color: 'white', fontWeight: 600, fontSize: '15px',
+                padding: '16px 32px', borderRadius: '12px', textDecoration: 'none',
+                boxShadow: '0 0 48px rgba(37,99,235,0.4)',
+                transition: 'background 0.2s',
+              }}
+                onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.background = '#1d4ed8'; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.background = '#2563eb'; }}
+              >
                 Získat web ke shlédnutí zdarma
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
               </Link>
-              <Link href="/sluzby"
-                className="inline-flex items-center justify-center gap-2 text-slate-300 hover:text-white font-semibold px-8 py-4 rounded-xl text-sm border border-white/10 hover:border-white/25 transition-all duration-200">
+              <Link href="/sluzby" data-hover style={{
+                display: 'inline-flex', alignItems: 'center', gap: '8px',
+                color: '#64748b', fontWeight: 600, fontSize: '15px',
+                padding: '16px 28px', borderRadius: '12px', textDecoration: 'none',
+                border: '1px solid rgba(255,255,255,0.08)',
+                transition: 'color 0.2s, border-color 0.2s',
+              }}
+                onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.color = 'white'; (e.currentTarget as HTMLAnchorElement).style.borderColor = 'rgba(255,255,255,0.2)'; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.color = '#64748b'; (e.currentTarget as HTMLAnchorElement).style.borderColor = 'rgba(255,255,255,0.08)'; }}
+              >
                 Prohlédnout služby
               </Link>
             </div>
-          </div>
+          </FadeReveal>
         </div>
       </section>
 
       <style>{`
-        @keyframes pulse    { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
-        @keyframes slideDown { 0% { opacity: 0; transform: translateY(-4px); } 100% { opacity: 1; transform: translateY(4px); } }
+        @keyframes pulse     { 0%,100%{opacity:1} 50%{opacity:.4} }
+        @keyframes slideDown { 0%{opacity:0;transform:translateY(-4px)} 100%{opacity:1;transform:translateY(4px)} }
+        @keyframes fadeSlide { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+        @keyframes marqueeScroll { from{transform:translateX(0)} to{transform:translateX(-50%)} }
         html { scroll-behavior: smooth; }
+        ::-webkit-scrollbar { display: none; }
       `}</style>
     </>
   );
