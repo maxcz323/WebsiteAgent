@@ -286,10 +286,18 @@ export default function HomePage() {
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
 
-    /* S1 is already in view on load — animate in immediately */
+    /* S1 — fade in on mount, fade out when 80% through the section */
     gsap.set('#s1i', { opacity: 0, y: 28 });
     gsap.to('#s1i', { opacity: 1, y: 0, duration: 0.9, delay: 0.3, ease: 'power3.out' });
 
+    const s1hide = ScrollTrigger.create({
+      trigger: '#s1',
+      start: 'bottom 20%',   /* S1 bottom hits 20% from top ≈ scrollY 80vh */
+      onEnter:     () => gsap.to('#s1i', { opacity: 0, y: -18, duration: 0.4, ease: 'power2.in' }),
+      onLeaveBack: () => gsap.to('#s1i', { opacity: 1, y:   0, duration: 0.7, ease: 'power3.out' }),
+    });
+
+    /* S2-S6 — tight bounds so only one section text visible at a time */
     const pairs: Array<{ t: string; i: string; ax: 'y' | 'x' }> = [
       { t: '#s2', i: '#s2i', ax: 'y' },
       { t: '#s3', i: '#s3i', ax: 'x' },
@@ -301,15 +309,15 @@ export default function HomePage() {
     const triggers = pairs.map(({ t, i, ax }) => {
       gsap.set(i, { opacity: 0, [ax]: 28 });
       return ScrollTrigger.create({
-        trigger: t, start: 'top 72%', end: 'bottom 28%',
-        onEnter:     () => gsap.to(i, { opacity: 1, [ax]: 0, duration: 0.85, ease: 'power3.out' }),
-        onLeave:     () => gsap.to(i, { opacity: 0, [ax]: -16, duration: 0.5, ease: 'power2.in' }),
-        onEnterBack: () => gsap.to(i, { opacity: 1, [ax]: 0, duration: 0.85, ease: 'power3.out' }),
-        onLeaveBack: () => gsap.to(i, { opacity: 0, [ax]: 16, duration: 0.5, ease: 'power2.in' }),
+        trigger: t, start: 'top 20%', end: 'bottom 20%',
+        onEnter:     () => gsap.to(i, { opacity: 1, [ax]: 0,   duration: 0.75, ease: 'power3.out' }),
+        onLeave:     () => gsap.to(i, { opacity: 0, [ax]: -18, duration: 0.4,  ease: 'power2.in' }),
+        onEnterBack: () => gsap.to(i, { opacity: 1, [ax]: 0,   duration: 0.75, ease: 'power3.out' }),
+        onLeaveBack: () => gsap.to(i, { opacity: 0, [ax]: 18,  duration: 0.4,  ease: 'power2.in' }),
       });
     });
 
-    return () => { triggers.forEach(t => t.kill()); };
+    return () => { s1hide.kill(); triggers.forEach(t => t.kill()); };
   }, []);
 
   return (

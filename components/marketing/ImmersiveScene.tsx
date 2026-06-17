@@ -314,14 +314,19 @@ function SvcCard({ idx }: { idx: number }) {
 
   useFrame(({ clock }) => {
     const t = clock.elapsedTime;
-    /* Staggered reveal — each card comes out 0.15s after the previous */
     const vis = Math.max(0, Math.min(1, (SV.svcVis - idx * 0.15) * 2));
-    /* Fly out from behind monitor center → side position */
+
+    /* Hard snap — instantly hide when not in section to avoid ghost overlap */
+    if (vis < 0.02) {
+      ref.current.scale.setScalar(0);
+      ref.current.position.x = -8;
+      return;
+    }
+
     const tx = -2.75 + (1 - vis) * 2.75;
     ref.current.position.x += (tx - ref.current.position.x) * 0.07;
     ref.current.position.y = y0 + Math.sin(t * 0.5 + idx * 1.3) * 0.06;
     ref.current.scale.setScalar(ref.current.scale.x + (vis - ref.current.scale.x) * 0.08);
-    /* Pulse glow on accent */
     if (emRef.current) emRef.current.emissiveIntensity = 1.6 + Math.sin(t * 1.8 + idx) * 0.4;
   });
 
@@ -385,7 +390,13 @@ function PortCard({ idx }: { idx: number }) {
 
   useFrame(({ clock }) => {
     const t = clock.elapsedTime;
-    const target = SV.portVis > 0.01 ? 1 : 0;
+
+    if (SV.portVis < 0.02) {
+      ref.current.scale.setScalar(0);
+      return;
+    }
+
+    const target = Math.min(1, SV.portVis * 1.5);
     ref.current.scale.setScalar(ref.current.scale.x + (target - ref.current.scale.x) * 0.07);
     ref.current.position.y = y + Math.sin(t * 0.42 + idx * 1.5) * 0.08;
     ref.current.rotation.y = Math.sin(t * 0.25 + idx) * 0.04;
@@ -471,12 +482,16 @@ function StatOrb({ idx }: { idx: number }) {
 
   useFrame(({ clock }) => {
     const t = clock.elapsedTime;
-    const target = SV.statVis > 0.01 ? 1 : 0;
+
+    if (SV.statVis < 0.02) {
+      ref.current.scale.setScalar(0);
+      return;
+    }
+
+    const target = Math.min(1, SV.statVis * 1.5);
     ref.current.scale.setScalar(ref.current.scale.x + (target - ref.current.scale.x) * 0.07);
     ref.current.position.y = y + Math.sin(t * 0.38 + idx) * 0.07;
-    /* Slow y-axis drift */
     ref.current.rotation.y = t * 0.08 + idx * 0.9;
-    /* Pulsing sphere */
     if (sphRef.current) sphRef.current.emissiveIntensity = 0.08 + Math.sin(t * 1.6 + idx) * 0.06;
   });
 
@@ -600,7 +615,7 @@ export function ImmersiveScene({ scrollContainerRef }: Props) {
         scroller: window,
         start: 'top top',
         end: 'bottom bottom',
-        scrub: 2,
+        scrub: 1.2,
       },
     });
 
