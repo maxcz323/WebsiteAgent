@@ -17,6 +17,18 @@ interface Version {
 
 const CHANGELOG: Version[] = [
   {
+    version: '3.21',
+    date: '17. 6. 2026',
+    changes: [
+      { type: 'change', text: 'ServiceCards: odstraněn dramatický fly-from-behind efekt, karty se nyní pomalu materializují na místě (scale 0→1 + gentle y-lift)' },
+      { type: 'change', text: 'Všechny 3D elementy: pomalejší lerp (0.07→0.045), plynulejší stagger per karta/orb' },
+      { type: 'change', text: 'Monitor: pomalejší float animace (0.5→0.38 Hz), slabší mouse parallax, klidnější rotace' },
+      { type: 'change', text: 'CameraRig: lerp 0.055→0.038 — kamera se pohybuje hladce jako přechod, ne skok' },
+      { type: 'change', text: 'Text přechody: fade-in 0.75s→0.95s, fade-out 0.4s→0.6s, offset 18→12px, ease power2.inOut' },
+      { type: 'change', text: 'Glow puls na SvcCards: intenzita snížena (1.6→1.1), frekvence klidnější (1.8→1.4 Hz)' },
+    ],
+  },
+  {
     version: '3.20',
     date: '17. 6. 2026',
     changes: [

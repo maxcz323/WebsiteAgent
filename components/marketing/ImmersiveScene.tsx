@@ -56,11 +56,11 @@ function Monitor({ section }: { section: number }) {
     M.x += (M.tx - M.x) * 0.04;
     M.y += (M.ty - M.y) * 0.04;
 
-    group.current.rotation.y += (SV.monRotY + M.x * 0.06 - group.current.rotation.y) * 0.07;
-    group.current.rotation.x += (SV.monRotX - M.y * 0.04 - group.current.rotation.x) * 0.07;
-    group.current.scale.setScalar(group.current.scale.x + (SV.monScale - group.current.scale.x) * 0.07);
-    group.current.position.x += (SV.monX - group.current.position.x) * 0.07;
-    group.current.position.y += (SV.monY + Math.sin(t * 0.5) * 0.06 - group.current.position.y) * 0.06;
+    group.current.rotation.y += (SV.monRotY + M.x * 0.045 - group.current.rotation.y) * 0.045;
+    group.current.rotation.x += (SV.monRotX - M.y * 0.03  - group.current.rotation.x) * 0.045;
+    group.current.scale.setScalar(group.current.scale.x + (SV.monScale - group.current.scale.x) * 0.045);
+    group.current.position.x += (SV.monX - group.current.position.x) * 0.045;
+    group.current.position.y += (SV.monY + Math.sin(t * 0.38) * 0.045 - group.current.position.y) * 0.045;
 
     const si = Math.min(section, ACCENT.length - 1);
     if (scrMat.current) { scrMat.current.emissiveIntensity = 0.25 + Math.sin(t * 2) * 0.04; scrMat.current.emissive.set(ACCENT[si]); }
@@ -314,24 +314,25 @@ function SvcCard({ idx }: { idx: number }) {
 
   useFrame(({ clock }) => {
     const t = clock.elapsedTime;
-    const vis = Math.max(0, Math.min(1, (SV.svcVis - idx * 0.15) * 2));
+    /* Gentle stagger — each card 0.18 behind previous */
+    const vis = Math.max(0, Math.min(1, (SV.svcVis - idx * 0.18) * 2.2));
 
-    /* Hard snap — instantly hide when not in section to avoid ghost overlap */
     if (vis < 0.02) {
       ref.current.scale.setScalar(0);
-      ref.current.position.x = -8;
       return;
     }
 
-    const tx = -2.75 + (1 - vis) * 2.75;
-    ref.current.position.x += (tx - ref.current.position.x) * 0.07;
-    ref.current.position.y = y0 + Math.sin(t * 0.5 + idx * 1.3) * 0.06;
-    ref.current.scale.setScalar(ref.current.scale.x + (vis - ref.current.scale.x) * 0.08);
-    if (emRef.current) emRef.current.emissiveIntensity = 1.6 + Math.sin(t * 1.8 + idx) * 0.4;
+    /* Scale reveal from 0 → 1 — cards materialise in place, no dramatic fly */
+    ref.current.scale.setScalar(ref.current.scale.x + (vis - ref.current.scale.x) * 0.045);
+    /* Gentle y-lift as they appear, then settle to float */
+    const liftY = (1 - vis) * 0.18;
+    ref.current.position.y = y0 + liftY + Math.sin(t * 0.45 + idx * 1.4) * 0.055;
+    /* Subtle glow pulse — calmer */
+    if (emRef.current) emRef.current.emissiveIntensity = 1.1 + Math.sin(t * 1.4 + idx * 0.9) * 0.25;
   });
 
   return (
-    <group ref={ref} position={[0, y0, 0.25]} scale={0}>
+    <group ref={ref} position={[-2.75, y0, 0.25]} scale={0}>
       {/* Card body */}
       <mesh>
         <boxGeometry args={[2.05, 0.6, 0.022]} />
@@ -396,11 +397,13 @@ function PortCard({ idx }: { idx: number }) {
       return;
     }
 
-    const target = Math.min(1, SV.portVis * 1.5);
-    ref.current.scale.setScalar(ref.current.scale.x + (target - ref.current.scale.x) * 0.07);
-    ref.current.position.y = y + Math.sin(t * 0.42 + idx * 1.5) * 0.08;
-    ref.current.rotation.y = Math.sin(t * 0.25 + idx) * 0.04;
-    if (glowRef.current) glowRef.current.emissiveIntensity = 0.55 + Math.sin(t * 1.4 + idx * 0.7) * 0.15;
+    /* Staggered per card */
+    const vis = Math.max(0, Math.min(1, (SV.portVis - idx * 0.1) * 1.8));
+    const target = vis;
+    ref.current.scale.setScalar(ref.current.scale.x + (target - ref.current.scale.x) * 0.045);
+    ref.current.position.y = y + (1 - vis) * 0.15 + Math.sin(t * 0.42 + idx * 1.5) * 0.07;
+    ref.current.rotation.y = Math.sin(t * 0.22 + idx) * 0.032;
+    if (glowRef.current) glowRef.current.emissiveIntensity = 0.45 + Math.sin(t * 1.2 + idx * 0.7) * 0.12;
   });
 
   return (
@@ -488,11 +491,11 @@ function StatOrb({ idx }: { idx: number }) {
       return;
     }
 
-    const target = Math.min(1, SV.statVis * 1.5);
-    ref.current.scale.setScalar(ref.current.scale.x + (target - ref.current.scale.x) * 0.07);
-    ref.current.position.y = y + Math.sin(t * 0.38 + idx) * 0.07;
-    ref.current.rotation.y = t * 0.08 + idx * 0.9;
-    if (sphRef.current) sphRef.current.emissiveIntensity = 0.08 + Math.sin(t * 1.6 + idx) * 0.06;
+    const vis = Math.max(0, Math.min(1, (SV.statVis - idx * 0.08) * 1.8));
+    ref.current.scale.setScalar(ref.current.scale.x + (vis - ref.current.scale.x) * 0.042);
+    ref.current.position.y = y + (1 - vis) * 0.2 + Math.sin(t * 0.38 + idx) * 0.07;
+    ref.current.rotation.y = t * 0.07 + idx * 0.9;
+    if (sphRef.current) sphRef.current.emissiveIntensity = 0.07 + Math.sin(t * 1.4 + idx) * 0.05;
   });
 
   return (
@@ -585,10 +588,10 @@ function RingAccent() {
 function CameraRig() {
   const { camera } = useThree();
   useFrame(() => {
-    camera.position.x += (SV.camX - camera.position.x) * 0.055;
-    camera.position.y += (SV.camY - camera.position.y) * 0.055;
-    camera.position.z += (SV.camZ - camera.position.z) * 0.055;
-    camera.lookAt(SV.monX * 0.35, SV.monY * 0.2, 0);
+    camera.position.x += (SV.camX - camera.position.x) * 0.038;
+    camera.position.y += (SV.camY - camera.position.y) * 0.038;
+    camera.position.z += (SV.camZ - camera.position.z) * 0.038;
+    camera.lookAt(SV.monX * 0.3, SV.monY * 0.15, 0);
   });
   return null;
 }

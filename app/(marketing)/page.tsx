@@ -292,9 +292,9 @@ export default function HomePage() {
 
     const s1hide = ScrollTrigger.create({
       trigger: '#s1',
-      start: 'bottom 20%',   /* S1 bottom hits 20% from top ≈ scrollY 80vh */
-      onEnter:     () => gsap.to('#s1i', { opacity: 0, y: -18, duration: 0.4, ease: 'power2.in' }),
-      onLeaveBack: () => gsap.to('#s1i', { opacity: 1, y:   0, duration: 0.7, ease: 'power3.out' }),
+      start: 'bottom 20%',
+      onEnter:     () => gsap.to('#s1i', { opacity: 0, y: -10, duration: 0.6, ease: 'power2.inOut' }),
+      onLeaveBack: () => gsap.to('#s1i', { opacity: 1, y:   0, duration: 0.9, ease: 'power2.out' }),
     });
 
     /* S2-S6 — tight bounds so only one section text visible at a time */
@@ -307,13 +307,13 @@ export default function HomePage() {
     ];
 
     const triggers = pairs.map(({ t, i, ax }) => {
-      gsap.set(i, { opacity: 0, [ax]: 28 });
+      gsap.set(i, { opacity: 0, [ax]: 22 });
       return ScrollTrigger.create({
         trigger: t, start: 'top 20%', end: 'bottom 20%',
-        onEnter:     () => gsap.to(i, { opacity: 1, [ax]: 0,   duration: 0.75, ease: 'power3.out' }),
-        onLeave:     () => gsap.to(i, { opacity: 0, [ax]: -18, duration: 0.4,  ease: 'power2.in' }),
-        onEnterBack: () => gsap.to(i, { opacity: 1, [ax]: 0,   duration: 0.75, ease: 'power3.out' }),
-        onLeaveBack: () => gsap.to(i, { opacity: 0, [ax]: 18,  duration: 0.4,  ease: 'power2.in' }),
+        onEnter:     () => gsap.to(i, { opacity: 1, [ax]: 0,   duration: 0.95, ease: 'power2.out' }),
+        onLeave:     () => gsap.to(i, { opacity: 0, [ax]: -12, duration: 0.6,  ease: 'power2.inOut' }),
+        onEnterBack: () => gsap.to(i, { opacity: 1, [ax]: 0,   duration: 0.95, ease: 'power2.out' }),
+        onLeaveBack: () => gsap.to(i, { opacity: 0, [ax]: 12,  duration: 0.6,  ease: 'power2.inOut' }),
       });
     });
 
