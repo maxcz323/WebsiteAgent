@@ -270,16 +270,27 @@ export default function HomePage() {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    document.body.style.background = '#06060a';
-    document.documentElement.style.background = '#06060a';
-    return () => { document.body.style.background = ''; document.documentElement.style.background = ''; };
+    /* Override layout bg-white on all wrappers */
+    const bg = '#06060a';
+    document.documentElement.style.background = bg;
+    document.body.style.background = bg;
+    const wrap = document.body.firstElementChild as HTMLElement | null;
+    if (wrap) wrap.style.background = bg;
+    return () => {
+      document.documentElement.style.background = '';
+      document.body.style.background = '';
+      if (wrap) wrap.style.background = '';
+    };
   }, []);
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
 
+    /* S1 is already in view on load — animate in immediately */
+    gsap.set('#s1i', { opacity: 0, y: 28 });
+    gsap.to('#s1i', { opacity: 1, y: 0, duration: 0.9, delay: 0.3, ease: 'power3.out' });
+
     const pairs: Array<{ t: string; i: string; ax: 'y' | 'x' }> = [
-      { t: '#s1', i: '#s1i', ax: 'y' },
       { t: '#s2', i: '#s2i', ax: 'y' },
       { t: '#s3', i: '#s3i', ax: 'x' },
       { t: '#s4', i: '#s4i', ax: 'y' },
@@ -303,8 +314,8 @@ export default function HomePage() {
 
   return (
     <>
-      {/* Instant dark background before canvas loads */}
-      <div aria-hidden style={{ position: 'fixed', inset: 0, background: '#06060a', zIndex: -1 }} />
+      {/* Instant dark background — above layout bg-white (z:1), below canvas (z:2) */}
+      <div aria-hidden style={{ position: 'fixed', inset: 0, background: '#06060a', zIndex: 1 }} />
 
       <Grain />
       <CursorBlob />
