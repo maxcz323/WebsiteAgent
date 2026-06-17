@@ -17,13 +17,6 @@ interface Version {
 
 const CHANGELOG: Version[] = [
   {
-    version: '3.14',
-    date: '17. 6. 2026',
-    changes: [
-      { type: 'feat', text: 'Navbar na changelog stránce — admin lišta se zobrazí i na /changelog, včetně mobilního hamburger menu' },
-    ],
-  },
-  {
     version: '3.13',
     date: '16. 6. 2026',
     changes: [
