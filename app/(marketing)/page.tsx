@@ -8,10 +8,6 @@ const Monitor3D = dynamic(
   () => import('@/components/marketing/Monitor3D').then(m => ({ default: m.Monitor3D })),
   { ssr: false }
 );
-const Cursor = dynamic(
-  () => import('@/components/marketing/Cursor').then(m => ({ default: m.Cursor })),
-  { ssr: false }
-);
 
 /* ─── Scroll progress bar ───────────────────────────────────────────── */
 function ScrollBar() {
@@ -330,7 +326,6 @@ export default function HomePage() {
 
   return (
     <>
-      <Cursor />
       <ScrollBar />
 
       {/* ══ HERO ═════════════════════════════════════════════════════ */}
