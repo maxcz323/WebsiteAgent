@@ -17,6 +17,21 @@ interface Version {
 
 const CHANGELOG: Version[] = [
   {
+    version: '3.31',
+    date: '18. 6. 2026',
+    changes: [
+      { type: 'feat', text: 'S1 — industry strip: 4 emoji pills nahrazeny řádkem oborů (Instalatéři · Zubaři · Kavárny · Autoservisy · ...) — signalizuje šíři zkušeností, buduje důvěru' },
+      { type: 'feat', text: 'S1 — badge přepsán: "Profesionální weby pro lokální firmy" → "50+ firem. Hotovo do 48 h. Záloha nula." — konkrétní čísla místo generické fráze' },
+      { type: 'feat', text: 'S2 — přepsáno: 3 velká čísla (48h/0Kč/100%) nahrazena transparentním procesem — 01 Formulář (3 min) / 02 Návrh (24 h) / 03 Spuštění (48 h) — každý krok s barevným time-badge' },
+      { type: 'feat', text: 'S3 — každá služba má outcome mikro-popis: Landing page "Více poptávek od prvního dne", Firemní web "Kompletní online prezentace", E-commerce "Prodávejte 24/7 bez omezení"' },
+      { type: 'feat', text: 'S4 — reference dramaticky obohaceny: přidána jméno+role (Jan Kovář, MUDr. Petra Marková, ...), datace spuštění (leden 2025), doba dodání (44 h od podpisu), plnější citace' },
+      { type: 'feat', text: 'S4 — hlavička: "Co říkají naši klienti." → "Tihle nám už důvěřovali." + label "50+ dokončených projektů" — tvrdší důkazní rámec' },
+      { type: 'feat', text: 'S5 — nové framing: label "Za rok fungování" + h2 "Čísla, která mluví za nás." — kontext místo vágního "Výsledky v číslech"' },
+      { type: 'feat', text: 'S6 — kompletní přepis: "Začněte dnes." → "Váháte? Správně." — námitková CTA, odstraňuje psychologické bloky, záruční pill (Pokud nejste spokojení — neplatíte ani korunu.), 4 trust checkmarky' },
+      { type: 'feat', text: 'SPricing — garantní pruh nad kartami: SVG shield ikona + "Záruka spokojenosti — web nesplní zadání? Vrátíme 100 % ceny, bez diskuze."' },
+    ],
+  },
+  {
     version: '3.30',
     date: '18. 6. 2026',
     changes: [
