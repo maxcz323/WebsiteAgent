@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import gsap from 'gsap';
@@ -135,11 +135,21 @@ function S1() {
           </Mag>
           <Mag href="/jak-pracujeme">Jak to funguje</Mag>
         </div>
-        <div style={{ display: 'flex', gap: '22px', flexWrap: 'wrap', marginTop: '32px' }}>
-          {['Bez zálohy','Platíte po schválení','48 hodin','Na míru'].map(t => (
-            <span key={t} style={{ display: 'flex', alignItems: 'center', gap: '7px', fontSize: '12px', color: '#6b7a8d' }}>
-              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-              {t}
+        <div style={{ display: 'flex', gap: '18px', flexWrap: 'wrap', marginTop: '32px', alignItems: 'center' }}>
+          {[
+            { label: 'Bez zálohy', icon: '🔒' },
+            { label: 'Hotovo za 48h', icon: '⚡' },
+            { label: 'Platíte po schválení', icon: '✓' },
+            { label: 'Na míru', icon: '🎯' },
+          ].map(({ label, icon }) => (
+            <span key={label} style={{
+              display: 'inline-flex', alignItems: 'center', gap: '5px',
+              fontSize: '11px', color: '#6b7a8d', background: 'rgba(255,255,255,0.04)',
+              border: '1px solid rgba(255,255,255,0.07)', borderRadius: '20px',
+              padding: '4px 10px',
+            }}>
+              <span style={{ fontSize: '10px' }}>{icon}</span>
+              {label}
             </span>
           ))}
         </div>
@@ -284,6 +294,13 @@ function S6() {
 ═══════════════════════════════════════════════════════════════ */
 export default function HomePage() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener('resize', check, { passive: true });
+    return () => window.removeEventListener('resize', check);
+  }, []);
 
   useEffect(() => {
     /* Override layout bg-white on all wrappers */
@@ -389,7 +406,7 @@ export default function HomePage() {
 
       {/* Fixed 3D canvas — behind all scroll content */}
       <div style={{ position: 'fixed', inset: 0, zIndex: 2, pointerEvents: 'none' }}>
-        <ImmersiveScene scrollContainerRef={containerRef} />
+        <ImmersiveScene scrollContainerRef={containerRef} mobile={isMobile} />
       </div>
 
       {/* 600vh scroll container — drives the GSAP timeline */}
@@ -401,6 +418,23 @@ export default function HomePage() {
         @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.35} }
         @keyframes scrollbar { 0%{transform:translateY(-100%);opacity:0} 40%{opacity:1} 100%{transform:translateY(200%);opacity:0} }
         html,body { scroll-behavior: smooth; }
+
+        /* Mobile responsive overrides */
+        @media (max-width: 767px) {
+          #s1i { padding: 0 22px !important; max-width: 100% !important; }
+          #s2i { padding: 0 22px !important; max-width: 100% !important; }
+          #s3i { padding: 0 22px !important; max-width: 100% !important; }
+          #s4i { padding: 0 22px !important; }
+          #s5i { padding: 0 22px !important; max-width: 100% !important; }
+          #s6i { padding: 0 22px !important; max-width: 100% !important; }
+          #s3  { justify-content: flex-start !important; }
+          #s4  { align-items: center !important; padding-bottom: 0 !important; }
+          #s6i { text-align: left !important; }
+        }
+
+        /* Performance: hint browser about animated layers */
+        #s1i, #s2i, #s3i, #s4i, #s5i, #s6i { will-change: opacity; }
+        #scroll-ind { will-change: opacity, transform; }
       `}</style>
     </>
   );

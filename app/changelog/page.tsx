@@ -17,6 +17,20 @@ interface Version {
 
 const CHANGELOG: Version[] = [
   {
+    version: '3.26',
+    date: '18. 6. 2026',
+    changes: [
+      { type: 'feat', text: 'Mobile experience: detekce mobilního zařízení (<768px), předává mobile prop do ImmersiveScene' },
+      { type: 'feat', text: 'Mobile 3D: na mobilu jemnější kamera (max ±0.7 orbit), antialiasing vypnut, DPR snížen na [0.75, 1]' },
+      { type: 'feat', text: 'Mobile particles: 500 místo 2200, RingAccent vypnut — výrazně nižší GPU zátěž' },
+      { type: 'feat', text: 'AdaptiveDpr: R3F automaticky snižuje rozlišení při poklesu FPS (performance.min: 0.5)' },
+      { type: 'feat', text: 'powerPreference: high-performance — GPU upřednostněn před úsporou baterie' },
+      { type: 'feat', text: 'Mobilní layout: media queries opravují padding, zarovnání a max-width pro S1–S6' },
+      { type: 'feat', text: 'S1 trust badges: pill-styled badge komponenty (ikona + text) místo prostých checkmark spans' },
+      { type: 'change', text: 'will-change: opacity na text kontejnerech — browser optimalizuje compositor layers' },
+    ],
+  },
+  {
     version: '3.25',
     date: '17. 6. 2026',
     changes: [

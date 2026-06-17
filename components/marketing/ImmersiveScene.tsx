@@ -2,7 +2,7 @@
 
 import { useRef, useMemo, useEffect, useState, Suspense } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { Text, useGLTF } from '@react-three/drei';
+import { Text, useGLTF, AdaptiveDpr } from '@react-three/drei';
 import * as THREE from 'three';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -607,8 +607,8 @@ function StatPanels() {
 /* ═══════════════════════════════════════════════════════════════
    PARTICLES
 ═══════════════════════════════════════════════════════════════ */
-function Particles() {
-  const count = 2800;
+function Particles({ mobile }: { mobile?: boolean }) {
+  const count = mobile ? 500 : 2200;
   const positions = useMemo(() => {
     const arr = new Float32Array(count * 3);
     for (let i = 0; i < count; i++) {
@@ -631,7 +631,7 @@ function Particles() {
       <bufferGeometry>
         <bufferAttribute attach="attributes-position" args={[positions, 3]} />
       </bufferGeometry>
-      <pointsMaterial size={0.024} color="#4f8ef7" sizeAttenuation transparent opacity={0.65} />
+      <pointsMaterial size={mobile ? 0.02 : 0.024} color="#4f8ef7" sizeAttenuation transparent opacity={0.65} />
     </points>
   );
 }
@@ -667,9 +667,12 @@ function CameraRig() {
 /* ═══════════════════════════════════════════════════════════════
    EXPORTED SCENE
 ═══════════════════════════════════════════════════════════════ */
-interface Props { scrollContainerRef: React.RefObject<HTMLDivElement | null>; }
+interface Props {
+  scrollContainerRef: React.RefObject<HTMLDivElement | null>;
+  mobile?: boolean;
+}
 
-export function ImmersiveScene({ scrollContainerRef }: Props) {
+export function ImmersiveScene({ scrollContainerRef, mobile = false }: Props) {
   const [section, setSection] = useState(0);
   const secRef = useRef(0);
 
@@ -690,21 +693,23 @@ export function ImmersiveScene({ scrollContainerRef }: Props) {
       },
     });
 
-    /* S1 → S2: gentle zoom-in, monitor stays centered */
-    tl.to(SV, { camZ: 7.6, camY: 0.05, monScale: 1.12, duration: 0.6 }, 0);
-    tl.to(SV, { monRotY: -0.04, duration: 0.4 }, 0.5);
-
-    /* S2: camera orbits FAR LEFT — monitor barely shifts right (+0.15), fully visible */
-    tl.to(SV, { camX: -2.6, camY: 0.35, camZ: 8.8, monX: 0.15, monRotY: 0.22, monScale: 1.05, svcVis: 1, duration: 1 }, 1);
-
-    /* S3: camera swings to front-low — monitor at center, close-up */
-    tl.to(SV, { camX: 0, camY: -0.4, camZ: 5.2, monX: 0, monRotX: 0.1, monRotY: 0, monScale: 1.18, portVis: 1, svcVis: 0, duration: 1 }, 2);
-
-    /* S4: camera orbits FAR RIGHT + elevated — monitor barely shifts left (−0.15), fully visible */
-    tl.to(SV, { camX: 2.5, camY: 0.8, camZ: 9.5, monX: -0.15, monRotX: -0.14, monRotY: -0.22, monScale: 0.95, statVis: 1, portVis: 0, duration: 1 }, 3);
-
-    /* S5: pull back, centered, CTA moment */
-    tl.to(SV, { camX: 0, camY: 0, camZ: 13.5, monX: 0, monRotX: 0, monRotY: 0, monScale: 0.7, statVis: 0, duration: 1 }, 4);
+    if (mobile) {
+      /* Mobile: subtle zoom, no wide lateral sweeps — monitor always fully visible */
+      tl.to(SV, { camZ: 7.2, monScale: 1.05, duration: 0.6 }, 0);
+      tl.to(SV, { monRotY: -0.03, duration: 0.4 }, 0.5);
+      tl.to(SV, { camX: -0.7, camY: 0.2, camZ: 7.8, monX: 0.05, monRotY: 0.12, monScale: 0.95, svcVis: 1, duration: 1 }, 1);
+      tl.to(SV, { camX: 0, camY: -0.2, camZ: 5.8, monX: 0, monRotX: 0.06, monRotY: 0, monScale: 1.05, portVis: 1, svcVis: 0, duration: 1 }, 2);
+      tl.to(SV, { camX: 0.7, camY: 0.3, camZ: 8.8, monX: -0.05, monRotX: -0.08, monRotY: -0.1, monScale: 0.88, statVis: 1, portVis: 0, duration: 1 }, 3);
+      tl.to(SV, { camX: 0, camY: 0, camZ: 11, monX: 0, monRotX: 0, monRotY: 0, monScale: 0.65, statVis: 0, duration: 1 }, 4);
+    } else {
+      /* Desktop: wide orbital sweeps */
+      tl.to(SV, { camZ: 7.6, camY: 0.05, monScale: 1.12, duration: 0.6 }, 0);
+      tl.to(SV, { monRotY: -0.04, duration: 0.4 }, 0.5);
+      tl.to(SV, { camX: -2.6, camY: 0.35, camZ: 8.8, monX: 0.15, monRotY: 0.22, monScale: 1.05, svcVis: 1, duration: 1 }, 1);
+      tl.to(SV, { camX: 0, camY: -0.4, camZ: 5.2, monX: 0, monRotX: 0.1, monRotY: 0, monScale: 1.18, portVis: 1, svcVis: 0, duration: 1 }, 2);
+      tl.to(SV, { camX: 2.5, camY: 0.8, camZ: 9.5, monX: -0.15, monRotX: -0.14, monRotY: -0.22, monScale: 0.95, statVis: 1, portVis: 0, duration: 1 }, 3);
+      tl.to(SV, { camX: 0, camY: 0, camZ: 13.5, monX: 0, monRotX: 0, monRotY: 0, monScale: 0.7, statVis: 0, duration: 1 }, 4);
+    }
 
     const onScroll = () => {
       const s = Math.min(5, Math.max(0, Math.floor(window.scrollY / window.innerHeight)));
@@ -721,11 +726,13 @@ export function ImmersiveScene({ scrollContainerRef }: Props) {
 
   return (
     <Canvas
-      camera={{ position: [0, 0.15, 8.5], fov: 40 }}
-      gl={{ antialias: true, alpha: false }}
-      dpr={[1, 1.5]}
+      camera={{ position: [0, 0.15, 8.5], fov: mobile ? 46 : 40 }}
+      gl={{ antialias: !mobile, alpha: false, powerPreference: 'high-performance' }}
+      dpr={mobile ? [0.75, 1] : [1, 1.5]}
+      performance={{ min: 0.5 }}
       style={{ width: '100%', height: '100%' }}
     >
+      <AdaptiveDpr pixelated />
       {/* Dark background — no transparency issues */}
       <color attach="background" args={['#06060a']} />
 
@@ -735,8 +742,8 @@ export function ImmersiveScene({ scrollContainerRef }: Props) {
       <pointLight position={[0, 3, 8]}   intensity={0.6} color="#ffffff" />
       <pointLight position={[3, 1, 2]}   intensity={1.2} color="#60a5fa" />
 
-      <Particles />
-      <RingAccent />
+      <Particles mobile={mobile} />
+      {!mobile && <RingAccent />}
       <ServiceCards />
       <ProjectPanels />
       <StatPanels />
