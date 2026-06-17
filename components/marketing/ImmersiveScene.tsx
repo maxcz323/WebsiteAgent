@@ -2,6 +2,7 @@
 
 import { useRef, useMemo, useEffect, useState } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
+import { Text } from '@react-three/drei';
 import * as THREE from 'three';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -164,41 +165,79 @@ function Monitor({ section }: { section: number }) {
 /* ═══════════════════════════════════════════════════════════════
    FLOATING SERVICE CARDS
 ═══════════════════════════════════════════════════════════════ */
+const SVC_DATA = [
+  { c: '#2563eb', label: 'Landing page', price: 'od 9 900 Kč',  sub: 'Rychlý, konverzní web pro jednu službu' },
+  { c: '#7c3aed', label: 'Firemní web',  price: 'od 14 900 Kč', sub: 'Kompletní prezentace firmy online'       },
+  { c: '#059669', label: 'E-commerce',   price: 'od 24 900 Kč', sub: 'Plnohodnotný e-shop s administrací'     },
+] as const;
+
+const SVC_Y = [1.05, 0, -1.05] as const;
+
 function ServiceCards() {
   const g = useRef<THREE.Group>(null!);
   useFrame(({ clock }) => {
     const t = clock.elapsedTime;
-    const tx = -3.8 + (1 - SV.svcVis) * 6;
+    const tx = -3.6 + (1 - SV.svcVis) * 7;
     g.current.position.x += (tx - g.current.position.x) * 0.06;
     g.current.children.forEach((c, i) => {
-      (c as THREE.Group).position.y = [0.85, 0, -0.85][i] + Math.sin(t * 0.55 + i * 1.2) * 0.06;
+      (c as THREE.Group).position.y = SVC_Y[i] + Math.sin(t * 0.55 + i * 1.2) * 0.07;
     });
   });
   return (
-    <group ref={g} position={[-3.8, 0, 0]}>
-      {([
-        { c: '#2563eb', label: 'Landing page',  price: '9 900 Kč' },
-        { c: '#7c3aed', label: 'Firemní web',   price: '14 900 Kč' },
-        { c: '#059669', label: 'E-commerce',    price: '24 900 Kč' },
-      ] as const).map((s, i) => (
-        <group key={i} position={[0, [0.85, 0, -0.85][i], 0]}>
+    <group ref={g} position={[-3.6, 0, 0]}>
+      {SVC_DATA.map((s, i) => (
+        <group key={i} position={[0, SVC_Y[i], 0]}>
+          {/* Card body */}
           <mesh>
-            <boxGeometry args={[2.2, 0.5, 0.025]} />
-            <meshStandardMaterial color="#0a1020" transparent opacity={0.9} />
+            <boxGeometry args={[2.9, 0.76, 0.03]} />
+            <meshStandardMaterial color="#080d1a" metalness={0.2} roughness={0.8} transparent opacity={0.95} />
           </mesh>
-          <mesh position={[-1.07, 0, 0.015]}>
-            <boxGeometry args={[0.04, 0.5, 0.01]} />
-            <meshStandardMaterial color={s.c} emissive={s.c} emissiveIntensity={1.2} />
+          {/* Left accent strip */}
+          <mesh position={[-1.41, 0, 0.018]}>
+            <boxGeometry args={[0.055, 0.76, 0.008]} />
+            <meshStandardMaterial color={s.c} emissive={s.c} emissiveIntensity={1.4} />
           </mesh>
-          {/* Label block */}
-          <mesh position={[0, 0.1, 0.015]}>
-            <boxGeometry args={[1.5, 0.1, 0.001]} />
-            <meshBasicMaterial color="#e2e8f0" />
-          </mesh>
-          <mesh position={[0.1, -0.1, 0.015]}>
-            <boxGeometry args={[0.8, 0.07, 0.001]} />
+          {/* Top border line */}
+          <mesh position={[0, 0.375, 0.018]}>
+            <boxGeometry args={[2.9, 0.006, 0.001]} />
             <meshBasicMaterial color={s.c} />
           </mesh>
+          {/* Service name */}
+          <Text
+            position={[-0.76, 0.16, 0.02]}
+            fontSize={0.175}
+            color="white"
+            anchorX="left"
+            anchorY="middle"
+            fontWeight={700}
+          >
+            {s.label}
+          </Text>
+          {/* Sub text */}
+          <Text
+            position={[-0.76, -0.06, 0.02]}
+            fontSize={0.1}
+            color="#94a3b8"
+            anchorX="left"
+            anchorY="middle"
+          >
+            {s.sub}
+          </Text>
+          {/* Price pill */}
+          <mesh position={[0.8, -0.22, 0.018]}>
+            <boxGeometry args={[0.72, 0.2, 0.008]} />
+            <meshStandardMaterial color={s.c} transparent opacity={0.18} />
+          </mesh>
+          <Text
+            position={[0.8, -0.22, 0.025]}
+            fontSize={0.11}
+            color={s.c}
+            anchorX="center"
+            anchorY="middle"
+            fontWeight={600}
+          >
+            {s.price}
+          </Text>
         </group>
       ))}
     </group>
@@ -209,15 +248,15 @@ function ServiceCards() {
    PORTFOLIO CARDS
 ═══════════════════════════════════════════════════════════════ */
 const PORT = [
-  { x: 2.7,  y: 0.85,  z: -0.5, c1: '#1d4ed8', c2: '#3b82f6' },
-  { x: 2.7,  y: -0.55, z: -1.0, c1: '#0f766e', c2: '#0d9488' },
-  { x: -2.7, y: 0.85,  z: -0.5, c1: '#d97706', c2: '#f59e0b' },
-  { x: -2.7, y: -0.55, z: -1.0, c1: '#7c3aed', c2: '#a78bfa' },
+  { x: 3.1,  y: 0.95,  z: -0.5, c1: '#1d4ed8', tag: 'Instalatér Praha',  result: '+340%',        metric: 'organická návštěvnost' },
+  { x: 3.1,  y: -0.7,  z: -1.0, c1: '#0f766e', tag: 'Zubní ordinace',    result: '70%',          metric: 'nových pacientů online' },
+  { x: -3.1, y: 0.95,  z: -0.5, c1: '#b45309', tag: 'Kavárna Jihlava',   result: '+40%',         metric: 'rezervací přes web' },
+  { x: -3.1, y: -0.7,  z: -1.0, c1: '#6d28d9', tag: 'Autoservis Plzeň',  result: '+120%',        metric: 'příchozích kontaktů' },
 ] as const;
 
 function PortCard({ idx }: { idx: number }) {
   const ref = useRef<THREE.Group>(null!);
-  const { x, y, z, c1 } = PORT[idx];
+  const { x, y, z, c1, tag, result, metric } = PORT[idx];
   useFrame(({ clock }) => {
     const t = clock.elapsedTime;
     const target = SV.portVis > 0.01 ? 1 : 0;
@@ -227,18 +266,70 @@ function PortCard({ idx }: { idx: number }) {
   });
   return (
     <group ref={ref} position={[x, y, z]} scale={0}>
+      {/* Card body */}
       <mesh>
-        <boxGeometry args={[2.0, 1.2, 0.04]} />
-        <meshStandardMaterial color={c1} metalness={0.1} roughness={0.7} />
+        <boxGeometry args={[2.65, 1.6, 0.05]} />
+        <meshStandardMaterial color={c1} metalness={0.08} roughness={0.72} />
       </mesh>
-      <mesh position={[0, 0.45, 0.025]}>
-        <boxGeometry args={[1.5, 0.1, 0.001]} />
-        <meshBasicMaterial color="white" />
+      {/* Dark overlay top half */}
+      <mesh position={[0, 0.3, 0.028]}>
+        <boxGeometry args={[2.65, 1.0, 0.001]} />
+        <meshBasicMaterial color="black" transparent opacity={0.32} />
       </mesh>
-      <mesh position={[-0.4, 0.25, 0.025]}>
-        <boxGeometry args={[0.55, 0.25, 0.001]} />
-        <meshBasicMaterial color="rgba(255,255,255,0.18)" />
+      {/* Bottom accent strip */}
+      <mesh position={[0, -0.77, 0.028]}>
+        <boxGeometry args={[2.65, 0.06, 0.001]} />
+        <meshBasicMaterial color="white" transparent opacity={0.12} />
       </mesh>
+
+      {/* Tag label (top-left) */}
+      <Text
+        position={[-1.19, 0.66, 0.03]}
+        fontSize={0.105}
+        color="rgba(255,255,255,0.65)"
+        anchorX="left"
+        anchorY="middle"
+        letterSpacing={0.06}
+      >
+        REALIZACE
+      </Text>
+
+      {/* Project name */}
+      <Text
+        position={[-1.19, 0.45, 0.03]}
+        fontSize={0.175}
+        color="white"
+        anchorX="left"
+        anchorY="middle"
+        fontWeight={700}
+        maxWidth={2.3}
+      >
+        {tag}
+      </Text>
+
+      {/* Big result number */}
+      <Text
+        position={[-1.19, 0.0, 0.03]}
+        fontSize={0.52}
+        color="white"
+        anchorX="left"
+        anchorY="middle"
+        fontWeight={800}
+        letterSpacing={-0.03}
+      >
+        {result}
+      </Text>
+
+      {/* Metric description */}
+      <Text
+        position={[-1.19, -0.38, 0.03]}
+        fontSize={0.1}
+        color="rgba(255,255,255,0.72)"
+        anchorX="left"
+        anchorY="middle"
+      >
+        {metric}
+      </Text>
     </group>
   );
 }
