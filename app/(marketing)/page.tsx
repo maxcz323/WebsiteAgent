@@ -188,9 +188,10 @@ function S3() {
           { n: '02', t: 'Firemní web',  c: '#7c3aed' },
           { n: '03', t: 'E-commerce',   c: '#059669' },
         ].map((s, i) => (
-          <div key={s.n} style={{ display: 'flex', alignItems: 'center', gap: '16px', padding: '18px 0', borderBottom: i < 2 ? '1px solid rgba(255,255,255,0.07)' : 'none' }}>
-            <div style={{ width: '3px', height: '36px', background: s.c, borderRadius: '2px', flexShrink: 0 }} />
-            <span style={{ fontSize: '20px', fontWeight: 700, color: 'white', letterSpacing: '-0.02em' }}>{s.t}</span>
+          <div key={s.n} className="svc-row" style={{ display: 'flex', alignItems: 'center', gap: '16px', padding: '18px 0', borderBottom: i < 2 ? '1px solid rgba(255,255,255,0.07)' : 'none', cursor: 'default' }}>
+            <div className="svc-bar" style={{ width: '3px', height: '36px', background: s.c, borderRadius: '2px', flexShrink: 0 }} />
+            <span className="svc-title" style={{ flex: 1, fontSize: '20px', fontWeight: 700, color: '#d0e0ff', letterSpacing: '-0.02em' }}>{s.t}</span>
+            <span className="svc-arrow">→</span>
           </div>
         ))}
         <div style={{ marginTop: '22px', pointerEvents: 'auto' }}>
@@ -203,42 +204,132 @@ function S3() {
   );
 }
 
+const REFS = [
+  { result: '+340%', metric: 'organická návštěvnost',  client: 'Instalatér Praha',   quote: 'Za 3 měsíce dvojnásobek poptávek. Nejlepší investice roku.',     c: '#3b82f6' },
+  { result: '70%',   metric: 'nových pacientů online', client: 'Zubní ordinace Brno', quote: 'Pacienti nás teď nacházejí sami — bez placené reklamy.',          c: '#8b5cf6' },
+  { result: '+40%',  metric: 'rezervací přes web',     client: 'Kavárna Jihlava',    quote: 'Investice se vrátila za 2 týdny. Tohle funguje opravdu rychle.',   c: '#10b981' },
+  { result: '+120%', metric: 'příchozích kontaktů',    client: 'Autoservis Plzeň',   quote: 'Telefon začal zvonit hned po spuštění. Skvělá spolupráce.',        c: '#f59e0b' },
+] as const;
+
 function S4() {
   return (
-    <section id="s4" aria-label="Portfolio" style={{ height: '100vh', display: 'flex', alignItems: 'flex-end', justifyContent: 'center', paddingBottom: '15vh', pointerEvents: 'none', position: 'relative', zIndex: 10 }}>
-      <div id="s4i" style={{ textAlign: 'center', opacity: 0 }}>
-        <p style={{ fontSize: '11px', fontWeight: 600, color: '#3b82f6', textTransform: 'uppercase', letterSpacing: '0.14em', margin: '0 0 12px' }}>Naše práce</p>
-        <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(38px,5.5vw,72px)', fontWeight: 300, color: 'white', lineHeight: 1.0, letterSpacing: '-0.04em', margin: '0 0 28px' }}>
-          Weby, které<br />
-          <em style={{ color: '#60a5fa' }}>vydělávají.</em>
-        </h2>
-        <div style={{ pointerEvents: 'auto' }}>
-          <Link href="/portfolio" style={{ display: 'inline-flex', alignItems: 'center', gap: '7px', fontSize: '13px', fontWeight: 700, color: '#3b82f6', textDecoration: 'none' }}>
-            Celé portfolio →
-          </Link>
+    <section id="s4" aria-label="Reference" style={{ height: '100vh', display: 'flex', alignItems: 'center', pointerEvents: 'none', position: 'relative', zIndex: 10 }}>
+      <div id="s4i" style={{ width: '100%', opacity: 0, pointerEvents: 'auto' }}>
+        {/* Header */}
+        <div style={{ padding: '0 48px 0 52px', marginBottom: '28px' }}>
+          <p style={{ fontSize: '11px', fontWeight: 600, color: '#3b82f6', textTransform: 'uppercase', letterSpacing: '0.14em', margin: '0 0 12px' }}>Reference</p>
+          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(32px,4.5vw,58px)', fontWeight: 300, color: 'white', lineHeight: 1.0, letterSpacing: '-0.04em', margin: 0 }}>
+            Co říkají<br />
+            <em style={{ color: '#60a5fa' }}>naši klienti.</em>
+          </h2>
+        </div>
+        {/* Horizontal scroll */}
+        <div className="ref-scroll" style={{ display: 'flex', gap: '14px', overflowX: 'auto', scrollSnapType: 'x mandatory', paddingLeft: '52px', paddingRight: '52px', paddingBottom: '8px', scrollbarWidth: 'none' }}>
+          {REFS.map(r => (
+            <div key={r.client} className="ref-card" style={{
+              flexShrink: 0, width: '240px', scrollSnapAlign: 'start',
+              padding: '24px', background: 'rgba(255,255,255,0.04)',
+              border: '1px solid rgba(255,255,255,0.08)', borderRadius: '18px',
+            }}>
+              {/* Big metric */}
+              <div style={{ fontSize: 'clamp(36px,3.5vw,50px)', fontWeight: 800, color: r.c, letterSpacing: '-0.05em', lineHeight: 1 }}>{r.result}</div>
+              <div style={{ fontSize: '11px', color: '#5a6e85', marginTop: '5px', marginBottom: '16px', lineHeight: 1.4 }}>{r.metric}</div>
+              {/* Quote */}
+              <p style={{ fontSize: '12px', color: '#8892a4', lineHeight: 1.65, margin: '0 0 16px', fontStyle: 'italic', borderLeft: `2px solid ${r.c}30`, paddingLeft: '10px' }}>„{r.quote}"</p>
+              {/* Client */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: '7px' }}>
+                <div style={{ width: '5px', height: '5px', borderRadius: '50%', background: r.c, flexShrink: 0 }} />
+                <span style={{ fontSize: '11px', color: r.c, fontWeight: 600 }}>{r.client}</span>
+              </div>
+            </div>
+          ))}
+          {/* View all card */}
+          <div style={{ flexShrink: 0, width: '200px', scrollSnapAlign: 'start', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '12px', padding: '24px', background: 'rgba(37,99,235,0.06)', border: '1px solid rgba(37,99,235,0.15)', borderRadius: '18px' }}>
+            <div style={{ fontSize: '13px', color: '#3b82f6', fontWeight: 600, textAlign: 'center', lineHeight: 1.4 }}>Celé portfolio</div>
+            <Link href="/portfolio" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '12px', fontWeight: 700, color: '#60a5fa', textDecoration: 'none', padding: '8px 18px', background: 'rgba(37,99,235,0.12)', border: '1px solid rgba(37,99,235,0.25)', borderRadius: '20px', transition: 'all 0.2s' }}>
+              Zobrazit →
+            </Link>
+          </div>
         </div>
       </div>
     </section>
   );
 }
 
+const CHART_BARS = [0.52, 0.78, 0.44, 0.68, 0.96, 0.6, 0.84, 1.0, 0.72, 0.88];
+const CHART_COLORS = ['#3b82f6','#4f8ef7','#6366f1','#7c3aed','#8b5cf6','#6366f1','#4f8ef7','#3b82f6','#60a5fa','#93c5fd'];
+
 function S5() {
+  useEffect(() => {
+    const handleCountUp = () => {
+      /* Animate 3 counting numbers (48h, 50+, 100%) */
+      const items = [
+        { sel: '[data-cu="48"]',  target: 48,  fmt: (v: number) => v + 'h'  },
+        { sel: '[data-cu="50"]',  target: 50,  fmt: (v: number) => v + '+'  },
+        { sel: '[data-cu="100"]', target: 100, fmt: (v: number) => v + '%'  },
+      ];
+      items.forEach(({ sel, target, fmt }, idx) => {
+        const el = document.querySelector<HTMLElement>(sel);
+        if (!el) return;
+        const dur = 1600;
+        setTimeout(() => {
+          const t0 = performance.now();
+          const tick = (now: number) => {
+            const p = Math.min((now - t0) / dur, 1);
+            const e = 1 - Math.pow(1 - p, 3);
+            el.textContent = fmt(Math.round(e * target));
+            if (p < 1) requestAnimationFrame(tick);
+          };
+          requestAnimationFrame(tick);
+        }, idx * 140);
+      });
+      /* Reveal chart bars */
+      document.querySelectorAll<HTMLElement>('.stat-bar').forEach((el, i) => {
+        el.style.transition = `transform .65s cubic-bezier(.34,1.4,.64,1) ${(0.3 + i * 0.06).toFixed(2)}s`;
+        el.style.transform = 'scaleY(1)';
+      });
+    };
+    window.addEventListener('countup-start', handleCountUp, { once: true });
+    return () => window.removeEventListener('countup-start', handleCountUp as EventListener);
+  }, []);
+
   return (
     <section id="s5" aria-label="Statistiky" style={{ height: '100vh', display: 'flex', alignItems: 'center', pointerEvents: 'none', position: 'relative', zIndex: 10 }}>
       <div id="s5i" style={{ maxWidth: '460px', padding: '0 48px 0 52px', opacity: 0 }}>
         <p style={{ fontSize: '11px', fontWeight: 600, color: '#34d399', textTransform: 'uppercase', letterSpacing: '0.14em', margin: '0 0 28px' }}>Výsledky v číslech</p>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '32px 24px' }}>
+
+        {/* 2×2 stat grid */}
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '28px 20px', marginBottom: '32px' }}>
           {[
-            { n: '48h',  l: 'Dodání',       c: '#60a5fa' },
-            { n: '50+',  l: 'Webů',          c: '#a78bfa' },
-            { n: '100%', l: 'Spokojení',     c: '#34d399' },
-            { n: '0 Kč', l: 'Záloha',        c: '#fbbf24' },
-          ].map(({ n, l, c }) => (
-            <div key={n}>
-              <div style={{ fontSize: 'clamp(38px,5vw,62px)', fontWeight: 800, color: c, letterSpacing: '-0.05em', lineHeight: 1 }}>{n}</div>
-              <div style={{ fontSize: '11px', color: '#5a6e85', marginTop: '8px', textTransform: 'uppercase', letterSpacing: '0.12em' }}>{l}</div>
+            { cu: '48',  start: '0h',    label: 'Dodání webu',    c: '#60a5fa' },
+            { cu: '50',  start: '0+',    label: 'Klientů',         c: '#a78bfa' },
+            { cu: '100', start: '0%',    label: 'Spokojení',       c: '#34d399' },
+            { cu: null,  start: '0 Kč',  label: 'Záloha předem',  c: '#fbbf24' },
+          ].map(({ cu, start, label, c }) => (
+            <div key={label}>
+              <div style={{ fontSize: 'clamp(38px,5vw,60px)', fontWeight: 800, color: c, letterSpacing: '-0.05em', lineHeight: 1 }}>
+                {cu ? <span data-cu={cu}>{start}</span> : start}
+              </div>
+              <div style={{ fontSize: '10px', color: '#5a6e85', marginTop: '8px', textTransform: 'uppercase', letterSpacing: '0.12em' }}>{label}</div>
             </div>
           ))}
+        </div>
+
+        {/* Animated bar chart */}
+        <div style={{ position: 'relative' }}>
+          <div style={{ display: 'flex', alignItems: 'flex-end', gap: '4px', height: '56px' }}>
+            {CHART_BARS.map((h, i) => (
+              <div key={i} className="stat-bar" style={{
+                flex: 1, height: `${h * 100}%`,
+                background: `linear-gradient(to top,${CHART_COLORS[i]},${CHART_COLORS[i]}66)`,
+                borderRadius: '2px 2px 0 0',
+              }} />
+            ))}
+          </div>
+          <div style={{ height: '1px', background: 'rgba(255,255,255,0.08)', marginTop: '0' }} />
+          <p style={{ fontSize: '9px', color: '#2a3a4c', marginTop: '8px', textTransform: 'uppercase', letterSpacing: '0.12em' }}>
+            Počet dokončených projektů / kvartál
+          </p>
         </div>
       </div>
     </section>
@@ -247,23 +338,60 @@ function S5() {
 
 function S6() {
   return (
-    <section id="s6" aria-label="Výzva k akci" style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', pointerEvents: 'none', position: 'relative', zIndex: 10 }}>
-      <div id="s6i" style={{ textAlign: 'center', maxWidth: '700px', padding: '0 36px', opacity: 0 }}>
-        <p style={{ fontSize: '11px', fontWeight: 600, color: '#3b82f6', textTransform: 'uppercase', letterSpacing: '0.14em', margin: '0 0 20px' }}>Začněte ještě dnes</p>
-        <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(44px,7vw,88px)', fontWeight: 300, color: 'white', lineHeight: 1.0, letterSpacing: '-0.04em', margin: '0 0 36px' }}>
+    <section id="s6" aria-label="Výzva k akci" style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', pointerEvents: 'none', position: 'relative', zIndex: 10, overflow: 'hidden' }}>
+      {/* Animated radial spotlight */}
+      <div aria-hidden style={{
+        position: 'absolute', inset: 0, zIndex: 0,
+        background: 'radial-gradient(ellipse 80% 60% at 50% 40%, rgba(37,99,235,0.18) 0%, rgba(124,58,237,0.08) 40%, transparent 70%)',
+        animation: 'ctaRadial 6s ease-in-out infinite alternate',
+        backgroundSize: '200% 200%',
+      }} />
+      {/* Grid pattern */}
+      <div aria-hidden style={{
+        position: 'absolute', inset: 0, zIndex: 0,
+        backgroundImage: 'linear-gradient(rgba(255,255,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.025) 1px,transparent 1px)',
+        backgroundSize: '44px 44px',
+        WebkitMaskImage: 'radial-gradient(ellipse 70% 70% at 50% 50%,rgba(0,0,0,.6) 0%,transparent 100%)',
+        maskImage:        'radial-gradient(ellipse 70% 70% at 50% 50%,rgba(0,0,0,.6) 0%,transparent 100%)',
+      }} />
+
+      <div id="s6i" style={{ textAlign: 'center', maxWidth: '680px', padding: '0 36px', opacity: 0, position: 'relative', zIndex: 1 }}>
+        {/* Badge */}
+        <div style={{ display: 'inline-flex', alignItems: 'center', gap: '7px', background: 'rgba(37,99,235,0.1)', border: '1px solid rgba(37,99,235,0.28)', borderRadius: '20px', padding: '5px 14px', marginBottom: '28px' }}>
+          <span style={{ width: '5px', height: '5px', borderRadius: '50%', background: '#60a5fa', animation: 'pulse 2s infinite', flexShrink: 0 }} />
+          <span style={{ color: '#60a5fa', fontSize: '11px', fontWeight: 600 }}>Poptávka je zcela zdarma</span>
+        </div>
+
+        {/* Headline */}
+        <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(48px,8vw,96px)', fontWeight: 300, color: 'white', lineHeight: 0.96, letterSpacing: '-0.05em', margin: '0 0 40px' }}>
           Začněte<br />
-          <em style={{ background: 'linear-gradient(135deg,#93c5fd,#3b82f6)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>dnes.</em>
+          <em style={{ background: 'linear-gradient(135deg,#93c5fd 0%,#60a5fa 40%,#3b82f6 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+            dnes.
+          </em>
         </h2>
-        <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap', pointerEvents: 'auto' }}>
-          <Mag href="/kontakt" primary>
-            Získat web ke shlédnutí zdarma
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </Mag>
+
+        {/* CTAs */}
+        <div style={{ display: 'flex', gap: '14px', justifyContent: 'center', flexWrap: 'wrap', pointerEvents: 'auto', marginBottom: '24px' }}>
+          <Link href="/kontakt" className="cta-glow">
+            Získat web zdarma
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </Link>
           <Mag href="/sluzby">Prohlédnout služby</Mag>
         </div>
-        <p style={{ fontSize: '11px', color: '#5a6a80', marginTop: '20px' }}>
-          50+ spokojených klientů · Bez zálohy · Hotovo za 48 hodin
-        </p>
+
+        {/* Social proof strip */}
+        <div style={{ display: 'flex', gap: '20px', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap' }}>
+          {[
+            { icon: '✓', t: 'Bez zálohy' },
+            { icon: '⚡', t: '48 hodin' },
+            { icon: '★', t: '50+ klientů' },
+          ].map(({ icon, t }) => (
+            <span key={t} style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', fontSize: '11px', color: '#4a5a6e' }}>
+              <span style={{ color: '#2563eb', fontSize: '10px' }}>{icon}</span>
+              {t}
+            </span>
+          ))}
+        </div>
       </div>
     </section>
   );
@@ -348,6 +476,7 @@ export default function HomePage() {
         onEnter: () => {
           gsap.set(i, { opacity: 1 });
           gsap.to(`${i} > *`, { opacity: 1, duration: 0.75, stagger: 0.1, ease: 'power2.out' });
+          if (i === '#s5i') window.dispatchEvent(new CustomEvent('countup-start'));
         },
         onLeave: () => {
           gsap.to(i, {
@@ -395,26 +524,63 @@ export default function HomePage() {
       </div>
 
       <style>{`
-        @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.35} }
-        @keyframes scrollbar { 0%{transform:translateY(-100%);opacity:0} 40%{opacity:1} 100%{transform:translateY(200%);opacity:0} }
-        html,body { scroll-behavior: smooth; }
+        @keyframes pulse    { 0%,100%{opacity:1} 50%{opacity:.35} }
+        @keyframes scrollbar{ 0%{transform:translateY(-100%);opacity:0} 40%{opacity:1} 100%{transform:translateY(200%);opacity:0} }
+        @keyframes glowPulse{
+          0%,100%{ box-shadow:0 0 0 1px rgba(37,99,235,.5),0 8px 32px rgba(37,99,235,.35); }
+          50%    { box-shadow:0 0 0 1px rgba(37,99,235,.75),0 8px 52px rgba(37,99,235,.6),0 0 100px rgba(37,99,235,.14); }
+        }
+        @keyframes ctaRadial{
+          0%   { background-position:0% 50%; }
+          100% { background-position:100% 50%; }
+        }
+        @keyframes gridFade { from{opacity:0} to{opacity:1} }
+        @keyframes numReveal{ 0%{transform:scale(.82) translateY(6px);opacity:0} 60%{transform:scale(1.04) translateY(-1px)} 100%{transform:scale(1) translateY(0);opacity:1} }
 
-        /* Mobile responsive overrides */
-        @media (max-width: 767px) {
-          #s1i { padding: 0 22px !important; max-width: 100% !important; }
-          #s2i { padding: 0 22px !important; max-width: 100% !important; }
-          #s3i { padding: 0 22px !important; max-width: 100% !important; }
-          #s4i { padding: 0 22px !important; }
-          #s5i { padding: 0 22px !important; max-width: 100% !important; }
-          #s6i { padding: 0 22px !important; max-width: 100% !important; }
-          #s3  { justify-content: flex-start !important; }
-          #s4  { align-items: center !important; padding-bottom: 0 !important; }
-          #s6i { text-align: left !important; }
+        html,body { scroll-behavior:smooth; }
+
+        /* ── Service row hover ─────────────────────────── */
+        .svc-row { transition:background .22s ease,padding .22s ease; }
+        .svc-row:hover { background:rgba(255,255,255,.04) !important; border-radius:10px; margin-left:-12px; padding-left:12px !important; padding-right:12px !important; }
+        .svc-bar  { transition:transform .22s ease,opacity .22s ease; }
+        .svc-row:hover .svc-bar { transform:scaleY(1.18) !important; }
+        .svc-title{ transition:color .22s ease; }
+        .svc-row:hover .svc-title { color:#e2eaff !important; }
+        .svc-arrow{ opacity:0;transform:translateX(-5px);transition:all .22s ease;color:#a78bfa;font-size:15px;flex-shrink:0; }
+        .svc-row:hover .svc-arrow { opacity:1;transform:translateX(0); }
+
+        /* ── Reference card hover ──────────────────────── */
+        .ref-card { transition:transform .28s ease,border-color .28s ease,box-shadow .28s ease; }
+        .ref-card:hover { transform:translateY(-5px) !important; border-color:rgba(255,255,255,.16) !important; box-shadow:0 20px 50px rgba(0,0,0,.45),0 0 0 1px rgba(255,255,255,.07) !important; }
+        .ref-scroll::-webkit-scrollbar { display:none; }
+
+        /* ── Stat chart bars ───────────────────────────── */
+        .stat-bar { transform:scaleY(0); transform-origin:bottom; }
+
+        /* ── CTA glow button ───────────────────────────── */
+        .cta-glow {
+          display:inline-flex; align-items:center; gap:10px;
+          padding:17px 42px; background:#2563eb; color:#fff;
+          font-weight:700; font-size:15px; letter-spacing:-.01em;
+          border-radius:14px; text-decoration:none;
+          animation:glowPulse 2.8s ease-in-out infinite;
+          transition:background .2s,transform .3s cubic-bezier(.33,1,.68,1);
+        }
+        .cta-glow:hover { background:#1d4ed8; transform:translateY(-3px) scale(1.03); }
+
+        /* ── Mobile ────────────────────────────────────── */
+        @media (max-width:767px){
+          #s1i,#s2i,#s3i,#s5i,#s6i { padding-left:22px !important; padding-right:22px !important; max-width:100% !important; }
+          #s3  { justify-content:flex-start !important; }
+          #s4  { align-items:flex-start !important; padding-top:72px; }
+          #s4i .ref-scroll { padding-left:22px !important; padding-right:22px !important; }
+          #s6i { text-align:left !important; }
+          .cta-glow { font-size:14px; padding:14px 28px; }
         }
 
-        /* Performance: hint browser about animated layers */
-        #s1i, #s2i, #s3i, #s4i, #s5i, #s6i { will-change: opacity; }
-        #scroll-ind { will-change: opacity, transform; }
+        /* Performance */
+        #s1i,#s2i,#s3i,#s4i,#s5i,#s6i { will-change:opacity; }
+        #scroll-ind { will-change:opacity,transform; }
       `}</style>
     </>
   );

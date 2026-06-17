@@ -17,6 +17,20 @@ interface Version {
 
 const CHANGELOG: Version[] = [
   {
+    version: '3.28',
+    date: '18. 6. 2026',
+    changes: [
+      { type: 'feat', text: 'S5 count-up animace: čísla 48h / 50+ / 100% počítají od nuly přes requestAnimationFrame s easing funkcí — spouštějí se při scrollu přes sekci (CustomEvent "countup-start" z GSAP onEnter)' },
+      { type: 'feat', text: 'S5 animovaný bar chart: 10 sloupců s různými výškami, gradientové barvy (modrá→fialová), CSS scaleY(0→1) animace s cubic-bezier překmitem, popisek "Počet projektů / kvartál"' },
+      { type: 'feat', text: 'S4 reference: horizontální scroll karty (4 klienti + "Celé portfolio" karta) se scroll-snap, glassmorphism styl, výsledkové metriky (+340%, 70%, +40%, +120%)' },
+      { type: 'feat', text: 'S4 ref karty: CSS hover efekty (.ref-card:hover) — translateY(-5px), border glow, box-shadow hloubka — beze stavu React, pouze CSS transition' },
+      { type: 'feat', text: 'S3 service hover: .svc-row:hover → mírný slide + background fill, šipka → se objeví s transition, barevný bar se zvětší scaleY — CSS třídy bez JS state' },
+      { type: 'feat', text: 'S6 CTA premium: animated radial spotlight (CSS bgPosition animation), dot-grid overlay s mask-image radial fade, pulsující glow tlačítko (.cta-glow keyframes), social proof pills' },
+      { type: 'feat', text: 'S6 CTA headline: h2 96px fontWeight 300 — "Začněte / dnes." — maximální kontrast a prostota' },
+      { type: 'change', text: 'Komplexní rozšíření <style> tagu: 5 nových @keyframes (glowPulse, ctaRadial, gridFade, numReveal), CSS třídy pro .svc-row, .ref-card, .stat-bar, .cta-glow' },
+    ],
+  },
+  {
     version: '3.27',
     date: '18. 6. 2026',
     changes: [
