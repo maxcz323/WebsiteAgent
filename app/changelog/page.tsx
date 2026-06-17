@@ -17,6 +17,20 @@ interface Version {
 
 const CHANGELOG: Version[] = [
   {
+    version: '3.15',
+    date: '17. 6. 2026',
+    changes: [
+      { type: 'feat', text: 'WebGL 3D hero — React Three Fiber canvas s detailním 3D monitorem (mockup webu na obrazovce), 3000 partikulí, 5 orbitujících drátěných tvarů, rotující prstencový akcent' },
+      { type: 'feat', text: 'Mouse-driven parallax — kamera i monitor plynule sledují pohyb myši přes lerp (0.04 smoothing)' },
+      { type: 'feat', text: 'Magnetická tlačítka — CTA buttony se přitahují k kurzoru (0.28× offset) a vrací se spring animací' },
+      { type: 'feat', text: 'Grain overlay — jemná filmová zrnitost přes celou stránku (SVG feTurbulence, opacity 0.038)' },
+      { type: 'feat', text: 'Cursor blob — 700px radial gradient sleduje kurzor přes RAF + DOM mutation (bez React re-renderů)' },
+      { type: 'feat', text: 'Per-line a char-level reveal — hero headline s IntersectionObserver, text sekce s LineReveal / Reveal' },
+      { type: 'feat', text: 'Hero vignette — levý gradient (rgba 0.97 → transparent) zajišťuje čitelnost textu přes 3D scénu' },
+      { type: 'feat', text: 'Stats grid redesign — 2×2 tmavá mřížka s CountUp, left border accent a sub-popisky' },
+    ],
+  },
+  {
     version: '3.14',
     date: '17. 6. 2026',
     changes: [
