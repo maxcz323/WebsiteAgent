@@ -17,6 +17,16 @@ interface Version {
 
 const CHANGELOG: Version[] = [
   {
+    version: '3.25',
+    date: '17. 6. 2026',
+    changes: [
+      { type: 'feat', text: 'Monitor GLB: vygenerován /public/models/monitor.glb (47.9 KB) pomocí Three.js GLTFExporter — chamfer edges, stand, power LED, screen glow' },
+      { type: 'feat', text: 'GLTF loader aktivní: monitor.glb se načítá přes useGLTF + Suspense, fallback = procedurální geometrie' },
+      { type: 'feat', text: 'useGLTF.preload — model se načítá při startu stránky, ne až při scrollu' },
+      { type: 'feat', text: 'scripts/generate-monitor.mjs: Node.js skript pro regeneraci GLB s FileReader polyfill' },
+    ],
+  },
+  {
     version: '3.24',
     date: '17. 6. 2026',
     changes: [

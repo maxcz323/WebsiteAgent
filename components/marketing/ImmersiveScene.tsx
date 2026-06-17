@@ -34,9 +34,8 @@ if (typeof window !== 'undefined') {
    Select "Autoconverted model (GLTF)" → rename to monitor.glb
 ═══════════════════════════════════════════════════════════════ */
 
-/* Adjust these two constants after placing the GLB file */
-const GLB_SCALE    = 0.145; /* scale up/down if monitor appears wrong size  */
-const GLB_ROT_Y    = Math.PI; /* 180° — SketchUp models usually face backward */
+const GLB_SCALE = 1.0;   /* model is in scene units, no scaling needed */
+const GLB_ROT_Y = 0;     /* model faces forward already */
 
 function MonitorFallback() {
   return (
@@ -746,3 +745,6 @@ export function ImmersiveScene({ scrollContainerRef }: Props) {
     </Canvas>
   );
 }
+
+/* Preload GLB so it's ready before user scrolls to the 3D section */
+useGLTF.preload('/models/monitor.glb');
