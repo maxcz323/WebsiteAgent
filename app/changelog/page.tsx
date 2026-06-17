@@ -17,6 +17,17 @@ interface Version {
 
 const CHANGELOG: Version[] = [
   {
+    version: '3.14',
+    date: '17. 6. 2026',
+    changes: [
+      { type: 'feat', text: '3D interaktivní homepage — monitor s CSS perspective rotací řízenou pohybem myši, plovoucí info badges (dodání, příjem, hodnocení)' },
+      { type: 'feat', text: 'TiltCard efekt — 3D naklánění karet s odleskem při hoveru (služby, portfolio, reference)' },
+      { type: 'feat', text: 'CountUp animace statistik — čísla se počítají při scrollu do viewport' },
+      { type: 'feat', text: 'Směrové scroll animace — fadeInUp / fadeInLeft / fadeInRight / scaleIn dle sekce' },
+      { type: 'fix', text: 'Lazy inicializace supabaseAdmin — oprava build chyby při chybějících env proměnných' },
+    ],
+  },
+  {
     version: '3.13',
     date: '16. 6. 2026',
     changes: [
