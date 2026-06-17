@@ -17,6 +17,17 @@ interface Version {
 
 const CHANGELOG: Version[] = [
   {
+    version: '3.20',
+    date: '17. 6. 2026',
+    changes: [
+      { type: 'fix', text: 'S1 text nyní mizí při scrollu — přidán ScrollTrigger (bottom 20%) který ho vymaže; dřív zůstával přes S2–S6 celou dobu' },
+      { type: 'fix', text: 'S2–S6 trigger bounds zpřísněny: start/end top/bottom 20% místo 72%/28% — text se zobrazí jen když je sekce v centru viewportu' },
+      { type: 'fix', text: 'Service karty: hard snap scale=0 + odsunutí x=-8 když svcVis<0.02 — žádné "přízračné" karty v přechodech' },
+      { type: 'fix', text: 'Portfolio karty a stat orby: stejný hard snap při portVis/statVis<0.02' },
+      { type: 'fix', text: 'GSAP scrub: 2 → 1.2 — rychlejší odezva kamery a monitoru, čistší přechody mezi sekcemi' },
+    ],
+  },
+  {
     version: '3.19',
     date: '17. 6. 2026',
     changes: [
