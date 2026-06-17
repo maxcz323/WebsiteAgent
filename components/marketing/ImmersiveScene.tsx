@@ -263,7 +263,7 @@ function Monitor({ section }: { section: number }) {
       {/* Base shadow plane */}
       <mesh position={[0, -1.66, -0.16]} rotation={[-Math.PI / 2, 0, 0]}>
         <planeGeometry args={[1.5, 0.8]} />
-        <meshStandardMaterial color="#080e1c" transparent opacity={0.25} metalness={0.6} roughness={0} />
+        <meshStandardMaterial color="#06060a" transparent opacity={0.25} metalness={0.6} roughness={0} />
       </mesh>
     </group>
   );
@@ -421,7 +421,7 @@ function Particles({ count = 2800 }: { count?: number }) {
   return (
     <points ref={ref}>
       <bufferGeometry><bufferAttribute attach="attributes-position" args={[positions, 3]} /></bufferGeometry>
-      <pointsMaterial size={0.022} color="#3b82f6" sizeAttenuation transparent opacity={0.5} />
+      <pointsMaterial size={0.022} color="#4f8ef7" sizeAttenuation transparent opacity={0.65} />
     </points>
   );
 }
@@ -512,11 +512,11 @@ export function ImmersiveScene({ scrollContainerRef }: Props) {
       dpr={[1, 1.5]}
       style={{ width: '100%', height: '100%', background: 'transparent' }}
     >
-      <ambientLight intensity={0.22} />
-      <pointLight position={[-6, 5, 4]}  intensity={3.2} color="#3b82f6" />
-      <pointLight position={[5, -3, 3]}  intensity={1.6} color="#8b5cf6" />
-      <pointLight position={[0, 3, 8]}   intensity={0.55} color="#ffffff" />
-      <pointLight position={[3, 1, 2]}   intensity={0.9} color="#60a5fa" />
+      <ambientLight intensity={0.15} />
+      <pointLight position={[-6, 5, 4]}  intensity={4.0} color="#3b82f6" />
+      <pointLight position={[5, -3, 3]}  intensity={2.2} color="#8b5cf6" />
+      <pointLight position={[0, 3, 8]}   intensity={0.6} color="#ffffff" />
+      <pointLight position={[3, 1, 2]}   intensity={1.2} color="#60a5fa" />
 
       <Particles />
       <RingAccent />

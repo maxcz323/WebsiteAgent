@@ -83,7 +83,7 @@ function Mag({ children, href, primary = false }: { children: React.ReactNode; h
         padding: '15px 30px', transition: 'transform 0.45s cubic-bezier(.33,1,.68,1), background 0.2s, box-shadow 0.2s',
         ...(primary
           ? { background: '#2563eb', color: 'white', boxShadow: '0 0 44px rgba(37,99,235,0.42)' }
-          : { background: 'rgba(255,255,255,0.05)', color: '#94a3b8', border: '1px solid rgba(255,255,255,0.1)' }),
+          : { background: 'rgba(255,255,255,0.05)', color: '#a8b4c4', border: '1px solid rgba(255,255,255,0.1)' }),
       }}
       onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.background = primary ? '#1d4ed8' : 'rgba(255,255,255,0.09)'; }}
     >
@@ -108,9 +108,9 @@ function S1() {
           Web, který vaší firmě
           <em style={{ display: 'block', background: 'linear-gradient(135deg,#93c5fd,#60a5fa,#3b82f6)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>posune vpřed.</em>
         </h1>
-        <p style={{ fontSize: '17px', color: '#64748b', lineHeight: 1.72, maxWidth: '440px', margin: '0 0 36px' }}>
+        <p style={{ fontSize: '17px', color: '#8892a4', lineHeight: 1.72, maxWidth: '440px', margin: '0 0 36px' }}>
           Navrhujeme moderní weby pro lokální podnikatele.{' '}
-          <strong style={{ color: '#94a3b8', fontWeight: 600 }}>Hotovo za 48 hodin. Platíte až po schválení.</strong>
+          <strong style={{ color: '#a8b4c4', fontWeight: 600 }}>Hotovo za 48 hodin. Platíte až po schválení.</strong>
         </p>
         <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', pointerEvents: 'auto' }}>
           <Mag href="/kontakt" primary>
@@ -121,7 +121,7 @@ function S1() {
         </div>
         <div style={{ display: 'flex', gap: '22px', flexWrap: 'wrap', marginTop: '32px' }}>
           {['Bez zálohy','Platíte po schválení','48 hodin','Na míru'].map(t => (
-            <span key={t} style={{ display: 'flex', alignItems: 'center', gap: '7px', fontSize: '12px', color: '#475569' }}>
+            <span key={t} style={{ display: 'flex', alignItems: 'center', gap: '7px', fontSize: '12px', color: '#6b7a8d' }}>
               <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
               {t}
             </span>
@@ -147,11 +147,11 @@ function S2() {
             { icon: '🔒', t: 'Platíte až po schválení', d: 'Vidíte hotový návrh dříve, než zaplatíte korunu. Bez závazku.' },
             { icon: '🎯', t: 'Přesně na míru', d: 'Každý web navrhujeme nově. Váš obor, váš styl, vaši zákazníci.' },
           ].map(f => (
-            <div key={f.t} style={{ display: 'flex', gap: '14px', padding: '14px 16px', background: 'rgba(255,255,255,0.03)', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.06)' }}>
+            <div key={f.t} style={{ display: 'flex', gap: '14px', padding: '14px 16px', background: 'rgba(255,255,255,0.05)', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.09)' }}>
               <span style={{ fontSize: '18px', flexShrink: 0 }}>{f.icon}</span>
               <div>
                 <p style={{ fontSize: '14px', fontWeight: 700, color: 'white', margin: '0 0 3px' }}>{f.t}</p>
-                <p style={{ fontSize: '12px', color: '#64748b', margin: 0, lineHeight: 1.55 }}>{f.d}</p>
+                <p style={{ fontSize: '12px', color: '#8892a4', margin: 0, lineHeight: 1.55 }}>{f.d}</p>
               </div>
             </div>
           ))}
@@ -175,11 +175,11 @@ function S3() {
           { n: '02', t: 'Firemní web',  p: 'od 14 900 Kč', c: '#7c3aed', slug: 'firemni-web'  },
           { n: '03', t: 'E-commerce',   p: 'od 24 900 Kč', c: '#059669', slug: 'ecommerce'    },
         ].map((s, i) => (
-          <div key={s.n} style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '14px 0', borderBottom: i < 2 ? '1px solid rgba(255,255,255,0.06)' : 'none' }}>
-            <span style={{ fontFamily: 'monospace', fontSize: '10px', color: '#475569', width: '22px', flexShrink: 0 }}>{s.n}</span>
+          <div key={s.n} style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '14px 0', borderBottom: i < 2 ? '1px solid rgba(255,255,255,0.09)' : 'none' }}>
+            <span style={{ fontFamily: 'monospace', fontSize: '10px', color: '#6b7a8d', width: '22px', flexShrink: 0 }}>{s.n}</span>
             <div style={{ width: '3px', height: '32px', background: s.c, borderRadius: '2px', flexShrink: 0 }} />
             <span style={{ flex: 1, fontSize: '17px', fontWeight: 700, color: 'white', letterSpacing: '-0.01em' }}>{s.t}</span>
-            <span style={{ fontSize: '12px', fontWeight: 600, color: '#475569' }}>{s.p}</span>
+            <span style={{ fontSize: '12px', fontWeight: 600, color: '#6b7a8d' }}>{s.p}</span>
           </div>
         ))}
         <div style={{ marginTop: '22px', pointerEvents: 'auto' }}>
@@ -200,7 +200,7 @@ function S4() {
         <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(28px,4vw,52px)', fontWeight: 400, color: 'white', lineHeight: 1.06, letterSpacing: '-0.025em', margin: '0 0 14px' }}>
           Weby, které vydělávají.
         </h2>
-        <p style={{ fontSize: '14px', color: '#64748b', maxWidth: '420px', margin: '0 auto 22px', lineHeight: 1.65 }}>
+        <p style={{ fontSize: '14px', color: '#8892a4', maxWidth: '420px', margin: '0 auto 22px', lineHeight: 1.65 }}>
           Každý web měříme výsledky — kontakty, rezervace, prodeje. Ne jen estetiku.
         </p>
         <div style={{ pointerEvents: 'auto' }}>
@@ -222,13 +222,13 @@ function S5() {
           Výsledky, na které<br />
           <em style={{ color: '#34d399' }}>se můžete spolehnout.</em>
         </h2>
-        <p style={{ fontSize: '14px', color: '#64748b', lineHeight: 1.72, marginBottom: '22px' }}>
+        <p style={{ fontSize: '14px', color: '#8892a4', lineHeight: 1.72, marginBottom: '22px' }}>
           Za každým číslem je skutečný klient s reálným výsledkem. Žádné slevy na pravdě.
         </p>
         {['Bez zálohy — platíte jen za hotový schválený web','Do 48 hodin od poptávky po doručení','Každý web měříme a optimalizujeme'].map(t => (
           <div key={t} style={{ display: 'flex', gap: '9px', alignItems: 'flex-start', marginBottom: '9px' }}>
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#34d399" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ marginTop: '2px', flexShrink: 0 }}><polyline points="20 6 9 17 4 12"/></svg>
-            <span style={{ fontSize: '13px', color: '#94a3b8', lineHeight: 1.55 }}>{t}</span>
+            <span style={{ fontSize: '13px', color: '#a8b4c4', lineHeight: 1.55 }}>{t}</span>
           </div>
         ))}
       </div>
@@ -245,7 +245,7 @@ function S6() {
           Váš nový web<br />
           <em style={{ background: 'linear-gradient(135deg,#93c5fd,#3b82f6)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>čeká na vás.</em>
         </h2>
-        <p style={{ fontSize: '16px', color: '#64748b', marginBottom: '38px', lineHeight: 1.65 }}>
+        <p style={{ fontSize: '16px', color: '#8892a4', marginBottom: '38px', lineHeight: 1.65 }}>
           Poptávka je zdarma a nezávazná.<br />Do 24 hodin se ozveme s první ukázkou.
         </p>
         <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap', pointerEvents: 'auto' }}>
@@ -255,7 +255,7 @@ function S6() {
           </Mag>
           <Mag href="/sluzby">Prohlédnout služby</Mag>
         </div>
-        <p style={{ fontSize: '11px', color: '#334155', marginTop: '20px' }}>
+        <p style={{ fontSize: '11px', color: '#5a6a80', marginTop: '20px' }}>
           50+ spokojených klientů · Bez zálohy · Hotovo za 48 hodin
         </p>
       </div>
@@ -270,8 +270,8 @@ export default function HomePage() {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    document.body.style.background = '#080e1c';
-    document.documentElement.style.background = '#080e1c';
+    document.body.style.background = '#06060a';
+    document.documentElement.style.background = '#06060a';
     return () => { document.body.style.background = ''; document.documentElement.style.background = ''; };
   }, []);
 
@@ -304,7 +304,7 @@ export default function HomePage() {
   return (
     <>
       {/* Instant dark background before canvas loads */}
-      <div aria-hidden style={{ position: 'fixed', inset: 0, background: '#080e1c', zIndex: -1 }} />
+      <div aria-hidden style={{ position: 'fixed', inset: 0, background: '#06060a', zIndex: -1 }} />
 
       <Grain />
       <CursorBlob />
