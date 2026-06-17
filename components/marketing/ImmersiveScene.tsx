@@ -163,171 +163,135 @@ function Monitor({ section }: { section: number }) {
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   FLOATING SERVICE CARDS
+   FLOATING SERVICE CARDS  (text mirrors page S2)
 ═══════════════════════════════════════════════════════════════ */
 const SVC_DATA = [
-  { c: '#2563eb', label: 'Landing page', price: 'od 9 900 Kč',  sub: 'Rychlý, konverzní web pro jednu službu' },
-  { c: '#7c3aed', label: 'Firemní web',  price: 'od 14 900 Kč', sub: 'Kompletní prezentace firmy online'       },
-  { c: '#059669', label: 'E-commerce',   price: 'od 24 900 Kč', sub: 'Plnohodnotný e-shop s administrací'     },
+  { c: '#2563eb', title: '48 hodin',            sub: 'od poptávky po doručení'         },
+  { c: '#7c3aed', title: 'Bez závazku',          sub: 'nejdřív vidíte, pak zaplatíte'  },
+  { c: '#059669', title: 'Přesně na míru',       sub: 'váš obor, váš styl, váš zákazník' },
 ] as const;
 
-const SVC_Y = [1.05, 0, -1.05] as const;
+const SVC_Y = [0.9, 0, -0.9] as const;
 
-function ServiceCards() {
-  const g = useRef<THREE.Group>(null!);
+function SvcCard({ idx }: { idx: number }) {
+  const ref = useRef<THREE.Group>(null!);
+  const emRef = useRef<THREE.MeshStandardMaterial>(null!);
+  const { c, title, sub } = SVC_DATA[idx];
+  const y0 = SVC_Y[idx];
+
   useFrame(({ clock }) => {
     const t = clock.elapsedTime;
-    const tx = -3.6 + (1 - SV.svcVis) * 7;
-    g.current.position.x += (tx - g.current.position.x) * 0.06;
-    g.current.children.forEach((c, i) => {
-      (c as THREE.Group).position.y = SVC_Y[i] + Math.sin(t * 0.55 + i * 1.2) * 0.07;
-    });
+    /* Staggered reveal — each card comes out 0.15s after the previous */
+    const vis = Math.max(0, Math.min(1, (SV.svcVis - idx * 0.15) * 2));
+    /* Fly out from behind monitor center → side position */
+    const tx = -2.75 + (1 - vis) * 2.75;
+    ref.current.position.x += (tx - ref.current.position.x) * 0.07;
+    ref.current.position.y = y0 + Math.sin(t * 0.5 + idx * 1.3) * 0.06;
+    ref.current.scale.setScalar(ref.current.scale.x + (vis - ref.current.scale.x) * 0.08);
+    /* Pulse glow on accent */
+    if (emRef.current) emRef.current.emissiveIntensity = 1.6 + Math.sin(t * 1.8 + idx) * 0.4;
   });
+
   return (
-    <group ref={g} position={[-3.6, 0, 0]}>
-      {SVC_DATA.map((s, i) => (
-        <group key={i} position={[0, SVC_Y[i], 0]}>
-          {/* Card body */}
-          <mesh>
-            <boxGeometry args={[2.9, 0.76, 0.03]} />
-            <meshStandardMaterial color="#080d1a" metalness={0.2} roughness={0.8} transparent opacity={0.95} />
-          </mesh>
-          {/* Left accent strip */}
-          <mesh position={[-1.41, 0, 0.018]}>
-            <boxGeometry args={[0.055, 0.76, 0.008]} />
-            <meshStandardMaterial color={s.c} emissive={s.c} emissiveIntensity={1.4} />
-          </mesh>
-          {/* Top border line */}
-          <mesh position={[0, 0.375, 0.018]}>
-            <boxGeometry args={[2.9, 0.006, 0.001]} />
-            <meshBasicMaterial color={s.c} />
-          </mesh>
-          {/* Service name */}
-          <Text
-            position={[-0.76, 0.16, 0.02]}
-            fontSize={0.175}
-            color="white"
-            anchorX="left"
-            anchorY="middle"
-            fontWeight={700}
-          >
-            {s.label}
-          </Text>
-          {/* Sub text */}
-          <Text
-            position={[-0.76, -0.06, 0.02]}
-            fontSize={0.1}
-            color="#94a3b8"
-            anchorX="left"
-            anchorY="middle"
-          >
-            {s.sub}
-          </Text>
-          {/* Price pill */}
-          <mesh position={[0.8, -0.22, 0.018]}>
-            <boxGeometry args={[0.72, 0.2, 0.008]} />
-            <meshStandardMaterial color={s.c} transparent opacity={0.18} />
-          </mesh>
-          <Text
-            position={[0.8, -0.22, 0.025]}
-            fontSize={0.11}
-            color={s.c}
-            anchorX="center"
-            anchorY="middle"
-            fontWeight={600}
-          >
-            {s.price}
-          </Text>
-        </group>
-      ))}
+    <group ref={ref} position={[0, y0, 0.25]} scale={0}>
+      {/* Card body */}
+      <mesh>
+        <boxGeometry args={[2.05, 0.6, 0.022]} />
+        <meshStandardMaterial color="#060d1a" metalness={0.12} roughness={0.88} transparent opacity={0.96} />
+      </mesh>
+      {/* Subtle border tint */}
+      <mesh position={[0, 0, 0.013]}>
+        <boxGeometry args={[2.05, 0.6, 0.001]} />
+        <meshStandardMaterial color={c} emissive={c} emissiveIntensity={0.06} transparent opacity={0.1} />
+      </mesh>
+      {/* Left glow strip */}
+      <mesh position={[-0.998, 0, 0.013]}>
+        <boxGeometry args={[0.04, 0.6, 0.005]} />
+        <meshStandardMaterial ref={emRef} color={c} emissive={c} emissiveIntensity={1.6} />
+      </mesh>
+      {/* Icon dot */}
+      <mesh position={[-0.81, 0.12, 0.015]}>
+        <sphereGeometry args={[0.036, 10, 10]} />
+        <meshStandardMaterial color={c} emissive={c} emissiveIntensity={2.8} />
+      </mesh>
+      {/* Divider line */}
+      <mesh position={[0.1, 0, 0.014]}>
+        <boxGeometry args={[1.55, 0.004, 0.001]} />
+        <meshBasicMaterial color={c} transparent opacity={0.18} />
+      </mesh>
+      {/* Title */}
+      <Text position={[-0.65, 0.12, 0.016]} fontSize={0.138} color="white" anchorX="left" anchorY="middle">
+        {title}
+      </Text>
+      {/* Sub */}
+      <Text position={[-0.65, -0.11, 0.016]} fontSize={0.085} color="#6a7f98" anchorX="left" anchorY="middle">
+        {sub}
+      </Text>
     </group>
   );
 }
 
+function ServiceCards() {
+  return <>{SVC_DATA.map((_, i) => <SvcCard key={i} idx={i} />)}</>;
+}
+
 /* ═══════════════════════════════════════════════════════════════
-   PORTFOLIO CARDS
+   PORTFOLIO CARDS  (text mirrors page S4)
 ═══════════════════════════════════════════════════════════════ */
 const PORT = [
-  { x: 3.1,  y: 0.95,  z: -0.5, c1: '#1d4ed8', tag: 'Instalatér Praha',  result: '+340%',        metric: 'organická návštěvnost' },
-  { x: 3.1,  y: -0.7,  z: -1.0, c1: '#0f766e', tag: 'Zubní ordinace',    result: '70%',          metric: 'nových pacientů online' },
-  { x: -3.1, y: 0.95,  z: -0.5, c1: '#b45309', tag: 'Kavárna Jihlava',   result: '+40%',         metric: 'rezervací přes web' },
-  { x: -3.1, y: -0.7,  z: -1.0, c1: '#6d28d9', tag: 'Autoservis Plzeň',  result: '+120%',        metric: 'příchozích kontaktů' },
+  { x: 2.55,  y: 0.82,  z: -0.4, c1: '#1a3a8a', c2: '#3b82f6', tag: 'Instalatér Praha',  result: '+340%', metric: 'organická návštěvnost' },
+  { x: 2.55,  y: -0.65, z: -0.9, c1: '#0b4f42', c2: '#0d9488', tag: 'Zubní ordinace',    result: '70%',   metric: 'nových pacientů online' },
+  { x: -2.55, y: 0.82,  z: -0.4, c1: '#7a3a08', c2: '#f59e0b', tag: 'Kavárna Jihlava',   result: '+40%',  metric: 'rezervací přes web'     },
+  { x: -2.55, y: -0.65, z: -0.9, c1: '#3b1278', c2: '#a78bfa', tag: 'Autoservis Plzeň',  result: '+120%', metric: 'příchozích kontaktů'    },
 ] as const;
 
 function PortCard({ idx }: { idx: number }) {
-  const ref = useRef<THREE.Group>(null!);
-  const { x, y, z, c1, tag, result, metric } = PORT[idx];
+  const ref    = useRef<THREE.Group>(null!);
+  const glowRef = useRef<THREE.MeshStandardMaterial>(null!);
+  const { x, y, z, c1, c2, tag, result, metric } = PORT[idx];
+
   useFrame(({ clock }) => {
     const t = clock.elapsedTime;
     const target = SV.portVis > 0.01 ? 1 : 0;
     ref.current.scale.setScalar(ref.current.scale.x + (target - ref.current.scale.x) * 0.07);
-    ref.current.position.y = y + Math.sin(t * 0.45 + idx * 1.5) * 0.09;
-    ref.current.rotation.y = Math.sin(t * 0.28 + idx) * 0.05;
+    ref.current.position.y = y + Math.sin(t * 0.42 + idx * 1.5) * 0.08;
+    ref.current.rotation.y = Math.sin(t * 0.25 + idx) * 0.04;
+    if (glowRef.current) glowRef.current.emissiveIntensity = 0.55 + Math.sin(t * 1.4 + idx * 0.7) * 0.15;
   });
+
   return (
     <group ref={ref} position={[x, y, z]} scale={0}>
-      {/* Card body */}
+      {/* Dark base */}
       <mesh>
-        <boxGeometry args={[2.65, 1.6, 0.05]} />
-        <meshStandardMaterial color={c1} metalness={0.08} roughness={0.72} />
+        <boxGeometry args={[2.0, 1.3, 0.04]} />
+        <meshStandardMaterial color="#060c16" metalness={0.18} roughness={0.82} />
       </mesh>
-      {/* Dark overlay top half */}
-      <mesh position={[0, 0.3, 0.028]}>
-        <boxGeometry args={[2.65, 1.0, 0.001]} />
-        <meshBasicMaterial color="black" transparent opacity={0.32} />
+      {/* Colored bottom band */}
+      <mesh position={[0, -0.55, 0.022]}>
+        <boxGeometry args={[2.0, 0.2, 0.001]} />
+        <meshStandardMaterial ref={glowRef} color={c1} emissive={c2} emissiveIntensity={0.55} transparent opacity={0.9} />
       </mesh>
-      {/* Bottom accent strip */}
-      <mesh position={[0, -0.77, 0.028]}>
-        <boxGeometry args={[2.65, 0.06, 0.001]} />
-        <meshBasicMaterial color="white" transparent opacity={0.12} />
+      {/* Top accent line */}
+      <mesh position={[0, 0.64, 0.022]}>
+        <boxGeometry args={[2.0, 0.008, 0.001]} />
+        <meshBasicMaterial color={c2} transparent opacity={0.5} />
+      </mesh>
+      {/* Vertical left line */}
+      <mesh position={[-0.96, 0, 0.022]}>
+        <boxGeometry args={[0.006, 1.3, 0.001]} />
+        <meshBasicMaterial color={c2} transparent opacity={0.2} />
       </mesh>
 
-      {/* Tag label (top-left) */}
-      <Text
-        position={[-1.19, 0.66, 0.03]}
-        fontSize={0.105}
-        color="rgba(255,255,255,0.65)"
-        anchorX="left"
-        anchorY="middle"
-        letterSpacing={0.06}
-      >
-        REALIZACE
-      </Text>
-
-      {/* Project name */}
-      <Text
-        position={[-1.19, 0.45, 0.03]}
-        fontSize={0.175}
-        color="white"
-        anchorX="left"
-        anchorY="middle"
-        fontWeight={700}
-        maxWidth={2.3}
-      >
+      {/* Tag: small label */}
+      <Text position={[-0.88, 0.52, 0.025]} fontSize={0.085} color={c2} anchorX="left" anchorY="middle">
         {tag}
       </Text>
-
-      {/* Big result number */}
-      <Text
-        position={[-1.19, 0.0, 0.03]}
-        fontSize={0.52}
-        color="white"
-        anchorX="left"
-        anchorY="middle"
-        fontWeight={800}
-        letterSpacing={-0.03}
-      >
+      {/* Big result */}
+      <Text position={[-0.88, 0.15, 0.025]} fontSize={0.48} color="white" anchorX="left" anchorY="middle">
         {result}
       </Text>
-
-      {/* Metric description */}
-      <Text
-        position={[-1.19, -0.38, 0.03]}
-        fontSize={0.1}
-        color="rgba(255,255,255,0.72)"
-        anchorX="left"
-        anchorY="middle"
-      >
+      {/* Metric */}
+      <Text position={[-0.88, -0.3, 0.025]} fontSize={0.09} color="#8096b0" anchorX="left" anchorY="middle">
         {metric}
       </Text>
     </group>
@@ -339,44 +303,80 @@ function ProjectPanels() {
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   STAT ORBS
+   STAT ORBS — gyro rings + text  (mirrors page S5)
 ═══════════════════════════════════════════════════════════════ */
 const STATS = [
-  { x: -2.3, y: 1.35 },
-  { x:  2.3, y: 1.35 },
-  { x: -2.3, y: -1.05 },
-  { x:  2.3, y: -1.05 },
+  { x: -2.25, y: 1.3,  n: '48h',  l: 'Dodání'     },
+  { x:  2.25, y: 1.3,  n: '50+',  l: 'Webů'        },
+  { x: -2.25, y: -1.0, n: '100%', l: 'Spokojení'   },
+  { x:  2.25, y: -1.0, n: '0 Kč', l: 'Záloha'      },
 ] as const;
 
+const ORBS_RING_COLORS = ['#2563eb','#7c3aed','#059669','#0891b2'] as const;
+const ORBS_RING2_COLORS = ['#60a5fa','#a78bfa','#34d399','#38bdf8'] as const;
+
+/* Spinning ring — own useFrame so it rotates independently */
+function GyroRing({ radius, tube, color, tilt, speed }: {
+  radius: number; tube: number; color: string; tilt: number; speed: number;
+}) {
+  const ref = useRef<THREE.Mesh>(null!);
+  useFrame(({ clock }) => { ref.current.rotation.y = clock.elapsedTime * speed; });
+  return (
+    <mesh ref={ref} rotation={[tilt, 0, 0]}>
+      <torusGeometry args={[radius, tube, 10, 80]} />
+      <meshStandardMaterial color={color} emissive={color} emissiveIntensity={1.1} transparent opacity={0.7} />
+    </mesh>
+  );
+}
+
 function StatOrb({ idx }: { idx: number }) {
-  const ref = useRef<THREE.Group>(null!);
-  const { x, y } = STATS[idx];
+  const ref   = useRef<THREE.Group>(null!);
+  const sphRef = useRef<THREE.MeshStandardMaterial>(null!);
+  const { x, y, n, l } = STATS[idx];
+  const rc1 = ORBS_RING_COLORS[idx];
+  const rc2 = ORBS_RING2_COLORS[idx];
+
   useFrame(({ clock }) => {
     const t = clock.elapsedTime;
     const target = SV.statVis > 0.01 ? 1 : 0;
     ref.current.scale.setScalar(ref.current.scale.x + (target - ref.current.scale.x) * 0.07);
-    ref.current.position.y = y + Math.sin(t * 0.4 + idx) * 0.07;
-    ref.current.rotation.y = t * 0.2 + idx;
+    ref.current.position.y = y + Math.sin(t * 0.38 + idx) * 0.07;
+    /* Slow y-axis drift */
+    ref.current.rotation.y = t * 0.08 + idx * 0.9;
+    /* Pulsing sphere */
+    if (sphRef.current) sphRef.current.emissiveIntensity = 0.08 + Math.sin(t * 1.6 + idx) * 0.06;
   });
+
   return (
     <group ref={ref} position={[x, y, 0.5]} scale={0}>
+      {/* Inner sphere */}
       <mesh>
-        <sphereGeometry args={[0.55, 32, 32]} />
-        <meshStandardMaterial color="#080e1a" metalness={0.5} roughness={0.4} transparent opacity={0.92} />
+        <sphereGeometry args={[0.5, 32, 32]} />
+        <meshStandardMaterial ref={sphRef} color="#060a12" metalness={0.65} roughness={0.25}
+          emissive={rc1} emissiveIntensity={0.08} transparent opacity={0.96} />
       </mesh>
-      <mesh>
-        <torusGeometry args={[0.6, 0.014, 8, 64]} />
-        <meshStandardMaterial color="#2563eb" emissive="#2563eb" emissiveIntensity={1.0} transparent opacity={0.7} />
-      </mesh>
-      {/* Cross accent */}
-      <mesh position={[0, 0, 0.56]}>
-        <boxGeometry args={[0.22, 0.04, 0.001]} />
-        <meshBasicMaterial color="white" />
-      </mesh>
-      <mesh position={[0, 0, 0.56]}>
-        <boxGeometry args={[0.04, 0.22, 0.001]} />
-        <meshBasicMaterial color="white" />
-      </mesh>
+
+      {/* Equatorial ring */}
+      <GyroRing radius={0.62} tube={0.013} color={rc1} tilt={Math.PI / 2} speed={0.4 + idx * 0.08} />
+      {/* Tilted gyro ring */}
+      <GyroRing radius={0.68} tube={0.008} color={rc2} tilt={0.65 + idx * 0.15} speed={-(0.28 + idx * 0.06)} />
+
+      {/* 4 tick dots around equator */}
+      {[0, Math.PI / 2, Math.PI, Math.PI * 1.5].map((a, j) => (
+        <mesh key={j} position={[Math.cos(a) * 0.64, 0, Math.sin(a) * 0.64]}>
+          <sphereGeometry args={[0.016, 6, 6]} />
+          <meshStandardMaterial color={rc1} emissive={rc1} emissiveIntensity={3.0} />
+        </mesh>
+      ))}
+
+      {/* Big number */}
+      <Text position={[0, 0.1, 0.52]} fontSize={0.22} color="white" anchorX="center" anchorY="middle">
+        {n}
+      </Text>
+      {/* Label */}
+      <Text position={[0, -0.16, 0.52]} fontSize={0.1} color={rc2} anchorX="center" anchorY="middle">
+        {l}
+      </Text>
     </group>
   );
 }
