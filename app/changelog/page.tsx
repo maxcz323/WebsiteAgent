@@ -17,6 +17,20 @@ interface Version {
 
 const CHANGELOG: Version[] = [
   {
+    version: '3.29',
+    date: '18. 6. 2026',
+    changes: [
+      { type: 'feat', text: 'Nová sekce Ceník (SPricing): 3 tarify — Landing page (9 900 Kč), Firemní web (14 900 Kč, highlighted), E-commerce (24 900 Kč)' },
+      { type: 'feat', text: 'Pricing cards: glassmorphism design, barevný glow dot, animovaný hover (translateY -6px, border glow, box-shadow hloubka)' },
+      { type: 'feat', text: 'Populární karta zvýrazněna: fialový gradientový badge "Nejoblíbenější", mírné vysunutí nahoru (-16px margin-top), glow tlačítko' },
+      { type: 'feat', text: 'Feature checklisty: barevné SVG checkmarky per tarif, 6 položek každý, responsive grid (3 sloupce → 1 na mobilu)' },
+      { type: 'feat', text: 'FAQ blok: 3 karty s nejčastějšími otázkami — proč po schválení, revize, 48h dodání' },
+      { type: 'feat', text: 'Bottom CTA: "Nezávazná konzultace zdarma →" link na /kontakt s fialovým pill stylem' },
+      { type: 'feat', text: 'Sekce je za 600vh 3D scroll experience — vlastní background, nenarušuje GSAP timeline ani 3D scénu' },
+      { type: 'feat', text: 'Vizuální přechod: radial purple glow spotlight nahoře + tenký gradientový separator odděluje sekci od 3D' },
+    ],
+  },
+  {
     version: '3.28',
     date: '18. 6. 2026',
     changes: [

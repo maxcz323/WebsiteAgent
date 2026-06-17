@@ -398,6 +398,201 @@ function S6() {
 }
 
 /* ═══════════════════════════════════════════════════════════════
+   PRICING
+═══════════════════════════════════════════════════════════════ */
+const PLANS = [
+  {
+    name: 'Landing page',
+    price: '9 900',
+    desc: 'Jednoduchý, cílený a rychlý. Ideální pro firmy bez webu, které chtějí být vidět.',
+    color: '#3b82f6',
+    features: [
+      'Design + vývoj na míru',
+      'Dodání do 48 hodin',
+      'Plně responzivní (mobil/tablet)',
+      'SEO základ (title, meta, sitemap)',
+      'Kontaktní formulář / CTA tlačítko',
+      'Hosting první rok zdarma',
+    ],
+    popular: false,
+    cta: 'Začít s Landing page',
+  },
+  {
+    name: 'Firemní web',
+    price: '14 900',
+    desc: 'Kompletní online prezentace firmy. Pro ty, kdo chtějí víc než jen jednu stránku.',
+    color: '#8b5cf6',
+    features: [
+      'Vše z Landing page',
+      'Více podstránek (až 6)',
+      'Reference nebo blog',
+      'Vlastní administrace (CMS)',
+      'Google Analytics + Search Console',
+      'Optimalizace rychlosti (Core Web Vitals)',
+    ],
+    popular: true,
+    cta: 'Začít s Firemním webem',
+  },
+  {
+    name: 'E-commerce',
+    price: '24 900',
+    desc: 'Kompletní obchod s platebními branami. Pro firmy připravené na online prodej.',
+    color: '#10b981',
+    features: [
+      'Vše z Firemního webu',
+      'Produktový katalog',
+      'Online platby (Stripe / GoPay)',
+      'Správa objednávek a zákazníků',
+      'Automatické emailové notifikace',
+      'Napojení na skladový systém',
+    ],
+    popular: false,
+    cta: 'Začít s E-commerce',
+  },
+] as const;
+
+function SPricing() {
+  return (
+    <section style={{ background: '#06060a', position: 'relative', zIndex: 10, padding: '128px 24px 100px' }}>
+      <style>{`
+        .price-card {
+          transition: transform .28s ease, box-shadow .28s ease, border-color .28s ease;
+        }
+        .price-card:hover {
+          transform: translateY(-6px);
+          box-shadow: 0 24px 64px rgba(0,0,0,.55) !important;
+          border-color: rgba(255,255,255,.14) !important;
+        }
+        .price-card-popular:hover { border-color: rgba(139,92,246,.5) !important; }
+        .price-btn { transition: filter .2s, transform .2s; }
+        .price-btn:hover { filter: brightness(1.18); transform: translateY(-1px); }
+        .price-btn-ghost:hover { background: rgba(255,255,255,.09) !important; }
+        @media(max-width:767px){
+          .price-grid { grid-template-columns: 1fr !important; }
+          .price-card-popular { margin-top: 0 !important; }
+        }
+      `}</style>
+
+      {/* Subtle top-glow separator */}
+      <div aria-hidden style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '1px', background: 'linear-gradient(90deg,transparent 0%,rgba(139,92,246,.35) 35%,rgba(37,99,235,.35) 65%,transparent 100%)' }} />
+      <div aria-hidden style={{ position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)', width: '600px', height: '200px', background: 'radial-gradient(ellipse at top, rgba(139,92,246,.1) 0%, transparent 70%)', pointerEvents: 'none' }} />
+
+      <div style={{ maxWidth: '1080px', margin: '0 auto' }}>
+
+        {/* Header */}
+        <div style={{ textAlign: 'center', marginBottom: '72px' }}>
+          <p style={{ fontSize: '11px', fontWeight: 600, color: '#8b5cf6', textTransform: 'uppercase', letterSpacing: '0.14em', margin: '0 0 18px' }}>Ceník</p>
+          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(36px,5.5vw,68px)', fontWeight: 300, color: 'white', lineHeight: 1.0, letterSpacing: '-0.04em', margin: '0 0 18px' }}>
+            Transparentní ceny.<br />
+            <em style={{ background: 'linear-gradient(135deg,#a78bfa,#8b5cf6)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Žádná překvapení.</em>
+          </h2>
+          <p style={{ fontSize: '15px', color: '#5a6a80', margin: 0 }}>Platíte až po schválení návrhu. Záloha nula.</p>
+        </div>
+
+        {/* Cards */}
+        <div className="price-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '20px', alignItems: 'start' }}>
+          {PLANS.map(plan => (
+            <div
+              key={plan.name}
+              className={`price-card${plan.popular ? ' price-card-popular' : ''}`}
+              style={{
+                position: 'relative',
+                padding: '32px',
+                background: plan.popular ? 'rgba(139,92,246,0.08)' : 'rgba(255,255,255,0.03)',
+                border: `1px solid ${plan.popular ? 'rgba(139,92,246,0.28)' : 'rgba(255,255,255,0.08)'}`,
+                borderRadius: '20px',
+                ...(plan.popular ? { marginTop: '-16px', paddingTop: '48px' } : {}),
+              }}
+            >
+              {/* Popular badge */}
+              {plan.popular && (
+                <div style={{
+                  position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)',
+                  background: 'linear-gradient(135deg,#7c3aed,#6d28d9)', color: 'white',
+                  fontSize: '10px', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase',
+                  padding: '5px 16px', borderRadius: '0 0 12px 12px',
+                }}>
+                  Nejoblíbenější
+                </div>
+              )}
+
+              {/* Plan name + dot */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '20px' }}>
+                <div style={{ width: '7px', height: '7px', borderRadius: '50%', background: plan.color, boxShadow: `0 0 8px ${plan.color}88`, flexShrink: 0 }} />
+                <span style={{ fontSize: '15px', fontWeight: 700, color: 'white' }}>{plan.name}</span>
+              </div>
+
+              {/* Price */}
+              <div style={{ marginBottom: '6px', lineHeight: 1 }}>
+                <span style={{ fontSize: '11px', color: '#4a5a6e', verticalAlign: 'top', paddingTop: '8px', display: 'inline-block', marginRight: '2px' }}>od</span>
+                <span style={{ fontSize: 'clamp(32px,3.5vw,44px)', fontWeight: 800, color: plan.color, letterSpacing: '-0.04em' }}>{plan.price}</span>
+                <span style={{ fontSize: '13px', color: '#5a6a80', marginLeft: '4px' }}>Kč</span>
+              </div>
+              <p style={{ fontSize: '13px', color: '#6b7a8d', lineHeight: 1.6, margin: '0 0 24px' }}>{plan.desc}</p>
+
+              {/* Divider */}
+              <div style={{ height: '1px', background: 'rgba(255,255,255,0.07)', marginBottom: '22px' }} />
+
+              {/* Features */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '32px' }}>
+                {plan.features.map(f => (
+                  <div key={f} style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke={plan.color} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, marginTop: '2px' }}>
+                      <polyline points="20 6 9 17 4 12"/>
+                    </svg>
+                    <span style={{ fontSize: '13px', color: '#a0aec0', lineHeight: 1.5 }}>{f}</span>
+                  </div>
+                ))}
+              </div>
+
+              {/* CTA */}
+              <Link
+                href="/kontakt"
+                className={`price-btn${plan.popular ? '' : ' price-btn-ghost'}`}
+                style={{
+                  display: 'block', textAlign: 'center', padding: '14px 20px',
+                  background: plan.popular ? '#8b5cf6' : 'rgba(255,255,255,0.05)',
+                  color: 'white', fontSize: '14px', fontWeight: 700,
+                  borderRadius: '12px', textDecoration: 'none',
+                  border: `1px solid ${plan.popular ? 'rgba(139,92,246,0.5)' : 'rgba(255,255,255,0.1)'}`,
+                  ...(plan.popular ? { boxShadow: '0 0 28px rgba(139,92,246,0.28)' } : {}),
+                }}
+              >
+                {plan.cta}
+              </Link>
+            </div>
+          ))}
+        </div>
+
+        {/* FAQ-style bottom note */}
+        <div style={{ marginTop: '48px', display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(240px,1fr))', gap: '20px' }}>
+          {[
+            { q: 'Proč platím až po schválení?', a: 'Nejdřív vám ukážeme hotový návrh. Teprve po odsouhlasení pošleme fakturu.' },
+            { q: 'Co když web neodpovídá zadání?', a: 'Revize jsou v ceně. Děláme úpravy, dokud nejste 100% spokojení.' },
+            { q: 'Jak rychle dostanu web?', a: 'Standardně do 48 hodin od zahájení spolupráce. Bez výjimek.' },
+          ].map(({ q, a }) => (
+            <div key={q} style={{ padding: '20px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '14px' }}>
+              <p style={{ fontSize: '13px', fontWeight: 700, color: '#d0ddf0', margin: '0 0 8px', lineHeight: 1.4 }}>{q}</p>
+              <p style={{ fontSize: '12px', color: '#6b7a8d', margin: 0, lineHeight: 1.65 }}>{a}</p>
+            </div>
+          ))}
+        </div>
+
+        {/* Bottom CTA */}
+        <div style={{ textAlign: 'center', marginTop: '64px' }}>
+          <p style={{ fontSize: '13px', color: '#4a5a6e', marginBottom: '20px' }}>
+            Nejste si jistí, který plán je pro vás správný? Poradíme zdarma.
+          </p>
+          <Link href="/kontakt" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', fontSize: '14px', fontWeight: 700, color: '#8b5cf6', textDecoration: 'none', padding: '12px 28px', background: 'rgba(139,92,246,0.1)', border: '1px solid rgba(139,92,246,0.25)', borderRadius: '12px', transition: 'all .2s' }}>
+            Nezávazná konzultace zdarma →
+          </Link>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════════
    PAGE ROOT
 ═══════════════════════════════════════════════════════════════ */
 export default function HomePage() {
@@ -522,6 +717,9 @@ export default function HomePage() {
       <div ref={containerRef} style={{ position: 'relative', height: '600vh' }}>
         <S1 /><S2 /><S3 /><S4 /><S5 /><S6 />
       </div>
+
+      {/* Pricing — after immersive 3D scroll, own background */}
+      <SPricing />
 
       <style>{`
         @keyframes pulse    { 0%,100%{opacity:1} 50%{opacity:.35} }
