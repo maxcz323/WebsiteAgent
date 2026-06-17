@@ -17,6 +17,29 @@ interface Version {
 
 const CHANGELOG: Version[] = [
   {
+    version: '3.17',
+    date: '17. 6. 2026',
+    changes: [
+      { type: 'change', text: 'Pozadí homepage: #080e1c → #06060a (téměř černá s jemným modrým nádechem)' },
+      { type: 'change', text: 'Texty přizpůsobeny tmavému pozadí: tělo #64748b → #8892a4, utlumený #475569 → #6b7a8d, sekundární #94a3b8 → #a8b4c4' },
+      { type: 'change', text: 'Feature karty a oddělovače — vyšší opacity pro lepší čitelnost na černém pozadí' },
+      { type: 'change', text: 'Částice v 3D scéně: opacity 0.5 → 0.65, jasnější barva — na černém pozadí více vyniknou' },
+      { type: 'change', text: 'Světla 3D scény — ambient down, point lights up (dramatičtější kontrast na tmavém pozadí)' },
+    ],
+  },
+  {
+    version: '3.16',
+    date: '17. 6. 2026',
+    changes: [
+      { type: 'feat', text: 'ImmersiveScene — kompletní scroll-driven 3D zážitek: 600vh kontejner řídí GSAP timeline (scrub 2.2s), kamera prochází 6 pozicemi' },
+      { type: 'feat', text: 'Monitor se otáčí, naklání a mění měřítko per-sekce přes lerp v useFrame' },
+      { type: 'feat', text: 'Html transform overlay — živý HTML obsah na monitoru (6 panelů: Boot, Hero, Služby, Portfolio, Statistiky, CTA)' },
+      { type: 'feat', text: 'ServiceCards — 3 levitující karty služeb vyjíždí zleva (sekce 2), ProjectPanels — 4 portfolio karty (sekce 3), StatOrbs — 4 sféry se statistikami (sekce 4)' },
+      { type: 'feat', text: 'GSAP per-section ScrollTrigger: text fade+slide in/out při vstupu/výstupu ze sekce' },
+      { type: 'feat', text: 'Nav links bílé na homepage dokud není scroll; pointer-events: none na text sekcích — mouse parallax prochází skrz text' },
+    ],
+  },
+  {
     version: '3.15',
     date: '17. 6. 2026',
     changes: [
