@@ -34,10 +34,22 @@ function Monitor({ section }: { section: number }) {
   const group   = useRef<THREE.Group>(null!);
   const scrMat  = useRef<THREE.MeshStandardMaterial>(null!);
   const rimMat  = useRef<THREE.MeshStandardMaterial>(null!);
+  const cursorRef = useRef<THREE.MeshBasicMaterial>(null!);
+  const liveDot   = useRef<THREE.MeshStandardMaterial>(null!);
+  /* Animated chart bars (right-side analytics preview) */
+  const barRefs = [
+    useRef<THREE.Mesh>(null!), useRef<THREE.Mesh>(null!),
+    useRef<THREE.Mesh>(null!), useRef<THREE.Mesh>(null!), useRef<THREE.Mesh>(null!),
+  ];
+  /* Animated visitor count line */
+  const lineRef = useRef<THREE.Mesh>(null!);
 
-  /* Section-based screen accent colors */
-  const ACCENT = ['#0e2860','#0e3870','#1a1060','#0d5040','#0e2860','#1a1060'];
+  const ACCENT = ['#0a1e50','#0a2860','#160c50','#063a30','#0a1e50','#160c50'];
   const RIM    = ['#1a3c9a','#1a5cb8','#4a1090','#0d7058','#1a3c9a','#3a1090'];
+
+  /* Bar heights — animated per bar */
+  const BAR_H    = [0.22, 0.32, 0.18, 0.38, 0.28];
+  const BAR_FREQ = [1.1,  0.85, 1.35, 0.7,  1.0 ];
 
   useFrame(({ clock }) => {
     const t = clock.elapsedTime;
@@ -46,118 +58,239 @@ function Monitor({ section }: { section: number }) {
 
     group.current.rotation.y += (SV.monRotY + M.x * 0.06 - group.current.rotation.y) * 0.07;
     group.current.rotation.x += (SV.monRotX - M.y * 0.04 - group.current.rotation.x) * 0.07;
-    const sc = SV.monScale;
-    group.current.scale.setScalar(group.current.scale.x + (sc - group.current.scale.x) * 0.07);
+    group.current.scale.setScalar(group.current.scale.x + (SV.monScale - group.current.scale.x) * 0.07);
     group.current.position.x += (SV.monX - group.current.position.x) * 0.07;
     group.current.position.y += (SV.monY + Math.sin(t * 0.5) * 0.06 - group.current.position.y) * 0.06;
 
-    if (scrMat.current) {
-      scrMat.current.emissiveIntensity = 0.3 + Math.sin(t * 2) * 0.04;
-      scrMat.current.emissive.set(ACCENT[Math.min(section, ACCENT.length - 1)]);
-    }
-    if (rimMat.current) {
-      rimMat.current.emissiveIntensity = 0.65 + Math.sin(t * 2) * 0.18;
-      rimMat.current.emissive.set(RIM[Math.min(section, RIM.length - 1)]);
-      rimMat.current.color.set(RIM[Math.min(section, RIM.length - 1)]);
-    }
+    const si = Math.min(section, ACCENT.length - 1);
+    if (scrMat.current) { scrMat.current.emissiveIntensity = 0.25 + Math.sin(t * 2) * 0.04; scrMat.current.emissive.set(ACCENT[si]); }
+    if (rimMat.current) { rimMat.current.emissiveIntensity = 0.6 + Math.sin(t * 2) * 0.18; rimMat.current.emissive.set(RIM[si]); rimMat.current.color.set(RIM[si]); }
+
+    /* Blinking cursor */
+    if (cursorRef.current) cursorRef.current.opacity = Math.sin(t * 3.5) > 0 ? 0.9 : 0;
+
+    /* Pulsing live dot */
+    if (liveDot.current) liveDot.current.emissiveIntensity = 1.2 + Math.sin(t * 4) * 0.8;
+
+    /* Animated chart bars — oscillate around base height */
+    barRefs.forEach((r, i) => {
+      if (!r.current) return;
+      const h = BAR_H[i] + Math.sin(t * BAR_FREQ[i] + i * 0.8) * 0.08;
+      r.current.scale.y = h / BAR_H[i];
+      r.current.position.y = -0.62 + h / 2;
+    });
+
+    /* Visitor line width pulse */
+    if (lineRef.current) lineRef.current.scale.x = 0.85 + Math.sin(t * 0.6) * 0.12;
   });
+
+  const Z = 0.082; /* z offset for screen surface elements */
 
   return (
     <group ref={group} position={[SV.monX, SV.monY, 0]}>
-      {/* Body */}
+      {/* ── Hardware ── */}
       <mesh>
-        <boxGeometry args={[3.5, 2.4, 0.14]} />
-        <meshStandardMaterial color="#0e1522" metalness={0.72} roughness={0.28} />
+        <boxGeometry args={[3.7, 2.55, 0.14]} />
+        <meshStandardMaterial color="#0c1320" metalness={0.75} roughness={0.25} />
       </mesh>
-      {/* Screen */}
-      <mesh position={[0, 0, 0.075]}>
-        <boxGeometry args={[3.2, 2.1, 0.01]} />
-        <meshStandardMaterial ref={scrMat} color="#030810" emissive="#0e2860" emissiveIntensity={0.3} roughness={1} />
+      <mesh position={[0, 0, 0.076]}>
+        <boxGeometry args={[3.4, 2.22, 0.01]} />
+        <meshStandardMaterial ref={scrMat} color="#020710" emissive="#0a1e50" emissiveIntensity={0.25} roughness={1} />
       </mesh>
-      {/* Rim glow */}
-      <mesh position={[0, 0, 0.0745]}>
-        <boxGeometry args={[3.22, 2.12, 0.001]} />
-        <meshStandardMaterial ref={rimMat} color="#1a3c9a" emissive="#1a3c9a" emissiveIntensity={0.65} transparent opacity={0.35} />
+      <mesh position={[0, 0, 0.0755]}>
+        <boxGeometry args={[3.42, 2.24, 0.001]} />
+        <meshStandardMaterial ref={rimMat} color="#1a3c9a" emissive="#1a3c9a" emissiveIntensity={0.6} transparent opacity={0.3} />
+      </mesh>
+      {/* Stand */}
+      <mesh position={[0, -1.44, -0.01]}>
+        <boxGeometry args={[0.15, 0.48, 0.12]} />
+        <meshStandardMaterial color="#08101e" metalness={0.55} roughness={0.45} />
+      </mesh>
+      <mesh position={[0, -1.72, -0.18]}>
+        <boxGeometry args={[1.4, 0.07, 0.68]} />
+        <meshStandardMaterial color="#08101e" metalness={0.55} roughness={0.45} />
       </mesh>
 
-      {/* ── Screen content geometry (section-aware) ── */}
-      {/* Nav bar */}
-      <mesh position={[0, 0.92, 0.082]}>
-        <boxGeometry args={[3.18, 0.2, 0.001]} />
-        <meshBasicMaterial color="#050c18" />
+      {/* ── NAV BAR ── */}
+      <mesh position={[0, 0.99, Z]}>
+        <boxGeometry args={[3.38, 0.19, 0.001]} />
+        <meshBasicMaterial color="#040b16" />
       </mesh>
-      <mesh position={[-1.3, 0.92, 0.083]}>
-        <boxGeometry args={[0.3, 0.1, 0.001]} />
+      {/* Logo */}
+      <mesh position={[-1.4, 0.99, Z+0.001]}>
+        <boxGeometry args={[0.1, 0.08, 0.001]} />
         <meshBasicMaterial color="#2563eb" />
       </mesh>
-      {[-0.3, 0.1, 0.5, 0.9].map((x, i) => (
-        <mesh key={i} position={[x, 0.92, 0.083]}>
-          <boxGeometry args={[0.22, 0.055, 0.001]} />
+      <mesh position={[-1.25, 0.99, Z+0.001]}>
+        <boxGeometry args={[0.24, 0.06, 0.001]} />
+        <meshBasicMaterial color="#c8d8f0" />
+      </mesh>
+      {/* Nav links */}
+      {[-0.25, 0.18, 0.6, 1.05].map((x, i) => (
+        <mesh key={i} position={[x, 0.99, Z+0.001]}>
+          <boxGeometry args={[0.2, 0.045, 0.001]} />
+          <meshBasicMaterial color="#1a2d4a" />
+        </mesh>
+      ))}
+      {/* Nav CTA pill */}
+      <mesh position={[1.45, 0.99, Z+0.001]}>
+        <boxGeometry args={[0.26, 0.1, 0.001]} />
+        <meshBasicMaterial color="#1d4ed8" />
+      </mesh>
+
+      {/* ── HERO LEFT — headline + CTA ── */}
+      {/* Badge */}
+      <mesh position={[-1.1, 0.77, Z]}>
+        <boxGeometry args={[0.52, 0.09, 0.001]} />
+        <meshBasicMaterial color="#0f2a5c" />
+      </mesh>
+      <mesh position={[-1.1, 0.77, Z+0.001]}>
+        <boxGeometry args={[0.5, 0.07, 0.001]} />
+        <meshBasicMaterial color="#1a3c9a" transparent opacity={0.5} />
+      </mesh>
+      {/* H1 line 1 */}
+      <mesh position={[-0.82, 0.62, Z]}>
+        <boxGeometry args={[1.0, 0.12, 0.001]} />
+        <meshBasicMaterial color="#d0e4ff" />
+      </mesh>
+      {/* H1 line 2 — blue accent */}
+      <mesh position={[-0.72, 0.47, Z]}>
+        <boxGeometry args={[1.2, 0.12, 0.001]} />
+        <meshBasicMaterial color="#3b82f6" />
+      </mesh>
+      {/* Blinking cursor after headline */}
+      <mesh position={[0.17, 0.47, Z+0.001]}>
+        <boxGeometry args={[0.018, 0.11, 0.001]} />
+        <meshBasicMaterial ref={cursorRef} color="#60a5fa" transparent opacity={0.9} />
+      </mesh>
+      {/* Sub text lines */}
+      {[[1.6, 0.31], [1.35, 0.2], [0.95, 0.1]].map(([w, y], i) => (
+        <mesh key={i} position={[-1.69 + w / 2, y, Z]}>
+          <boxGeometry args={[w, 0.047, 0.001]} />
+          <meshBasicMaterial color="#0e2040" />
+        </mesh>
+      ))}
+      {/* CTA primary */}
+      <mesh position={[-1.05, -0.05, Z]}>
+        <boxGeometry args={[0.62, 0.16, 0.001]} />
+        <meshBasicMaterial color="#1d4ed8" />
+      </mesh>
+      {/* CTA secondary */}
+      <mesh position={[-0.35, -0.05, Z]}>
+        <boxGeometry args={[0.5, 0.16, 0.001]} />
+        <meshBasicMaterial color="#0a1528" />
+      </mesh>
+      <mesh position={[-0.35, -0.05, Z+0.001]}>
+        <boxGeometry args={[0.5, 0.16, 0.001]} />
+        <meshBasicMaterial color="#1a3060" transparent opacity={0.4} />
+      </mesh>
+
+      {/* ── HERO RIGHT — analytics dashboard preview ── */}
+      {/* Dashboard card */}
+      <mesh position={[0.92, 0.44, Z]}>
+        <boxGeometry args={[1.32, 1.0, 0.006]} />
+        <meshStandardMaterial color="#040c1c" metalness={0.1} roughness={0.9} />
+      </mesh>
+      {/* Card top bar */}
+      <mesh position={[0.92, 0.93, Z+0.005]}>
+        <boxGeometry args={[1.32, 0.09, 0.001]} />
+        <meshBasicMaterial color="#060f20" />
+      </mesh>
+      {/* Live indicator dot */}
+      <mesh position={[0.34, 0.93, Z+0.007]}>
+        <sphereGeometry args={[0.022, 8, 8]} />
+        <meshStandardMaterial ref={liveDot} color="#22c55e" emissive="#22c55e" emissiveIntensity={1.2} />
+      </mesh>
+      {/* Card title block */}
+      <mesh position={[0.75, 0.93, Z+0.007]}>
+        <boxGeometry args={[0.55, 0.042, 0.001]} />
+        <meshBasicMaterial color="#1a2d44" />
+      </mesh>
+      {/* Big number */}
+      <mesh position={[0.56, 0.73, Z+0.005]}>
+        <boxGeometry args={[0.35, 0.14, 0.001]} />
+        <meshBasicMaterial color="#e0eeff" />
+      </mesh>
+      {/* Sub number label */}
+      <mesh position={[0.65, 0.58, Z+0.005]}>
+        <boxGeometry args={[0.55, 0.045, 0.001]} />
+        <meshBasicMaterial color="#0e2040" />
+      </mesh>
+      {/* Green up-arrow indicator */}
+      <mesh position={[1.1, 0.72, Z+0.005]}>
+        <boxGeometry args={[0.22, 0.08, 0.001]} />
+        <meshBasicMaterial color="#15803d" />
+      </mesh>
+      {/* Visitor trend line (animated width) */}
+      <mesh ref={lineRef} position={[0.92, 0.48, Z+0.005]}>
+        <boxGeometry args={[1.1, 0.028, 0.001]} />
+        <meshBasicMaterial color="#2563eb" transparent opacity={0.4} />
+      </mesh>
+      {/* Chart area dark bg */}
+      <mesh position={[0.92, -0.1, Z+0.004]}>
+        <boxGeometry args={[1.3, 0.55, 0.001]} />
+        <meshBasicMaterial color="#020810" transparent opacity={0.7} />
+      </mesh>
+      {/* Animated chart bars */}
+      {([
+        [0.38, '#3b82f6'], [0.55, '#3b82f6'], [0.72, '#60a5fa'],
+        [0.89, '#2563eb'], [1.06, '#60a5fa'],
+      ] as const).map(([x, c], i) => (
+        <mesh key={i} ref={barRefs[i]} position={[x, -0.62 + BAR_H[i] / 2, Z+0.005]}>
+          <boxGeometry args={[0.1, BAR_H[i], 0.001]} />
+          <meshBasicMaterial color={c} transparent opacity={0.8} />
+        </mesh>
+      ))}
+      {/* X-axis line */}
+      <mesh position={[0.92, -0.62, Z+0.005]}>
+        <boxGeometry args={[1.28, 0.006, 0.001]} />
+        <meshBasicMaterial color="#0e2040" />
+      </mesh>
+      {/* Small label dots */}
+      {[0.38, 0.55, 0.72, 0.89, 1.06].map((x, i) => (
+        <mesh key={i} position={[x, -0.66, Z+0.005]}>
+          <boxGeometry args={[0.032, 0.032, 0.001]} />
           <meshBasicMaterial color="#112040" />
         </mesh>
       ))}
 
-      {/* Hero text blocks */}
-      <mesh position={[-0.65, 0.62, 0.082]}>
-        <boxGeometry args={[1.4, 0.13, 0.001]} />
-        <meshBasicMaterial color="#1e40af" />
+      {/* ── STATS BAND ── */}
+      <mesh position={[0, -0.35, Z-0.001]}>
+        <boxGeometry args={[3.38, 0.28, 0.001]} />
+        <meshBasicMaterial color="#030911" />
       </mesh>
-      <mesh position={[-0.5, 0.43, 0.082]}>
-        <boxGeometry args={[1.7, 0.13, 0.001]} />
-        <meshBasicMaterial color="#2563eb" />
-      </mesh>
-      {[0.24, 0.12, 0.01].map((y, i) => (
-        <mesh key={i} position={[-0.6 + i * 0.04, y, 0.082]}>
-          <boxGeometry args={[1.5 - i * 0.1, 0.05, 0.001]} />
-          <meshBasicMaterial color="#112040" />
-        </mesh>
-      ))}
-
-      {/* CTA buttons */}
-      <mesh position={[-1.0, -0.12, 0.082]}>
-        <boxGeometry args={[0.6, 0.17, 0.001]} />
-        <meshBasicMaterial color="#2563eb" />
-      </mesh>
-      <mesh position={[-0.42, -0.12, 0.082]}>
-        <boxGeometry args={[0.48, 0.17, 0.001]} />
-        <meshBasicMaterial color="#0a1222" />
-      </mesh>
-
-      {/* Stats band */}
-      <mesh position={[0, -0.38, 0.082]}>
-        <boxGeometry args={[3.18, 0.32, 0.001]} />
-        <meshBasicMaterial color="#030912" />
-      </mesh>
-      {([[-1.05,'#3b82f6'],[-0.32,'#a78bfa'],[0.4,'#34d399'],[1.12,'#fbbf24']] as const).map(([x, c]) => (
-        <mesh key={x} position={[x, -0.38, 0.083]}>
-          <boxGeometry args={[0.3, 0.15, 0.001]} />
-          <meshBasicMaterial color={c} />
-        </mesh>
-      ))}
-
-      {/* Service cards */}
-      {([-0.95, 0.08, 1.1] as const).map((x, i) => (
-        <group key={i} position={[x, -0.82, 0.082]}>
-          <mesh>
-            <boxGeometry args={[0.88, 0.5, 0.001]} />
-            <meshBasicMaterial color={['#081528','#0c0a22','#051412'][i]} />
+      {([[-1.2,'#3b82f6'],[-0.4,'#a78bfa'],[0.4,'#34d399'],[1.2,'#f59e0b']] as const).map(([x, c]) => (
+        <group key={x}>
+          <mesh position={[x, -0.3, Z+0.002]}>
+            <boxGeometry args={[0.26, 0.12, 0.001]} />
+            <meshBasicMaterial color={c} transparent opacity={0.9} />
           </mesh>
-          <mesh position={[0, 0.24, 0.001]}>
-            <boxGeometry args={[0.86, 0.022, 0.001]} />
-            <meshBasicMaterial color={['#2563eb','#7c3aed','#059669'][i]} />
+          <mesh position={[x, -0.43, Z+0.002]}>
+            <boxGeometry args={[0.32, 0.042, 0.001]} />
+            <meshBasicMaterial color="#0b1a2e" />
           </mesh>
         </group>
       ))}
 
-      {/* Stand */}
-      <mesh position={[0, -1.36, -0.01]}>
-        <boxGeometry args={[0.14, 0.46, 0.11]} />
-        <meshStandardMaterial color="#08101e" metalness={0.5} roughness={0.5} />
-      </mesh>
-      <mesh position={[0, -1.62, -0.16]}>
-        <boxGeometry args={[1.35, 0.07, 0.65]} />
-        <meshStandardMaterial color="#08101e" metalness={0.5} roughness={0.5} />
-      </mesh>
+      {/* ── BOTTOM CARDS ROW ── */}
+      {([-1.1, -0.03, 1.04] as const).map((x, i) => (
+        <group key={i} position={[x, -0.78, Z]}>
+          <mesh>
+            <boxGeometry args={[0.96, 0.44, 0.004]} />
+            <meshBasicMaterial color={['#06111e','#090820','#041410'][i]} />
+          </mesh>
+          <mesh position={[0, 0.21, 0.003]}>
+            <boxGeometry args={[0.96, 0.028, 0.001]} />
+            <meshBasicMaterial color={['#2563eb','#7c3aed','#059669'][i]} />
+          </mesh>
+          {[0.08, -0.04, -0.14].map((dy, j) => (
+            <mesh key={j} position={[0, dy, 0.003]}>
+              <boxGeometry args={[(0.7 - j * 0.08), 0.04, 0.001]} />
+              <meshBasicMaterial color={['#0e2040','#12103a','#061a12'][i]} />
+            </mesh>
+          ))}
+        </group>
+      ))}
     </group>
   );
 }
@@ -459,7 +592,7 @@ export function ImmersiveScene({ scrollContainerRef }: Props) {
     if (!el) return;
 
     /* Reset SV to initial values on each mount */
-    Object.assign(SV, { camX: 0, camY: 0, camZ: 11, monRotX: 0, monRotY: 0, monScale: 1, monX: 0.6, monY: 0.1, svcVis: 0, portVis: 0, statVis: 0 });
+    Object.assign(SV, { camX: 0, camY: 0, camZ: 10, monRotX: 0, monRotY: 0, monScale: 1.25, monX: 0.5, monY: 0.05, svcVis: 0, portVis: 0, statVis: 0 });
 
     const tl = gsap.timeline({
       scrollTrigger: {
@@ -471,16 +604,21 @@ export function ImmersiveScene({ scrollContainerRef }: Props) {
       },
     });
 
-    tl.to(SV, { camZ: 7, monX: 0.4, duration: 1 }, 0);
+    /* S1→S2: zoom in slightly, slight tilt */
+    tl.to(SV, { camZ: 7.2, monX: 0.4, monScale: 1.12, duration: 1 }, 0);
     tl.to(SV, { monRotY: -0.07, duration: 0.6 }, 0.4);
 
-    tl.to(SV, { camX: -1.8, camY: 0.3, camZ: 7.8, monRotY: 0.22, monX: 0.5, svcVis: 1, duration: 1 }, 1);
+    /* S2: swing left, service cards appear */
+    tl.to(SV, { camX: -1.8, camY: 0.3, camZ: 7.8, monRotY: 0.22, monX: 0.5, monScale: 1.05, svcVis: 1, duration: 1 }, 1);
 
-    tl.to(SV, { camX: 0.6, camY: -0.2, camZ: 4.8, monRotY: -0.04, monScale: 1.07, portVis: 1, svcVis: 0, duration: 1 }, 2);
+    /* S3: zoom close, portfolio cards appear */
+    tl.to(SV, { camX: 0.6, camY: -0.2, camZ: 4.8, monRotY: -0.04, monScale: 1.12, portVis: 1, svcVis: 0, duration: 1 }, 2);
 
-    tl.to(SV, { camX: 1.3, camY: -0.5, camZ: 9, monRotX: -0.13, monRotY: -0.1, monScale: 1, statVis: 1, portVis: 0, duration: 1 }, 3);
+    /* S4: pull back right, stat orbs appear */
+    tl.to(SV, { camX: 1.3, camY: -0.5, camZ: 9, monRotX: -0.13, monRotY: -0.1, monScale: 1.0, statVis: 1, portVis: 0, duration: 1 }, 3);
 
-    tl.to(SV, { camX: 0, camY: 0, camZ: 11.5, monRotX: 0, monRotY: 0, monScale: 0.85, statVis: 0, duration: 1 }, 4);
+    /* S5: center + shrink for CTA */
+    tl.to(SV, { camX: 0, camY: 0, camZ: 11.5, monRotX: 0, monRotY: 0, monScale: 0.82, statVis: 0, duration: 1 }, 4);
 
     const onScroll = () => {
       const s = Math.min(5, Math.max(0, Math.floor(window.scrollY / window.innerHeight)));

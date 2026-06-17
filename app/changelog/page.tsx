@@ -17,6 +17,18 @@ interface Version {
 
 const CHANGELOG: Version[] = [
   {
+    version: '3.19',
+    date: '17. 6. 2026',
+    changes: [
+      { type: 'feat', text: 'Monitor zvětšen na startu: počáteční monScale 1.0 → 1.25, kamera blíže (camZ: 11 → 10)' },
+      { type: 'feat', text: 'Monitor screen: split-layout hero — vlevo headline+CTA, vpravo živé analytické grafy s animovanými bary' },
+      { type: 'feat', text: 'Dashboard preview: 5 animovaných chart barů (oscilují nezávisle), visitor trend line, pulsující zelený live dot' },
+      { type: 'feat', text: 'Blinkující textový kurzor za headline na obrazovce monitoru' },
+      { type: 'feat', text: 'Monitor hardware zvětšen: 3.5×2.4 → 3.7×2.55, screen 3.2×2.1 → 3.4×2.22' },
+      { type: 'change', text: 'GSAP timeline: monScale plynule mění 1.25→1.12→1.05→1.12→1.0→0.82 napříč sekcemi' },
+    ],
+  },
+  {
     version: '3.18',
     date: '17. 6. 2026',
     changes: [
