@@ -13,9 +13,9 @@ if (typeof window !== 'undefined') gsap.registerPlugin(ScrollTrigger);
    SHARED STATE — GSAP writes, useFrame reads
 ═══════════════════════════════════════════════════════════════ */
 const SV = {
-  camX: 0, camY: 0, camZ: 11,
-  monRotX: 0, monRotY: 0, monScale: 1,
-  monX: 0.6, monY: 0.1,
+  camX: 0, camY: 0.15, camZ: 8.5,
+  monRotX: 0, monRotY: 0, monScale: 1.28,
+  monX: 0.45, monY: 0.05,
   svcVis: 0, portVis: 0, statVis: 0,
 };
 
@@ -84,31 +84,122 @@ function Monitor({ section }: { section: number }) {
     if (lineRef.current) lineRef.current.scale.x = 0.85 + Math.sin(t * 0.6) * 0.12;
   });
 
-  const Z = 0.082; /* z offset for screen surface elements */
+  const Z = 0.083; /* z offset for screen surface elements */
 
   return (
     <group ref={group} position={[SV.monX, SV.monY, 0]}>
-      {/* ── Hardware ── */}
+
+      {/* ══ HARDWARE — premium dark aluminium ══ */}
+
+      {/* Main body */}
       <mesh>
-        <boxGeometry args={[3.7, 2.55, 0.14]} />
-        <meshStandardMaterial color="#0c1320" metalness={0.75} roughness={0.25} />
+        <boxGeometry args={[3.76, 2.58, 0.11]} />
+        <meshStandardMaterial color="#07090f" metalness={0.9} roughness={0.1} />
       </mesh>
-      <mesh position={[0, 0, 0.076]}>
-        <boxGeometry args={[3.4, 2.22, 0.01]} />
-        <meshStandardMaterial ref={scrMat} color="#020710" emissive="#0a1e50" emissiveIntensity={0.25} roughness={1} />
+
+      {/* Chamfer strips — top / bottom / left / right edges for depth */}
+      <mesh position={[0,  1.285, 0.028]} rotation={[Math.PI/4, 0, 0]}>
+        <boxGeometry args={[3.76, 0.038, 0.038]} />
+        <meshStandardMaterial color="#0e1828" metalness={0.9} roughness={0.08} />
       </mesh>
-      <mesh position={[0, 0, 0.0755]}>
-        <boxGeometry args={[3.42, 2.24, 0.001]} />
-        <meshStandardMaterial ref={rimMat} color="#1a3c9a" emissive="#1a3c9a" emissiveIntensity={0.6} transparent opacity={0.3} />
+      <mesh position={[0, -1.285, 0.028]} rotation={[-Math.PI/4, 0, 0]}>
+        <boxGeometry args={[3.76, 0.038, 0.038]} />
+        <meshStandardMaterial color="#0e1828" metalness={0.9} roughness={0.08} />
       </mesh>
-      {/* Stand */}
-      <mesh position={[0, -1.44, -0.01]}>
-        <boxGeometry args={[0.15, 0.48, 0.12]} />
-        <meshStandardMaterial color="#08101e" metalness={0.55} roughness={0.45} />
+      <mesh position={[ 1.875, 0, 0.028]} rotation={[0,  Math.PI/4, 0]}>
+        <boxGeometry args={[0.038, 2.58, 0.038]} />
+        <meshStandardMaterial color="#0e1828" metalness={0.9} roughness={0.08} />
       </mesh>
-      <mesh position={[0, -1.72, -0.18]}>
-        <boxGeometry args={[1.4, 0.07, 0.68]} />
-        <meshStandardMaterial color="#08101e" metalness={0.55} roughness={0.45} />
+      <mesh position={[-1.875, 0, 0.028]} rotation={[0, -Math.PI/4, 0]}>
+        <boxGeometry args={[0.038, 2.58, 0.038]} />
+        <meshStandardMaterial color="#0e1828" metalness={0.9} roughness={0.08} />
+      </mesh>
+
+      {/* Thin top bezel highlight */}
+      <mesh position={[0, 1.27, 0.056]}>
+        <boxGeometry args={[3.76, 0.006, 0.001]} />
+        <meshBasicMaterial color="#1e3050" transparent opacity={0.5} />
+      </mesh>
+
+      {/* Screen recess inset */}
+      <mesh position={[0, 0.035, 0.052]}>
+        <boxGeometry args={[3.45, 2.26, 0.008]} />
+        <meshStandardMaterial color="#020408" metalness={0.1} roughness={0.95} />
+      </mesh>
+
+      {/* Screen glass */}
+      <mesh position={[0, 0.035, 0.0575]}>
+        <boxGeometry args={[3.38, 2.2, 0.005]} />
+        <meshStandardMaterial ref={scrMat} color="#01030a" emissive="#0a1e50"
+          emissiveIntensity={0.25} roughness={0.95} transparent opacity={0.98} />
+      </mesh>
+
+      {/* Screen rim glow */}
+      <mesh position={[0, 0.035, 0.061]}>
+        <boxGeometry args={[3.4, 2.22, 0.001]} />
+        <meshStandardMaterial ref={rimMat} color="#1a3c9a" emissive="#1a3c9a"
+          emissiveIntensity={0.6} transparent opacity={0.28} />
+      </mesh>
+
+      {/* Bottom chin */}
+      <mesh position={[0, -1.205, 0.057]}>
+        <boxGeometry args={[3.76, 0.1, 0.002]} />
+        <meshStandardMaterial color="#060810" metalness={0.7} roughness={0.3} />
+      </mesh>
+
+      {/* Power LED on chin */}
+      <mesh position={[0, -1.205, 0.06]}>
+        <sphereGeometry args={[0.018, 8, 8]} />
+        <meshStandardMaterial color="#2563eb" emissive="#2563eb" emissiveIntensity={2.5} />
+      </mesh>
+
+      {/* Back panel raised oval */}
+      <mesh position={[0, 0.1, -0.058]}>
+        <boxGeometry args={[1.6, 1.6, 0.012]} />
+        <meshStandardMaterial color="#060810" metalness={0.85} roughness={0.15} />
+      </mesh>
+
+      {/* Back vents */}
+      {[-0.3, -0.1, 0.1, 0.3].map((y, i) => (
+        <mesh key={i} position={[0, y - 0.3, -0.056]}>
+          <boxGeometry args={[0.9, 0.016, 0.004]} />
+          <meshStandardMaterial color="#030507" metalness={0.6} roughness={0.4} />
+        </mesh>
+      ))}
+
+      {/* Subtle screen light bleed (behind screen, soft glow plane) */}
+      <mesh position={[0, 0.035, 0.054]}>
+        <boxGeometry args={[3.4, 2.22, 0.001]} />
+        <meshStandardMaterial color="#0a1e50" emissive="#0a1e50"
+          emissiveIntensity={0.12} transparent opacity={0.06} />
+      </mesh>
+
+      {/* ══ STAND — slim arc design ══ */}
+      {/* Neck */}
+      <mesh position={[0, -1.38, -0.02]}>
+        <boxGeometry args={[0.09, 0.52, 0.09]} />
+        <meshStandardMaterial color="#06080e" metalness={0.88} roughness={0.12} />
+      </mesh>
+      {/* Neck taper */}
+      <mesh position={[0, -1.62, -0.12]} rotation={[0.32, 0, 0]}>
+        <boxGeometry args={[0.09, 0.24, 0.09]} />
+        <meshStandardMaterial color="#06080e" metalness={0.88} roughness={0.12} />
+      </mesh>
+      {/* Base */}
+      <mesh position={[0, -1.79, -0.3]}>
+        <boxGeometry args={[1.55, 0.055, 0.72]} />
+        <meshStandardMaterial color="#05070c" metalness={0.9} roughness={0.1} />
+      </mesh>
+      {/* Base front bevel */}
+      <mesh position={[0, -1.815, 0.05]} rotation={[Math.PI/4, 0, 0]}>
+        <boxGeometry args={[1.55, 0.04, 0.04]} />
+        <meshStandardMaterial color="#0e1828" metalness={0.9} roughness={0.08} />
+      </mesh>
+      {/* Base reflection */}
+      <mesh position={[0, -1.82, -0.3]} rotation={[-Math.PI/2, 0, 0]}>
+        <planeGeometry args={[1.55, 0.72]} />
+        <meshStandardMaterial color="#0a1830" transparent opacity={0.12}
+          metalness={1} roughness={0} />
       </mesh>
 
       {/* ── NAV BAR ── */}
@@ -610,7 +701,7 @@ export function ImmersiveScene({ scrollContainerRef }: Props) {
     if (!el) return;
 
     /* Reset SV to initial values on each mount */
-    Object.assign(SV, { camX: 0, camY: 0, camZ: 10, monRotX: 0, monRotY: 0, monScale: 1.25, monX: 0.5, monY: 0.05, svcVis: 0, portVis: 0, statVis: 0 });
+    Object.assign(SV, { camX: 0, camY: 0.15, camZ: 8.5, monRotX: 0, monRotY: 0, monScale: 1.28, monX: 0.45, monY: 0.05, svcVis: 0, portVis: 0, statVis: 0 });
 
     const tl = gsap.timeline({
       scrollTrigger: {
@@ -622,21 +713,21 @@ export function ImmersiveScene({ scrollContainerRef }: Props) {
       },
     });
 
-    /* S1→S2: zoom in slightly, slight tilt */
-    tl.to(SV, { camZ: 7.2, monX: 0.4, monScale: 1.12, duration: 1 }, 0);
-    tl.to(SV, { monRotY: -0.07, duration: 0.6 }, 0.4);
+    /* S1 — drift forward & subtle tilt as page begins to scroll */
+    tl.to(SV, { camZ: 7.6, camY: 0.05, monX: 0.42, monScale: 1.16, duration: 0.55 }, 0);
+    tl.to(SV, { monRotY: -0.06, duration: 0.4 }, 0.5);
 
-    /* S2: swing left, service cards appear */
-    tl.to(SV, { camX: -1.8, camY: 0.3, camZ: 7.8, monRotY: 0.22, monX: 0.5, monScale: 1.05, svcVis: 1, duration: 1 }, 1);
+    /* S2: wide left arc — camera sweeps past the monitor, cards flank right */
+    tl.to(SV, { camX: -2.4, camY: 0.45, camZ: 8.5, monX: 0.65, monRotY: 0.32, monScale: 1.0, svcVis: 1, duration: 1 }, 1);
 
-    /* S3: zoom close, portfolio cards appear */
-    tl.to(SV, { camX: 0.6, camY: -0.2, camZ: 4.8, monRotY: -0.04, monScale: 1.12, portVis: 1, svcVis: 0, duration: 1 }, 2);
+    /* S3: dramatic close-up from below-right, intimate angle */
+    tl.to(SV, { camX: 0.9, camY: -0.55, camZ: 5.0, monX: 0.05, monRotX: 0.14, monRotY: -0.14, monScale: 1.22, portVis: 1, svcVis: 0, duration: 1 }, 2);
 
-    /* S4: pull back right, stat orbs appear */
-    tl.to(SV, { camX: 1.3, camY: -0.5, camZ: 9, monRotX: -0.13, monRotY: -0.1, monScale: 1.0, statVis: 1, portVis: 0, duration: 1 }, 3);
+    /* S4: pull way up and back — elevated bird-eye reveals stat orbs */
+    tl.to(SV, { camX: -1.5, camY: 1.2, camZ: 11.5, monX: 0.35, monRotX: -0.22, monRotY: 0.18, monScale: 0.92, statVis: 1, portVis: 0, duration: 1 }, 3);
 
-    /* S5: center + shrink for CTA */
-    tl.to(SV, { camX: 0, camY: 0, camZ: 11.5, monRotX: 0, monRotY: 0, monScale: 0.82, statVis: 0, duration: 1 }, 4);
+    /* S5: slow elegant retreat — monitor shrinks, emphasise CTA text */
+    tl.to(SV, { camX: 0, camY: 0, camZ: 14, monX: 0, monRotX: 0, monRotY: 0, monScale: 0.68, statVis: 0, duration: 1 }, 4);
 
     const onScroll = () => {
       const s = Math.min(5, Math.max(0, Math.floor(window.scrollY / window.innerHeight)));
@@ -653,7 +744,7 @@ export function ImmersiveScene({ scrollContainerRef }: Props) {
 
   return (
     <Canvas
-      camera={{ position: [0, 0, 11], fov: 40 }}
+      camera={{ position: [0, 0.15, 8.5], fov: 40 }}
       gl={{ antialias: true, alpha: false }}
       dpr={[1, 1.5]}
       style={{ width: '100%', height: '100%' }}

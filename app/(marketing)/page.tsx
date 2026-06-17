@@ -286,18 +286,27 @@ export default function HomePage() {
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
 
-    /* S1 — fade in on mount, fade out when 80% through the section */
-    gsap.set('#s1i', { opacity: 0, y: 28 });
-    gsap.to('#s1i', { opacity: 1, y: 0, duration: 0.9, delay: 0.3, ease: 'power3.out' });
+    /* S1 — stagger children in on mount, fade container out on scroll */
+    gsap.set('#s1i', { opacity: 1, y: 0 });
+    gsap.fromTo('#s1i > *',
+      { opacity: 0, y: 26 },
+      { opacity: 1, y: 0, duration: 0.88, stagger: 0.13, ease: 'power3.out', delay: 0.3 },
+    );
 
     const s1hide = ScrollTrigger.create({
       trigger: '#s1',
       start: 'bottom 20%',
-      onEnter:     () => gsap.to('#s1i', { opacity: 0, y: -10, duration: 0.6, ease: 'power2.inOut' }),
-      onLeaveBack: () => gsap.to('#s1i', { opacity: 1, y:   0, duration: 0.9, ease: 'power2.out' }),
+      onEnter: () => gsap.to('#s1i', { opacity: 0, y: -10, duration: 0.55, ease: 'power2.inOut' }),
+      onLeaveBack: () => {
+        gsap.set('#s1i', { opacity: 1, y: 0 });
+        gsap.fromTo('#s1i > *',
+          { opacity: 0, y: 18 },
+          { opacity: 1, y: 0, duration: 0.75, stagger: 0.1, ease: 'power3.out' },
+        );
+      },
     });
 
-    /* S2-S6 — tight bounds so only one section text visible at a time */
+    /* S2-S6 — per-element stagger; container controls visibility only */
     const pairs: Array<{ t: string; i: string; ax: 'y' | 'x' }> = [
       { t: '#s2', i: '#s2i', ax: 'y' },
       { t: '#s3', i: '#s3i', ax: 'x' },
@@ -307,13 +316,33 @@ export default function HomePage() {
     ];
 
     const triggers = pairs.map(({ t, i, ax }) => {
-      gsap.set(i, { opacity: 0, [ax]: 22 });
+      /* Reset container transform, hide it; hide children at offset position */
+      gsap.set(i, { opacity: 0, x: 0, y: 0 });
+      gsap.set(`${i} > *`, { opacity: 0, [ax]: 22 });
+
       return ScrollTrigger.create({
         trigger: t, start: 'top 20%', end: 'bottom 20%',
-        onEnter:     () => gsap.to(i, { opacity: 1, [ax]: 0,   duration: 0.95, ease: 'power2.out' }),
-        onLeave:     () => gsap.to(i, { opacity: 0, [ax]: -12, duration: 0.6,  ease: 'power2.inOut' }),
-        onEnterBack: () => gsap.to(i, { opacity: 1, [ax]: 0,   duration: 0.95, ease: 'power2.out' }),
-        onLeaveBack: () => gsap.to(i, { opacity: 0, [ax]: 12,  duration: 0.6,  ease: 'power2.inOut' }),
+
+        onEnter: () => {
+          gsap.set(i, { opacity: 1 });
+          gsap.to(`${i} > *`, { opacity: 1, [ax]: 0, duration: 0.8, stagger: 0.1, ease: 'power3.out' });
+        },
+        onLeave: () => {
+          gsap.to(i, {
+            opacity: 0, duration: 0.45, ease: 'power2.inOut',
+            onComplete: () => gsap.set(`${i} > *`, { opacity: 0, [ax]: 22 }),
+          });
+        },
+        onEnterBack: () => {
+          gsap.set(i, { opacity: 1 });
+          gsap.to(`${i} > *`, { opacity: 1, [ax]: 0, duration: 0.8, stagger: { each: 0.1, from: 'end' }, ease: 'power3.out' });
+        },
+        onLeaveBack: () => {
+          gsap.to(i, {
+            opacity: 0, duration: 0.45, ease: 'power2.inOut',
+            onComplete: () => gsap.set(`${i} > *`, { opacity: 0, [ax]: 22 }),
+          });
+        },
       });
     });
 

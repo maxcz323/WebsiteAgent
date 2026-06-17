@@ -17,6 +17,20 @@ interface Version {
 
 const CHANGELOG: Version[] = [
   {
+    version: '3.22',
+    date: '17. 6. 2026',
+    changes: [
+      { type: 'feat', text: 'Monitor hardware přepracován: vysoce lesklý tmavý hliník (metalness 0.9, roughness 0.1), tenké bezely, zkosené hrany (4 chamfer strips na všech rozích)' },
+      { type: 'feat', text: 'Monitor: nový stojan — tenký hliníkový neck s obloukovým tapered přechodem, matná základna s bevel hranou a reflection plane' },
+      { type: 'feat', text: 'Monitor: zadní panel s reliéfní oválnou deskou a ventilačními mřížkami, minimalistický power LED (modrý glow) ve spodním chinbaru' },
+      { type: 'feat', text: 'Monitor: subtilní screen-light-bleed efekt, thin top-bezel highlight stripe, screen recess inset pro hloubku' },
+      { type: 'feat', text: 'Cinematic kamera: 5 unikátních pohledů — velký levý oblouk (S2), dramatický close-up zdola (S3), ptačí perspektiva (S4), pomalý ústup (S5)' },
+      { type: 'feat', text: 'Kamera S1: startuje blíže (camZ: 8.5) s mírnou výškou (camY: 0.15) — monitor je na začátku velký a impozantní' },
+      { type: 'feat', text: 'Per-element text stagger: každý child element sekce (badge→headline→tělo→CTA) se animuje samostatně se stagger 0.1s — S1-S6' },
+      { type: 'feat', text: 'Při scrollu zpět (onEnterBack): stagger animace probíhá v opačném pořadí (from: end) — přirozenější UX' },
+    ],
+  },
+  {
     version: '3.21',
     date: '17. 6. 2026',
     changes: [
