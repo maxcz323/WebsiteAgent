@@ -17,6 +17,16 @@ interface Version {
 
 const CHANGELOG: Version[] = [
   {
+    version: '3.30',
+    date: '18. 6. 2026',
+    changes: [
+      { type: 'feat', text: 'Footer je nyní viditelný na homepage: přidáno relative z-[10] — fixed 3D canvas (z-index 2) ho dříve překrýval' },
+      { type: 'change', text: 'Footer background: bg-[#0a0f1e] → bg-[#06060a] — plynulý přechod ze sekce ceníku, konzistentní dark palette' },
+      { type: 'change', text: 'Footer separator: tenká bílá linka (opacity 7%) odděluje footer od obsahu nad ním' },
+      { type: 'change', text: 'Footer linky: hover efekt text-slate-600 → text-slate-300 s transition-colors duration-150' },
+    ],
+  },
+  {
     version: '3.29',
     date: '18. 6. 2026',
     changes: [
