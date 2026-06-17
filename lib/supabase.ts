@@ -1,14 +1,14 @@
-import { createClient } from '@supabase/supabase-js';
+import { createClient, SupabaseClient } from '@supabase/supabase-js';
 
 // Used only in API routes (server-side). Never expose the service key to the browser.
-let _admin: ReturnType<typeof createClient> | null = null;
-function getAdmin() {
+let _admin: SupabaseClient | null = null;
+function getAdmin(): SupabaseClient {
   if (!_admin) _admin = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SERVICE_ROLE_KEY!);
   return _admin;
 }
 
-// Lazy proxy so createClient is not called at module load time (avoids build-time env errors)
-export const supabaseAdmin = new Proxy({} as ReturnType<typeof createClient>, {
+// Lazy proxy — createClient is not called at module load time (avoids build-time env errors)
+export const supabaseAdmin: SupabaseClient = new Proxy({} as SupabaseClient, {
   get(_t, prop) {
     const client = getAdmin();
     const val = Reflect.get(client, prop, client);
