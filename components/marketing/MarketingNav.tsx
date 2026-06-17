@@ -40,19 +40,22 @@ export function MarketingNav() {
 
           {/* Desktop links */}
           <div className="hidden md:flex items-center gap-1">
-            {LINKS.map(({ href, label }) => (
-              <Link
-                key={href}
-                href={href}
-                className={`px-3.5 py-2 rounded-lg text-sm font-medium transition-colors ${
-                  pathname === href
-                    ? 'text-slate-900 bg-slate-100'
-                    : 'text-slate-500 hover:text-slate-900 hover:bg-slate-50'
-                }`}
-              >
-                {label}
-              </Link>
-            ))}
+            {LINKS.map(({ href, label }) => {
+              const dark = pathname === '/' && !scrolled;
+              return (
+                <Link key={href} href={href}
+                  className={`px-3.5 py-2 rounded-lg text-sm font-medium transition-colors ${
+                    dark
+                      ? 'text-slate-300 hover:text-white hover:bg-white/10'
+                      : pathname === href
+                      ? 'text-slate-900 bg-slate-100'
+                      : 'text-slate-500 hover:text-slate-900 hover:bg-slate-50'
+                  }`}
+                >
+                  {label}
+                </Link>
+              );
+            })}
           </div>
 
           {/* CTA + mobile toggle */}
@@ -60,17 +63,18 @@ export function MarketingNav() {
             <Link
               href="/kontakt"
               className="hidden sm:inline-flex items-center gap-1.5 text-sm font-semibold bg-[#2563EB] hover:bg-blue-700 text-white px-4 py-2 rounded-xl transition-all duration-200 hover:shadow-md hover:-translate-y-px"
+              style={{ boxShadow: pathname === '/' && !scrolled ? '0 0 24px rgba(37,99,235,0.45)' : undefined }}
             >
               Získat web
             </Link>
             <button
               onClick={() => setMenuOpen((v) => !v)}
-              className="md:hidden w-9 h-9 flex flex-col items-center justify-center gap-1.5 rounded-lg hover:bg-slate-100 transition-colors"
+              className="md:hidden w-9 h-9 flex flex-col items-center justify-center gap-1.5 rounded-lg hover:bg-white/10 transition-colors"
               aria-label="Menu"
             >
-              <span className={`block w-5 h-0.5 bg-slate-700 transition-all duration-200 ${menuOpen ? 'rotate-45 translate-y-2' : ''}`} />
-              <span className={`block w-5 h-0.5 bg-slate-700 transition-all duration-200 ${menuOpen ? 'opacity-0' : ''}`} />
-              <span className={`block w-5 h-0.5 bg-slate-700 transition-all duration-200 ${menuOpen ? '-rotate-45 -translate-y-2' : ''}`} />
+              <span className={`block w-5 h-0.5 transition-all duration-200 ${pathname === '/' && !scrolled ? 'bg-slate-300' : 'bg-slate-700'} ${menuOpen ? 'rotate-45 translate-y-2' : ''}`} />
+              <span className={`block w-5 h-0.5 transition-all duration-200 ${pathname === '/' && !scrolled ? 'bg-slate-300' : 'bg-slate-700'} ${menuOpen ? 'opacity-0' : ''}`} />
+              <span className={`block w-5 h-0.5 transition-all duration-200 ${pathname === '/' && !scrolled ? 'bg-slate-300' : 'bg-slate-700'} ${menuOpen ? '-rotate-45 -translate-y-2' : ''}`} />
             </button>
           </div>
         </div>
