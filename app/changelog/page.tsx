@@ -17,6 +17,17 @@ interface Version {
 
 const CHANGELOG: Version[] = [
   {
+    version: '3.35',
+    date: '18. 6. 2026',
+    changes: [
+      { type: 'change', text: 'ImmersiveScene: 23 samostatných useFrame (jeden na fragment) → 1 konsolidovaný loop v ExplosionFragments přes meshRefs/matRefs pole — ~23× méně React fiber overhead per frame' },
+      { type: 'change', text: 'ImmersiveScene: světla 8 → 5 — odstraněn přední bílý (0.7), rim cyan (1.8), zadní modrý (1.4); ambient posílen 0.12→0.18 pro kompenzaci' },
+      { type: 'change', text: 'ImmersiveScene: DPR [1, 1.5] → [1, 1.2] — snižuje počet renderovaných pixelů na HiDPI displejích (při 2× DPR: 44% méně fragmentů)' },
+      { type: 'change', text: 'ImmersiveScene: Torus segmenty 100→60 a 120→72 — snižuje vertex count prstenců bez viditelné ztráty kvality' },
+      { type: 'change', text: 'ImmersiveScene: ~8 meshStandardMaterial → meshBasicMaterial na pozadích screen karet (dashboard, feature cards, sidebar, blog cards, product grid) — přeskakuje PBR lighting výpočet' },
+    ],
+  },
+  {
     version: '3.34',
     date: '18. 6. 2026',
     changes: [
