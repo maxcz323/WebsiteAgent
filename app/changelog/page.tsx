@@ -17,6 +17,20 @@ interface Version {
 
 const CHANGELOG: Version[] = [
   {
+    version: '3.42',
+    date: '18. 6. 2026',
+    changes: [
+      { type: 'feat', text: 'ImmersiveScene: monitor nyní vypráví příběh — 6 obrazovek mapuje celý proces: 01/IDEA → 02/DESIGN → 03/FIREMNÍ WEB → 04/E-SHOP → 05/VÝSLEDKY → 06/SPUŠTĚNÍ' },
+      { type: 'feat', text: 'ScreenIdea (sekce 0): nová obrazovka — klientský intake formulář s browserovým chromem (macOS traffic lights, URL bar), vyplněný formulář "Kuchař & synové", blikající kurzor, potvrzení ✓ Požadavek přijat' },
+      { type: 'feat', text: 'ScreenResults (sekce 4): nová analytická obrazovka — velké číslo 12,847 návštěv +127%, konverzní poměr 4.2%, tržby 142k Kč, sloupcový graf 12 měsíců se zvýrazněnými posledními 3 sloupci (cyan), živý pulsující dot LIVE' },
+      { type: 'feat', text: 'ScreenLaunch (sekce 5): nová launch obrazovka — velký pulsující zelený dot, obří "LIVE" text (fontSize 0.200), doména "vaseweb.cz", "Váš web je online", čas spuštění, 3 stats (48h / 100% / 0 Kč)' },
+      { type: 'change', text: 'ScreenCorporate odstraněna — nahrazena ScreenEcommerce přesunutou na sekci 3; sekce 3 (původně E-SHOP) nyní za sekcí FIREMNÍ WEB — příběh dává logický sled' },
+      { type: 'change', text: 'SCREEN_RIM/EM barvy přeladěny na paletu podle fáze: IDEA grey-blue → DESIGN blue → BUSINESS deep blue → ECOM teal → RESULTS cyan → LAUNCH green — monitor vizuálně signalizuje fázi příběhu' },
+      { type: 'change', text: 'Monitor switch: section < 5 guard odstraněn — všechny sekce 0–5 mají vlastní obsah; section 5 (LAUNCH) zobrazuje ScreenLaunch + exploze fragmentů létá přes live obrazovku' },
+      { type: 'change', text: 'Stage labels přidány do každé obrazovky: "01 / IDEA", "02 / DESIGN", "03 / FIREMNÍ WEB", "04 / E-SHOP", "05 / VÝSLEDKY", "06 / SPUŠTĚNÍ"' },
+    ],
+  },
+  {
     version: '3.40',
     date: '18. 6. 2026',
     changes: [
