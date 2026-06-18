@@ -93,25 +93,16 @@ function S1() {
   return (
     <section id="s1" aria-label="Intro" style={{ height: '100vh', display: 'flex', alignItems: 'center', pointerEvents: 'none', position: 'relative', zIndex: 10 }}>
       <ScrollIndicator />
-      <div id="s1i" style={{ width: 'clamp(260px, 33vw, 420px)', padding: '0 40px 0 52px', opacity: 0 }}>
+      <div id="s1i" style={{ width: 'clamp(280px, 36vw, 480px)', padding: '0 40px 0 52px', opacity: 0 }}>
 
-        {/* Status badge — minimal, monospace-style */}
-        <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', marginBottom: '36px' }}>
-          <span style={{ width: '5px', height: '5px', borderRadius: '50%', background: '#2563eb', flexShrink: 0 }} />
-          <span style={{ fontSize: '11px', color: '#4a6278', fontWeight: 500, letterSpacing: '0.05em' }}>
-            48 h dodání&ensp;·&ensp;záloha 0 Kč&ensp;·&ensp;50+ projektů
-          </span>
-        </div>
-
-        {/* Headline — single statement */}
         <h1 style={{
           fontFamily: 'var(--font-display)',
-          fontSize: 'clamp(64px,8.5vw,112px)',
+          fontSize: 'clamp(76px, 10vw, 130px)',
           fontWeight: 300,
-          lineHeight: 1.0,
-          letterSpacing: '-0.045em',
+          lineHeight: 0.93,
+          letterSpacing: '-0.05em',
           color: 'white',
-          margin: '0 0 44px',
+          margin: '0 0 48px',
         }}>
           Web, který<br />
           <em style={{
@@ -122,12 +113,11 @@ function S1() {
           }}>prodává.</em>
         </h1>
 
-        {/* CTAs — one clear, one ghost */}
-        <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', pointerEvents: 'auto' }}>
+        <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', pointerEvents: 'auto' }}>
           <Link href="/kontakt" style={{
             display: 'inline-flex', alignItems: 'center', gap: '9px',
             fontWeight: 600, fontSize: '14px', textDecoration: 'none',
-            borderRadius: '10px', padding: '14px 28px',
+            borderRadius: '8px', padding: '14px 28px',
             background: '#2563eb', color: 'white',
             transition: 'background 0.18s',
           }}>
@@ -137,9 +127,9 @@ function S1() {
           <Link href="/jak-pracujeme" style={{
             display: 'inline-flex', alignItems: 'center',
             fontWeight: 500, fontSize: '14px', textDecoration: 'none',
-            borderRadius: '10px', padding: '14px 24px',
-            color: '#5a7890',
-            border: '1px solid rgba(255,255,255,0.07)',
+            borderRadius: '8px', padding: '14px 24px',
+            color: '#4a6880',
+            border: '1px solid rgba(255,255,255,0.10)',
             transition: 'color 0.18s, border-color 0.18s',
           }}>
             Jak to funguje
@@ -158,8 +148,8 @@ function S1() {
 ═══════════════════════════════════════════════════════════════ */
 function S2() {
   return (
-    <section id="s2" aria-label="Proces" style={{ height: '100vh', display: 'flex', alignItems: 'center', pointerEvents: 'none', position: 'relative', zIndex: 10 }}>
-      <div id="s2i" style={{ width: 'clamp(260px, 33vw, 420px)', padding: '0 40px 0 52px', opacity: 0 }}>
+    <section id="s2" aria-label="Proces" style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', pointerEvents: 'none', position: 'relative', zIndex: 10 }}>
+      <div id="s2i" style={{ width: 'clamp(260px, 33vw, 440px)', padding: '0 52px 0 40px', opacity: 0 }}>
 
         <p style={{ fontSize: '10px', fontWeight: 600, color: '#2563eb', textTransform: 'uppercase', letterSpacing: '0.16em', margin: '0 0 36px' }}>Jak to funguje</p>
 
@@ -176,14 +166,14 @@ function S2() {
             <span style={{ fontSize: '10px', color: '#3a5068', fontWeight: 500, marginRight: '20px', minWidth: '22px', letterSpacing: '0.04em', flexShrink: 0 }}>{s.n}</span>
             <span style={{
               fontFamily: 'var(--font-display)',
-              fontSize: 'clamp(46px,6.5vw,80px)',
+              fontSize: 'clamp(52px,7.5vw,94px)',
               fontWeight: 300,
               color: 'white',
               letterSpacing: '-0.04em',
               lineHeight: 1,
               flex: 1,
             }}>{s.word}</span>
-            <span style={{ fontSize: '11px', color: '#1e3a5e', fontWeight: 500, letterSpacing: '0.04em' }}>{s.note}</span>
+            <span style={{ fontSize: '11px', color: '#3a5878', fontWeight: 500, letterSpacing: '0.04em' }}>{s.note}</span>
           </div>
         ))}
 
@@ -248,7 +238,7 @@ function S4() {
           color: 'white',
           lineHeight: 0.96,
           letterSpacing: '-0.05em',
-          margin: '0 0 28px',
+          margin: '0 0 48px',
         }}>
           Začněte<br />
           <em style={{
@@ -259,20 +249,16 @@ function S4() {
           }}>dnes.</em>
         </h2>
 
-        <p style={{ fontSize: '14px', color: '#4a6880', lineHeight: 1.9, margin: '0 0 36px' }}>
-          Záloha nula.&ensp;Návrh do 24 hodin.&ensp;Web do 48 hodin.
-        </p>
-
         <div style={{ pointerEvents: 'auto' }}>
           <Link href="/kontakt" style={{
             display: 'inline-flex', alignItems: 'center', gap: '10px',
-            padding: '17px 44px',
+            padding: '17px 52px',
             background: '#2563eb',
             color: '#fff',
             fontWeight: 600,
             fontSize: '15px',
             letterSpacing: '-0.01em',
-            borderRadius: '10px',
+            borderRadius: '8px',
             textDecoration: 'none',
             transition: 'background 0.18s',
           }}>
@@ -496,11 +482,11 @@ export default function HomePage() {
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
 
-    /* S1 — immediate fade-in, no y shift */
+    /* S1 — immediate fade-in with subtle lift */
     gsap.set('#s1i', { opacity: 1 });
     gsap.fromTo('#s1i > *',
-      { opacity: 0 },
-      { opacity: 1, duration: 0.9, stagger: 0.14, ease: 'power2.out', delay: 0.3 },
+      { opacity: 0, y: 16 },
+      { opacity: 1, y: 0, duration: 0.7, stagger: 0.10, ease: 'power2.out', delay: 0.3 },
     );
 
     /* Scroll indicator */
@@ -518,7 +504,7 @@ export default function HomePage() {
       onEnter:     () => gsap.to('#s1i', { opacity: 0, duration: 0.45, ease: 'power2.inOut' }),
       onLeaveBack: () => {
         gsap.set('#s1i', { opacity: 1 });
-        gsap.fromTo('#s1i > *', { opacity: 0 }, { opacity: 1, duration: 0.7, stagger: 0.1, ease: 'power2.out' });
+        gsap.fromTo('#s1i > *', { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.6, stagger: 0.09, ease: 'power2.out' });
       },
     });
 
@@ -534,20 +520,20 @@ export default function HomePage() {
       gsap.set(`${i} > *`, { opacity: 0 });
 
       return ScrollTrigger.create({
-        trigger: t, start: 'top 22%', end: 'bottom 38%',
+        trigger: t, start: 'top 18%', end: 'bottom 38%',
         onEnter: () => {
           gsap.set(i, { opacity: 1 });
-          gsap.to(`${i} > *`, { opacity: 1, duration: 0.8, stagger: 0.12, ease: 'power2.out' });
+          gsap.fromTo(`${i} > *`, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.65, stagger: 0.09, ease: 'power2.out' });
         },
         onLeave: () => {
-          gsap.to(i, { opacity: 0, duration: 0.4, ease: 'power2.inOut', onComplete: () => gsap.set(`${i} > *`, { opacity: 0 }) });
+          gsap.to(`${i} > *`, { opacity: 0, y: -10, duration: 0.35, ease: 'power2.inOut', onComplete: () => { gsap.set(i, { opacity: 0 }); gsap.set(`${i} > *`, { opacity: 0, y: 0 }); } });
         },
         onEnterBack: () => {
           gsap.set(i, { opacity: 1 });
-          gsap.to(`${i} > *`, { opacity: 1, duration: 0.7, stagger: { each: 0.1, from: 'end' }, ease: 'power2.out' });
+          gsap.fromTo(`${i} > *`, { opacity: 0, y: -12 }, { opacity: 1, y: 0, duration: 0.55, stagger: { each: 0.07, from: 'end' }, ease: 'power2.out' });
         },
         onLeaveBack: () => {
-          gsap.to(i, { opacity: 0, duration: 0.4, ease: 'power2.inOut', onComplete: () => gsap.set(`${i} > *`, { opacity: 0 }) });
+          gsap.to(`${i} > *`, { opacity: 0, y: 10, duration: 0.35, ease: 'power2.inOut', onComplete: () => { gsap.set(i, { opacity: 0 }); gsap.set(`${i} > *`, { opacity: 0, y: 0 }); } });
         },
       });
     });

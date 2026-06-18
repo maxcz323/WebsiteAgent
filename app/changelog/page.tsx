@@ -17,6 +17,20 @@ interface Version {
 
 const CHANGELOG: Version[] = [
   {
+    version: '3.46',
+    date: '18. 6. 2026',
+    changes: [
+      { type: 'change', text: 'S1 HERO: status badge ("48 h dodání · záloha 0 Kč · 50+ projektů") odstraněn — informace jsou prezentovány jako velká čísla v S3; opakování před headlinem bylo noise' },
+      { type: 'change', text: 'S1 HERO: headline fontSize clamp(64px,8.5vw,112px) → clamp(76px,10vw,130px); lineHeight 1.0 → 0.93; letterSpacing -0.045em → -0.05em — víc prostorový, editorský pocit' },
+      { type: 'change', text: 'S2 PROCESS: sekce přesunuta na pravou stranu (justifyContent: flex-end; padding: 0 52px 0 40px) — kamera v PROCESS orbitu vpravo (camX=2.5), monitor leží vlevo; text vpravo eliminuje překryv a vytváří správnou kompozici' },
+      { type: 'change', text: 'S2 PROCESS: step word fontSize clamp(46px,6.5vw,80px) → clamp(52px,7.5vw,94px) — dominantnější, product-showcase váha; časové značky color #1e3a5e → #3a5878 — čitelnější' },
+      { type: 'change', text: 'S4 CTA: odstraněn odstavec "Záloha nula. Návrh do 24 hodin. Web do 48 hodin." — přebytek vysvětlování pod silným headlinem oslaboval výzvu k akci; CTA sekce nyní: headline + jedno tlačítko' },
+      { type: 'change', text: 'S4 CTA: h2 margin-bottom 28px → 48px (headlinu dává prostor k dechu bez odstavce); button padding 17px 44px → 17px 52px; border-radius 10px → 8px — konzistentní s S1 tlačítky' },
+      { type: 'feat',   text: 'Animace: S1 vstup — přidán Y lift (opacity:0,y:16 → opacity:1,y:0); S2–S4 onEnter/onEnterBack — fromTo s y:14/-12 pro směrový vstup; onLeave/onLeaveBack — exit s y:-10/10 pro plynulý pohyb; duration 0.8 → 0.65; stagger 0.12 → 0.09' },
+      { type: 'change', text: 'Animace: ScrollTrigger start "top 22%" → "top 18%" — text se objeví o něco dříve v průběhu scrollu, přirozenější timing' },
+    ],
+  },
+  {
     version: '3.45',
     date: '18. 6. 2026',
     changes: [
