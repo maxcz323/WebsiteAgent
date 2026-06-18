@@ -74,7 +74,89 @@ function MonitorGLTF() {
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   SCREEN CONTENT — STATE 0 + 1 (HERO + BUILD ANIMATION)
+   SCREEN CONTENT — STATE 0 (IDEA)
+   Client intake form / concept brief
+═══════════════════════════════════════════════════════════════ */
+function ScreenIdea() {
+  const Z = 0.083;
+  const cursorRef = useRef<THREE.MeshBasicMaterial>(null!);
+  useFrame(({ clock }) => {
+    if (cursorRef.current) cursorRef.current.opacity = Math.sin(clock.elapsedTime * 2.8) > 0 ? 0.9 : 0;
+  });
+  return (
+    <>
+      {/* Browser chrome */}
+      <mesh position={[0, 1.02, Z]}>
+        <boxGeometry args={[3.38, 0.13, 0.001]} />
+        <meshBasicMaterial color="#080e18" />
+      </mesh>
+      {(['#ff5f57','#ffbd2e','#28c840'] as const).map((c, i) => (
+        <mesh key={i} position={[-1.56 + i * 0.12, 1.02, Z + 0.003]}>
+          <circleGeometry args={[0.019, 8]} />
+          <meshBasicMaterial color={c} />
+        </mesh>
+      ))}
+      <mesh position={[0.1, 1.02, Z + 0.002]}>
+        <boxGeometry args={[2.4, 0.067, 0.001]} />
+        <meshBasicMaterial color="#0e1c2e" />
+      </mesh>
+      <Text position={[0.1, 1.02, Z + 0.004]} fontSize={0.036} color="#2a4060" anchorX="center" anchorY="middle">websiteagent.cz/novy-projekt</Text>
+
+      {/* Stage label */}
+      <Text position={[-1.58, 0.84, Z + 0.003]} fontSize={0.038} color="#2563eb" anchorX="left" anchorY="middle">01 / IDEA</Text>
+
+      {/* Form card */}
+      <mesh position={[0, 0.20, Z + 0.001]}>
+        <boxGeometry args={[2.9, 1.48, 0.004]} />
+        <meshBasicMaterial color="#0c1828" />
+      </mesh>
+      <mesh position={[0, 0.93, Z + 0.004]}>
+        <boxGeometry args={[2.9, 0.001, 0.001]} />
+        <meshBasicMaterial color="#1a3050" />
+      </mesh>
+      <Text position={[-1.03, 0.82, Z + 0.005]} fontSize={0.068} color="#d0e8ff" anchorX="left" anchorY="middle">Nový projekt</Text>
+      <Text position={[-1.03, 0.70, Z + 0.005]} fontSize={0.040} color="#3a5878" anchorX="left" anchorY="middle">Řekněte nám co potřebujete</Text>
+
+      {/* Field: Firma */}
+      <Text position={[-1.33, 0.55, Z + 0.005]} fontSize={0.036} color="#2a4870" anchorX="left" anchorY="middle">Název firmy</Text>
+      <mesh position={[0, 0.44, Z + 0.004]}><boxGeometry args={[2.66, 0.105, 0.001]} /><meshBasicMaterial color="#0e1e30" /></mesh>
+      <Text position={[-1.24, 0.44, Z + 0.006]} fontSize={0.048} color="#7aaad8" anchorX="left" anchorY="middle">Kuchař & synové s.r.o.</Text>
+
+      {/* Field: Typ */}
+      <Text position={[-1.33, 0.30, Z + 0.005]} fontSize={0.036} color="#2a4870" anchorX="left" anchorY="middle">Typ webu</Text>
+      <mesh position={[0, 0.19, Z + 0.004]}><boxGeometry args={[2.66, 0.105, 0.001]} /><meshBasicMaterial color="#0e1e30" /></mesh>
+      <Text position={[-1.24, 0.19, Z + 0.006]} fontSize={0.048} color="#7aaad8" anchorX="left" anchorY="middle">Firemní web</Text>
+      <Text position={[1.20, 0.19, Z + 0.006]} fontSize={0.048} color="#2a4060" anchorX="right" anchorY="middle">▾</Text>
+
+      {/* Field: Popis (currently typing) */}
+      <Text position={[-1.33, 0.05, Z + 0.005]} fontSize={0.036} color="#2a4870" anchorX="left" anchorY="middle">Popis projektu</Text>
+      <mesh position={[0, -0.10, Z + 0.004]}><boxGeometry args={[2.66, 0.20, 0.001]} /><meshBasicMaterial color="#0e1e30" /></mesh>
+      <Text position={[-1.24, -0.04, Z + 0.006]} fontSize={0.040} color="#5a88b0" anchorX="left" anchorY="middle">Chceme moderní web — restaurace,</Text>
+      <Text position={[-1.24, -0.14, Z + 0.006]} fontSize={0.040} color="#5a88b0" anchorX="left" anchorY="middle">rezervace + menu online.</Text>
+      <mesh position={[0.40, -0.14, Z + 0.007]}>
+        <boxGeometry args={[0.014, 0.068, 0.001]} />
+        <meshBasicMaterial ref={cursorRef} color="#60a5fa" transparent opacity={0.9} />
+      </mesh>
+
+      {/* Submit */}
+      <mesh position={[0.74, -0.38, Z + 0.005]}><boxGeometry args={[0.86, 0.13, 0.001]} /><meshBasicMaterial color="#2563eb" /></mesh>
+      <Text position={[0.74, -0.38, Z + 0.007]} fontSize={0.052} color="#ffffff" anchorX="center" anchorY="middle">Odeslat projekt →</Text>
+
+      {/* Confirmation */}
+      <mesh position={[-0.68, -0.38, Z + 0.004]}><boxGeometry args={[0.80, 0.09, 0.001]} /><meshBasicMaterial color="#0d2e18" /></mesh>
+      <Text position={[-0.68, -0.38, Z + 0.006]} fontSize={0.040} color="#22c55e" anchorX="center" anchorY="middle">✓  Požadavek přijat</Text>
+
+      {/* Bottom trust bar */}
+      <mesh position={[0, -0.98, Z]}><boxGeometry args={[3.38, 0.08, 0.001]} /><meshBasicMaterial color="#060d18" /></mesh>
+      {([[-1.1,'48 h'],[-0.38,'bez zálohy'],[0.34,'na míru'],[1.1,'50+ projektů']] as const).map(([x,t]) => (
+        <Text key={x} position={[x, -0.98, Z + 0.002]} fontSize={0.034} color="#1e3448" anchorX="center" anchorY="middle">{t}</Text>
+      ))}
+    </>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SCREEN CONTENT — STATE 1 (DESIGN / BUILD ANIMATION)
    Groups snap in sequentially based on SV.buildProgress
 ═══════════════════════════════════════════════════════════════ */
 function ScreenHero({ building }: { building: boolean }) {
@@ -152,6 +234,9 @@ function ScreenHero({ building }: { building: boolean }) {
         </mesh>
         <Text position={[1.46, 0.99, Z + 0.004]} fontSize={0.054} color="#ffffff" anchorX="center" anchorY="middle">Zacit</Text>
       </group>
+
+      {/* STAGE LABEL */}
+      <Text position={[-1.58, 0.84, Z + 0.003]} fontSize={0.038} color="#2563eb" anchorX="left" anchorY="middle">02 / DESIGN</Text>
 
       {/* BADGE */}
       <group ref={gBadge}>
@@ -295,6 +380,9 @@ function ScreenLanding() {
   const Z = 0.083;
   return (
     <>
+      {/* Stage label */}
+      <Text position={[-1.58, 0.84, Z + 0.003]} fontSize={0.038} color="#2563eb" anchorX="left" anchorY="middle">03 / FIREMNÍ WEB</Text>
+
       {/* NAV */}
       <mesh position={[0, 0.99, Z]}>
         <boxGeometry args={[3.38, 0.17, 0.001]} />
@@ -400,116 +488,7 @@ function ScreenLanding() {
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   SCREEN CONTENT — STATE 3 (CORPORATE WEBSITE)
-   Sidebar nav + multi-column content + news cards
-═══════════════════════════════════════════════════════════════ */
-function ScreenCorporate() {
-  const Z = 0.083;
-  return (
-    <>
-      {/* NAV */}
-      <mesh position={[0, 0.99, Z]}>
-        <boxGeometry args={[3.38, 0.17, 0.001]} />
-        <meshBasicMaterial color="#0d1e38" />
-      </mesh>
-      <mesh position={[-1.42, 0.99, Z + 0.003]}>
-        <sphereGeometry args={[0.032, 8, 8]} />
-        <meshStandardMaterial color="#7c3aed" emissive="#7c3aed" emissiveIntensity={2.8} />
-      </mesh>
-      <Text position={[-1.22, 0.99, Z + 0.003]} fontSize={0.060} color="#d8ecff" anchorX="left" anchorY="middle">FirmaXYZ s.r.o.</Text>
-      {['O nas', 'Sluzby', 'Reference', 'Blog', 'Kontakt'].map((label, i) => (
-        <Text key={i} position={[-0.5 + i * 0.46, 0.99, Z + 0.002]} fontSize={0.044} color="#2a4a6a" anchorX="center" anchorY="middle">{label}</Text>
-      ))}
-
-      {/* LEFT SIDEBAR */}
-      <mesh position={[-1.38, 0.05, Z]}>
-        <boxGeometry args={[0.68, 1.78, 0.005]} />
-        <meshBasicMaterial color="#0c1a30" />
-      </mesh>
-      <mesh position={[-1.38, 0.93, Z + 0.003]}>
-        <boxGeometry args={[0.68, 0.004, 0.001]} />
-        <meshBasicMaterial color="#6a22c0" transparent opacity={0.7} />
-      </mesh>
-      {([
-        [0.82, 'Prehled',    false],
-        [0.68, 'Projekty',   true],
-        [0.54, 'Klienti',    false],
-        [0.40, 'Faktury',    false],
-        [0.26, 'Zpravy',     false],
-        [0.12, 'Analyza',    false],
-        [-0.02,'Nastaveni',  false],
-        [-0.16,'Tym',        false],
-      ] as const).map(([y, label, active]) => (
-        <Text key={y} position={[-1.38, y, Z + 0.004]} fontSize={0.048} color={active ? '#c4b5fd' : '#2a4a6a'} anchorX="center" anchorY="middle">{label}</Text>
-      ))}
-      <mesh position={[-1.7, 0.68, Z + 0.003]}>
-        <boxGeometry args={[0.006, 0.042, 0.001]} />
-        <meshBasicMaterial color="#9f6ef5" />
-      </mesh>
-      <mesh position={[-1.38, -0.55, Z + 0.003]}>
-        <boxGeometry args={[0.48, 0.13, 0.001]} />
-        <meshBasicMaterial color="#5a18a8" />
-      </mesh>
-      <Text position={[-1.38, -0.55, Z + 0.005]} fontSize={0.052} color="#ddd6fe" anchorX="center" anchorY="middle">+ Novy projekt</Text>
-
-      {/* MAIN CONTENT */}
-      <Text position={[-0.42, 0.82, Z + 0.002]} fontSize={0.090} color="#ddf0ff" anchorX="left" anchorY="middle">Aktivni projekty</Text>
-      <Text position={[-0.42, 0.66, Z + 0.002]} fontSize={0.072} color="#aad0f8" anchorX="left" anchorY="middle">3 zakazky v prubehu</Text>
-      {([
-        [0.50, 'Web pro Restauraci U Novaku'],
-        [0.40, 'E-shop AutoDily Praha — faze 2'],
-        [0.30, 'Redesign Kavarna Mlyn, Brno'],
-      ] as const).map(([y, text]) => (
-        <Text key={y} position={[-0.42, y, Z + 0.001]} fontSize={0.042} color="#3a5878" anchorX="left" anchorY="middle" maxWidth={1.6}>{text}</Text>
-      ))}
-      <mesh position={[0.35, 0.14, Z]}>
-        <boxGeometry args={[1.85, 0.003, 0.001]} />
-        <meshBasicMaterial color="#162840" />
-      </mesh>
-
-      {/* Blog cards */}
-      {([
-        [-0.57, '#0d1a30', '#101630', '#2a4aaa', '#1a3888', '#60a5fa', 'SEO',     'Jak zvysit konverze', '12. 6. 2026'],
-        [ 0.35, '#0c1430', '#100e2e', '#4a1898', '#2a1280', '#a78bfa', 'Design',  'Trendy webu 2026',    '8. 6. 2026'],
-        [ 1.27, '#0b1e1a', '#0c1c14', '#1a6050', '#0e3a28', '#34d399', 'Rychlost','PageSpeed optimalizace','3. 6. 2026'],
-      ] as const).map(([x, bg, imgBg, imgAcc, catBg, catCol, cat, title, date], i) => (
-        <group key={i} position={[x, -0.38, Z]}>
-          <mesh>
-            <boxGeometry args={[0.82, 0.78, 0.005]} />
-            <meshBasicMaterial color={bg} />
-          </mesh>
-          <mesh position={[0, 0.25, 0.003]}>
-            <boxGeometry args={[0.82, 0.32, 0.001]} />
-            <meshBasicMaterial color={imgBg} />
-          </mesh>
-          <mesh position={[0, 0.25, 0.004]}>
-            <boxGeometry args={[0.82, 0.32, 0.001]} />
-            <meshBasicMaterial color={imgAcc} transparent opacity={0.35} />
-          </mesh>
-          <mesh position={[-0.22, 0.05, 0.004]}>
-            <boxGeometry args={[0.26, 0.060, 0.001]} />
-            <meshBasicMaterial color={catBg} />
-          </mesh>
-          <Text position={[-0.22, 0.05, 0.006]} fontSize={0.040} color={catCol} anchorX="center" anchorY="middle">{cat}</Text>
-          <Text position={[0, -0.09, 0.005]} fontSize={0.054} color="#c0d8f0" anchorX="center" anchorY="middle" maxWidth={0.70}>{title}</Text>
-          <Text position={[-0.15, -0.30, 0.005]} fontSize={0.036} color="#3a5060" anchorX="left" anchorY="middle">{date}</Text>
-        </group>
-      ))}
-
-      {/* FOOTER */}
-      <mesh position={[0, -0.98, Z]}>
-        <boxGeometry args={[3.38, 0.1, 0.001]} />
-        <meshBasicMaterial color="#091826" />
-      </mesh>
-      {([[-1.1, 'WebsiteAgent'], [-0.28, 'Podminky'], [0.54, 'GDPR'], [1.36, '2026']] as const).map(([x, text]) => (
-        <Text key={x} position={[x, -0.98, Z + 0.002]} fontSize={0.036} color="#2a4060" anchorX="center" anchorY="middle">{text}</Text>
-      ))}
-    </>
-  );
-}
-
-/* ═══════════════════════════════════════════════════════════════
-   SCREEN CONTENT — STATE 4 (E-COMMERCE)
+   SCREEN CONTENT — STATE 3 (E-COMMERCE)
    Header + filter sidebar + 2×3 product grid
 ═══════════════════════════════════════════════════════════════ */
 function ScreenEcommerce() {
@@ -529,6 +508,9 @@ function ScreenEcommerce() {
 
   return (
     <>
+      {/* Stage label */}
+      <Text position={[-1.58, 0.84, Z + 0.003]} fontSize={0.038} color="#10b981" anchorX="left" anchorY="middle">04 / E-SHOP</Text>
+
       {/* HEADER */}
       <mesh position={[0, 0.99, Z]}>
         <boxGeometry args={[3.38, 0.17, 0.001]} />
@@ -617,15 +599,164 @@ function ScreenEcommerce() {
 }
 
 /* ═══════════════════════════════════════════════════════════════
+   SCREEN CONTENT — STATE 4 (RESULTS)
+   Analytics dashboard — traffic, conversions, revenue
+═══════════════════════════════════════════════════════════════ */
+function ScreenResults() {
+  const Z = 0.083;
+  const liveDotMat = useRef<THREE.MeshStandardMaterial>(null!);
+  useFrame(({ clock }) => {
+    const t = clock.elapsedTime;
+    if (liveDotMat.current) liveDotMat.current.emissiveIntensity = 1.0 + Math.sin(t * 3) * 0.8;
+  });
+  const BAR_H = [0.12, 0.18, 0.14, 0.22, 0.26, 0.20, 0.30, 0.34, 0.28, 0.38, 0.44, 0.50] as const;
+  return (
+    <>
+      {/* NAV */}
+      <mesh position={[0, 0.99, Z]}><boxGeometry args={[3.38, 0.17, 0.001]} /><meshBasicMaterial color="#0a1c30" /></mesh>
+      <Text position={[-1.58, 0.99, Z + 0.003]} fontSize={0.054} color="#d0e8ff" anchorX="left" anchorY="middle">WebsiteAgent</Text>
+      <mesh position={[0.56, 0.99, Z + 0.002]}><boxGeometry args={[0.001, 0.09, 0.001]} /><meshBasicMaterial color="#1a3050" /></mesh>
+      <Text position={[0.76, 0.99, Z + 0.003]} fontSize={0.044} color="#3a5878" anchorX="left" anchorY="middle">Analytika</Text>
+      <mesh position={[1.38, 0.99, Z + 0.004]}>
+        <sphereGeometry args={[0.018, 8, 8]} />
+        <meshStandardMaterial ref={liveDotMat} color="#22c55e" emissive="#22c55e" emissiveIntensity={1.5} />
+      </mesh>
+      <Text position={[1.46, 0.99, Z + 0.003]} fontSize={0.040} color="#22c55e" anchorX="left" anchorY="middle">LIVE</Text>
+
+      {/* Stage label */}
+      <Text position={[-1.58, 0.82, Z + 0.003]} fontSize={0.038} color="#22d3ee" anchorX="left" anchorY="middle">05 / VÝSLEDKY</Text>
+
+      {/* Big visitor count */}
+      <mesh position={[-0.52, 0.53, Z + 0.001]}><boxGeometry args={[1.88, 0.60, 0.003]} /><meshBasicMaterial color="#0a1c30" /></mesh>
+      <Text position={[-0.52, 0.71, Z + 0.004]} fontSize={0.115} color="#e8f4ff" anchorX="center" anchorY="middle">12,847</Text>
+      <Text position={[-0.52, 0.56, Z + 0.004]} fontSize={0.040} color="#3a6080" anchorX="center" anchorY="middle">návštěv tento měsíc</Text>
+      <mesh position={[-0.52, 0.39, Z + 0.004]}><boxGeometry args={[0.68, 0.09, 0.001]} /><meshBasicMaterial color="#0d3020" /></mesh>
+      <Text position={[-0.52, 0.39, Z + 0.006]} fontSize={0.048} color="#22c55e" anchorX="center" anchorY="middle">↑ +127%</Text>
+
+      {/* Right metric cards */}
+      <mesh position={[0.94, 0.68, Z + 0.001]}><boxGeometry args={[0.84, 0.28, 0.003]} /><meshBasicMaterial color="#0a1c30" /></mesh>
+      <Text position={[0.94, 0.78, Z + 0.004]} fontSize={0.078} color="#22d3ee" anchorX="center" anchorY="middle">4.2%</Text>
+      <Text position={[0.94, 0.64, Z + 0.004]} fontSize={0.034} color="#3a5878" anchorX="center" anchorY="middle">konverzní poměr</Text>
+
+      <mesh position={[0.94, 0.32, Z + 0.001]}><boxGeometry args={[0.84, 0.28, 0.003]} /><meshBasicMaterial color="#0a1c30" /></mesh>
+      <Text position={[0.94, 0.42, Z + 0.004]} fontSize={0.078} color="#f59e0b" anchorX="center" anchorY="middle">142k</Text>
+      <Text position={[0.94, 0.28, Z + 0.004]} fontSize={0.034} color="#3a5878" anchorX="center" anchorY="middle">Kč tržby</Text>
+
+      {/* Chart */}
+      <mesh position={[0, -0.15, Z + 0.001]}><boxGeometry args={[3.1, 0.54, 0.003]} /><meshBasicMaterial color="#080e18" /></mesh>
+      <Text position={[-1.44, 0.06, Z + 0.004]} fontSize={0.036} color="#1e3448" anchorX="left" anchorY="middle">Návštěvnost — posledních 12 měsíců</Text>
+      {BAR_H.map((h, i) => (
+        <mesh key={i} position={[-1.34 + i * 0.244, -0.38 + h / 2, Z + 0.003]}>
+          <boxGeometry args={[0.145, h, 0.001]} />
+          <meshBasicMaterial color={i > 8 ? '#22d3ee' : '#1e4a6a'} transparent opacity={0.85} />
+        </mesh>
+      ))}
+      <mesh position={[0, -0.46, Z + 0.003]}><boxGeometry args={[2.8, 0.002, 0.001]} /><meshBasicMaterial color="#1a3050" /></mesh>
+
+      {/* Bottom 3 stats */}
+      <mesh position={[0, -0.56, Z]}><boxGeometry args={[3.38, 0.27, 0.001]} /><meshBasicMaterial color="#060d1a" /></mesh>
+      {([
+        [-1.1,  '#60a5fa', '48h',   'průměr dodání'],
+        [-0.08, '#22d3ee', '99/100','PageSpeed'],
+        [ 0.94, '#34d399', '100%',  'spokojenost'],
+      ] as const).map(([x, c, val, lbl]) => (
+        <group key={x}>
+          <Text position={[x, -0.50, Z + 0.003]} fontSize={0.072} color={c} anchorX="center" anchorY="middle">{val}</Text>
+          <Text position={[x, -0.65, Z + 0.003]} fontSize={0.034} color="#2a4060" anchorX="center" anchorY="middle">{lbl}</Text>
+        </group>
+      ))}
+
+      <mesh position={[0, -0.98, Z]}><boxGeometry args={[3.38, 0.10, 0.001]} /><meshBasicMaterial color="#060d18" /></mesh>
+      <Text position={[0, -0.98, Z + 0.002]} fontSize={0.034} color="#1e3448" anchorX="center" anchorY="middle">Přehled výkonu — červen 2026</Text>
+    </>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SCREEN CONTENT — STATE 5 (LAUNCH)
+   Going LIVE — domain, green indicator, celebration
+═══════════════════════════════════════════════════════════════ */
+function ScreenLaunch() {
+  const Z = 0.083;
+  const pulseRef  = useRef<THREE.MeshStandardMaterial>(null!);
+  const glowRef   = useRef<THREE.MeshBasicMaterial>(null!);
+  useFrame(({ clock }) => {
+    const t = clock.elapsedTime;
+    const p = 0.5 + Math.sin(t * 2.4) * 0.5;
+    if (pulseRef.current) pulseRef.current.emissiveIntensity = 1.5 + p * 2.2;
+    if (glowRef.current)  glowRef.current.opacity = 0.04 + p * 0.09;
+  });
+  return (
+    <>
+      {/* Full dark bg */}
+      <mesh position={[0, 0.05, Z - 0.001]}><boxGeometry args={[3.56, 2.30, 0.001]} /><meshBasicMaterial color="#030e10" /></mesh>
+
+      {/* Stage label */}
+      <Text position={[0, 0.72, Z + 0.003]} fontSize={0.040} color="#1a4830" anchorX="center" anchorY="middle">06 / SPUŠTĚNÍ</Text>
+
+      {/* Glow rings */}
+      <mesh position={[0, 0.30, Z + 0.002]}>
+        <circleGeometry args={[0.34, 32]} />
+        <meshBasicMaterial ref={glowRef} color="#22c55e" transparent opacity={0.06} />
+      </mesh>
+      <mesh position={[0, 0.30, Z + 0.003]}>
+        <circleGeometry args={[0.20, 24]} />
+        <meshBasicMaterial color="#061e10" />
+      </mesh>
+
+      {/* LIVE dot */}
+      <mesh position={[0, 0.30, Z + 0.006]}>
+        <sphereGeometry args={[0.060, 16, 16]} />
+        <meshStandardMaterial ref={pulseRef} color="#22c55e" emissive="#22c55e" emissiveIntensity={2.5} />
+      </mesh>
+
+      {/* LIVE text */}
+      <Text position={[0, 0.04, Z + 0.005]} fontSize={0.200} color="#22c55e" anchorX="center" anchorY="middle">LIVE</Text>
+
+      {/* Domain */}
+      <mesh position={[0, -0.20, Z + 0.003]}><boxGeometry args={[1.88, 0.115, 0.001]} /><meshBasicMaterial color="#081e10" /></mesh>
+      <Text position={[0, -0.20, Z + 0.005]} fontSize={0.056} color="#34d399" anchorX="center" anchorY="middle">vaseweb.cz</Text>
+
+      {/* Status line */}
+      <Text position={[0, -0.40, Z + 0.004]} fontSize={0.050} color="#3a7858" anchorX="center" anchorY="middle">Váš web je online</Text>
+      <Text position={[0, -0.52, Z + 0.004]} fontSize={0.038} color="#1a4028" anchorX="center" anchorY="middle">Spuštěno dnes v 09:42</Text>
+
+      {/* Divider */}
+      <mesh position={[0, -0.64, Z + 0.002]}><boxGeometry args={[2.1, 0.002, 0.001]} /><meshBasicMaterial color="#0e2818" /></mesh>
+
+      {/* Bottom stats */}
+      {([
+        [-0.82, '#22d3ee', '48h',  'od objednávky'],
+        [ 0.00, '#22c55e', '100%', 'splněno'],
+        [ 0.82, '#f59e0b', '0 Kč', 'záloha'],
+      ] as const).map(([x, c, val, lbl]) => (
+        <group key={x}>
+          <Text position={[x, -0.78, Z + 0.004]} fontSize={0.074} color={c} anchorX="center" anchorY="middle">{val}</Text>
+          <Text position={[x, -0.93, Z + 0.004]} fontSize={0.034} color="#1a4028" anchorX="center" anchorY="middle">{lbl}</Text>
+        </group>
+      ))}
+    </>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════════
    MONITOR WRAPPER — hardware + screen + transform animation
 ═══════════════════════════════════════════════════════════════ */
 const SCREEN_RIM = [
-  '#1a3c9a', '#1a3c9a', '#1a4080',
-  '#4a1090', '#0d7058', '#300808',
+  '#1e2840',  // 0 IDEA     - muted grey-blue
+  '#1a3c9a',  // 1 DESIGN   - electric blue
+  '#1a4080',  // 2 BUSINESS - deep professional blue
+  '#0d5a40',  // 3 ECOM     - teal green
+  '#0a4870',  // 4 RESULTS  - cyan
+  '#0a7040',  // 5 LAUNCH   - green
 ] as const;
 const SCREEN_EM = [
-  '#0a1e50', '#0a1e50', '#0a2040',
-  '#160c50', '#063a30', '#100404',
+  '#0a1428',  // 0 IDEA
+  '#0a1e50',  // 1 DESIGN
+  '#0a2040',  // 2 BUSINESS
+  '#063a30',  // 3 ECOM
+  '#033040',  // 4 RESULTS
+  '#043820',  // 5 LAUNCH
 ] as const;
 
 function Monitor({ section }: { section: number }) {
@@ -687,16 +818,13 @@ function Monitor({ section }: { section: number }) {
         <meshStandardMaterial color="#05070c" metalness={0.9} roughness={0.1} />
       </mesh>
 
-      {/* Screen content — switches per section */}
-      {section < 5 && (
-        <>
-          {(section === 0 || section === 1) && <ScreenHero building={section === 1} />}
-          {section === 2 && <ScreenLanding />}
-          {section === 3 && <ScreenCorporate />}
-          {section === 4 && <ScreenEcommerce />}
-        </>
-      )}
-      {/* State 5: screen goes dark (handled by emissive → red, no content) */}
+      {/* Screen content — 6-stage story */}
+      {section === 0 && <ScreenIdea />}
+      {section === 1 && <ScreenHero building={true} />}
+      {section === 2 && <ScreenLanding />}
+      {section === 3 && <ScreenEcommerce />}
+      {section === 4 && <ScreenResults />}
+      {section === 5 && <ScreenLaunch />}
     </group>
   );
 }
