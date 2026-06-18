@@ -13,11 +13,12 @@ if (typeof window !== 'undefined') gsap.registerPlugin(ScrollTrigger);
    SHARED STATE  (GSAP writes every frame, useFrame reads)
 ═══════════════════════════════════════════════════════════════ */
 const SV = {
-  camX: 0,    camY: 0.15,  camZ: 8.5,
-  monRotX: 0, monRotY: 0,  monScale: 1.22,
+  camX: 0,    camY: 0.3,   camZ: 10.0,
+  camFov: 40,
+  monRotX: 0, monRotY: 0,  monScale: 1.18,
   monX: 0,    monY: 0.05,
-  buildProgress: 0,   // 0→1: UI assembly animation
-  explodeProgress: 0, // 0→1: explosion WOW
+  buildProgress: 0,
+  explodeProgress: 0,
 };
 
 const M = { x: 0, y: 0, tx: 0, ty: 0 };
@@ -830,14 +831,17 @@ function CameraRig({ section }: { section: number }) {
   const { camera } = useThree();
   useFrame(({ clock }) => {
     const t = clock.elapsedTime;
-    // During explosion: add cinematic camera shake
-    const shake = SV.explodeProgress > 0.05
-      ? SV.explodeProgress * 0.04
-      : 0;
-    camera.position.x += (SV.camX + Math.sin(t * 1.2) * shake - camera.position.x) * 0.038;
-    camera.position.y += (SV.camY + Math.cos(t * 0.9) * shake - camera.position.y) * 0.038;
-    camera.position.z += (SV.camZ - camera.position.z) * 0.038;
-    camera.lookAt(SV.monX * 0.4, SV.monY * 0.15, 0);
+    const shake = SV.explodeProgress > 0.05 ? SV.explodeProgress * 0.05 : 0;
+    const lerpSpeed = SV.explodeProgress > 0.3 ? 0.055 : 0.048;
+    camera.position.x += (SV.camX + Math.sin(t * 1.2) * shake - camera.position.x) * lerpSpeed;
+    camera.position.y += (SV.camY + Math.cos(t * 0.9) * shake - camera.position.y) * lerpSpeed;
+    camera.position.z += (SV.camZ - camera.position.z) * lerpSpeed;
+    camera.lookAt(SV.monX * 0.3, SV.monY * 0.12, 0);
+    const cam = camera as THREE.PerspectiveCamera;
+    if (Math.abs(cam.fov - SV.camFov) > 0.05) {
+      cam.fov += (SV.camFov - cam.fov) * 0.04;
+      cam.updateProjectionMatrix();
+    }
   });
   return null;
 }
@@ -860,8 +864,8 @@ export function ImmersiveScene({ scrollContainerRef, mobile = false }: Props) {
 
     /* Reset */
     Object.assign(SV, {
-      camX: 0, camY: 0.15, camZ: 8.5,
-      monRotX: 0, monRotY: 0, monScale: 1.22,
+      camX: 0, camY: 0.3, camZ: 10.0, camFov: 40,
+      monRotX: 0, monRotY: 0, monScale: 1.18,
       monX: 0, monY: 0.05,
       buildProgress: 0, explodeProgress: 0,
     });
@@ -870,58 +874,60 @@ export function ImmersiveScene({ scrollContainerRef, mobile = false }: Props) {
       scrollTrigger: {
         trigger: el, scroller: window,
         start: 'top top', end: 'bottom bottom',
-        scrub: 1.4,
+        scrub: 1.2,
       },
     });
 
     /* ── 6 CINEMATIC STATES ──────────────────────────────────
-       tl position 0-5 maps to 600vh container via scrub
-       Each section ≈ 0.83 tl units (5 / 6 sections)
+       Z journey: 10 → 8.5 → 4.0 → 11 → 6.0 → 4.2 → 24
+       Feeling: establish → approach → DIVE IN → blast out
+                → swoop → LOW & CLOSE → EXPLODE
     ─────────────────────────────────────────────────────── */
 
-    /* STATE 0→1: HERO — camera slowly drifts, breathes */
-    tl.to(SV, { camZ: 7.8, camY: 0.05, monScale: 1.28, duration: 0.83 }, 0);
-
-    /* STATE 1: BUILD — camera moves IN to watch assembly */
+    /* STATE 0→1: HERO — slow approach, establish */
     tl.to(SV, {
-      camZ: mobile ? 6.2 : 5.6, camX: mobile ? 0 : -0.4, camY: -0.12,
-      monScale: 1.38, monRotY: mobile ? 0 : 0.08,
+      camZ: 8.5, camY: 0.0, camFov: 40,
+      monScale: 1.26, duration: 0.83,
+    }, 0);
+
+    /* STATE 1: BUILD — DIVE IN close, camera rushes monitor */
+    tl.to(SV, {
+      camZ: mobile ? 5.8 : 4.0,
+      camX: mobile ? 0 : -0.5, camY: -0.4, camFov: mobile ? 40 : 34,
+      monScale: 1.50, monRotY: mobile ? 0 : 0.07,
       buildProgress: 1,
       duration: 0.83,
     }, 0.83);
 
-    /* STATE 2: LANDING — camera ORBITS RIGHT, monitor tilts */
+    /* STATE 2: LANDING — BLAST BACK + wide orbit right */
     tl.to(SV, {
-      camX: mobile ? 0 : 3.2, camY: 0.6, camZ: mobile ? 7.5 : 8.2,
-      monRotY: mobile ? -0.12 : -0.32, monRotX: 0.06,
-      monScale: 1.18, buildProgress: 0,
+      camX: mobile ? 0 : 4.8, camY: 1.4, camZ: mobile ? 8.0 : 11.0, camFov: mobile ? 40 : 47,
+      monRotY: mobile ? -0.1 : -0.38, monRotX: 0.08,
+      monScale: 1.14, buildProgress: 0,
       duration: 0.83,
     }, 1.66);
 
-    /* STATE 3: CORPORATE — camera ORBITS LEFT, monitor flips */
+    /* STATE 3: CORPORATE — swoop left AND closer, lower FOV */
     tl.to(SV, {
-      camX: mobile ? 0 : -3.0, camY: -0.4, camZ: mobile ? 7.5 : 8.0,
-      monRotY: mobile ? 0.12 : 0.34, monRotX: -0.04,
-      monScale: 1.14,
+      camX: mobile ? 0 : -4.5, camY: -0.6, camZ: mobile ? 7.0 : 6.0, camFov: mobile ? 40 : 36,
+      monRotY: mobile ? 0.1 : 0.42, monRotX: -0.06,
+      monScale: 1.22,
       duration: 0.83,
     }, 2.49);
 
-    /* STATE 4: E-COMMERCE — low dramatic angle */
+    /* STATE 4: E-COMMERCE — LOW dramatic angle, close */
     tl.to(SV, {
-      camX: mobile ? 0 : 0.8, camY: mobile ? -1.0 : -2.4, camZ: mobile ? 7.0 : 6.8,
-      monRotX: -0.22, monRotY: mobile ? 0 : -0.08,
-      monScale: 1.25,
+      camX: mobile ? 0 : 1.2, camY: mobile ? -1.2 : -3.8, camZ: mobile ? 6.5 : 4.2, camFov: mobile ? 40 : 32,
+      monRotX: -0.30, monRotY: mobile ? 0 : -0.10,
+      monScale: 1.35,
       duration: 0.83,
     }, 3.32);
 
-    /* STATE 5: EXPLODE — WOW MOMENT
-       Camera DRAMATICALLY pulls back + tilts up
-       Monitor spins and shrinks as it "breaks apart"
-       Fragments fly out via SV.explodeProgress */
+    /* STATE 5: EXPLODE — BLAST FAR BACK, WOW */
     tl.to(SV, {
-      camX: mobile ? 0.5 : -2.0, camY: 2.8, camZ: mobile ? 13.0 : 18.0,
-      monRotY: 1.2, monRotX: 0.55,
-      monScale: mobile ? 0.25 : 0.08,
+      camX: mobile ? 0.5 : -1.8, camY: 3.5, camZ: mobile ? 15.0 : 24.0, camFov: mobile ? 46 : 54,
+      monRotY: 1.4, monRotX: 0.65,
+      monScale: mobile ? 0.22 : 0.06,
       explodeProgress: 1,
       duration: 0.83,
     }, 4.15);
@@ -941,7 +947,7 @@ export function ImmersiveScene({ scrollContainerRef, mobile = false }: Props) {
 
   return (
     <Canvas
-      camera={{ position: [0, 0.15, 8.5], fov: mobile ? 46 : 40 }}
+      camera={{ position: [0, 0.3, 10.0], fov: 40 }}
       gl={{ antialias: !mobile, alpha: false, powerPreference: 'high-performance' }}
       dpr={mobile ? [0.75, 1] : [1, 1.2]}
       performance={{ min: 0.5 }}
