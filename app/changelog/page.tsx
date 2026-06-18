@@ -17,6 +17,22 @@ interface Version {
 
 const CHANGELOG: Version[] = [
   {
+    version: '3.39',
+    date: '18. 6. 2026',
+    changes: [
+      { type: 'feat', text: 'ImmersiveScene: všechny 4 screen komponenty zesvětleny +40% — přepočteny hex hodnoty pozadí, sidebar, karet, navigací, textů, statistik (meshBasicMaterial není ovlivněn světly, změna přímo v barvách)' },
+      { type: 'feat', text: 'ImmersiveScene: MonitorGLTF — GLTF stand části (Neck, NeckTaper, Base, BaseChamfer, BaseReflection) skryty přes obj.visible = false; nahrazeny manuálním tenkým stojánkem (cylinder 0.022r + box 0.72×0.022) — podstavec zmenšen o ~50%' },
+      { type: 'feat', text: 'ImmersiveScene: screen glass mesh rozšířen [3.38,2.2]→[3.56,2.32] a screen rim [3.4,2.22]→[3.58,2.34] — opticky minimalizuje viditelný rámeček monitoru bez úpravy GLB geometrie' },
+      { type: 'feat', text: 'ImmersiveScene: RingAccent zjednodušen 2 prsteny → 1 prsten; Particles sloučeny 2 cloudy (1800+400) → 1 cloud (1000, mobile 400) — méně vizuálního šumu' },
+      { type: 'feat', text: 'ImmersiveScene: světla přeladěna — ambient 0.18→0.35, key blue pointLight 5.8→8.0, fill přebarven #7c3aed→#22d3ee (electric cyan) 3.2→5.0; pozadí Canvas #060c1a→#060d1a — tmavá navy paleta' },
+      { type: 'feat', text: 'ScreenHero: stats "50+" přebarven #a78bfa→#22d3ee (electric cyan), bottom Speed karta accent #7c3aed→#22d3ee, bar chart barvy doplněny o cyan — konzistentní navy+cyan palette' },
+      { type: 'change', text: 'page.tsx: pozadí #06060a→#060d1a — sjednoceno s canvas background' },
+      { type: 'change', text: 'page.tsx: S1 headline fontSize clamp(58px,7.5vw,100px)→clamp(64px,8.5vw,112px); S2 slova clamp(38px,5.5vw,68px)→clamp(46px,6.5vw,80px); S5 čísla clamp(44px,6.5vw,84px)→clamp(52px,8vw,100px); S6 clamp(60px,9.5vw,116px)→clamp(68px,11vw,128px)' },
+      { type: 'change', text: 'page.tsx: safe zones — maxWidth na všech scroll sekcích omezeno na min(X, 42vw) resp. min(460px, 38vw) pro S3 — text nikdy nepřekryje střed s monitorem' },
+      { type: 'change', text: 'page.tsx: S1/S6 gradient accent #93c5fd→#22d3ee — elektrická cyan barva místo světle modré; dimové body texty #2d4460/#1e3050/#1a2c44 zesvětleny na #4a6880/#3a5878/#3a5068' },
+    ],
+  },
+  {
     version: '3.38',
     date: '18. 6. 2026',
     changes: [
