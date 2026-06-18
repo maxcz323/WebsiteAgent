@@ -17,6 +17,17 @@ interface Version {
 
 const CHANGELOG: Version[] = [
   {
+    version: '3.33',
+    date: '18. 6. 2026',
+    changes: [
+      { type: 'feat', text: 'ImmersiveScene: přidán stůl (desk) pod monitor — tmavá dřevěná deska 8.2×3.2 s edge highlightem + 4 nohy v rozích' },
+      { type: 'feat', text: 'ImmersiveScene: přidána podlaha (planeGeometry 48×32) a back wall + boční zdi — Room komponenta v Three.js Canvas' },
+      { type: 'feat', text: 'ImmersiveScene: lampička na stole (DeskLamp) — základna + tyčka + kónické stínidlo (DoubleSide, amber/oranžová), žárovka s emissive glow + pointLight (ff9430) s pulzující intensitou' },
+      { type: 'feat', text: 'ImmersiveScene: cozy teplé světlo — 2 warm fill pointLights (floor bounce #5c2200 + wall spill #8b3010) + teplý odlesk lampy na zdi (emissive plane)' },
+      { type: 'fix', text: 'Navbar: verze opravena na v3.33 (předchozí verze v3.13 nebyla aktualizována od v3.13)' },
+    ],
+  },
+  {
     version: '3.32',
     date: '18. 6. 2026',
     changes: [
