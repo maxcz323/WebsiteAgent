@@ -17,6 +17,25 @@ interface Version {
 
 const CHANGELOG: Version[] = [
   {
+    version: '3.32',
+    date: '18. 6. 2026',
+    changes: [
+      { type: 'feat', text: 'Monitor má 6 příběhových stavů: HERO (vzdálený, elegantní) → BUILD (kamera přiblíží, UI se skládá v reálu) → LANDING PAGE (kamera obíhá vpravo) → FIREMNÍ WEB (kamera vlevo) → E-COMMERCE (dramatický nízký úhel) → ROZPAD (WOW moment)' },
+      { type: 'feat', text: 'BUILD animace: 8 skupin elementů se skládají postupně (nav → badge → h1 → sub → CTA → dashboard → stats → karty) na základě SV.buildProgress (0→1) přes GSAP scrub — snap-in efekt přes group.scale' },
+      { type: 'feat', text: 'LANDING PAGE screen: prémiový layout — tmavý nav, velký centrovaný headline, sub-text, 2 CTA, oddělovač, 3 feature karty s icon dot + title + body, trust bar' },
+      { type: 'feat', text: 'CORPORATE screen: sidebar navigation + main content area (heading, body text, divider) + 3 news/blog karty s image placeholder + kategorie + datum, footer strip' },
+      { type: 'feat', text: 'E-COMMERCE screen: header se search barem + cart badge (zelený dot), filter sidebar s checkboxy, 2×3 product grid (image area + product name + barevná cena + add-to-cart button)' },
+      { type: 'feat', text: 'WOW MOMENT — ROZPAD: 23 UI fragmentů (nav, logo, h1, badge, CTA, dashboard card, chart bars, stats, bottom cards) letí z [0,0,0] do prostoru přes ease-out křivku + spin rotace' },
+      { type: 'feat', text: 'Explosion kamera: při State 5 se kamera dramaticky oddaluje (camZ 8→18), stoupá (camY +2.8), vychyluje doleva (camX -2.0) — dává pocit "kamera proletí scénou"' },
+      { type: 'feat', text: 'Explosion světlo: pointLight color="#ff2200" intensity=4 se aktivuje v section===5 — monitor/fragmenty se obarví červeným zábleskem při rozpadu' },
+      { type: 'feat', text: 'Monitor screen glow reaguje na stav: blue (0-2) → purple (3) → green (4) → dark red (5 / explode) — SCREEN_EM a SCREEN_RIM arrays' },
+      { type: 'feat', text: 'Cinematic kamera: každá sekce má unikátní úhel — straight-on → zoom-in → orbit vpravo → orbit vlevo → nízký úhel → dramatický pullback. Žádné prosté zoomování.' },
+      { type: 'change', text: 'Prstence zjednodušeny: 3 orbity → 2 (main orbit ø8.0 blue + secondary ø11.0 purple) — více elegance, méně chaosu. Torus segmenty sníženy.' },
+      { type: 'change', text: 'ServiceCards, ProjectPanels, StatPanels kompletně odstraněny — nahrazeny 6-state monitor storytelling systémem' },
+      { type: 'change', text: 'SV state rozšířen o buildProgress a explodeProgress — GSAP animuje obě přes scrub timeline' },
+    ],
+  },
+  {
     version: '3.31',
     date: '18. 6. 2026',
     changes: [
