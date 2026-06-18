@@ -17,6 +17,21 @@ interface Version {
 
 const CHANGELOG: Version[] = [
   {
+    version: '3.37',
+    date: '18. 6. 2026',
+    changes: [
+      { type: 'change', text: 'ImmersiveScene: odstraněna podlaha (planeGeometry 48×32) a všechny zdi (back wall, left wall, right wall) — scéna je čistě 3D bez místnosti' },
+    ],
+  },
+  {
+    version: '3.36',
+    date: '18. 6. 2026',
+    changes: [
+      { type: 'change', text: 'ImmersiveScene: odstraněna lampička (DeskLamp) — základna, tyčka, stínidlo, žárovka + pointLight #ff9430' },
+      { type: 'change', text: 'ImmersiveScene: odstraněn stůl (desk surface 8.2×3.2 + edge highlight + 4 nohy) a teplá světla lampy (#5c2200 floor bounce, #8b3010 wall spill)' },
+    ],
+  },
+  {
     version: '3.35',
     date: '18. 6. 2026',
     changes: [
