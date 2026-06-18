@@ -17,6 +17,24 @@ interface Version {
 
 const CHANGELOG: Version[] = [
   {
+    version: '3.38',
+    date: '18. 6. 2026',
+    changes: [
+      { type: 'feat', text: 'S1 Hero: odstraněn industry strip (Instalatéři · Zubaři…) a pulsující badge — nahrazen čistým inline statusem "48 h · záloha 0 Kč · 50+ projektů"' },
+      { type: 'feat', text: 'S2 Process: kompletní přepis — 3 kroky jako 3 obří slova ("Formulář. / Návrh. / Online.") s časovou notací vpravo — Apple keynote styl místo odrážkového listu' },
+      { type: 'feat', text: 'S3 Nabídka: přepsána sekce Služby — každá položka má název (Vercel/Linear typografie), cenu a jedno věty outcome; žádné ikonky ani barevné pruhy' },
+      { type: 'feat', text: 'S4 Záruka: kompletně nová sekce místo fake referencí — "Záloha nula. / Platíte až / po schválení." — guarantee jako hlavní statement místo karet s fiktivními jmény' },
+      { type: 'feat', text: 'S5 Čísla: odstraněny count-up animace a sloupcový graf — nahrazeny 3 statickými čísly v extrémní typografii (48h / 50+ / 0 Kč) jako Tesla reveal' },
+      { type: 'feat', text: 'S6 Close: odstraněny animovaný radial gradient a grid overlay — čistý centered headline "Začněte / dnes." + jedno CTA tlačítko' },
+      { type: 'change', text: 'Barevný systém: odstraněn fialový akcent (#8b5cf6, #7c3aed, #a78bfa) z celé stránky — zjednodušeno na: černá + bílá + modrá (#2563eb) + zelená (záruka)' },
+      { type: 'change', text: 'Pricing sekce: odstraněny fialové barvy z karet a hlavičky; popular badge přebarven z fialové na modrou; FAQ sekce odstraněna' },
+      { type: 'change', text: 'Odstraněny chaotické animace: @keyframes glowPulse (pulzující CTA), @keyframes ctaRadial (pohyblivé pozadí S6), @keyframes numReveal, count-up čítač, sloupcový graf' },
+      { type: 'change', text: 'Odstraněny hover animace způsobující layout shift: .svc-row margin-left:-12px shift, .ref-card hover (sekce neexistuje), .cta-glow klasa' },
+      { type: 'change', text: 'ScrollBar: gradient (blue→light blue) → solid #2563eb — jednodušší, čistější' },
+      { type: 'change', text: 'CursorBlob: opacity 0.065 → 0.05 — méně rušivý' },
+    ],
+  },
+  {
     version: '3.37',
     date: '18. 6. 2026',
     changes: [
