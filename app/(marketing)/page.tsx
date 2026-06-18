@@ -193,101 +193,16 @@ function S2() {
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   S3 — LANDING PAGE STATE
-   3D: camera orbits right, landing page on screen
-   Copy: what you get — clean, priced, confident
+   S3 — RESULTS
+   3D: monitor is a small thumbnail on the right
+   Copy: raw numbers — the weight of proof
 ═══════════════════════════════════════════════════════════════ */
 function S3() {
   return (
-    <section id="s3" aria-label="Nabídka" style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', pointerEvents: 'none', position: 'relative', zIndex: 10 }}>
-      <div id="s3i" style={{ maxWidth: 'min(460px, 38vw)', padding: '0 52px', opacity: 0 }}>
+    <section id="s3" aria-label="Čísla" style={{ height: '100vh', display: 'flex', alignItems: 'center', pointerEvents: 'none', position: 'relative', zIndex: 10 }}>
+      <div id="s3i" style={{ width: 'clamp(300px, 44vw, 560px)', padding: '0 40px 0 52px', opacity: 0 }}>
 
-        <p style={{ fontSize: '10px', fontWeight: 600, color: '#2563eb', textTransform: 'uppercase', letterSpacing: '0.16em', margin: '0 0 28px' }}>Co dostanete</p>
-
-        {[
-          { name: 'Landing page', price: 'od 9 900 Kč',  sub: 'Více poptávek od prvního dne.' },
-          { name: 'Firemní web',  price: 'od 14 900 Kč', sub: 'Kompletní online prezentace.'  },
-          { name: 'E-commerce',   price: 'od 24 900 Kč', sub: 'Prodávejte 24/7 bez omezení.'  },
-        ].map((s, i) => (
-          <div key={s.name} style={{ padding: '20px 0', borderBottom: i < 2 ? '1px solid rgba(255,255,255,0.05)' : 'none' }}>
-            <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: '5px' }}>
-              <span style={{
-                fontFamily: 'var(--font-display)',
-                fontSize: 'clamp(22px,3vw,36px)',
-                fontWeight: 400,
-                color: 'white',
-                letterSpacing: '-0.03em',
-                lineHeight: 1,
-              }}>{s.name}</span>
-              <span style={{ fontSize: '11px', color: '#1e3a5e', fontWeight: 500 }}>{s.price}</span>
-            </div>
-            <span style={{ fontSize: '12px', color: '#4a6880' }}>{s.sub}</span>
-          </div>
-        ))}
-
-        <div style={{ marginTop: '24px', pointerEvents: 'auto' }}>
-          <Link href="/sluzby" style={{ fontSize: '12px', color: '#2563eb', textDecoration: 'none', fontWeight: 500, letterSpacing: '0.02em' }}>
-            Celý ceník →
-          </Link>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ═══════════════════════════════════════════════════════════════
-   S4 — CORPORATE STATE
-   3D: camera orbits left, corporate site on screen
-   Copy: guarantee — the confidence statement
-═══════════════════════════════════════════════════════════════ */
-function S4() {
-  return (
-    <section id="s4" aria-label="Záruka" style={{ height: '100vh', display: 'flex', alignItems: 'center', pointerEvents: 'none', position: 'relative', zIndex: 10 }}>
-      <div id="s4i" style={{ width: 'clamp(260px, 33vw, 420px)', padding: '0 40px 0 52px', opacity: 0 }}>
-
-        <p style={{ fontSize: '10px', fontWeight: 600, color: '#2563eb', textTransform: 'uppercase', letterSpacing: '0.16em', margin: '0 0 32px' }}>Bez rizika</p>
-
-        <h2 style={{
-          fontFamily: 'var(--font-display)',
-          fontSize: 'clamp(38px,5.5vw,72px)',
-          fontWeight: 300,
-          color: 'white',
-          lineHeight: 1.0,
-          letterSpacing: '-0.04em',
-          margin: '0 0 28px',
-        }}>
-          Záloha nula.<br />
-          Platíte až<br />
-          <em style={{ color: '#2563eb', fontStyle: 'normal' }}>po schválení.</em>
-        </h2>
-
-        <p style={{ fontSize: '14px', color: '#4a6880', lineHeight: 1.85, margin: '0 0 28px', maxWidth: '360px' }}>
-          Nejdřív uvidíte hotový návrh. Teprve pak se rozhodnete. Pokud web nesplní zadání &mdash; vracíme 100 %.
-        </p>
-
-        <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#10b981" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-          </svg>
-          <span style={{ fontSize: '12px', color: '#10b981', fontWeight: 500 }}>Záruka spokojenosti</span>
-        </div>
-
-      </div>
-    </section>
-  );
-}
-
-/* ═══════════════════════════════════════════════════════════════
-   S5 — E-COMMERCE STATE
-   3D: low dramatic angle, e-commerce on screen
-   Copy: raw numbers — no animation, just weight
-═══════════════════════════════════════════════════════════════ */
-function S5() {
-  return (
-    <section id="s5" aria-label="Čísla" style={{ height: '100vh', display: 'flex', alignItems: 'center', pointerEvents: 'none', position: 'relative', zIndex: 10 }}>
-      <div id="s5i" style={{ width: 'clamp(300px, 44vw, 560px)', padding: '0 40px 0 52px', opacity: 0 }}>
-
-        <p style={{ fontSize: '10px', fontWeight: 600, color: '#2563eb', textTransform: 'uppercase', letterSpacing: '0.16em', margin: '0 0 40px' }}>Za rok fungování</p>
+        <p style={{ fontSize: '10px', fontWeight: 600, color: '#2563eb', textTransform: 'uppercase', letterSpacing: '0.16em', margin: '0 0 40px' }}>Co klienti získají</p>
 
         {[
           { val: '48h',  label: 'Průměrná doba dodání' },
@@ -317,14 +232,14 @@ function S5() {
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   S6 — EXPLOSION / CLOSE
-   3D: WOW explosion — monitor shatters
+   S4 — CTA
+   3D: monitor is a distant minimal presence
    Copy: single ask — clean, no decorations
 ═══════════════════════════════════════════════════════════════ */
-function S6() {
+function S4() {
   return (
-    <section id="s6" aria-label="Výzva k akci" style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', pointerEvents: 'none', position: 'relative', zIndex: 10 }}>
-      <div id="s6i" style={{ textAlign: 'center', maxWidth: '580px', padding: '0 36px', opacity: 0, position: 'relative', zIndex: 1 }}>
+    <section id="s4" aria-label="Výzva k akci" style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', pointerEvents: 'none', position: 'relative', zIndex: 10 }}>
+      <div id="s4i" style={{ textAlign: 'center', maxWidth: '580px', padding: '0 36px', opacity: 0, position: 'relative', zIndex: 1 }}>
 
         <h2 style={{
           fontFamily: 'var(--font-display)',
@@ -607,13 +522,11 @@ export default function HomePage() {
       },
     });
 
-    /* S2-S6 — pure opacity, per-element stagger */
+    /* S2-S4 — pure opacity, per-element stagger */
     const pairs: Array<{ t: string; i: string }> = [
       { t: '#s2', i: '#s2i' },
       { t: '#s3', i: '#s3i' },
       { t: '#s4', i: '#s4i' },
-      { t: '#s5', i: '#s5i' },
-      { t: '#s6', i: '#s6i' },
     ];
 
     const triggers = pairs.map(({ t, i }) => {
@@ -658,8 +571,8 @@ export default function HomePage() {
         <ImmersiveScene scrollContainerRef={containerRef} mobile={isMobile} />
       </div>
 
-      <div ref={containerRef} style={{ position: 'relative', height: '600vh' }}>
-        <S1 /><S2 /><S3 /><S4 /><S5 /><S6 />
+      <div ref={containerRef} style={{ position: 'relative', height: '400vh' }}>
+        <S1 /><S2 /><S3 /><S4 />
       </div>
 
       <SPricing />
@@ -673,17 +586,16 @@ export default function HomePage() {
 
         html, body { scroll-behavior: smooth; }
 
-        #s1i, #s2i, #s3i, #s4i, #s5i, #s6i { will-change: opacity; }
+        #s1i, #s2i, #s3i, #s4i { will-change: opacity; }
         #scroll-ind { will-change: opacity; }
 
         @media (max-width: 767px) {
-          #s1i, #s2i, #s3i, #s4i, #s5i, #s6i {
+          #s1i, #s2i, #s3i, #s4i {
             padding-left: 22px !important;
             padding-right: 22px !important;
             max-width: 100% !important;
           }
-          #s3  { justify-content: flex-start !important; }
-          #s6i { text-align: left !important; }
+          #s4i { text-align: left !important; }
         }
       `}</style>
     </>

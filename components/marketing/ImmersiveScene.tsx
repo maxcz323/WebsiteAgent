@@ -77,86 +77,8 @@ function MonitorGLTF() {
    SCREEN CONTENT — STATE 0 (IDEA)
    Client intake form / concept brief
 ═══════════════════════════════════════════════════════════════ */
-function ScreenIdea() {
-  const Z = 0.083;
-  const cursorRef = useRef<THREE.MeshBasicMaterial>(null!);
-  useFrame(({ clock }) => {
-    if (cursorRef.current) cursorRef.current.opacity = Math.sin(clock.elapsedTime * 2.8) > 0 ? 0.9 : 0;
-  });
-  return (
-    <>
-      {/* Browser chrome */}
-      <mesh position={[0, 1.02, Z]}>
-        <boxGeometry args={[3.38, 0.13, 0.001]} />
-        <meshBasicMaterial color="#080e18" />
-      </mesh>
-      {(['#ff5f57','#ffbd2e','#28c840'] as const).map((c, i) => (
-        <mesh key={i} position={[-1.56 + i * 0.12, 1.02, Z + 0.003]}>
-          <circleGeometry args={[0.019, 8]} />
-          <meshBasicMaterial color={c} />
-        </mesh>
-      ))}
-      <mesh position={[0.1, 1.02, Z + 0.002]}>
-        <boxGeometry args={[2.4, 0.067, 0.001]} />
-        <meshBasicMaterial color="#0e1c2e" />
-      </mesh>
-      <Text position={[0.1, 1.02, Z + 0.004]} fontSize={0.036} color="#2a4060" anchorX="center" anchorY="middle">websiteagent.cz/novy-projekt</Text>
-
-      {/* Stage label */}
-      <Text position={[-1.58, 0.84, Z + 0.003]} fontSize={0.038} color="#2563eb" anchorX="left" anchorY="middle">01 / IDEA</Text>
-
-      {/* Form card */}
-      <mesh position={[0, 0.20, Z + 0.001]}>
-        <boxGeometry args={[2.9, 1.48, 0.004]} />
-        <meshBasicMaterial color="#0c1828" />
-      </mesh>
-      <mesh position={[0, 0.93, Z + 0.004]}>
-        <boxGeometry args={[2.9, 0.001, 0.001]} />
-        <meshBasicMaterial color="#1a3050" />
-      </mesh>
-      <Text position={[-1.03, 0.82, Z + 0.005]} fontSize={0.068} color="#d0e8ff" anchorX="left" anchorY="middle">Nový projekt</Text>
-      <Text position={[-1.03, 0.70, Z + 0.005]} fontSize={0.040} color="#3a5878" anchorX="left" anchorY="middle">Řekněte nám co potřebujete</Text>
-
-      {/* Field: Firma */}
-      <Text position={[-1.33, 0.55, Z + 0.005]} fontSize={0.036} color="#2a4870" anchorX="left" anchorY="middle">Název firmy</Text>
-      <mesh position={[0, 0.44, Z + 0.004]}><boxGeometry args={[2.66, 0.105, 0.001]} /><meshBasicMaterial color="#0e1e30" /></mesh>
-      <Text position={[-1.24, 0.44, Z + 0.006]} fontSize={0.048} color="#7aaad8" anchorX="left" anchorY="middle">Kuchař & synové s.r.o.</Text>
-
-      {/* Field: Typ */}
-      <Text position={[-1.33, 0.30, Z + 0.005]} fontSize={0.036} color="#2a4870" anchorX="left" anchorY="middle">Typ webu</Text>
-      <mesh position={[0, 0.19, Z + 0.004]}><boxGeometry args={[2.66, 0.105, 0.001]} /><meshBasicMaterial color="#0e1e30" /></mesh>
-      <Text position={[-1.24, 0.19, Z + 0.006]} fontSize={0.048} color="#7aaad8" anchorX="left" anchorY="middle">Firemní web</Text>
-      <Text position={[1.20, 0.19, Z + 0.006]} fontSize={0.048} color="#2a4060" anchorX="right" anchorY="middle">▾</Text>
-
-      {/* Field: Popis (currently typing) */}
-      <Text position={[-1.33, 0.05, Z + 0.005]} fontSize={0.036} color="#2a4870" anchorX="left" anchorY="middle">Popis projektu</Text>
-      <mesh position={[0, -0.10, Z + 0.004]}><boxGeometry args={[2.66, 0.20, 0.001]} /><meshBasicMaterial color="#0e1e30" /></mesh>
-      <Text position={[-1.24, -0.04, Z + 0.006]} fontSize={0.040} color="#5a88b0" anchorX="left" anchorY="middle">Chceme moderní web — restaurace,</Text>
-      <Text position={[-1.24, -0.14, Z + 0.006]} fontSize={0.040} color="#5a88b0" anchorX="left" anchorY="middle">rezervace + menu online.</Text>
-      <mesh position={[0.40, -0.14, Z + 0.007]}>
-        <boxGeometry args={[0.014, 0.068, 0.001]} />
-        <meshBasicMaterial ref={cursorRef} color="#60a5fa" transparent opacity={0.9} />
-      </mesh>
-
-      {/* Submit */}
-      <mesh position={[0.74, -0.38, Z + 0.005]}><boxGeometry args={[0.86, 0.13, 0.001]} /><meshBasicMaterial color="#2563eb" /></mesh>
-      <Text position={[0.74, -0.38, Z + 0.007]} fontSize={0.052} color="#ffffff" anchorX="center" anchorY="middle">Odeslat projekt →</Text>
-
-      {/* Confirmation */}
-      <mesh position={[-0.68, -0.38, Z + 0.004]}><boxGeometry args={[0.80, 0.09, 0.001]} /><meshBasicMaterial color="#0d2e18" /></mesh>
-      <Text position={[-0.68, -0.38, Z + 0.006]} fontSize={0.040} color="#22c55e" anchorX="center" anchorY="middle">✓  Požadavek přijat</Text>
-
-      {/* Bottom trust bar */}
-      <mesh position={[0, -0.98, Z]}><boxGeometry args={[3.38, 0.08, 0.001]} /><meshBasicMaterial color="#060d18" /></mesh>
-      {([[-1.1,'48 h'],[-0.38,'bez zálohy'],[0.34,'na míru'],[1.1,'50+ projektů']] as const).map(([x,t]) => (
-        <Text key={x} position={[x, -0.98, Z + 0.002]} fontSize={0.034} color="#1e3448" anchorX="center" anchorY="middle">{t}</Text>
-      ))}
-    </>
-  );
-}
-
 /* ═══════════════════════════════════════════════════════════════
-   SCREEN CONTENT — STATE 1 (DESIGN / BUILD ANIMATION)
+   SCREEN CONTENT — STATE 0 (HERO / BUILD ANIMATION)
    Groups snap in sequentially based on SV.buildProgress
 ═══════════════════════════════════════════════════════════════ */
 function ScreenHero({ building }: { building: boolean }) {
@@ -368,16 +290,13 @@ function ScreenHero({ building }: { building: boolean }) {
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   SCREEN CONTENT — STATE 2 (LANDING PAGE CONCEPT)
-   Premium hero + 3 feature cards + trust bar
+   SCREEN CONTENT — STATE 1 (PROCESS — how it works)
+   Clean 3-step timeline — monitor supports, doesn't dominate
 ═══════════════════════════════════════════════════════════════ */
-function ScreenLanding() {
+function ScreenProcess() {
   const Z = 0.083;
   return (
     <>
-      {/* Stage label */}
-      <Text position={[-1.58, 0.84, Z + 0.003]} fontSize={0.038} color="#2563eb" anchorX="left" anchorY="middle">03 / FIREMNÍ WEB</Text>
-
       {/* NAV */}
       <mesh position={[0, 0.99, Z]}>
         <boxGeometry args={[3.38, 0.17, 0.001]} />
@@ -387,199 +306,43 @@ function ScreenLanding() {
         <sphereGeometry args={[0.032, 8, 8]} />
         <meshStandardMaterial color="#3b82f6" emissive="#3b82f6" emissiveIntensity={3.0} />
       </mesh>
-      <Text position={[-1.22, 0.99, Z + 0.003]} fontSize={0.062} color="#d8ecff" anchorX="left" anchorY="middle">WebsiteAgent</Text>
-      {['Sluzby', 'Ceny', 'Portfolio', 'Kontakt'].map((label, i) => (
-        <Text key={i} position={[0.28 + i * 0.4, 0.99, Z + 0.002]} fontSize={0.046} color="#3a5070" anchorX="center" anchorY="middle">{label}</Text>
-      ))}
-      <mesh position={[1.5, 0.99, Z + 0.002]}>
-        <boxGeometry args={[0.26, 0.1, 0.001]} />
-        <meshBasicMaterial color="#2563eb" />
-      </mesh>
-      <Text position={[1.5, 0.99, Z + 0.004]} fontSize={0.054} color="#ffffff" anchorX="center" anchorY="middle">Chci web</Text>
+      <Text position={[-1.22, 0.99, Z + 0.003]} fontSize={0.060} color="#d8ecff" anchorX="left" anchorY="middle">WebsiteAgent</Text>
 
-      {/* Hero bg */}
-      <mesh position={[0, 0.37, Z - 0.003]}>
-        <boxGeometry args={[3.38, 1.18, 0.001]} />
-        <meshBasicMaterial color="#091828" />
-      </mesh>
-      <mesh position={[0, 0.55, Z - 0.002]}>
-        <boxGeometry args={[2.4, 0.6, 0.001]} />
-        <meshBasicMaterial color="#102050" transparent opacity={0.45} />
-      </mesh>
+      {/* Stage + Title */}
+      <Text position={[-1.58, 0.82, Z + 0.003]} fontSize={0.036} color="#2563eb" anchorX="left" anchorY="middle">02 / PROCES</Text>
+      <Text position={[-1.58, 0.66, Z + 0.003]} fontSize={0.072} color="#c8ddf0" anchorX="left" anchorY="middle">Jak pracujeme</Text>
 
-      {/* Headline */}
-      <Text position={[0, 0.74, Z + 0.002]} fontSize={0.110} color="#e8f4ff" anchorX="center" anchorY="middle">Moderni web</Text>
-      <Text position={[0, 0.55, Z + 0.002]} fontSize={0.110} color="#60a5fa" anchorX="center" anchorY="middle">pro vasi firmu</Text>
-
-      {/* Subtext */}
-      <Text position={[0, 0.36, Z + 0.001]} fontSize={0.054} color="#4a7898" anchorX="center" anchorY="middle">Profesionalni web do 48 hodin.</Text>
-      <Text position={[0, 0.27, Z + 0.001]} fontSize={0.050} color="#3a6070" anchorX="center" anchorY="middle">Bez zalohy. Bez zavazku.</Text>
-
-      {/* CTAs */}
-      <mesh position={[-0.4, 0.1, Z]}>
-        <boxGeometry args={[0.65, 0.17, 0.001]} />
-        <meshBasicMaterial color="#2563eb" />
-      </mesh>
-      <Text position={[-0.4, 0.1, Z + 0.003]} fontSize={0.064} color="#ffffff" anchorX="center" anchorY="middle">Chci web</Text>
-      <mesh position={[0.35, 0.1, Z]}>
-        <boxGeometry args={[0.52, 0.17, 0.001]} />
-        <meshBasicMaterial color="#1a3870" transparent opacity={0.55} />
-      </mesh>
-      <Text position={[0.35, 0.1, Z + 0.003]} fontSize={0.064} color="#9abdd8" anchorX="center" anchorY="middle">Ukazky praci</Text>
-
-      {/* Divider */}
-      <mesh position={[0, -0.1, Z]}>
-        <boxGeometry args={[3.2, 0.003, 0.001]} />
-        <meshBasicMaterial color="#162840" />
-      </mesh>
-
-      {/* Feature cards */}
+      {/* 3 Steps */}
       {([
-        [-1.05, '#2563eb', '#0d2038', '#1e4a88', '#3b82f6', 'Rychle dodani', 'Do 48 hodin'],
-        [0,     '#22d3ee', '#12102e', '#2a1a68', '#8b5cf6', 'SEO zdarma',    'Top Google'],
-        [1.05,  '#10b981', '#0a2420', '#0e3828', '#10b981', 'Zaruka kvality','100% spokojenost'],
-      ] as const).map(([x, accent, bg, circleBg, dotCol, title, sub], i) => (
-        <group key={i} position={[x, -0.6, Z]}>
-          <mesh>
-            <boxGeometry args={[0.95, 0.75, 0.006]} />
-            <meshBasicMaterial color={bg} />
+        [0.34,  '01', 'Sdělíte nám co potřebujete', '3 min'],
+        [-0.12, '02', 'Navrhneme a vytvoříme web',   '24 h' ],
+        [-0.58, '03', 'Váš web je živě online',       '48 h' ],
+      ] as const).map(([y, n, label, time], i) => (
+        <group key={i}>
+          <mesh position={[0, y + 0.24, Z]}>
+            <boxGeometry args={[3.1, 0.002, 0.001]} />
+            <meshBasicMaterial color="#102030" />
           </mesh>
-          <mesh position={[0, 0.37, 0.004]}>
-            <boxGeometry args={[0.95, 0.006, 0.001]} />
-            <meshBasicMaterial color={accent} />
-          </mesh>
-          <mesh position={[-0.32, 0.18, 0.005]}>
-            <circleGeometry args={[0.055, 12]} />
-            <meshBasicMaterial color={circleBg} />
-          </mesh>
-          <mesh position={[-0.32, 0.18, 0.006]}>
-            <sphereGeometry args={[0.028, 8, 8]} />
-            <meshStandardMaterial color={dotCol} emissive={dotCol} emissiveIntensity={2.2} />
-          </mesh>
-          <Text position={[0, 0.04, 0.005]} fontSize={0.070} color="#ddf0ff" anchorX="center" anchorY="middle">{title}</Text>
-          <Text position={[0, -0.10, 0.005]} fontSize={0.052} color="#4a6a8a" anchorX="center" anchorY="middle">{sub}</Text>
+          <Text position={[-1.55, y + 0.06, Z + 0.003]} fontSize={0.038} color="#1e3a5e" anchorX="left" anchorY="middle">{n}</Text>
+          <Text position={[-1.30, y + 0.06, Z + 0.003]} fontSize={0.072} color="#c8ddf0" anchorX="left" anchorY="middle">{label}</Text>
+          <Text position={[1.55, y + 0.06, Z + 0.003]} fontSize={0.040} color="#1e3a5e" anchorX="right" anchorY="middle">{time}</Text>
         </group>
       ))}
 
+      {/* Bottom rule */}
+      <mesh position={[0, -0.82, Z]}>
+        <boxGeometry args={[3.1, 0.002, 0.001]} />
+        <meshBasicMaterial color="#102030" />
+      </mesh>
+
       {/* Trust bar */}
-      <mesh position={[0, -1.0, Z]}>
+      <mesh position={[0, -0.99, Z]}>
         <boxGeometry args={[3.38, 0.08, 0.001]} />
-        <meshBasicMaterial color="#091826" />
+        <meshBasicMaterial color="#060e18" />
       </mesh>
-      {([
-        [-1.1,  '48 hodin'],
-        [-0.38, '50+ webu'],
-        [0.34,  '100% spokojenost'],
-        [1.06,  '0 Kc zaloha'],
-      ] as const).map(([x, label]) => (
-        <Text key={x} position={[x, -1.0, Z + 0.002]} fontSize={0.040} color="#3a5270" anchorX="center" anchorY="middle">{label}</Text>
+      {([[-1.1,'48 hodin'],[-0.38,'bez zálohy'],[0.34,'na míru'],[1.1,'50+ projektů']] as const).map(([x, t]) => (
+        <Text key={x} position={[x, -0.99, Z + 0.002]} fontSize={0.034} color="#1e3448" anchorX="center" anchorY="middle">{t}</Text>
       ))}
-    </>
-  );
-}
-
-/* ═══════════════════════════════════════════════════════════════
-   SCREEN CONTENT — STATE 3 (E-COMMERCE)
-   Header + filter sidebar + 2×3 product grid
-═══════════════════════════════════════════════════════════════ */
-function ScreenEcommerce() {
-  const Z = 0.083;
-  const PROD_COLORS = ['#0e2235','#101e32','#0e1a2e','#0a1e18','#10102a','#0c1c20'] as const;
-  const ACCENT      = ['#3b82f6','#8b5cf6','#10b981','#f59e0b','#22d3ee','#a78bfa'] as const;
-  const BTN_BG      = ['#1e4a88','#2a1268','#0e3828','#482010','#1a3c78','#2a1868'] as const;
-  const PRODUCTS = [
-    { name: 'Starter web',   price: '9 900 Kc',  cat: 'Zakladni'  },
-    { name: 'Business web',  price: '14 900 Kc', cat: 'Oblibeny'  },
-    { name: 'E-shop reseni', price: '24 900 Kc', cat: 'Premium'   },
-    { name: 'Landing page',  price: '6 900 Kc',  cat: 'Rychle'    },
-    { name: 'Redesign webu', price: '12 900 Kc', cat: 'Renovace'  },
-    { name: 'SEO balicek',   price: '4 900 Kc',  cat: 'Mesicne'   },
-  ] as const;
-
-  return (
-    <>
-      {/* Stage label */}
-      <Text position={[-1.58, 0.84, Z + 0.003]} fontSize={0.038} color="#10b981" anchorX="left" anchorY="middle">04 / E-SHOP</Text>
-
-      {/* HEADER */}
-      <mesh position={[0, 0.99, Z]}>
-        <boxGeometry args={[3.38, 0.17, 0.001]} />
-        <meshBasicMaterial color="#0c1a28" />
-      </mesh>
-      <mesh position={[-1.42, 0.99, Z + 0.003]}>
-        <sphereGeometry args={[0.032, 8, 8]} />
-        <meshStandardMaterial color="#10b981" emissive="#10b981" emissiveIntensity={2.8} />
-      </mesh>
-      <Text position={[-1.22, 0.99, Z + 0.003]} fontSize={0.062} color="#d0e8f0" anchorX="left" anchorY="middle">WebsiteAgent</Text>
-      {/* Search bar */}
-      <mesh position={[0.2, 0.99, Z + 0.002]}>
-        <boxGeometry args={[1.3, 0.09, 0.001]} />
-        <meshBasicMaterial color="#0e1e30" />
-      </mesh>
-      <mesh position={[0.2, 0.99, Z + 0.003]}>
-        <boxGeometry args={[1.28, 0.07, 0.001]} />
-        <meshBasicMaterial color="#162a3e" />
-      </mesh>
-      <Text position={[-0.36, 0.99, Z + 0.005]} fontSize={0.046} color="#3a5870" anchorX="left" anchorY="middle">Hledat sluzbu...</Text>
-      {/* Cart */}
-      <mesh position={[1.32, 0.99, Z + 0.002]}>
-        <boxGeometry args={[0.22, 0.1, 0.001]} />
-        <meshBasicMaterial color="#134f3c" />
-      </mesh>
-      <mesh position={[1.44, 1.03, Z + 0.004]}>
-        <sphereGeometry args={[0.028, 8, 8]} />
-        <meshStandardMaterial color="#10b981" emissive="#10b981" emissiveIntensity={3.0} />
-      </mesh>
-
-      {/* FILTER SIDEBAR */}
-      <mesh position={[-1.38, 0.0, Z]}>
-        <boxGeometry args={[0.68, 1.78, 0.005]} />
-        <meshBasicMaterial color="#0c1820" />
-      </mesh>
-      {([
-        [0.82,  'KATEGORIE', true],
-        [0.60,  'Weby',      false],
-        [0.48,  'E-shopy',   false],
-        [0.20,  'CENA',      true],
-        [-0.05, 'do 15 000', false],
-        [-0.42, 'DODANI',    true],
-        [-0.65, 'do 48h',    false],
-      ] as const).map(([y, label, isHeader]) => (
-        <Text key={y} position={[-1.38, y, Z + 0.004]} fontSize={isHeader ? 0.042 : 0.038} color={isHeader ? '#3a6880' : '#2a4a60'} anchorX="center" anchorY="middle">{label}</Text>
-      ))}
-      {/* Checkboxes */}
-      {([0.60, 0.48, -0.05, -0.65] as const).map((y, i) => (
-        <mesh key={y} position={[-1.68, y, Z + 0.004]}>
-          <boxGeometry args={[0.040, 0.040, 0.001]} />
-          <meshBasicMaterial color={i < 2 ? '#166044' : '#1a2838'} />
-        </mesh>
-      ))}
-
-      {/* PRODUCT GRID — 2 rows × 3 cols */}
-      {PRODUCTS.map((prod, i) => {
-        const x = -0.48 + (i % 3) * 0.83;
-        const y = 0.42 - Math.floor(i / 3) * 0.82;
-        return (
-          <group key={i} position={[x, y, Z]}>
-            <mesh>
-              <boxGeometry args={[0.78, 0.76, 0.005]} />
-              <meshBasicMaterial color={PROD_COLORS[i]} />
-            </mesh>
-            <mesh position={[0, 0.19, 0.003]}>
-              <boxGeometry args={[0.78, 0.38, 0.001]} />
-              <meshBasicMaterial color={ACCENT[i]} transparent opacity={0.13} />
-            </mesh>
-            <Text position={[0, 0.19, 0.006]} fontSize={0.082} color={ACCENT[i]} anchorX="center" anchorY="middle">{prod.cat}</Text>
-            <Text position={[0, -0.08, 0.005]} fontSize={0.060} color="#c0d4e8" anchorX="center" anchorY="middle">{prod.name}</Text>
-            <Text position={[-0.16, -0.21, 0.005]} fontSize={0.056} color={ACCENT[i]} anchorX="left" anchorY="middle">{prod.price}</Text>
-            <mesh position={[0, -0.32, 0.004]}>
-              <boxGeometry args={[0.6, 0.10, 0.001]} />
-              <meshBasicMaterial color={BTN_BG[i]} />
-            </mesh>
-            <Text position={[0, -0.32, 0.006]} fontSize={0.048} color={ACCENT[i]} anchorX="center" anchorY="middle">Objednat</Text>
-          </group>
-        );
-      })}
     </>
   );
 }
@@ -729,20 +492,16 @@ function ScreenLaunch() {
    MONITOR WRAPPER — hardware + screen + transform animation
 ═══════════════════════════════════════════════════════════════ */
 const SCREEN_RIM = [
-  '#1e2840',  // 0 IDEA     - muted grey-blue
-  '#1a3c9a',  // 1 DESIGN   - electric blue
-  '#1a4080',  // 2 BUSINESS - deep professional blue
-  '#0d5a40',  // 3 ECOM     - teal green
-  '#0a4870',  // 4 RESULTS  - cyan
-  '#0a7040',  // 5 LAUNCH   - green
+  '#1a3c9a',  // 0 HERO    - electric blue (build)
+  '#1a4080',  // 1 PROCESS - deep professional blue
+  '#0a4870',  // 2 RESULTS - cyan
+  '#0a7040',  // 3 CTA     - green (success)
 ] as const;
 const SCREEN_EM = [
-  '#0a1428',  // 0 IDEA
-  '#0a1e50',  // 1 DESIGN
-  '#0a2040',  // 2 BUSINESS
-  '#063a30',  // 3 ECOM
-  '#033040',  // 4 RESULTS
-  '#043820',  // 5 LAUNCH
+  '#0a1e50',  // 0 HERO
+  '#0a2040',  // 1 PROCESS
+  '#033040',  // 2 RESULTS
+  '#043820',  // 3 CTA
 ] as const;
 
 function Monitor({ section }: { section: number }) {
@@ -763,7 +522,7 @@ function Monitor({ section }: { section: number }) {
     group.current.position.x += (SV.monX - group.current.position.x) * 0.044;
     group.current.position.y += (SV.monY + Math.sin(t * 0.38) * 0.042 - group.current.position.y) * 0.044;
 
-    const si = Math.min(section, 5);
+    const si = Math.min(section, 3);
     if (scrMat.current) {
       scrMat.current.emissive.set(SCREEN_EM[si]);
       scrMat.current.emissiveIntensity = 0.25 + Math.sin(t * 2) * 0.04;
@@ -804,103 +563,25 @@ function Monitor({ section }: { section: number }) {
         <meshStandardMaterial color="#05070c" metalness={0.9} roughness={0.1} />
       </mesh>
 
-      {/* Screen content — always mounted so fonts never re-load, visible toggle has no flash */}
-      <group visible={section === 0}><ScreenIdea /></group>
-      <group visible={section === 1}><ScreenHero building={true} /></group>
-      <group visible={section === 2}><ScreenLanding /></group>
-      <group visible={section === 3}><ScreenEcommerce /></group>
-      <group visible={section === 4}><ScreenResults /></group>
-      <group visible={section === 5}><ScreenLaunch /></group>
+      {/* Screen content — always mounted, visible toggle — no font reload flash */}
+      <group visible={section === 0}><ScreenHero building={true} /></group>
+      <group visible={section === 1}><ScreenProcess /></group>
+      <group visible={section === 2}><ScreenResults /></group>
+      <group visible={section === 3}><ScreenLaunch /></group>
     </group>
   );
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   EXPLOSION — UI FRAGMENTS FLY IN WORLD SPACE
-   Each fragment: starts near monitor center → flies outward
-═══════════════════════════════════════════════════════════════ */
-type FragData = {
-  s: [number, number, number]; // start position
-  v: [number, number, number]; // velocity (direction × magnitude)
-  g: [number, number, number]; // geometry (w, h, d)
-  c: string;                   // color
-};
-
-const FRAGS: FragData[] = [
-  { s: [0, 0.99, 0.1],      v: [0.3, 4.5, 3.0],    g: [2.8, 0.17, 0.02],  c: '#04101e' }, // nav bar
-  { s: [-1.42, 0.99, 0.15], v: [-3.5, 3.8, 4.0],   g: [0.2, 0.2, 0.04],   c: '#2563eb' }, // logo dot
-  { s: [-0.8, 0.62, 0.12],  v: [-2.0, 2.5, 5.0],   g: [1.02, 0.13, 0.02], c: '#d0e4ff' }, // h1 line 1
-  { s: [-0.68, 0.46, 0.12], v: [-1.2, 2.0, 5.5],   g: [1.24, 0.13, 0.02], c: '#3b82f6' }, // h1 line 2
-  { s: [-1.1, 0.77, 0.12],  v: [-2.5, 3.0, 3.5],   g: [0.54, 0.09, 0.02], c: '#0f2a5c' }, // badge
-  { s: [-0.95, 0.31, 0.1],  v: [-2.2, 1.2, 4.0],   g: [0.85, 0.046, 0.02],c: '#0e2040' }, // sub 1
-  { s: [-0.8, 0.21, 0.1],   v: [-1.8, 0.8, 4.5],   g: [0.7, 0.046, 0.02], c: '#0e2040' }, // sub 2
-  { s: [-1.04, -0.05, 0.13],v: [-3.5, -1.0, 4.5],  g: [0.64, 0.17, 0.04], c: '#1d4ed8' }, // cta 1
-  { s: [-0.32, -0.05, 0.12],v: [-1.0, -2.0, 3.5],  g: [0.52, 0.17, 0.03], c: '#0a1528' }, // cta 2
-  { s: [0.92, 0.42, 0.18],  v: [4.0, 1.8, 2.5],    g: [1.32, 0.98, 0.06], c: '#040c1c' }, // dashboard card
-  { s: [0.38, -0.4, 0.14],  v: [2.5, -4.0, 3.5],   g: [0.1, 0.22, 0.02],  c: '#3b82f6' }, // bar 1
-  { s: [0.55, -0.28, 0.14], v: [3.0, -3.5, 4.0],   g: [0.1, 0.34, 0.02],  c: '#60a5fa' }, // bar 2
-  { s: [0.72, -0.44, 0.14], v: [2.0, -4.5, 3.0],   g: [0.1, 0.18, 0.02],  c: '#2563eb' }, // bar 3
-  { s: [0.89, -0.24, 0.14], v: [4.5, -2.5, 3.0],   g: [0.1, 0.46, 0.02],  c: '#4f8ef7' }, // bar 4
-  { s: [1.06, -0.34, 0.14], v: [3.5, -3.0, 3.5],   g: [0.1, 0.26, 0.02],  c: '#3b82f6' }, // bar 5
-  { s: [0, -0.35, 0.09],    v: [0.5, -5.5, 2.0],   g: [3.0, 0.27, 0.02],  c: '#030911' }, // stats band
-  { s: [-1.2, -0.3, 0.12],  v: [-3.5, -3.5, 2.5],  g: [0.28, 0.12, 0.02], c: '#3b82f6' }, // stat 1
-  { s: [-0.4, -0.3, 0.12],  v: [-0.5, -4.5, 3.0],  g: [0.28, 0.12, 0.02], c: '#a78bfa' }, // stat 2
-  { s: [0.4, -0.3, 0.12],   v: [1.0, -4.0, 2.5],   g: [0.28, 0.12, 0.02], c: '#34d399' }, // stat 3
-  { s: [1.2, -0.3, 0.12],   v: [4.0, -3.0, 2.0],   g: [0.28, 0.12, 0.02], c: '#f59e0b' }, // stat 4
-  { s: [-1.1, -0.76, 0.09], v: [-4.5, -4.0, 1.5],  g: [0.96, 0.42, 0.04], c: '#06111e' }, // card 1
-  { s: [-0.04, -0.76, 0.09],v: [0.5, -5.5, 1.0],   g: [0.96, 0.42, 0.04], c: '#090820' }, // card 2
-  { s: [1.04, -0.76, 0.09], v: [4.5, -3.5, 1.5],   g: [0.96, 0.42, 0.04], c: '#041410' }, // card 3
-];
-
-function ExplosionFragments() {
-  const meshRefs = useRef<(THREE.Mesh | null)[]>(Array(FRAGS.length).fill(null));
-  const matRefs  = useRef<(THREE.MeshBasicMaterial | null)[]>(Array(FRAGS.length).fill(null));
-  useFrame(() => {
-    const p    = SV.explodeProgress;
-    const ease = p < 0.001 ? 0 : 1 - Math.pow(1 - p, 2.2);
-    const op   = p < 0.001 ? 0 : Math.min(1, p * 5.0);
-    for (let i = 0; i < FRAGS.length; i++) {
-      const mesh = meshRefs.current[i];
-      const mat  = matRefs.current[i];
-      if (!mesh || !mat) continue;
-      const f = FRAGS[i];
-      mesh.position.set(f.s[0] + f.v[0] * ease, f.s[1] + f.v[1] * ease, f.s[2] + f.v[2] * ease);
-      mesh.rotation.x = ease * f.v[1] * 0.5;
-      mesh.rotation.y = ease * f.v[0] * 0.4;
-      mesh.rotation.z = ease * (f.v[0] + f.v[1]) * 0.18;
-      mat.opacity = op;
-    }
-  });
-  return (
-    <>
-      {FRAGS.map((f, i) => (
-        <mesh key={i} ref={el => { meshRefs.current[i] = el; }} position={f.s}>
-          <boxGeometry args={f.g} />
-          <meshBasicMaterial ref={el => { matRefs.current[i] = el as THREE.MeshBasicMaterial | null; }} color={f.c} transparent opacity={0} />
-        </mesh>
-      ))}
-    </>
-  );
-}
+/* ExplosionFragments removed — no longer needed in 4-section narrative */
 
 /* ═══════════════════════════════════════════════════════════════
-   RINGS — 2 elegant orbits (simplified)
-═══════════════════════════════════════════════════════════════ */
-/* RingAccent and Particles removed — isolated dark void composition */
-
-/* ═══════════════════════════════════════════════════════════════
-   CINEMATIC CAMERA RIG
+   CAMERA RIG
 ═══════════════════════════════════════════════════════════════ */
 function CameraRig({ section }: { section: number }) {
   const { camera } = useThree();
-  useFrame(({ clock }) => {
-    const t = clock.elapsedTime;
-    // During explosion: add cinematic camera shake
-    const shake = SV.explodeProgress > 0.05
-      ? SV.explodeProgress * 0.04
-      : 0;
-    camera.position.x += (SV.camX + Math.sin(t * 1.2) * shake - camera.position.x) * 0.038;
-    camera.position.y += (SV.camY + Math.cos(t * 0.9) * shake - camera.position.y) * 0.038;
+  useFrame(() => {
+    camera.position.x += (SV.camX - camera.position.x) * 0.038;
+    camera.position.y += (SV.camY - camera.position.y) * 0.038;
     camera.position.z += (SV.camZ - camera.position.z) * 0.038;
     camera.lookAt(SV.monX * 0.55, SV.monY * 0.25, 0);
   });
@@ -923,10 +604,10 @@ export function ImmersiveScene({ scrollContainerRef, mobile = false }: Props) {
     const el = scrollContainerRef.current;
     if (!el) return;
 
-    /* Reset */
+    /* Reset to match initial SV values */
     Object.assign(SV, {
-      camX: 0, camY: 0.15, camZ: 8.5,
-      monRotX: 0, monRotY: 0, monScale: 1.22,
+      camX: 0, camY: 0.2, camZ: 11.0,
+      monRotX: 0, monRotY: 0, monScale: 1.18,
       monX: 0, monY: 0.05,
       buildProgress: 0, explodeProgress: 0,
     });
@@ -939,58 +620,42 @@ export function ImmersiveScene({ scrollContainerRef, mobile = false }: Props) {
       },
     });
 
-    /* ── 6 CINEMATIC Z-JOURNEY ───────────────────────────────
-       Z arc: 11.0 → 9.2 → 3.8 → 11.5 → 5.8 → 10.5 → 20.0
+    /* ── 4-SECTION Z-JOURNEY ──────────────────────────────────
+       Container = 400vh → scroll range = 300vh.
+       3 tweens of duration 1.0 at pos 0/1/2 → total = 3.0.
+       Tween N runs while the user scrolls section N.
+       Section boundaries (at 100/200/300vh) align perfectly
+       with timeline positions 1.0 / 2.0 / 3.0.
     ─────────────────────────────────────────────────────── */
 
-    /* STATE 0→1: HERO — slow drift in, first breath */
-    tl.to(SV, { camZ: 9.2, camY: 0.0, monScale: 1.24, duration: 0.83 }, 0);
-
-    /* STATE 1: DESIGN — dive close to watch the build */
+    /* SECTION 0 scroll — camera dives in, monitor builds */
     tl.to(SV, {
       camZ: mobile ? 6.8 : 3.8, camX: mobile ? 0 : -0.4, camY: -0.25,
       monScale: mobile ? 1.36 : 1.55, monRotY: mobile ? 0 : 0.06,
       buildProgress: 1,
-      duration: 0.83,
-    }, 0.83);
+      duration: 1.0,
+    }, 0);
 
-    /* STATE 2: BUSINESS — blast back and orbit right */
+    /* SECTION 1 scroll — camera pulls back, orbit right, show process */
     tl.to(SV, {
-      camX: mobile ? 0 : 4.5, camY: 0.8, camZ: mobile ? 8.0 : 11.5,
-      monRotY: mobile ? -0.12 : -0.36, monRotX: 0.06,
-      monScale: 1.14, buildProgress: 0,
-      duration: 0.83,
-    }, 1.66);
+      camZ: mobile ? 8.5 : 9.5, camX: mobile ? 0 : 2.5, camY: 0.4,
+      monScale: mobile ? 1.0 : 0.88, monX: mobile ? 0 : -0.6,
+      monRotY: mobile ? -0.08 : -0.22, monRotX: 0.05,
+      buildProgress: 0,
+      duration: 1.0,
+    }, 1.0);
 
-    /* STATE 3: E-COMMERCE — swoop left and approach */
+    /* SECTION 2 scroll — monitor shrinks to thumbnail, numbers are hero */
     tl.to(SV, {
-      camX: mobile ? 0 : -4.2, camY: -0.5, camZ: mobile ? 7.8 : 5.8,
-      monRotY: mobile ? 0.12 : 0.40, monRotX: -0.05,
-      monScale: 1.28,
-      duration: 0.83,
-    }, 2.49);
-
-    /* STATE 4: RESULTS — monitor shrinks to thumbnail, numbers become hero */
-    tl.to(SV, {
-      camX: mobile ? 0 : 0.6, camY: 0.2, camZ: mobile ? 8.5 : 10.5,
-      monRotX: 0.12, monRotY: mobile ? 0 : -0.15,
+      camZ: mobile ? 8.5 : 10.5, camX: mobile ? 0 : 0.6, camY: 0.2,
       monScale: mobile ? 0.72 : 0.36,
       monX: mobile ? 0 : 1.4, monY: mobile ? 0 : 0.6,
-      duration: 0.83,
-    }, 3.32);
-
-    /* STATE 5: LAUNCH — wide pull-back, monitor explodes outward */
-    tl.to(SV, {
-      camX: mobile ? 0.5 : -1.5, camY: 3.2, camZ: mobile ? 13.0 : 20.0,
-      monRotY: 1.3, monRotX: 0.6,
-      monX: 0, monY: 0,
-      monScale: mobile ? 0.22 : 0.06,
-      explodeProgress: 1,
-      duration: 0.83,
-    }, 4.15);
+      monRotX: 0.12, monRotY: mobile ? 0 : -0.15,
+      duration: 1.0,
+    }, 2.0);
 
     const onScroll = () => {
-      const s = Math.min(5, Math.max(0, Math.floor(window.scrollY / window.innerHeight)));
+      const s = Math.min(3, Math.max(0, Math.floor(window.scrollY / window.innerHeight)));
       if (s !== secRef.current) { secRef.current = s; setSection(s); }
     };
     window.addEventListener('scroll', onScroll, { passive: true });
@@ -1014,14 +679,9 @@ export function ImmersiveScene({ scrollContainerRef, mobile = false }: Props) {
       <color attach="background" args={['#060d1a']} />
 
       <ambientLight intensity={0.35} />
-      {/* Key — cool blue from upper-left */}
-      <pointLight position={[-6, 5, 4]}   intensity={8.0} color="#2563eb" />
-      {/* Fill — cyan from lower-right */}
-      <pointLight position={[5, -3, 3]}   intensity={5.0} color="#22d3ee" />
-      {/* Explosion accent — red tint when exploding */}
-      <pointLight position={[0, 0, 4]}    intensity={section === 5 ? 4.0 : 0} color="#ff2200" />
+      <pointLight position={[-6, 5, 4]} intensity={8.0} color="#2563eb" />
+      <pointLight position={[5, -3, 3]} intensity={5.0} color="#22d3ee" />
       <Monitor section={section} />
-      <ExplosionFragments />
       <CameraRig section={section} />
     </Canvas>
   );

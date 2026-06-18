@@ -17,6 +17,20 @@ interface Version {
 
 const CHANGELOG: Version[] = [
   {
+    version: '3.45',
+    date: '18. 6. 2026',
+    changes: [
+      { type: 'change', text: 'Struktura přepracována z 6 sekcí (600vh) na 4 sekce (400vh): HERO → PROCES → VÝSLEDKY → CTA — jasná narativní linka: co stavíme / jak to funguje / co klienti získají / začni dnes' },
+      { type: 'feat',   text: 'ScreenProcess (sekce 1): nová obrazovka — 3-krokový timeline (01 Sdělíte / 02 Navrhneme / 03 Online) s časovými značkami (3 min / 24 h / 48 h); monitor v sekci 1 je podpůrný prvek (monScale 0.88), ne dominantní' },
+      { type: 'change', text: 'GSAP timeline přepsán na 3 tweeny s pozicemi 0/1/2 a délkou 1.0 — každý tween přesně odpovídá jedné sekci scrollu; sekce 3 (CTA) nepotřebuje tween, monitor zůstává jako malá miniatura ze sekce 2' },
+      { type: 'change', text: 'ExplosionFragments odstraněn (~60 řádků, 23 mesh objektů) — explozní efekt neodpovídal nové naraci "Začněte dnes"; scéna je čistší bez fragmentů létajících na pozadí CTA' },
+      { type: 'change', text: 'ScreenIdea, ScreenLanding, ScreenEcommerce odstraněny (~340 řádků) — nahrazeny jednou novou ScreenProcess komponentou; 3 zbytečné obrazovky nestály storytelling hodnotu' },
+      { type: 'change', text: 'CameraRig zjednodušen — odebrán shake efekt vázaný na explodeProgress; CameraRig nyní jen sleduje SV hodnoty bez vedlejší logiky' },
+      { type: 'change', text: 'SCREEN_RIM/EM arrays zmenšeny z 6 na 4 položky; explosion světlo (red pointLight) odstraněno; sekce detekce: Math.min(5,...) → Math.min(3,...)' },
+      { type: 'change', text: 'page.tsx: S3 (Nabídka) a S4 (Záruka) odstraněny — obsah překrýval informace v pricing sekci níže; staré S5/S6 přejmenovány na S3/S4; GSAP pairs: 5 triggerů → 3' },
+    ],
+  },
+  {
     version: '3.44',
     date: '18. 6. 2026',
     changes: [
