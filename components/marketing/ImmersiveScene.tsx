@@ -198,7 +198,7 @@ function ScreenHero({ building }: { building: boolean }) {
       <group ref={gCard}>
         <mesh position={[0.92, 0.42, Z]}>
           <boxGeometry args={[1.32, 0.98, 0.006]} />
-          <meshStandardMaterial color="#040c1c" metalness={0.1} roughness={0.9} />
+          <meshBasicMaterial color="#040c1c" />
         </mesh>
         <mesh position={[0.92, 0.9, Z + 0.005]}>
           <boxGeometry args={[1.32, 0.09, 0.001]} />
@@ -360,7 +360,7 @@ function ScreenLanding() {
         <group key={i} position={[x, -0.6, Z]}>
           <mesh>
             <boxGeometry args={[0.95, 0.75, 0.006]} />
-            <meshStandardMaterial color={bg} metalness={0.1} roughness={0.9} />
+            <meshBasicMaterial color={bg} />
           </mesh>
           <mesh position={[0, 0.37, 0.004]}>
             <boxGeometry args={[0.95, 0.006, 0.001]} />
@@ -421,7 +421,7 @@ function ScreenCorporate() {
       {/* LEFT SIDEBAR */}
       <mesh position={[-1.38, 0.05, Z]}>
         <boxGeometry args={[0.68, 1.78, 0.005]} />
-        <meshStandardMaterial color="#030a18" metalness={0.08} roughness={0.92} />
+        <meshBasicMaterial color="#030a18" />
       </mesh>
       <mesh position={[-1.38, 0.93, Z + 0.003]}>
         <boxGeometry args={[0.68, 0.004, 0.001]} />
@@ -473,7 +473,7 @@ function ScreenCorporate() {
         <group key={i} position={[x, -0.38, Z]}>
           <mesh>
             <boxGeometry args={[0.82, 0.78, 0.005]} />
-            <meshStandardMaterial color={bg} metalness={0.1} roughness={0.9} />
+            <meshBasicMaterial color={bg} />
           </mesh>
           <mesh position={[0, 0.25, 0.003]}>
             <boxGeometry args={[0.82, 0.32, 0.001]} />
@@ -559,7 +559,7 @@ function ScreenEcommerce() {
       {/* FILTER SIDEBAR */}
       <mesh position={[-1.38, 0.0, Z]}>
         <boxGeometry args={[0.68, 1.78, 0.005]} />
-        <meshStandardMaterial color="#030b0e" metalness={0.08} roughness={0.92} />
+        <meshBasicMaterial color="#030b0e" />
       </mesh>
       {([
         [0.82,  'KATEGORIE', true],
@@ -588,7 +588,7 @@ function ScreenEcommerce() {
           <group key={i} position={[x, y, Z]}>
             <mesh>
               <boxGeometry args={[0.78, 0.76, 0.005]} />
-              <meshStandardMaterial color={PROD_COLORS[i]} metalness={0.1} roughness={0.9} />
+              <meshBasicMaterial color={PROD_COLORS[i]} />
             </mesh>
             <mesh position={[0, 0.19, 0.003]}>
               <boxGeometry args={[0.78, 0.38, 0.001]} />
@@ -726,42 +726,35 @@ const FRAGS: FragData[] = [
   { s: [1.04, -0.76, 0.09], v: [4.5, -3.5, 1.5],   g: [0.96, 0.42, 0.04], c: '#041410' }, // card 3
 ];
 
-function ExplosionFragment({ s, v, g, c }: FragData) {
-  const mesh = useRef<THREE.Mesh>(null!);
-  const mat  = useRef<THREE.MeshBasicMaterial>(null!);
-
-  useFrame(() => {
-    if (!mesh.current || !mat.current) return;
-    const p = SV.explodeProgress;
-    if (p < 0.001) {
-      mesh.current.position.set(s[0], s[1], s[2]);
-      mat.current.opacity = 0;
-      return;
-    }
-    const ease = 1 - Math.pow(1 - p, 2.2); // ease-out
-    mesh.current.position.set(
-      s[0] + v[0] * ease,
-      s[1] + v[1] * ease,
-      s[2] + v[2] * ease,
-    );
-    // Fragments spin as they fly
-    mesh.current.rotation.x = ease * v[1] * 0.5;
-    mesh.current.rotation.y = ease * v[0] * 0.4;
-    mesh.current.rotation.z = ease * (v[0] + v[1]) * 0.18;
-    // Fade in quickly then hold
-    mat.current.opacity = Math.min(1, p * 5.0);
-  });
-
-  return (
-    <mesh ref={mesh} position={[s[0], s[1], s[2]]}>
-      <boxGeometry args={g} />
-      <meshBasicMaterial ref={mat} color={c} transparent opacity={0} />
-    </mesh>
-  );
-}
-
 function ExplosionFragments() {
-  return <>{FRAGS.map((f, i) => <ExplosionFragment key={i} {...f} />)}</>;
+  const meshRefs = useRef<(THREE.Mesh | null)[]>(Array(FRAGS.length).fill(null));
+  const matRefs  = useRef<(THREE.MeshBasicMaterial | null)[]>(Array(FRAGS.length).fill(null));
+  useFrame(() => {
+    const p    = SV.explodeProgress;
+    const ease = p < 0.001 ? 0 : 1 - Math.pow(1 - p, 2.2);
+    const op   = p < 0.001 ? 0 : Math.min(1, p * 5.0);
+    for (let i = 0; i < FRAGS.length; i++) {
+      const mesh = meshRefs.current[i];
+      const mat  = matRefs.current[i];
+      if (!mesh || !mat) continue;
+      const f = FRAGS[i];
+      mesh.position.set(f.s[0] + f.v[0] * ease, f.s[1] + f.v[1] * ease, f.s[2] + f.v[2] * ease);
+      mesh.rotation.x = ease * f.v[1] * 0.5;
+      mesh.rotation.y = ease * f.v[0] * 0.4;
+      mesh.rotation.z = ease * (f.v[0] + f.v[1]) * 0.18;
+      mat.opacity = op;
+    }
+  });
+  return (
+    <>
+      {FRAGS.map((f, i) => (
+        <mesh key={i} ref={el => { meshRefs.current[i] = el; }} position={f.s}>
+          <boxGeometry args={f.g} />
+          <meshBasicMaterial ref={el => { matRefs.current[i] = el as THREE.MeshBasicMaterial | null; }} color={f.c} transparent opacity={0} />
+        </mesh>
+      ))}
+    </>
+  );
 }
 
 /* ═══════════════════════════════════════════════════════════════
@@ -786,12 +779,12 @@ function RingAccent() {
     <>
       {/* Main orbit */}
       <mesh ref={r1} position={[0.3, 0.1, -2]}>
-        <torusGeometry args={[4.0, 0.012, 8, 100]} />
+        <torusGeometry args={[4.0, 0.012, 8, 60]} />
         <meshStandardMaterial color="#1e4090" emissive="#1e4090" emissiveIntensity={1.6} transparent opacity={0.45} />
       </mesh>
       {/* Secondary orbit */}
       <mesh ref={r2} position={[-0.4, 0.2, -3]}>
-        <torusGeometry args={[5.5, 0.007, 8, 120]} />
+        <torusGeometry args={[5.5, 0.007, 8, 72]} />
         <meshStandardMaterial color="#5b21b6" emissive="#5b21b6" emissiveIntensity={1.0} transparent opacity={0.25} />
       </mesh>
     </>
@@ -1075,24 +1068,18 @@ export function ImmersiveScene({ scrollContainerRef, mobile = false }: Props) {
     <Canvas
       camera={{ position: [0, 0.15, 8.5], fov: mobile ? 46 : 40 }}
       gl={{ antialias: !mobile, alpha: false, powerPreference: 'high-performance' }}
-      dpr={mobile ? [0.75, 1] : [1, 1.5]}
+      dpr={mobile ? [0.75, 1] : [1, 1.2]}
       performance={{ min: 0.5 }}
       style={{ width: '100%', height: '100%' }}
     >
       <AdaptiveDpr pixelated />
       <color attach="background" args={['#06060a']} />
 
-      <ambientLight intensity={0.12} />
+      <ambientLight intensity={0.18} />
       {/* Key — cool blue from upper-left */}
-      <pointLight position={[-6, 5, 4]}   intensity={5.5} color="#3b82f6" />
+      <pointLight position={[-6, 5, 4]}   intensity={5.8} color="#3b82f6" />
       {/* Fill — purple from lower-right */}
-      <pointLight position={[5, -3, 3]}   intensity={3.0} color="#8b5cf6" />
-      {/* Front — soft white */}
-      <pointLight position={[0, 3, 8]}    intensity={0.7} color="#ffffff" />
-      {/* Rim — cyan right */}
-      <pointLight position={[3, 1, 2]}    intensity={1.8} color="#60a5fa" />
-      {/* Back — deep blue */}
-      <pointLight position={[0, 0, -6]}   intensity={1.4} color="#1a3c9a" />
+      <pointLight position={[5, -3, 3]}   intensity={3.2} color="#8b5cf6" />
       {/* Explosion accent — red tint when exploding */}
       <pointLight position={[0, 0, 4]}    intensity={section === 5 ? 4.0 : 0} color="#ff2200" />
       {/* Cozy warm fill — floor/desk bounce */}
