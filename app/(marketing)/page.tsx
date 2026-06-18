@@ -93,7 +93,7 @@ function S1() {
   return (
     <section id="s1" aria-label="Intro" style={{ height: '100vh', display: 'flex', alignItems: 'center', pointerEvents: 'none', position: 'relative', zIndex: 10 }}>
       <ScrollIndicator />
-      <div id="s1i" style={{ maxWidth: 'min(580px, 42vw)', padding: '0 52px', opacity: 0 }}>
+      <div id="s1i" style={{ width: 'clamp(260px, 33vw, 420px)', padding: '0 40px 0 52px', opacity: 0 }}>
 
         {/* Status badge — minimal, monospace-style */}
         <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', marginBottom: '36px' }}>
@@ -159,7 +159,7 @@ function S1() {
 function S2() {
   return (
     <section id="s2" aria-label="Proces" style={{ height: '100vh', display: 'flex', alignItems: 'center', pointerEvents: 'none', position: 'relative', zIndex: 10 }}>
-      <div id="s2i" style={{ maxWidth: 'min(520px, 42vw)', padding: '0 52px', opacity: 0 }}>
+      <div id="s2i" style={{ width: 'clamp(260px, 33vw, 420px)', padding: '0 40px 0 52px', opacity: 0 }}>
 
         <p style={{ fontSize: '10px', fontWeight: 600, color: '#2563eb', textTransform: 'uppercase', letterSpacing: '0.16em', margin: '0 0 36px' }}>Jak to funguje</p>
 
@@ -243,7 +243,7 @@ function S3() {
 function S4() {
   return (
     <section id="s4" aria-label="Záruka" style={{ height: '100vh', display: 'flex', alignItems: 'center', pointerEvents: 'none', position: 'relative', zIndex: 10 }}>
-      <div id="s4i" style={{ maxWidth: 'min(540px, 42vw)', padding: '0 52px', opacity: 0 }}>
+      <div id="s4i" style={{ width: 'clamp(260px, 33vw, 420px)', padding: '0 40px 0 52px', opacity: 0 }}>
 
         <p style={{ fontSize: '10px', fontWeight: 600, color: '#2563eb', textTransform: 'uppercase', letterSpacing: '0.16em', margin: '0 0 32px' }}>Bez rizika</p>
 
@@ -285,7 +285,7 @@ function S4() {
 function S5() {
   return (
     <section id="s5" aria-label="Čísla" style={{ height: '100vh', display: 'flex', alignItems: 'center', pointerEvents: 'none', position: 'relative', zIndex: 10 }}>
-      <div id="s5i" style={{ maxWidth: 'min(520px, 42vw)', padding: '0 52px', opacity: 0 }}>
+      <div id="s5i" style={{ width: 'clamp(260px, 31vw, 400px)', padding: '0 40px 0 52px', opacity: 0 }}>
 
         <p style={{ fontSize: '10px', fontWeight: 600, color: '#2563eb', textTransform: 'uppercase', letterSpacing: '0.16em', margin: '0 0 40px' }}>Za rok fungování</p>
 
