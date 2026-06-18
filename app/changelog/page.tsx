@@ -17,6 +17,16 @@ interface Version {
 
 const CHANGELOG: Version[] = [
   {
+    version: '3.44',
+    date: '18. 6. 2026',
+    changes: [
+      { type: 'fix', text: 'ImmersiveScene: monitor neproblikává — všechny screen komponenty jsou nyní vždy namontované (visible toggle místo conditional render); Three.js Text nemusí znovu načítat font při přechodu sekce → žádný flash' },
+      { type: 'fix', text: 'ImmersiveScene: ScreenEcommerce — odstraněn IMG_BG array a tmavé placeholder obdélníky v produktových kartách; nahrazeny průhledným accent tónem + větší kategorie text (0.082) — žádné náhodné černé boxy' },
+      { type: 'fix', text: 'ImmersiveScene: ScreenHero + ScreenLanding — zdvojené "ghost button" meshe (2× překrývající se boxGeometry) zjednodušeny na jeden poloprůhledný mesh — méně vizuálního šumu' },
+      { type: 'change', text: 'ImmersiveScene: ScreenHero snap() animace — binary target (0/1) s lerp 0.18 nahrazen přímým vis hodnotou s lerp 0.08 — každý element se plynule škáluje proporcionálně s buildProgress, ne náhle snapuje; build timings rozšířeny pro plynulejší sekvenci' },
+    ],
+  },
+  {
     version: '3.43',
     date: '18. 6. 2026',
     changes: [

@@ -181,8 +181,7 @@ function ScreenHero({ building }: { building: boolean }) {
 
   const snap = (grp: React.MutableRefObject<THREE.Group>, vis: number) => {
     if (!grp.current) return;
-    const t = vis > 0.01 ? 1 : 0;
-    grp.current.scale.setScalar(grp.current.scale.x + (t - grp.current.scale.x) * 0.18);
+    grp.current.scale.setScalar(grp.current.scale.x + (vis - grp.current.scale.x) * 0.08);
   };
 
   useFrame(({ clock }) => {
@@ -191,14 +190,14 @@ function ScreenHero({ building }: { building: boolean }) {
     const v  = (from: number, to: number) =>
       Math.max(0, Math.min(1, (bp - from) / Math.max(to - from, 0.001)));
 
-    snap(gNav,    v(0.03, 0.14));
-    snap(gBadge,  v(0.22, 0.34));
-    snap(gH1,     v(0.40, 0.54));
-    snap(gSub,    v(0.55, 0.68));
-    snap(gCta,    v(0.68, 0.80));
-    snap(gCard,   v(0.80, 0.92));
-    snap(gStats,  v(0.90, 1.00));
-    snap(gBottom, v(0.95, 1.00));
+    snap(gNav,    v(0.04, 0.22));
+    snap(gBadge,  v(0.24, 0.42));
+    snap(gH1,     v(0.44, 0.62));
+    snap(gSub,    v(0.58, 0.74));
+    snap(gCta,    v(0.70, 0.84));
+    snap(gCard,   v(0.78, 0.94));
+    snap(gStats,  v(0.86, 1.00));
+    snap(gBottom, v(0.92, 1.00));
 
     if (cursorMat.current) cursorMat.current.opacity = Math.sin(t * 3.5) > 0 ? 0.9 : 0;
     if (liveDotMat.current) liveDotMat.current.emissiveIntensity = 1.2 + Math.sin(t * 4) * 0.8;
@@ -273,11 +272,7 @@ function ScreenHero({ building }: { building: boolean }) {
         <Text position={[-1.04, -0.05, Z + 0.003]} fontSize={0.062} color="#ffffff" anchorX="center" anchorY="middle">Ziskat web</Text>
         <mesh position={[-0.32, -0.05, Z]}>
           <boxGeometry args={[0.52, 0.17, 0.001]} />
-          <meshBasicMaterial color="#122244" />
-        </mesh>
-        <mesh position={[-0.32, -0.05, Z + 0.001]}>
-          <boxGeometry args={[0.52, 0.17, 0.001]} />
-          <meshBasicMaterial color="#1e3c78" transparent opacity={0.5} />
+          <meshBasicMaterial color="#1a3870" transparent opacity={0.55} />
         </mesh>
         <Text position={[-0.32, -0.05, Z + 0.003]} fontSize={0.062} color="#9abdd8" anchorX="center" anchorY="middle">Zjistit vice</Text>
       </group>
@@ -428,11 +423,7 @@ function ScreenLanding() {
       <Text position={[-0.4, 0.1, Z + 0.003]} fontSize={0.064} color="#ffffff" anchorX="center" anchorY="middle">Chci web</Text>
       <mesh position={[0.35, 0.1, Z]}>
         <boxGeometry args={[0.52, 0.17, 0.001]} />
-        <meshBasicMaterial color="#122244" />
-      </mesh>
-      <mesh position={[0.35, 0.1, Z + 0.001]}>
-        <boxGeometry args={[0.50, 0.15, 0.001]} />
-        <meshBasicMaterial color="#1e3c78" transparent opacity={0.5} />
+        <meshBasicMaterial color="#1a3870" transparent opacity={0.55} />
       </mesh>
       <Text position={[0.35, 0.1, Z + 0.003]} fontSize={0.064} color="#9abdd8" anchorX="center" anchorY="middle">Ukazky praci</Text>
 
@@ -496,7 +487,6 @@ function ScreenEcommerce() {
   const PROD_COLORS = ['#0e2235','#101e32','#0e1a2e','#0a1e18','#10102a','#0c1c20'] as const;
   const ACCENT      = ['#3b82f6','#8b5cf6','#10b981','#f59e0b','#22d3ee','#a78bfa'] as const;
   const BTN_BG      = ['#1e4a88','#2a1268','#0e3828','#482010','#1a3c78','#2a1868'] as const;
-  const IMG_BG      = ['#0c1e28','#120e28','#0a1c10','#1a1008','#0c1e28','#120e28'] as const;
   const PRODUCTS = [
     { name: 'Starter web',   price: '9 900 Kc',  cat: 'Zakladni'  },
     { name: 'Business web',  price: '14 900 Kc', cat: 'Oblibeny'  },
@@ -577,13 +567,9 @@ function ScreenEcommerce() {
             </mesh>
             <mesh position={[0, 0.19, 0.003]}>
               <boxGeometry args={[0.78, 0.38, 0.001]} />
-              <meshBasicMaterial color={IMG_BG[i]} />
+              <meshBasicMaterial color={ACCENT[i]} transparent opacity={0.13} />
             </mesh>
-            <mesh position={[0, 0.19, 0.004]}>
-              <boxGeometry args={[0.78, 0.38, 0.001]} />
-              <meshBasicMaterial color={ACCENT[i]} transparent opacity={0.12} />
-            </mesh>
-            <Text position={[0, 0.19, 0.006]} fontSize={0.058} color={ACCENT[i]} anchorX="center" anchorY="middle">{prod.cat}</Text>
+            <Text position={[0, 0.19, 0.006]} fontSize={0.082} color={ACCENT[i]} anchorX="center" anchorY="middle">{prod.cat}</Text>
             <Text position={[0, -0.08, 0.005]} fontSize={0.060} color="#c0d4e8" anchorX="center" anchorY="middle">{prod.name}</Text>
             <Text position={[-0.16, -0.21, 0.005]} fontSize={0.056} color={ACCENT[i]} anchorX="left" anchorY="middle">{prod.price}</Text>
             <mesh position={[0, -0.32, 0.004]}>
@@ -818,13 +804,13 @@ function Monitor({ section }: { section: number }) {
         <meshStandardMaterial color="#05070c" metalness={0.9} roughness={0.1} />
       </mesh>
 
-      {/* Screen content — 6-stage story */}
-      {section === 0 && <ScreenIdea />}
-      {section === 1 && <ScreenHero building={true} />}
-      {section === 2 && <ScreenLanding />}
-      {section === 3 && <ScreenEcommerce />}
-      {section === 4 && <ScreenResults />}
-      {section === 5 && <ScreenLaunch />}
+      {/* Screen content — always mounted so fonts never re-load, visible toggle has no flash */}
+      <group visible={section === 0}><ScreenIdea /></group>
+      <group visible={section === 1}><ScreenHero building={true} /></group>
+      <group visible={section === 2}><ScreenLanding /></group>
+      <group visible={section === 3}><ScreenEcommerce /></group>
+      <group visible={section === 4}><ScreenResults /></group>
+      <group visible={section === 5}><ScreenLaunch /></group>
     </group>
   );
 }
