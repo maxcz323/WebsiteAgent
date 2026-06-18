@@ -48,7 +48,7 @@ export function Footer() {
             <Link href="/" className="inline-block mb-5">
               <img src="/logo.png" alt="WebsiteAgent" className="h-10 w-auto" />
             </Link>
-            <p className="text-sm leading-relaxed text-slate-600 max-w-[200px]">
+            <p className="text-sm leading-relaxed text-slate-400 max-w-[200px]">
               Moderní weby pro lokální firmy. Rychle, na míru, bez starostí.
             </p>
           </div>
@@ -64,7 +64,7 @@ export function Footer() {
                   <li key={l.label}>
                     <Link
                       href={l.href}
-                      className="text-sm text-slate-600 hover:text-slate-300 transition-colors duration-150"
+                      className="text-sm text-slate-400 hover:text-slate-200 transition-colors duration-150"
                     >
                       {l.label}
                     </Link>
@@ -77,8 +77,8 @@ export function Footer() {
 
         {/* Bottom bar */}
         <div className="border-t border-white/5 pt-8 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-xs text-slate-700">© 2026 WebsiteAgent. Všechna práva vyhrazena.</p>
-          <p className="text-xs text-slate-700">Tvoříme weby, které vydělávají.</p>
+          <p className="text-xs text-slate-500">© 2026 WebsiteAgent. Všechna práva vyhrazena.</p>
+          <p className="text-xs text-slate-500">Tvoříme weby, které vydělávají.</p>
         </div>
       </div>
     </footer>

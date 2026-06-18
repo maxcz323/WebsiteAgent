@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useRef, useEffect, useState } from 'react';
 import Link from 'next/link';
@@ -37,7 +37,7 @@ function MockBrowser({ color }: { color: string }) {
 function ProjectCard({ p, delay }: { p: Project; delay: number }) {
   const r = useReveal(delay);
   return (
-    <div ref={r.ref} style={{ ...r.style, minHeight: 280 }} className={`group relative rounded-2xl overflow-hidden bg-white border border-slate-100 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 ${p.size}`}>
+    <div ref={r.ref} style={{ ...r.style, minHeight: 280 }} className={`group relative rounded-2xl overflow-hidden bg-[#0d1e38] border border-white/8 hover:shadow-2xl hover:shadow-black/50 hover:-translate-y-1 transition-all duration-300 ${p.size}`}>
       <MockBrowser color={p.color} />
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
         <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
@@ -74,9 +74,9 @@ export default function PortfolioPage() {
       <section className="py-20 px-5 sm:px-8 text-center">
         <div className="max-w-3xl mx-auto">
           <div ref={title.ref} style={title.style}>
-            <p className="text-xs font-semibold text-blue-600 uppercase tracking-widest mb-4">Portfolio</p>
-            <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-slate-900 mb-5">Weby, které mluví za sebe</h1>
-            <p className="text-lg text-slate-500 leading-relaxed">Každý projekt je jiný. Stejná je kvalita a péče o každý detail.</p>
+            <p className="text-xs font-semibold text-blue-400 uppercase tracking-widest mb-4">Portfolio</p>
+            <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-white mb-5">Weby, které mluví za sebe</h1>
+            <p className="text-lg text-slate-400 leading-relaxed">Každý projekt je jiný. Stejná je kvalita a péče o každý detail.</p>
           </div>
         </div>
       </section>

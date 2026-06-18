@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useRef, useEffect, useState } from 'react';
 import Link from 'next/link';
@@ -38,18 +38,18 @@ type Testimonial = typeof TESTIMONIALS[0];
 function TestimonialCard({ t, delay }: { t: Testimonial; delay: number }) {
   const r = useReveal(delay);
   return (
-    <div ref={r.ref} style={r.style} className={`bg-white rounded-2xl border p-7 flex flex-col ${t.featured ? 'border-blue-200 shadow-lg shadow-blue-500/10 md:col-span-2' : 'border-slate-100 hover:shadow-md'} transition-shadow duration-200`}>
+    <div ref={r.ref} style={r.style} className={`bg-[#0d1e38] rounded-2xl border p-7 flex flex-col ${t.featured ? 'border-blue-500/30 shadow-lg shadow-blue-500/10 md:col-span-2' : 'border-white/8 hover:border-white/15'} transition-all duration-200`}>
       {t.featured && (
-        <span className="inline-block text-xs font-bold text-blue-600 bg-blue-50 px-2.5 py-1 rounded-full mb-4 self-start">Příběh úspěchu</span>
+        <span className="inline-block text-xs font-bold text-blue-400 bg-blue-950/50 px-2.5 py-1 rounded-full mb-4 self-start border border-blue-500/20">Příběh úspěchu</span>
       )}
       <Stars count={t.stars} />
-      <p className="text-slate-700 leading-relaxed mt-4 mb-5 flex-1 text-sm">&ldquo;{t.text}&rdquo;</p>
+      <p className="text-slate-300 leading-relaxed mt-4 mb-5 flex-1 text-sm">&ldquo;{t.text}&rdquo;</p>
       <div className={`flex ${t.featured ? 'flex-row items-center justify-between' : 'flex-col gap-3'} mt-auto`}>
         <div>
-          <p className="font-semibold text-slate-900 text-sm">{t.name}</p>
-          <p className="text-slate-400 text-xs mt-0.5">{t.obor}</p>
+          <p className="font-semibold text-white text-sm">{t.name}</p>
+          <p className="text-slate-500 text-xs mt-0.5">{t.obor}</p>
         </div>
-        <div className="inline-flex items-center gap-1.5 text-xs text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-lg font-medium">
+        <div className="inline-flex items-center gap-1.5 text-xs text-emerald-400 bg-emerald-950/40 px-3 py-1.5 rounded-lg font-medium border border-emerald-500/20">
           <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18" /><polyline points="17 6 23 6 23 12" /></svg>
           {t.result}
         </div>
@@ -67,20 +67,20 @@ export default function ReferencePage() {
       <section className="py-20 px-5 sm:px-8 text-center">
         <div className="max-w-3xl mx-auto">
           <div ref={title.ref} style={title.style}>
-            <p className="text-xs font-semibold text-blue-600 uppercase tracking-widest mb-4">Reference</p>
-            <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-slate-900 mb-5">Co říkají naši klienti</h1>
-            <p className="text-lg text-slate-500 leading-relaxed">Výsledky hovoří za sebe. Tohle jsou slova lidí, kteří nám důvěřovali.</p>
+            <p className="text-xs font-semibold text-blue-400 uppercase tracking-widest mb-4">Reference</p>
+            <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-white mb-5">Co říkají naši klienti</h1>
+            <p className="text-lg text-slate-400 leading-relaxed">Výsledky hovoří za sebe. Tohle jsou slova lidí, kteří nám důvěřovali.</p>
           </div>
         </div>
       </section>
 
       {/* Stats bar */}
       <section className="pb-16 px-5 sm:px-8">
-        <div ref={stats.ref} style={stats.style} className="max-w-3xl mx-auto bg-slate-50 border border-slate-100 rounded-2xl px-8 py-6">
-          <div className="grid grid-cols-3 divide-x divide-slate-200 text-center">
+        <div ref={stats.ref} style={stats.style} className="max-w-3xl mx-auto bg-[#0d1e38] border border-white/8 rounded-2xl px-8 py-6">
+          <div className="grid grid-cols-3 divide-x divide-white/10 text-center">
             {[['50+', 'spokojených klientů'], ['4.9/5', 'průměrné hodnocení'], ['100%', 'doporučilo by nás']].map(([val, label]) => (
               <div key={label} className="px-4">
-                <p className="text-2xl font-bold text-slate-900">{val}</p>
+                <p className="text-2xl font-bold text-white">{val}</p>
                 <p className="text-xs text-slate-400 mt-1">{label}</p>
               </div>
             ))}

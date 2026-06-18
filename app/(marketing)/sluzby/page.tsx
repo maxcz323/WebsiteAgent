@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useRef, useEffect, useState, ReactNode } from 'react';
 import Link from 'next/link';
@@ -14,7 +14,7 @@ function useReveal(delay = 0) {
   return { ref, style: { opacity: v ? 1 : 0, transform: v ? 'translateY(0)' : 'translateY(22px)', transition: `opacity 0.65s ease ${delay}ms, transform 0.65s ease ${delay}ms` } };
 }
 
-type Service = { icon: ReactNode; title: string; slug: string; subtitle: string; price: string; time: string; desc: string; features: string[]; ideal: string[]; color: string; badge: string | null };
+type Service = { icon: ReactNode; title: string; slug: string; subtitle: string; price: string; time: string; desc: string; features: string[]; ideal: string[]; accent: string; badge: string | null };
 
 const SERVICES: Service[] = [
   {
@@ -27,7 +27,7 @@ const SERVICES: Service[] = [
     desc: 'Ideální pro živnostníky, řemeslníky a specialisty. Jedna stránka, která obsahuje vše co zákazník potřebuje vědět — kdo jste, co děláte, proč si vybrat vás a jak vás kontaktovat.',
     features: ['Responzivní design (mobil, tablet, desktop)', 'Hero sekce s CTA tlačítkem', 'Popis služeb a výhod', 'Reference a hodnocení', 'Kontaktní formulář', 'Základní SEO optimalizace', 'Rychlost nad 90/100 v Google PageSpeed'],
     ideal: ['Instalatéři a řemeslníci', 'Terapeuti a specialisté', 'Fotografové a kreativci', 'Jednoduché provozovny'],
-    color: 'border-blue-200 bg-gradient-to-br from-blue-50 to-white',
+    accent: 'blue',
     badge: null,
   },
   {
@@ -40,7 +40,7 @@ const SERVICES: Service[] = [
     desc: 'Pro firmy, které potřebují víc než jednu stránku. Kompletní web s detailním popisem služeb, galeriemi realizací, týmem a vším co zákazníci hledají.',
     features: ['3–5 samostatných stránek', 'Galerie realizací a projektů', 'Stránka O nás s týmem', 'Blog / aktuality', 'Více kontaktních formulářů', 'Pokročilá SEO optimalizace', 'Google Analytics integrace', 'Propojení se sociálními sítěmi'],
     ideal: ['Restaurace a kavárny', 'Kosmetické salony', 'Poradenské firmy', 'Profesní kanceláře'],
-    color: 'border-violet-300 bg-gradient-to-br from-violet-50 to-white',
+    accent: 'violet',
     badge: 'Nejoblíbenější',
   },
   {
@@ -53,7 +53,7 @@ const SERVICES: Service[] = [
     desc: 'Prodávejte online s profesionálním e-shopem. Správa produktů, košík, platební brána a automatické notifikace — vše co potřebujete ke spuštění online prodeje.',
     features: ['Neomezený počet produktů', 'Košík a pokladna', 'Platební brána (karta, převod)', 'Správa objednávek', 'Automatické emaily zákazníkům', 'Slevové kupóny', 'Mobilní optimalizace', 'Integrace dopravců'],
     ideal: ['Řemeslníci s produkty', 'Producenti potravin', 'Módní návrháři', 'Lokální obchodníci'],
-    color: 'border-emerald-200 bg-gradient-to-br from-emerald-50 to-white',
+    accent: 'emerald',
     badge: null,
   },
   {
@@ -66,15 +66,33 @@ const SERVICES: Service[] = [
     desc: 'Zajistíme, aby váš web fungoval bez výpadků, byl vždy aktuální a bezpečný. Vy se soustředíte na podnikání, techniku vyřešíme za vás.',
     features: ['Měsíční zálohy webu', 'Aktualizace systémů a pluginů', 'Monitorování dostupnosti 24/7', 'Měsíční reporty návštěvnosti', 'Drobné textové úpravy zdarma', 'Technická podpora do 24h', 'SSL certifikát', 'Bezpečnostní skenování'],
     ideal: ['Každý, kdo má web', 'Firmy bez IT oddělení', 'Zaneprázdnění podnikatelé', 'Kdokoli kdo nechce řešit techniku'],
-    color: 'border-amber-200 bg-gradient-to-br from-amber-50 to-white',
+    accent: 'amber',
     badge: null,
   },
 ];
 
+const ACCENT_BORDER: Record<string, string> = {
+  blue: 'border-blue-500/25',
+  violet: 'border-violet-500/25',
+  emerald: 'border-emerald-500/25',
+  amber: 'border-amber-500/25',
+};
+
+const ACCENT_GLOW: Record<string, string> = {
+  blue: 'rgba(37,99,235,0.06)',
+  violet: 'rgba(124,58,237,0.06)',
+  emerald: 'rgba(5,150,105,0.06)',
+  amber: 'rgba(217,119,6,0.06)',
+};
+
 function ServiceCard({ s, delay }: { s: Service; delay: number }) {
   const r = useReveal(delay);
   return (
-    <div ref={r.ref} style={r.style} className={`relative rounded-2xl border-2 p-8 md:p-10 ${s.color}`}>
+    <div
+      ref={r.ref}
+      style={{ ...r.style, background: `linear-gradient(135deg, ${ACCENT_GLOW[s.accent]} 0%, #060d1a 100%)` }}
+      className={`relative rounded-2xl border-2 ${ACCENT_BORDER[s.accent]} p-8 md:p-10`}
+    >
       {s.badge && (
         <div className="absolute -top-3 left-8">
           <span className="bg-violet-600 text-white text-xs font-bold px-3 py-1 rounded-full">{s.badge}</span>
@@ -83,40 +101,40 @@ function ServiceCard({ s, delay }: { s: Service; delay: number }) {
       <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-10">
         <div>
           <div className="flex items-start gap-4 mb-5">
-            <div className="w-12 h-12 rounded-2xl bg-white border border-slate-100 shadow-sm flex items-center justify-center text-slate-600 shrink-0">
+            <div className="w-12 h-12 rounded-2xl bg-[#0d1e38] border border-white/10 flex items-center justify-center text-slate-300 shrink-0">
               {s.icon}
             </div>
             <div>
-              <h2 className="text-2xl font-bold text-slate-900">{s.title}</h2>
-              <p className="text-slate-500 text-sm mt-0.5">{s.subtitle}</p>
+              <h2 className="text-2xl font-bold text-white">{s.title}</h2>
+              <p className="text-slate-400 text-sm mt-0.5">{s.subtitle}</p>
             </div>
           </div>
-          <p className="text-slate-600 leading-relaxed mb-7">{s.desc}</p>
+          <p className="text-slate-300 leading-relaxed mb-7">{s.desc}</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             {s.features.map((f) => (
-              <div key={f} className="flex items-center gap-2.5 text-sm text-slate-600">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2563EB" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
+              <div key={f} className="flex items-center gap-2.5 text-sm text-slate-300">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
                 {f}
               </div>
             ))}
           </div>
         </div>
         <div className="flex flex-col justify-between">
-          <div className="bg-white rounded-xl border border-slate-100 p-6 shadow-sm">
-            <p className="text-3xl font-bold text-slate-900 mb-1" style={{ fontFamily: 'var(--font-display)' }}>{s.price}</p>
-            <p className="text-sm text-slate-400 mb-5">Hotovo za: <strong className="text-slate-600">{s.time}</strong></p>
+          <div className="bg-[#0a1628] rounded-xl border border-white/10 p-6">
+            <p className="text-3xl font-bold text-white mb-1" style={{ fontFamily: 'var(--font-display)' }}>{s.price}</p>
+            <p className="text-sm text-slate-500 mb-5">Hotovo za: <strong className="text-slate-300">{s.time}</strong></p>
             <div className="mb-5">
-              <p className="text-xs font-semibold text-slate-400 uppercase tracking-wide mb-3">Ideální pro</p>
+              <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-3">Ideální pro</p>
               <ul className="space-y-1.5">
                 {s.ideal.map((id) => (
-                  <li key={id} className="text-sm text-slate-600 flex items-center gap-2">
+                  <li key={id} className="text-sm text-slate-300 flex items-center gap-2">
                     <span className="w-1 h-1 rounded-full bg-blue-400 shrink-0" />
                     {id}
                   </li>
                 ))}
               </ul>
             </div>
-            <Link href={`/kalkulace/${s.slug}`} className="block text-center bg-slate-900 hover:bg-blue-700 text-white font-semibold py-3 px-5 rounded-xl text-sm transition-all duration-200 hover:-translate-y-px hover:shadow-md">
+            <Link href={`/kalkulace/${s.slug}`} className="block text-center bg-blue-600 hover:bg-blue-500 text-white font-semibold py-3 px-5 rounded-xl text-sm transition-all duration-200 hover:-translate-y-px hover:shadow-md hover:shadow-blue-500/30">
               Spočítat cenu →
             </Link>
           </div>
@@ -134,11 +152,11 @@ export default function SluzbyPage() {
       <section className="py-20 px-5 sm:px-8 text-center">
         <div className="max-w-3xl mx-auto">
           <div ref={title.ref} style={title.style}>
-            <p className="text-xs font-semibold text-blue-600 uppercase tracking-widest mb-4">Naše služby</p>
-            <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-slate-900 mb-5 leading-tight" style={{ fontFamily: 'var(--font-display)' }}>
+            <p className="text-xs font-semibold text-blue-400 uppercase tracking-widest mb-4">Naše služby</p>
+            <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-white mb-5 leading-tight" style={{ fontFamily: 'var(--font-display)' }}>
               Web na míru pro každou firmu
             </h1>
-            <p className="text-lg text-slate-500 leading-relaxed">
+            <p className="text-lg text-slate-400 leading-relaxed">
               Ať podnikáte v čemkoli — máme řešení přesně pro vás. Jasné ceny, žádné skryté poplatky, platíte až po schválení.
             </p>
           </div>

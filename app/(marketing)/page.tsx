@@ -72,13 +72,13 @@ function ScrollBar() {
 function ScrollIndicator() {
   return (
     <div id="scroll-ind" aria-hidden style={{
-      position: 'absolute', bottom: '36px', left: '50%', transform: 'translateX(-50%)',
-      display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px',
+      position: 'absolute', bottom: '40px', left: '50%', transform: 'translateX(-50%)',
+      display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px',
       opacity: 0, pointerEvents: 'none',
     }}>
-      <span style={{ fontSize: '9px', fontWeight: 600, color: '#1e2e42', textTransform: 'uppercase', letterSpacing: '0.18em' }}>Scroll</span>
-      <div style={{ position: 'relative', width: '1px', height: '40px', overflow: 'hidden', background: 'rgba(37,99,235,0.1)' }}>
-        <div style={{ position: 'absolute', top: 0, left: 0, width: '1px', height: '50%', background: 'linear-gradient(to bottom, transparent, #2563eb)', animation: 'scrollbar 1.6s ease-in-out infinite' }} />
+      <span style={{ fontSize: '10px', fontWeight: 500, color: 'rgba(255,255,255,0.35)', textTransform: 'uppercase', letterSpacing: '0.2em' }}>Scroll</span>
+      <div style={{ position: 'relative', width: '24px', height: '38px', borderRadius: '12px', border: '1.5px solid rgba(255,255,255,0.18)', display: 'flex', justifyContent: 'center', paddingTop: '6px' }}>
+        <div style={{ width: '3px', height: '8px', borderRadius: '2px', background: 'rgba(37,99,235,0.9)', animation: 'scrollWheel 1.8s ease-in-out infinite' }} />
       </div>
     </div>
   );
@@ -148,8 +148,8 @@ function S1() {
 ═══════════════════════════════════════════════════════════════ */
 function S2() {
   return (
-    <section id="s2" aria-label="Proces" style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', pointerEvents: 'none', position: 'relative', zIndex: 10 }}>
-      <div id="s2i" style={{ width: 'clamp(260px, 33vw, 440px)', padding: '0 52px 0 40px', opacity: 0 }}>
+    <section id="s2" aria-label="Proces" style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', paddingRight: 'clamp(24px, 6vw, 120px)', pointerEvents: 'none', position: 'relative', zIndex: 10 }}>
+      <div id="s2i" style={{ width: 'clamp(260px, 33vw, 440px)', padding: '0 0 0 40px', opacity: 0 }}>
 
         <p style={{ fontSize: '10px', fontWeight: 600, color: '#2563eb', textTransform: 'uppercase', letterSpacing: '0.16em', margin: '0 0 36px' }}>Jak to funguje</p>
 
@@ -159,11 +159,13 @@ function S2() {
           { n: '03', word: 'Online.',   note: '48 h'  },
         ].map((s, i) => (
           <div key={s.n} style={{
-            display: 'flex', alignItems: 'baseline',
-            padding: '22px 0',
+            padding: '18px 0',
             borderBottom: i < 2 ? '1px solid rgba(255,255,255,0.05)' : 'none',
           }}>
-            <span style={{ fontSize: '10px', color: '#3a5068', fontWeight: 500, marginRight: '20px', minWidth: '22px', letterSpacing: '0.04em', flexShrink: 0 }}>{s.n}</span>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
+              <span style={{ fontSize: '10px', color: '#3a5068', fontWeight: 500, letterSpacing: '0.08em' }}>{s.n}</span>
+              <span style={{ fontSize: '11px', color: '#4a6880', fontWeight: 500, letterSpacing: '0.06em' }}>{s.note}</span>
+            </div>
             <span style={{
               fontFamily: 'var(--font-display)',
               fontSize: 'clamp(52px,7.5vw,94px)',
@@ -171,9 +173,8 @@ function S2() {
               color: 'white',
               letterSpacing: '-0.04em',
               lineHeight: 1,
-              flex: 1,
+              display: 'block',
             }}>{s.word}</span>
-            <span style={{ fontSize: '11px', color: '#3a5878', fontWeight: 500, letterSpacing: '0.04em' }}>{s.note}</span>
           </div>
         ))}
 
@@ -564,10 +565,11 @@ export default function HomePage() {
       <SPricing />
 
       <style>{`
-        @keyframes scrollbar {
-          0%   { transform: translateY(-100%); opacity: 0; }
-          40%  { opacity: 1; }
-          100% { transform: translateY(200%); opacity: 0; }
+        @keyframes scrollWheel {
+          0%   { transform: translateY(0);    opacity: 1; }
+          60%  { transform: translateY(10px); opacity: 0; }
+          61%  { transform: translateY(0);    opacity: 0; }
+          100% { transform: translateY(0);    opacity: 1; }
         }
 
         html, body { scroll-behavior: smooth; }

@@ -2,7 +2,7 @@
 
 import { useRef, useMemo, useEffect, useState, Suspense } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { useGLTF, AdaptiveDpr, Text } from '@react-three/drei';
+import { useGLTF, Text } from '@react-three/drei';
 import * as THREE from 'three';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -82,6 +82,7 @@ function MonitorGLTF() {
    Groups snap in sequentially based on SV.buildProgress
 ═══════════════════════════════════════════════════════════════ */
 function ScreenHero({ building }: { building: boolean }) {
+  const gInitial = useRef<THREE.Group>(null!);
   const gNav    = useRef<THREE.Group>(null!);
   const gBadge  = useRef<THREE.Group>(null!);
   const gH1     = useRef<THREE.Group>(null!);
@@ -91,15 +92,11 @@ function ScreenHero({ building }: { building: boolean }) {
   const gStats  = useRef<THREE.Group>(null!);
   const gBottom = useRef<THREE.Group>(null!);
 
-  const cursorMat  = useRef<THREE.MeshBasicMaterial>(null!);
-  const liveDotMat = useRef<THREE.MeshStandardMaterial>(null!);
-  const lineRef    = useRef<THREE.Mesh>(null!);
-  const barRefs    = [
-    useRef<THREE.Mesh>(null!), useRef<THREE.Mesh>(null!),
-    useRef<THREE.Mesh>(null!), useRef<THREE.Mesh>(null!), useRef<THREE.Mesh>(null!),
-  ];
-  const BAR_H    = [0.22, 0.32, 0.18, 0.38, 0.28];
-  const BAR_FREQ = [1.1, 0.85, 1.35, 0.7, 1.0];
+  const cursorMat    = useRef<THREE.MeshBasicMaterial>(null!);
+  const liveDotMat   = useRef<THREE.MeshStandardMaterial>(null!);
+  const lineRef      = useRef<THREE.Mesh>(null!);
+  const initDotMat   = useRef<THREE.MeshStandardMaterial>(null!);
+  const initLineMat  = useRef<THREE.MeshBasicMaterial>(null!);
 
   const snap = (grp: React.MutableRefObject<THREE.Group>, vis: number) => {
     if (!grp.current) return;
@@ -111,6 +108,9 @@ function ScreenHero({ building }: { building: boolean }) {
     const bp = building ? SV.buildProgress : 1;
     const v  = (from: number, to: number) =>
       Math.max(0, Math.min(1, (bp - from) / Math.max(to - from, 0.001)));
+
+    // Initial splash — visible at 0, fades out before main content appears
+    snap(gInitial, 1 - v(0, 0.18));
 
     snap(gNav,    v(0.04, 0.22));
     snap(gBadge,  v(0.24, 0.42));
@@ -124,17 +124,75 @@ function ScreenHero({ building }: { building: boolean }) {
     if (cursorMat.current) cursorMat.current.opacity = Math.sin(t * 3.5) > 0 ? 0.9 : 0;
     if (liveDotMat.current) liveDotMat.current.emissiveIntensity = 1.2 + Math.sin(t * 4) * 0.8;
     if (lineRef.current) lineRef.current.scale.x = 0.85 + Math.sin(t * 0.6) * 0.12;
-    barRefs.forEach((r, i) => {
-      if (!r.current) return;
-      const h = BAR_H[i] + Math.sin(t * BAR_FREQ[i] + i * 0.8) * 0.08;
-      r.current.scale.y = h / BAR_H[i];
-      r.current.position.y = -0.62 + h / 2;
-    });
+    if (initDotMat.current) initDotMat.current.emissiveIntensity = 1.5 + Math.sin(t * 2.2) * 0.8;
+    if (initLineMat.current) initLineMat.current.opacity = 0.18 + Math.sin(t * 0.8) * 0.06;
   });
 
   const Z = 0.083;
   return (
     <>
+      {/* INITIAL SPLASH — visible before scrolling, fades as content builds in */}
+      <group ref={gInitial}>
+        {/* Subtle horizontal grid lines */}
+        {[-0.6, -0.1, 0.4, 0.9].map((y, i) => (
+          <mesh key={i} position={[0, y, Z - 0.001]}>
+            <boxGeometry args={[3.4, 0.001, 0.001]} />
+            <meshBasicMaterial ref={i === 0 ? initLineMat : undefined} color="#0d1e38" transparent opacity={0.18} />
+          </mesh>
+        ))}
+
+        {/* Center logo dot */}
+        <mesh position={[0, 0.22, Z + 0.01]}>
+          <sphereGeometry args={[0.048, 16, 16]} />
+          <meshStandardMaterial ref={initDotMat} color="#2563eb" emissive="#2563eb" emissiveIntensity={2.0} />
+        </mesh>
+
+        {/* Brand name */}
+        <Text position={[0, 0.04, Z + 0.008]} fontSize={0.13} color="#d8ecff" anchorX="center" anchorY="middle" letterSpacing={0.04}>
+          WebsiteAgent
+        </Text>
+
+        {/* Tagline */}
+        <Text position={[0, -0.14, Z + 0.007]} fontSize={0.058} color="#2563eb" anchorX="center" anchorY="middle" letterSpacing={0.01}>
+          Profesionální weby do 48 hodin
+        </Text>
+
+        {/* Divider line */}
+        <mesh position={[0, -0.30, Z + 0.006]}>
+          <boxGeometry args={[0.64, 0.002, 0.001]} />
+          <meshBasicMaterial color="#1e3a6a" />
+        </mesh>
+
+        {/* Three stat pills */}
+        {([
+          [-0.78, '#1a3870', '#60a5fa', '48h',   'dodání'],
+          [ 0.00, '#0d3020', '#34d399', '0 Kč',  'záloha'],
+          [ 0.78, '#2a1a50', '#a78bfa', '50+',   'projektů'],
+        ] as const).map(([x, bg, accent, val, label]) => (
+          <group key={x} position={[x, -0.52, Z + 0.005]}>
+            <mesh>
+              <boxGeometry args={[0.44, 0.22, 0.001]} />
+              <meshBasicMaterial color={bg} />
+            </mesh>
+            <Text position={[0, 0.04, 0.003]} fontSize={0.076} color={accent} anchorX="center" anchorY="middle">{val}</Text>
+            <Text position={[0, -0.06, 0.003]} fontSize={0.036} color="#3a5878" anchorX="center" anchorY="middle">{label}</Text>
+          </group>
+        ))}
+
+        {/* Browser-style address bar at top */}
+        <mesh position={[0, 0.94, Z + 0.004]}>
+          <boxGeometry args={[2.2, 0.09, 0.001]} />
+          <meshBasicMaterial color="#0c1a30" />
+        </mesh>
+        <mesh position={[-0.86, 0.94, Z + 0.006]}>
+          <sphereGeometry args={[0.014, 8, 8]} />
+          <meshBasicMaterial color="#22c55e" />
+        </mesh>
+        <Text position={[0.04, 0.94, Z + 0.007]} fontSize={0.038} color="#2a4a6a" anchorX="center" anchorY="middle">
+          websiteagent.cz
+        </Text>
+      </group>
+
       {/* NAV */}
       <group ref={gNav}>
         <mesh position={[0, 0.99, Z]}>
@@ -146,18 +204,18 @@ function ScreenHero({ building }: { building: boolean }) {
           <meshStandardMaterial color="#2563eb" emissive="#2563eb" emissiveIntensity={3.0} />
         </mesh>
         <Text position={[-1.22, 0.99, Z + 0.003]} fontSize={0.064} color="#d8ecff" anchorX="left" anchorY="middle">WebsiteAgent</Text>
-        {['Sluzby', 'Portfolio', 'Cenik', 'Blog'].map((label, i) => (
+        {['Služby', 'Portfolio', 'Ceník', 'Blog'].map((label, i) => (
           <Text key={i} position={[-0.28 + i * 0.39, 0.99, Z + 0.003]} fontSize={0.048} color="#3a6090" anchorX="center" anchorY="middle">{label}</Text>
         ))}
         <mesh position={[1.46, 0.99, Z + 0.002]}>
           <boxGeometry args={[0.28, 0.1, 0.001]} />
           <meshBasicMaterial color="#2563eb" />
         </mesh>
-        <Text position={[1.46, 0.99, Z + 0.004]} fontSize={0.054} color="#ffffff" anchorX="center" anchorY="middle">Zacit</Text>
+        <Text position={[1.46, 0.99, Z + 0.004]} fontSize={0.054} color="#ffffff" anchorX="center" anchorY="middle">Začít</Text>
       </group>
 
       {/* STAGE LABEL */}
-      <Text position={[-1.58, 0.84, Z + 0.003]} fontSize={0.038} color="#2563eb" anchorX="left" anchorY="middle">02 / DESIGN</Text>
+      <Text position={[-1.58, 0.84, Z + 0.003]} fontSize={0.038} color="#2563eb" anchorX="left" anchorY="middle">01 / DESIGN</Text>
 
       {/* BADGE */}
       <group ref={gBadge}>
@@ -165,12 +223,12 @@ function ScreenHero({ building }: { building: boolean }) {
           <boxGeometry args={[0.54, 0.09, 0.001]} />
           <meshBasicMaterial color="#1e4a88" />
         </mesh>
-        <Text position={[-1.08, 0.77, Z + 0.003]} fontSize={0.046} color="#93c5fd" anchorX="center" anchorY="middle">Hodnoceni 5/5 hvezd</Text>
+        <Text position={[-1.08, 0.77, Z + 0.003]} fontSize={0.046} color="#93c5fd" anchorX="center" anchorY="middle">Hodnocení 5/5 hvězd</Text>
       </group>
 
       {/* HEADLINE */}
       <group ref={gH1}>
-        <Text position={[-1.29, 0.62, Z + 0.003]} fontSize={0.105} color="#e8f4ff" anchorX="left" anchorY="middle">Vas web</Text>
+        <Text position={[-1.29, 0.62, Z + 0.003]} fontSize={0.105} color="#e8f4ff" anchorX="left" anchorY="middle">Váš web</Text>
         <Text position={[-1.29, 0.46, Z + 0.003]} fontSize={0.105} color="#60a5fa" anchorX="left" anchorY="middle">do 48 hodin</Text>
         <mesh position={[0.22, 0.46, Z + 0.001]}>
           <boxGeometry args={[0.018, 0.10, 0.001]} />
@@ -180,9 +238,9 @@ function ScreenHero({ building }: { building: boolean }) {
 
       {/* SUB TEXT */}
       <group ref={gSub}>
-        <Text position={[-1.69, 0.31, Z + 0.002]} fontSize={0.052} color="#4a80b0" anchorX="left" anchorY="middle">Profesionalni weby pro ceske firmy.</Text>
-        <Text position={[-1.69, 0.21, Z + 0.002]} fontSize={0.052} color="#3a6a8a" anchorX="left" anchorY="middle">Bez zalohy, bez zavazku.</Text>
-        <Text position={[-1.69, 0.12, Z + 0.002]} fontSize={0.052} color="#2a5070" anchorX="left" anchorY="middle">Vysledky do 2 pracovnich dnu.</Text>
+        <Text position={[-1.69, 0.31, Z + 0.002]} fontSize={0.052} color="#4a80b0" anchorX="left" anchorY="middle">Profesionální weby pro české firmy.</Text>
+        <Text position={[-1.69, 0.21, Z + 0.002]} fontSize={0.052} color="#3a6a8a" anchorX="left" anchorY="middle">Bez zálohy, bez závazku.</Text>
+        <Text position={[-1.69, 0.12, Z + 0.002]} fontSize={0.052} color="#2a5070" anchorX="left" anchorY="middle">Výsledky do 2 pracovních dnů.</Text>
       </group>
 
       {/* CTA BUTTONS */}
@@ -191,12 +249,12 @@ function ScreenHero({ building }: { building: boolean }) {
           <boxGeometry args={[0.64, 0.17, 0.001]} />
           <meshBasicMaterial color="#2563eb" />
         </mesh>
-        <Text position={[-1.04, -0.05, Z + 0.003]} fontSize={0.062} color="#ffffff" anchorX="center" anchorY="middle">Ziskat web</Text>
+        <Text position={[-1.04, -0.05, Z + 0.003]} fontSize={0.062} color="#ffffff" anchorX="center" anchorY="middle">Získat web</Text>
         <mesh position={[-0.32, -0.05, Z]}>
           <boxGeometry args={[0.52, 0.17, 0.001]} />
           <meshBasicMaterial color="#1a3870" transparent opacity={0.55} />
         </mesh>
-        <Text position={[-0.32, -0.05, Z + 0.003]} fontSize={0.062} color="#9abdd8" anchorX="center" anchorY="middle">Zjistit vice</Text>
+        <Text position={[-0.32, -0.05, Z + 0.003]} fontSize={0.062} color="#9abdd8" anchorX="center" anchorY="middle">Zjistit více</Text>
       </group>
 
       {/* DASHBOARD CARD */}
@@ -214,9 +272,9 @@ function ScreenHero({ building }: { building: boolean }) {
           <meshStandardMaterial ref={liveDotMat} color="#22c55e" emissive="#22c55e" emissiveIntensity={1.8} />
         </mesh>
         <Text position={[0.42, 0.9, Z + 0.007]} fontSize={0.046} color="#22c55e" anchorX="left" anchorY="middle">LIVE</Text>
-        <Text position={[0.92, 0.9, Z + 0.007]} fontSize={0.046} color="#4a6a8a" anchorX="center" anchorY="middle">Vykon webu</Text>
+        <Text position={[0.92, 0.9, Z + 0.007]} fontSize={0.046} color="#4a6a8a" anchorX="center" anchorY="middle">Výkon webu</Text>
         <Text position={[0.38, 0.70, Z + 0.006]} fontSize={0.135} color="#e8f4ff" anchorX="left" anchorY="middle">1 247</Text>
-        <Text position={[0.38, 0.56, Z + 0.005]} fontSize={0.046} color="#3a5a80" anchorX="left" anchorY="middle">Navstevniku / mesic</Text>
+        <Text position={[0.38, 0.56, Z + 0.005]} fontSize={0.046} color="#3a5a80" anchorX="left" anchorY="middle">Návštěvníků / měsíc</Text>
         <mesh position={[1.1, 0.70, Z + 0.005]}>
           <boxGeometry args={[0.26, 0.09, 0.001]} />
           <meshBasicMaterial color="#166534" />
@@ -225,23 +283,6 @@ function ScreenHero({ building }: { building: boolean }) {
         <mesh ref={lineRef} position={[0.92, 0.45, Z + 0.005]}>
           <boxGeometry args={[1.1, 0.028, 0.001]} />
           <meshBasicMaterial color="#3b82f6" transparent opacity={0.5} />
-        </mesh>
-        <mesh position={[0.92, -0.06, Z + 0.004]}>
-          <boxGeometry args={[1.28, 0.54, 0.001]} />
-          <meshBasicMaterial color="#091828" transparent opacity={0.8} />
-        </mesh>
-        {([
-          [0.38, '#3b82f6'], [0.55, '#60a5fa'], [0.72, '#22d3ee'],
-          [0.89, '#3b82f6'], [1.06, '#60a5fa'],
-        ] as const).map(([x, c], i) => (
-          <mesh key={i} ref={barRefs[i]} position={[x, -0.62 + BAR_H[i] / 2, Z + 0.005]}>
-            <boxGeometry args={[0.1, BAR_H[i], 0.001]} />
-            <meshBasicMaterial color={c} transparent opacity={0.9} />
-          </mesh>
-        ))}
-        <mesh position={[0.92, -0.62, Z + 0.005]}>
-          <boxGeometry args={[1.28, 0.006, 0.001]} />
-          <meshBasicMaterial color="#162840" />
         </mesh>
       </group>
 
@@ -252,10 +293,10 @@ function ScreenHero({ building }: { building: boolean }) {
           <meshBasicMaterial color="#091826" />
         </mesh>
         {([
-          [-1.2, '#60a5fa', '48h',  'Dodani'],
-          [-0.4, '#22d3ee', '50+',  'Webu'],
+          [-1.2, '#60a5fa', '48h',  'Dodání'],
+          [-0.4, '#22d3ee', '50+',  'Webů'],
           [ 0.4, '#34d399', '100%', 'Spokojenost'],
-          [ 1.2, '#f59e0b', '0 Kc', 'Zaloha'],
+          [ 1.2, '#f59e0b', '0 Kč', 'Záloha'],
         ] as const).map(([x, c, val, label]) => (
           <group key={x}>
             <Text position={[x, -0.29, Z + 0.003]} fontSize={0.080} color={c} anchorX="center" anchorY="middle">{val}</Text>
@@ -269,7 +310,7 @@ function ScreenHero({ building }: { building: boolean }) {
         {([
           [-1.1,  '#0e2238', '#2563eb', 'SEO',    'Optimalizace zdarma'],
           [-0.04, '#121030', '#22d3ee', 'Speed',  'PageSpeed 99/100'],
-          [ 1.04, '#0a2420', '#10b981', 'Mobile', 'Responzivni design'],
+          [ 1.04, '#0a2420', '#10b981', 'Mobile', 'Responzivní design'],
         ] as const).map(([x, bg, accent, title, sub], i) => (
           <group key={i} position={[x, -0.76, Z]}>
             <mesh>
@@ -373,7 +414,7 @@ function ScreenResults() {
       <Text position={[1.46, 0.99, Z + 0.003]} fontSize={0.040} color="#22c55e" anchorX="left" anchorY="middle">LIVE</Text>
 
       {/* Stage label */}
-      <Text position={[-1.58, 0.82, Z + 0.003]} fontSize={0.038} color="#22d3ee" anchorX="left" anchorY="middle">05 / VÝSLEDKY</Text>
+      <Text position={[-1.58, 0.82, Z + 0.003]} fontSize={0.038} color="#22d3ee" anchorX="left" anchorY="middle">03 / VÝSLEDKY</Text>
 
       {/* Big visitor count */}
       <mesh position={[-0.52, 0.53, Z + 0.001]}><boxGeometry args={[1.88, 0.60, 0.003]} /><meshBasicMaterial color="#0a1c30" /></mesh>
@@ -441,7 +482,7 @@ function ScreenLaunch() {
       <mesh position={[0, 0.05, Z - 0.001]}><boxGeometry args={[3.56, 2.30, 0.001]} /><meshBasicMaterial color="#030e10" /></mesh>
 
       {/* Stage label */}
-      <Text position={[0, 0.72, Z + 0.003]} fontSize={0.040} color="#1a4830" anchorX="center" anchorY="middle">06 / SPUŠTĚNÍ</Text>
+      <Text position={[0, 0.72, Z + 0.003]} fontSize={0.040} color="#1a4830" anchorX="center" anchorY="middle">04 / SPUŠTĚNÍ</Text>
 
       {/* Glow rings */}
       <mesh position={[0, 0.30, Z + 0.002]}>
@@ -525,12 +566,12 @@ function Monitor({ section }: { section: number }) {
     const si = Math.min(section, 3);
     if (scrMat.current) {
       scrMat.current.emissive.set(SCREEN_EM[si]);
-      scrMat.current.emissiveIntensity = 0.25 + Math.sin(t * 2) * 0.04;
+      scrMat.current.emissiveIntensity = 0.25;
     }
     if (rimMat.current) {
       rimMat.current.emissive.set(SCREEN_RIM[si]);
       rimMat.current.color.set(SCREEN_RIM[si]);
-      rimMat.current.emissiveIntensity = 0.6 + Math.sin(t * 2) * 0.18;
+      rimMat.current.emissiveIntensity = 0.6;
     }
   });
 
@@ -541,14 +582,14 @@ function Monitor({ section }: { section: number }) {
         <MonitorGLTF />
       </Suspense>
 
-      {/* Screen glass — extended to minimize visible bezel */}
-      <mesh position={[0, 0.035, 0.0575]}>
+      {/* Screen glass */}
+      <mesh position={[0, 0.035, 0.050]}>
         <boxGeometry args={[3.56, 2.32, 0.005]} />
         <meshStandardMaterial ref={scrMat} color="#01030a" emissive="#0d2860"
-          emissiveIntensity={0.4} roughness={0.95} transparent opacity={0.9} />
+          emissiveIntensity={0.4} roughness={0.95} />
       </mesh>
-      {/* Screen rim glow */}
-      <mesh position={[0, 0.035, 0.061]}>
+      {/* Screen rim glow — clearly in front of glass to avoid Z-fighting */}
+      <mesh position={[0, 0.035, 0.075]}>
         <boxGeometry args={[3.58, 2.34, 0.001]} />
         <meshStandardMaterial ref={rimMat} color="#1a4aaa" emissive="#1a4aaa"
           emissiveIntensity={0.9} transparent opacity={0.28} />
@@ -563,11 +604,11 @@ function Monitor({ section }: { section: number }) {
         <meshStandardMaterial color="#05070c" metalness={0.9} roughness={0.1} />
       </mesh>
 
-      {/* Screen content — always mounted, visible toggle — no font reload flash */}
-      <group visible={section === 0}><ScreenHero building={true} /></group>
-      <group visible={section === 1}><ScreenProcess /></group>
-      <group visible={section === 2}><ScreenResults /></group>
-      <group visible={section === 3}><ScreenLaunch /></group>
+      {/* Screen content — own Suspense per screen so font loading never blanks the whole canvas */}
+      <group visible={section === 0}><Suspense fallback={null}><ScreenHero building={true} /></Suspense></group>
+      <group visible={section === 1}><Suspense fallback={null}><ScreenProcess /></Suspense></group>
+      <group visible={section === 2}><Suspense fallback={null}><ScreenResults /></Suspense></group>
+      <group visible={section === 3}><Suspense fallback={null}><ScreenLaunch /></Suspense></group>
     </group>
   );
 }
@@ -598,13 +639,11 @@ interface Props {
 
 export function ImmersiveScene({ scrollContainerRef, mobile = false }: Props) {
   const [section, setSection] = useState(0);
+  const [visible, setVisible] = useState(false);
   const secRef = useRef(0);
 
   useEffect(() => {
-    const el = scrollContainerRef.current;
-    if (!el) return;
-
-    /* Reset to match initial SV values */
+    // Reset immediately so the very first frame has correct values (important for HMR)
     Object.assign(SV, {
       camX: 0, camY: 0.2, camZ: 11.0,
       monRotX: 0, monRotY: 0, monScale: 1.18,
@@ -612,62 +651,77 @@ export function ImmersiveScene({ scrollContainerRef, mobile = false }: Props) {
       buildProgress: 0, explodeProgress: 0,
     });
 
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: el, scroller: window,
-        start: 'top top', end: 'bottom bottom',
-        scrub: 1.4,
-      },
+    let gsapCleanup: (() => void) | undefined;
+
+    // One-frame defer so scrollContainerRef is guaranteed populated
+    const raf = requestAnimationFrame(() => {
+      const el = scrollContainerRef.current;
+      if (!el) return;
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: el, scroller: window,
+          start: 'top top', end: 'bottom bottom',
+          scrub: 1.4,
+        },
+      });
+
+      /* SECTION 0 — camera dives in, monitor builds */
+      tl.to(SV, {
+        camZ: mobile ? 6.8 : 3.8, camX: mobile ? 0 : -0.4, camY: -0.25,
+        monScale: mobile ? 1.36 : 1.55, monRotY: mobile ? 0 : 0.06,
+        buildProgress: 1,
+        duration: 1.0,
+      }, 0);
+
+      /* SECTION 1 — camera pulls back, orbit right, show process */
+      tl.to(SV, {
+        camZ: mobile ? 8.5 : 9.5, camX: mobile ? 0 : 2.5, camY: 0.4,
+        monScale: mobile ? 1.0 : 0.88, monX: mobile ? 0 : -0.6,
+        monRotY: mobile ? -0.08 : -0.22, monRotX: 0.05,
+        buildProgress: 0,
+        duration: 1.0,
+      }, 1.0);
+
+      /* SECTION 2 — monitor shrinks to thumbnail */
+      tl.to(SV, {
+        camZ: mobile ? 8.5 : 10.5, camX: mobile ? 0 : 0.6, camY: 0.2,
+        monScale: mobile ? 0.72 : 0.36,
+        monX: mobile ? 0 : 1.4, monY: mobile ? 0 : 0.6,
+        monRotX: 0.12, monRotY: mobile ? 0 : -0.15,
+        duration: 1.0,
+      }, 2.0);
+
+      // Recalculate trigger positions after layout is complete
+      ScrollTrigger.refresh();
+
+      const onScroll = () => {
+        const s = Math.min(3, Math.max(0, Math.floor(window.scrollY / window.innerHeight)));
+        if (s !== secRef.current) { secRef.current = s; setSection(s); }
+      };
+      // Sync section immediately in case page was refreshed mid-scroll
+      onScroll();
+      window.addEventListener('scroll', onScroll, { passive: true });
+
+      gsapCleanup = () => {
+        tl.kill();
+        ScrollTrigger.getAll().forEach(t => t.kill());
+        window.removeEventListener('scroll', onScroll);
+      };
     });
 
-    /* ── 4-SECTION Z-JOURNEY ──────────────────────────────────
-       Container = 400vh → scroll range = 300vh.
-       3 tweens of duration 1.0 at pos 0/1/2 → total = 3.0.
-       Tween N runs while the user scrolls section N.
-       Section boundaries (at 100/200/300vh) align perfectly
-       with timeline positions 1.0 / 2.0 / 3.0.
-    ─────────────────────────────────────────────────────── */
-
-    /* SECTION 0 scroll — camera dives in, monitor builds */
-    tl.to(SV, {
-      camZ: mobile ? 6.8 : 3.8, camX: mobile ? 0 : -0.4, camY: -0.25,
-      monScale: mobile ? 1.36 : 1.55, monRotY: mobile ? 0 : 0.06,
-      buildProgress: 1,
-      duration: 1.0,
-    }, 0);
-
-    /* SECTION 1 scroll — camera pulls back, orbit right, show process */
-    tl.to(SV, {
-      camZ: mobile ? 8.5 : 9.5, camX: mobile ? 0 : 2.5, camY: 0.4,
-      monScale: mobile ? 1.0 : 0.88, monX: mobile ? 0 : -0.6,
-      monRotY: mobile ? -0.08 : -0.22, monRotX: 0.05,
-      buildProgress: 0,
-      duration: 1.0,
-    }, 1.0);
-
-    /* SECTION 2 scroll — monitor shrinks to thumbnail, numbers are hero */
-    tl.to(SV, {
-      camZ: mobile ? 8.5 : 10.5, camX: mobile ? 0 : 0.6, camY: 0.2,
-      monScale: mobile ? 0.72 : 0.36,
-      monX: mobile ? 0 : 1.4, monY: mobile ? 0 : 0.6,
-      monRotX: 0.12, monRotY: mobile ? 0 : -0.15,
-      duration: 1.0,
-    }, 2.0);
-
-    const onScroll = () => {
-      const s = Math.min(3, Math.max(0, Math.floor(window.scrollY / window.innerHeight)));
-      if (s !== secRef.current) { secRef.current = s; setSection(s); }
-    };
-    window.addEventListener('scroll', onScroll, { passive: true });
+    // Fade in after fonts + scene are ready
+    const fadeTimer = setTimeout(() => setVisible(true), 200);
 
     return () => {
-      tl.kill();
-      ScrollTrigger.getAll().forEach(t => t.kill());
-      window.removeEventListener('scroll', onScroll);
+      cancelAnimationFrame(raf);
+      clearTimeout(fadeTimer);
+      gsapCleanup?.();
     };
   }, [scrollContainerRef, mobile]);
 
   return (
+    <div style={{ width: '100%', height: '100%', opacity: visible ? 1 : 0, transition: 'opacity 1.4s ease' }}>
     <Canvas
       camera={{ position: [0, 0.2, 11.0], fov: mobile ? 46 : 40 }}
       gl={{ antialias: !mobile, alpha: false, powerPreference: 'high-performance' }}
@@ -675,7 +729,6 @@ export function ImmersiveScene({ scrollContainerRef, mobile = false }: Props) {
       performance={{ min: 0.5 }}
       style={{ width: '100%', height: '100%' }}
     >
-      <AdaptiveDpr pixelated />
       <color attach="background" args={['#060d1a']} />
 
       <ambientLight intensity={0.35} />
@@ -684,6 +737,7 @@ export function ImmersiveScene({ scrollContainerRef, mobile = false }: Props) {
       <Monitor section={section} />
       <CameraRig section={section} />
     </Canvas>
+    </div>
   );
 }
 
