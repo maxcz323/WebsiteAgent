@@ -863,32 +863,11 @@ function CameraRig({ section }: { section: number }) {
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   ROOM — stůl · podlaha · zdi
+   ROOM — podlaha · zdi
 ═══════════════════════════════════════════════════════════════ */
 function Room() {
   return (
     <>
-      {/* Desk surface */}
-      <mesh position={[0, -2.5, -0.3]}>
-        <boxGeometry args={[8.2, 0.13, 3.2]} />
-        <meshStandardMaterial color="#100a03" metalness={0.06} roughness={0.84} />
-      </mesh>
-      {/* Front edge highlight */}
-      <mesh position={[0, -2.435, 1.3]}>
-        <boxGeometry args={[8.2, 0.014, 0.012]} />
-        <meshStandardMaterial color="#2c1a08" metalness={0.18} roughness={0.5} />
-      </mesh>
-
-      {/* Legs — 4 corners */}
-      {([-3.8, 3.8] as const).flatMap(x =>
-        ([-0.75, -1.75] as const).map((z, j) => (
-          <mesh key={`${x}-${j}`} position={[x, -3.75, z]}>
-            <boxGeometry args={[0.10, 2.5, 0.10]} />
-            <meshStandardMaterial color="#0d0702" metalness={0.04} roughness={0.9} />
-          </mesh>
-        ))
-      )}
-
       {/* Floor */}
       <mesh position={[0, -5.05, -1.0]} rotation={[-Math.PI / 2, 0, 0]}>
         <planeGeometry args={[48, 32]} />
@@ -917,53 +896,6 @@ function Room() {
         <meshStandardMaterial color="#0e0e18" metalness={0.0} roughness={0.98} />
       </mesh>
     </>
-  );
-}
-
-/* ═══════════════════════════════════════════════════════════════
-   DESK LAMP — teplé cozy světlo
-═══════════════════════════════════════════════════════════════ */
-function DeskLamp() {
-  const lightRef = useRef<THREE.PointLight>(null!);
-
-  useFrame(({ clock }) => {
-    if (lightRef.current) {
-      lightRef.current.intensity = 3.6 + Math.sin(clock.elapsedTime * 0.5) * 0.2;
-    }
-  });
-
-  return (
-    <group position={[2.9, -2.44, 0.5]}>
-      {/* Base */}
-      <mesh position={[0, 0.03, 0]}>
-        <cylinderGeometry args={[0.18, 0.22, 0.06, 12]} />
-        <meshStandardMaterial color="#1c1006" metalness={0.65} roughness={0.35} />
-      </mesh>
-      {/* Stem */}
-      <mesh position={[0, 0.53, 0]}>
-        <cylinderGeometry args={[0.018, 0.022, 1.0, 8]} />
-        <meshStandardMaterial color="#261508" metalness={0.6} roughness={0.4} />
-      </mesh>
-      {/* Shade — wide opening faces down (default cone: base at -y) */}
-      <mesh position={[0, 1.03, 0]}>
-        <coneGeometry args={[0.30, 0.36, 14, 1, true]} />
-        <meshStandardMaterial
-          color="#b85820"
-          emissive="#701e00"
-          emissiveIntensity={0.55}
-          metalness={0.2}
-          roughness={0.55}
-          side={THREE.DoubleSide}
-        />
-      </mesh>
-      {/* Bulb glow */}
-      <mesh position={[0, 1.0, 0]}>
-        <sphereGeometry args={[0.042, 8, 8]} />
-        <meshStandardMaterial color="#ffe090" emissive="#ffcc44" emissiveIntensity={5.5} />
-      </mesh>
-      {/* Point light — warm amber */}
-      <pointLight ref={lightRef} position={[0, 0.85, 0]} intensity={3.6} color="#ff9430" distance={11} decay={2} />
-    </group>
   );
 }
 
@@ -1082,13 +1014,7 @@ export function ImmersiveScene({ scrollContainerRef, mobile = false }: Props) {
       <pointLight position={[5, -3, 3]}   intensity={3.2} color="#8b5cf6" />
       {/* Explosion accent — red tint when exploding */}
       <pointLight position={[0, 0, 4]}    intensity={section === 5 ? 4.0 : 0} color="#ff2200" />
-      {/* Cozy warm fill — floor/desk bounce */}
-      <pointLight position={[0, -3.8, 1.0]}  intensity={0.6} color="#5c2200" />
-      {/* Cozy warm wall fill — lamp spill */}
-      <pointLight position={[3.5, -1.0, -2.5]} intensity={0.85} color="#8b3010" />
-
       <Room />
-      <DeskLamp />
       <Particles mobile={mobile} />
       {!mobile && <RingAccent />}
       <Monitor section={section} />
