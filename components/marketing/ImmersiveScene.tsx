@@ -13,11 +13,11 @@ if (typeof window !== 'undefined') gsap.registerPlugin(ScrollTrigger);
    SHARED STATE  (GSAP writes every frame, useFrame reads)
 ═══════════════════════════════════════════════════════════════ */
 const SV = {
-  camX: 0,    camY: 0.15,  camZ: 8.5,
-  monRotX: 0, monRotY: 0,  monScale: 1.22,
+  camX: 0,    camY: 0.2,   camZ: 11.0,
+  monRotX: 0, monRotY: 0,  monScale: 1.18,
   monX: 0,    monY: 0.05,
-  buildProgress: 0,   // 0→1: UI assembly animation
-  explodeProgress: 0, // 0→1: explosion WOW
+  buildProgress: 0,
+  explodeProgress: 0,
 };
 
 const M = { x: 0, y: 0, tx: 0, ty: 0 };
@@ -900,56 +900,7 @@ function ExplosionFragments() {
 /* ═══════════════════════════════════════════════════════════════
    RINGS — 2 elegant orbits (simplified)
 ═══════════════════════════════════════════════════════════════ */
-function RingAccent() {
-  const r1 = useRef<THREE.Mesh>(null!);
-  useFrame(({ clock }) => {
-    const t = clock.elapsedTime;
-    r1.current.rotation.z = t * 0.042;
-    r1.current.rotation.x = Math.sin(t * 0.028) * 0.24 + 0.55;
-  });
-  return (
-    <mesh ref={r1} position={[0.2, 0.1, -2.5]}>
-      <torusGeometry args={[4.8, 0.008, 6, 60]} />
-      <meshStandardMaterial color="#1e50aa" emissive="#1e50aa" emissiveIntensity={1.4} transparent opacity={0.3} />
-    </mesh>
-  );
-}
-
-/* ═══════════════════════════════════════════════════════════════
-   PARTICLES
-═══════════════════════════════════════════════════════════════ */
-function makePos(count: number, rMin: number, rMax: number) {
-  const arr = new Float32Array(count * 3);
-  for (let i = 0; i < count; i++) {
-    const r = rMin + Math.random() * (rMax - rMin);
-    const θ = Math.random() * Math.PI * 2;
-    const φ = Math.acos(2 * Math.random() - 1);
-    arr[i*3]   = r * Math.sin(φ) * Math.cos(θ);
-    arr[i*3+1] = r * Math.sin(φ) * Math.sin(θ);
-    arr[i*3+2] = r * Math.cos(φ);
-  }
-  return arr;
-}
-
-function Particles({ mobile }: { mobile?: boolean }) {
-  const count = mobile ? 400 : 1000;
-  const pos1  = useMemo(() => makePos(count, 10, 20), [count]);
-  const r1 = useRef<THREE.Points>(null!);
-
-  useFrame(({ clock: c }) => {
-    r1.current.rotation.y = c.elapsedTime * 0.016;
-    r1.current.rotation.x = Math.sin(c.elapsedTime * 0.006) * 0.04;
-  });
-
-  return (
-    <points ref={r1}>
-      <bufferGeometry>
-        <bufferAttribute attach="attributes-position" args={[pos1, 3]} />
-      </bufferGeometry>
-      <pointsMaterial size={mobile ? 0.018 : 0.020} color="#4f8ef7" sizeAttenuation transparent opacity={0.45} />
-    </points>
-  );
-}
+/* RingAccent and Particles removed — isolated dark void composition */
 
 /* ═══════════════════════════════════════════════════════════════
    CINEMATIC CAMERA RIG
@@ -965,7 +916,7 @@ function CameraRig({ section }: { section: number }) {
     camera.position.x += (SV.camX + Math.sin(t * 1.2) * shake - camera.position.x) * 0.038;
     camera.position.y += (SV.camY + Math.cos(t * 0.9) * shake - camera.position.y) * 0.038;
     camera.position.z += (SV.camZ - camera.position.z) * 0.038;
-    camera.lookAt(SV.monX * 0.4, SV.monY * 0.15, 0);
+    camera.lookAt(SV.monX * 0.55, SV.monY * 0.25, 0);
   });
   return null;
 }
@@ -1002,54 +953,52 @@ export function ImmersiveScene({ scrollContainerRef, mobile = false }: Props) {
       },
     });
 
-    /* ── 6 CINEMATIC STATES ──────────────────────────────────
-       tl position 0-5 maps to 600vh container via scrub
-       Each section ≈ 0.83 tl units (5 / 6 sections)
+    /* ── 6 CINEMATIC Z-JOURNEY ───────────────────────────────
+       Z arc: 11.0 → 9.2 → 3.8 → 11.5 → 5.8 → 10.5 → 20.0
     ─────────────────────────────────────────────────────── */
 
-    /* STATE 0→1: HERO — camera slowly drifts, breathes */
-    tl.to(SV, { camZ: 7.8, camY: 0.05, monScale: 1.28, duration: 0.83 }, 0);
+    /* STATE 0→1: HERO — slow drift in, first breath */
+    tl.to(SV, { camZ: 9.2, camY: 0.0, monScale: 1.24, duration: 0.83 }, 0);
 
-    /* STATE 1: BUILD — camera moves IN to watch assembly */
+    /* STATE 1: DESIGN — dive close to watch the build */
     tl.to(SV, {
-      camZ: mobile ? 6.2 : 5.6, camX: mobile ? 0 : -0.4, camY: -0.12,
-      monScale: 1.38, monRotY: mobile ? 0 : 0.08,
+      camZ: mobile ? 6.8 : 3.8, camX: mobile ? 0 : -0.4, camY: -0.25,
+      monScale: mobile ? 1.36 : 1.55, monRotY: mobile ? 0 : 0.06,
       buildProgress: 1,
       duration: 0.83,
     }, 0.83);
 
-    /* STATE 2: LANDING — camera ORBITS RIGHT, monitor tilts */
+    /* STATE 2: BUSINESS — blast back and orbit right */
     tl.to(SV, {
-      camX: mobile ? 0 : 3.2, camY: 0.6, camZ: mobile ? 7.5 : 8.2,
-      monRotY: mobile ? -0.12 : -0.32, monRotX: 0.06,
-      monScale: 1.18, buildProgress: 0,
+      camX: mobile ? 0 : 4.5, camY: 0.8, camZ: mobile ? 8.0 : 11.5,
+      monRotY: mobile ? -0.12 : -0.36, monRotX: 0.06,
+      monScale: 1.14, buildProgress: 0,
       duration: 0.83,
     }, 1.66);
 
-    /* STATE 3: CORPORATE — camera ORBITS LEFT, monitor flips */
+    /* STATE 3: E-COMMERCE — swoop left and approach */
     tl.to(SV, {
-      camX: mobile ? 0 : -3.0, camY: -0.4, camZ: mobile ? 7.5 : 8.0,
-      monRotY: mobile ? 0.12 : 0.34, monRotX: -0.04,
-      monScale: 1.14,
+      camX: mobile ? 0 : -4.2, camY: -0.5, camZ: mobile ? 7.8 : 5.8,
+      monRotY: mobile ? 0.12 : 0.40, monRotX: -0.05,
+      monScale: 1.28,
       duration: 0.83,
     }, 2.49);
 
-    /* STATE 4: E-COMMERCE — low dramatic angle */
+    /* STATE 4: RESULTS — monitor shrinks to thumbnail, numbers become hero */
     tl.to(SV, {
-      camX: mobile ? 0 : 0.8, camY: mobile ? -1.0 : -2.4, camZ: mobile ? 7.0 : 6.8,
-      monRotX: -0.22, monRotY: mobile ? 0 : -0.08,
-      monScale: 1.25,
+      camX: mobile ? 0 : 0.6, camY: 0.2, camZ: mobile ? 8.5 : 10.5,
+      monRotX: 0.12, monRotY: mobile ? 0 : -0.15,
+      monScale: mobile ? 0.72 : 0.36,
+      monX: mobile ? 0 : 1.4, monY: mobile ? 0 : 0.6,
       duration: 0.83,
     }, 3.32);
 
-    /* STATE 5: EXPLODE — WOW MOMENT
-       Camera DRAMATICALLY pulls back + tilts up
-       Monitor spins and shrinks as it "breaks apart"
-       Fragments fly out via SV.explodeProgress */
+    /* STATE 5: LAUNCH — wide pull-back, monitor explodes outward */
     tl.to(SV, {
-      camX: mobile ? 0.5 : -2.0, camY: 2.8, camZ: mobile ? 13.0 : 18.0,
-      monRotY: 1.2, monRotX: 0.55,
-      monScale: mobile ? 0.25 : 0.08,
+      camX: mobile ? 0.5 : -1.5, camY: 3.2, camZ: mobile ? 13.0 : 20.0,
+      monRotY: 1.3, monRotX: 0.6,
+      monX: 0, monY: 0,
+      monScale: mobile ? 0.22 : 0.06,
       explodeProgress: 1,
       duration: 0.83,
     }, 4.15);
@@ -1069,7 +1018,7 @@ export function ImmersiveScene({ scrollContainerRef, mobile = false }: Props) {
 
   return (
     <Canvas
-      camera={{ position: [0, 0.15, 8.5], fov: mobile ? 46 : 40 }}
+      camera={{ position: [0, 0.2, 11.0], fov: mobile ? 46 : 40 }}
       gl={{ antialias: !mobile, alpha: false, powerPreference: 'high-performance' }}
       dpr={mobile ? [0.75, 1] : [1, 1.2]}
       performance={{ min: 0.5 }}
@@ -1085,8 +1034,6 @@ export function ImmersiveScene({ scrollContainerRef, mobile = false }: Props) {
       <pointLight position={[5, -3, 3]}   intensity={5.0} color="#22d3ee" />
       {/* Explosion accent — red tint when exploding */}
       <pointLight position={[0, 0, 4]}    intensity={section === 5 ? 4.0 : 0} color="#ff2200" />
-      <Particles mobile={mobile} />
-      {!mobile && <RingAccent />}
       <Monitor section={section} />
       <ExplosionFragments />
       <CameraRig section={section} />

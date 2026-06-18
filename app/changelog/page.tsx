@@ -17,6 +17,20 @@ interface Version {
 
 const CHANGELOG: Version[] = [
   {
+    version: '3.43',
+    date: '18. 6. 2026',
+    changes: [
+      { type: 'feat', text: 'ImmersiveScene: Z-axis journey — kamera cestuje hloubkou scény: 11.0 → 9.2 → 3.8 (dive do DESIGN) → 11.5 (blast back do BUSINESS) → 5.8 (swoop do ECOMMERCE) → 10.5 (wide RESULTS) → 20.0 (LAUNCH pull-back) — 16 jednotek Z-rozsahu' },
+      { type: 'feat', text: 'ImmersiveScene: DESIGN sekce — kamera se přiblíží na Z=3.8, monScale 1.55 — monitor vyplní viewport, divák sleduje sestavování UI z bezprostřední vzdálenosti' },
+      { type: 'feat', text: 'ImmersiveScene: RESULTS sekce — monScale 0.36, monX 1.4, monY 0.6 — monitor se zmenší na miniaturu v pravém rohu; čísla (48h / 50+ / 0 Kč) dominují levé polovině stránky' },
+      { type: 'change', text: 'ImmersiveScene: RingAccent odstraněn — dekorativní prsten bez storytelling hodnoty; Particles odstraněny — temná prázdnota zvýrazňuje monitor (Apple product reveal přístup)' },
+      { type: 'change', text: 'ImmersiveScene: STATE 2 orbit camX 3.2→4.5 (výraznější pravá orbita), STATE 3 camX -3.0→-4.2 (výraznější levý průlet), STATE 4 nízký úhel camY -2.4 nahrazen neutrálním camY -0.5 + přiblížením Z=5.8' },
+      { type: 'change', text: 'ImmersiveScene: CameraRig lookAt koeficient monX 0.4→0.55 — kamera lépe sleduje monitor při posunutí do pravé strany v RESULTS sekci' },
+      { type: 'change', text: 'page.tsx: S5 šířka clamp(260px,31vw,400px)→clamp(300px,44vw,560px) — monitor je malý a vpravo, čísla mohou zabrat celou levou část viewportu' },
+      { type: 'change', text: 'page.tsx: S5 čísla fontSize clamp(52px,8vw,100px)→clamp(64px,9.5vw,120px) — čísla jsou hrdina sekce' },
+    ],
+  },
+  {
     version: '3.42',
     date: '18. 6. 2026',
     changes: [

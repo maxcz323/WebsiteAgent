@@ -285,7 +285,7 @@ function S4() {
 function S5() {
   return (
     <section id="s5" aria-label="Čísla" style={{ height: '100vh', display: 'flex', alignItems: 'center', pointerEvents: 'none', position: 'relative', zIndex: 10 }}>
-      <div id="s5i" style={{ width: 'clamp(260px, 31vw, 400px)', padding: '0 40px 0 52px', opacity: 0 }}>
+      <div id="s5i" style={{ width: 'clamp(300px, 44vw, 560px)', padding: '0 40px 0 52px', opacity: 0 }}>
 
         <p style={{ fontSize: '10px', fontWeight: 600, color: '#2563eb', textTransform: 'uppercase', letterSpacing: '0.16em', margin: '0 0 40px' }}>Za rok fungování</p>
 
@@ -301,7 +301,7 @@ function S5() {
           }}>
             <span style={{
               fontFamily: 'var(--font-display)',
-              fontSize: 'clamp(52px,8vw,100px)',
+              fontSize: 'clamp(64px,9.5vw,120px)',
               fontWeight: 300,
               color: 'white',
               letterSpacing: '-0.05em',
