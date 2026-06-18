@@ -17,6 +17,14 @@ interface Version {
 
 const CHANGELOG: Version[] = [
   {
+    version: '3.40',
+    date: '18. 6. 2026',
+    changes: [
+      { type: 'fix', text: 'page.tsx: S1/S2/S4/S5 — maxWidth nahrazen přesným clamp() — S1/S2/S4: clamp(260px,33vw,420px), S5: clamp(260px,31vw,400px) — text nikdy nepřekryje monitor bez ohledu na šířku viewportu' },
+      { type: 'fix', text: 'page.tsx: padding změněn z "0 52px" na "0 40px 0 52px" — menší pravý padding, více místa pro obsah při zachování levého odsazení' },
+    ],
+  },
+  {
     version: '3.39',
     date: '18. 6. 2026',
     changes: [
