@@ -17,6 +17,18 @@ interface Version {
 
 const CHANGELOG: Version[] = [
   {
+    version: '3.41',
+    date: '18. 6. 2026',
+    changes: [
+      { type: 'feat', text: 'ImmersiveScene: kompletní přepis GSAP timeline — Z-osa journey: 10 → 8.5 → 4.0 → 11.0 → 6.0 → 4.2 → 24.0 — uživatel "cestuje" scénou místo statického orbitu' },
+      { type: 'feat', text: 'ImmersiveScene: dynamické FOV — STATE 1 (BUILD) fov 40→34 (telephoto, monitor vyplní celý záběr), STATE 2 (LANDING) 47 (wide, dramatický pullback), STATE 4 (E-COM) 32 (nejužší — low angle macro shot), STATE 5 (EXPLODE) 54 (nejširší — blast out)' },
+      { type: 'feat', text: 'ImmersiveScene: CameraRig — dynamická rychlost lerp 0.048 (normál) / 0.055 (exploze), FOV interpolován per-frame cam.fov + updateProjectionMatrix()' },
+      { type: 'feat', text: 'ImmersiveScene: extrémní X orbity — STATE 2 camX 3.2→4.8 (blast pravý), STATE 3 camX -3.0→-4.5 (swoop levý) — monitor se pohybuje celou šířkou záběru' },
+      { type: 'feat', text: 'ImmersiveScene: STATE 4 Y=-3.8 (bylo -2.4), Z=4.2 (bylo 6.8) — dramatický low-angle macro na e-shop; STATE 5 Z=24 (bylo 18), Y=3.5 — větší EXPLODE WOW moment' },
+      { type: 'change', text: 'ImmersiveScene: scrub 1.4→1.2 — přechrody jsou svižnější; initial camZ 8.5→10.0, camY 0.15→0.3 — wider establishing shot' },
+    ],
+  },
+  {
     version: '3.40',
     date: '18. 6. 2026',
     changes: [
