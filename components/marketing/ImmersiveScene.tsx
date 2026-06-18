@@ -2,7 +2,7 @@
 
 import { useRef, useMemo, useEffect, useState, Suspense } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { useGLTF, AdaptiveDpr } from '@react-three/drei';
+import { useGLTF, AdaptiveDpr, Text } from '@react-three/drei';
 import * as THREE from 'three';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -139,20 +139,15 @@ function ScreenHero({ building }: { building: boolean }) {
           <sphereGeometry args={[0.038, 8, 8]} />
           <meshStandardMaterial color="#2563eb" emissive="#2563eb" emissiveIntensity={2.5} />
         </mesh>
-        <mesh position={[-1.24, 0.99, Z + 0.002]}>
-          <boxGeometry args={[0.22, 0.055, 0.001]} />
-          <meshBasicMaterial color="#c8d8f0" />
-        </mesh>
-        {[-0.28, 0.15, 0.56, 0.95].map((x, i) => (
-          <mesh key={i} position={[x, 0.99, Z + 0.002]}>
-            <boxGeometry args={[0.18, 0.042, 0.001]} />
-            <meshBasicMaterial color="#182d48" />
-          </mesh>
+        <Text position={[-1.22, 0.99, Z + 0.003]} fontSize={0.064} color="#c8d8f0" anchorX="left" anchorY="middle">WebsiteAgent</Text>
+        {['Služby', 'Portfolio', 'Ceník', 'Blog'].map((label, i) => (
+          <Text key={i} position={[-0.28 + i * 0.39, 0.99, Z + 0.003]} fontSize={0.048} color="#1e3a5a" anchorX="center" anchorY="middle">{label}</Text>
         ))}
         <mesh position={[1.46, 0.99, Z + 0.002]}>
           <boxGeometry args={[0.28, 0.1, 0.001]} />
           <meshBasicMaterial color="#1d4ed8" />
         </mesh>
+        <Text position={[1.46, 0.99, Z + 0.004]} fontSize={0.054} color="#ffffff" anchorX="center" anchorY="middle">Zacit</Text>
       </group>
 
       {/* BADGE */}
@@ -161,36 +156,24 @@ function ScreenHero({ building }: { building: boolean }) {
           <boxGeometry args={[0.54, 0.09, 0.001]} />
           <meshBasicMaterial color="#0f2a5c" />
         </mesh>
-        <mesh position={[-1.08, 0.77, Z + 0.001]}>
-          <boxGeometry args={[0.52, 0.07, 0.001]} />
-          <meshBasicMaterial color="#1a3c9a" transparent opacity={0.5} />
-        </mesh>
+        <Text position={[-1.08, 0.77, Z + 0.003]} fontSize={0.046} color="#60a5fa" anchorX="center" anchorY="middle">Hodnoceni 5/5 hvezd</Text>
       </group>
 
       {/* HEADLINE */}
       <group ref={gH1}>
-        <mesh position={[-0.79, 0.62, Z]}>
-          <boxGeometry args={[1.02, 0.13, 0.001]} />
-          <meshBasicMaterial color="#d0e4ff" />
-        </mesh>
-        <mesh position={[-0.68, 0.46, Z]}>
-          <boxGeometry args={[1.24, 0.13, 0.001]} />
-          <meshBasicMaterial color="#3b82f6" />
-        </mesh>
-        <mesh position={[0.19, 0.46, Z + 0.001]}>
-          <boxGeometry args={[0.018, 0.12, 0.001]} />
+        <Text position={[-1.29, 0.62, Z + 0.003]} fontSize={0.105} color="#d0e4ff" anchorX="left" anchorY="middle">Vas web</Text>
+        <Text position={[-1.29, 0.46, Z + 0.003]} fontSize={0.105} color="#3b82f6" anchorX="left" anchorY="middle">do 48 hodin</Text>
+        <mesh position={[0.22, 0.46, Z + 0.001]}>
+          <boxGeometry args={[0.018, 0.10, 0.001]} />
           <meshBasicMaterial ref={cursorMat} color="#60a5fa" transparent opacity={0.9} />
         </mesh>
       </group>
 
       {/* SUB TEXT */}
       <group ref={gSub}>
-        {[[1.6, 0.31], [1.35, 0.21], [0.95, 0.12]].map(([w, y], i) => (
-          <mesh key={i} position={[-1.69 + (w as number) / 2, y, Z]}>
-            <boxGeometry args={[(w as number), 0.046, 0.001]} />
-            <meshBasicMaterial color="#0e2040" />
-          </mesh>
-        ))}
+        <Text position={[-1.69, 0.31, Z + 0.002]} fontSize={0.052} color="#2a4a6a" anchorX="left" anchorY="middle">Profesionalni weby pro ceske firmy.</Text>
+        <Text position={[-1.69, 0.21, Z + 0.002]} fontSize={0.052} color="#1e3a56" anchorX="left" anchorY="middle">Bez zalohy, bez zavazku.</Text>
+        <Text position={[-1.69, 0.12, Z + 0.002]} fontSize={0.052} color="#162e44" anchorX="left" anchorY="middle">Vysledky do 2 pracovnich dnu.</Text>
       </group>
 
       {/* CTA BUTTONS */}
@@ -199,6 +182,7 @@ function ScreenHero({ building }: { building: boolean }) {
           <boxGeometry args={[0.64, 0.17, 0.001]} />
           <meshBasicMaterial color="#1d4ed8" />
         </mesh>
+        <Text position={[-1.04, -0.05, Z + 0.003]} fontSize={0.062} color="#ffffff" anchorX="center" anchorY="middle">Ziskat web</Text>
         <mesh position={[-0.32, -0.05, Z]}>
           <boxGeometry args={[0.52, 0.17, 0.001]} />
           <meshBasicMaterial color="#0a1528" />
@@ -207,6 +191,7 @@ function ScreenHero({ building }: { building: boolean }) {
           <boxGeometry args={[0.52, 0.17, 0.001]} />
           <meshBasicMaterial color="#1a3060" transparent opacity={0.4} />
         </mesh>
+        <Text position={[-0.32, -0.05, Z + 0.003]} fontSize={0.062} color="#7aaabf" anchorX="center" anchorY="middle">Zjistit vice</Text>
       </group>
 
       {/* DASHBOARD CARD */}
@@ -223,22 +208,15 @@ function ScreenHero({ building }: { building: boolean }) {
           <sphereGeometry args={[0.022, 8, 8]} />
           <meshStandardMaterial ref={liveDotMat} color="#22c55e" emissive="#22c55e" emissiveIntensity={1.2} />
         </mesh>
-        <mesh position={[0.76, 0.9, Z + 0.007]}>
-          <boxGeometry args={[0.55, 0.042, 0.001]} />
-          <meshBasicMaterial color="#1a2d44" />
-        </mesh>
-        <mesh position={[0.56, 0.7, Z + 0.005]}>
-          <boxGeometry args={[0.36, 0.14, 0.001]} />
-          <meshBasicMaterial color="#e0eeff" />
-        </mesh>
-        <mesh position={[0.65, 0.56, Z + 0.005]}>
-          <boxGeometry args={[0.55, 0.044, 0.001]} />
-          <meshBasicMaterial color="#0e2040" />
-        </mesh>
+        <Text position={[0.42, 0.9, Z + 0.007]} fontSize={0.046} color="#22c55e" anchorX="left" anchorY="middle">LIVE</Text>
+        <Text position={[0.92, 0.9, Z + 0.007]} fontSize={0.046} color="#2a4060" anchorX="center" anchorY="middle">Vykon webu</Text>
+        <Text position={[0.38, 0.70, Z + 0.006]} fontSize={0.135} color="#e0eeff" anchorX="left" anchorY="middle">1 247</Text>
+        <Text position={[0.38, 0.56, Z + 0.005]} fontSize={0.046} color="#1a3050" anchorX="left" anchorY="middle">Navstevniku / mesic</Text>
         <mesh position={[1.1, 0.70, Z + 0.005]}>
-          <boxGeometry args={[0.22, 0.08, 0.001]} />
+          <boxGeometry args={[0.26, 0.09, 0.001]} />
           <meshBasicMaterial color="#15803d" />
         </mesh>
+        <Text position={[1.1, 0.70, Z + 0.007]} fontSize={0.052} color="#4ade80" anchorX="center" anchorY="middle">+34%</Text>
         <mesh ref={lineRef} position={[0.92, 0.45, Z + 0.005]}>
           <boxGeometry args={[1.1, 0.028, 0.001]} />
           <meshBasicMaterial color="#2563eb" transparent opacity={0.4} />
@@ -268,38 +246,37 @@ function ScreenHero({ building }: { building: boolean }) {
           <boxGeometry args={[3.38, 0.27, 0.001]} />
           <meshBasicMaterial color="#030911" />
         </mesh>
-        {([[-1.2, '#3b82f6'], [-0.4, '#a78bfa'], [0.4, '#34d399'], [1.2, '#f59e0b']] as const).map(([x, c]) => (
+        {([
+          [-1.2, '#3b82f6', '48h',  'Dodani'],
+          [-0.4, '#a78bfa', '50+',  'Webu'],
+          [ 0.4, '#34d399', '100%', 'Spokojenost'],
+          [ 1.2, '#f59e0b', '0 Kc', 'Zaloha'],
+        ] as const).map(([x, c, val, label]) => (
           <group key={x}>
-            <mesh position={[x, -0.3, Z + 0.002]}>
-              <boxGeometry args={[0.28, 0.12, 0.001]} />
-              <meshBasicMaterial color={c} transparent opacity={0.9} />
-            </mesh>
-            <mesh position={[x, -0.43, Z + 0.002]}>
-              <boxGeometry args={[0.32, 0.042, 0.001]} />
-              <meshBasicMaterial color="#0b1a2e" />
-            </mesh>
+            <Text position={[x, -0.29, Z + 0.003]} fontSize={0.080} color={c} anchorX="center" anchorY="middle">{val}</Text>
+            <Text position={[x, -0.43, Z + 0.003]} fontSize={0.040} color="#1a2e44" anchorX="center" anchorY="middle">{label}</Text>
           </group>
         ))}
       </group>
 
       {/* BOTTOM CARDS */}
       <group ref={gBottom}>
-        {([-1.1, -0.04, 1.04] as const).map((x, i) => (
+        {([
+          [-1.1,  '#06111e', '#2563eb', 'SEO',      'Optimalizace zdarma'],
+          [-0.04, '#090820', '#7c3aed', 'Speed',    'PageSpeed 99/100'],
+          [ 1.04, '#041410', '#059669', 'Mobile',   'Responzivni design'],
+        ] as const).map(([x, bg, accent, title, sub], i) => (
           <group key={i} position={[x, -0.76, Z]}>
             <mesh>
               <boxGeometry args={[0.96, 0.42, 0.004]} />
-              <meshBasicMaterial color={['#06111e', '#090820', '#041410'][i]} />
+              <meshBasicMaterial color={bg} />
             </mesh>
             <mesh position={[0, 0.2, 0.003]}>
               <boxGeometry args={[0.96, 0.026, 0.001]} />
-              <meshBasicMaterial color={['#2563eb', '#7c3aed', '#059669'][i]} />
+              <meshBasicMaterial color={accent} />
             </mesh>
-            {[0.06, -0.06, -0.15].map((dy, j) => (
-              <mesh key={j} position={[0, dy, 0.003]}>
-                <boxGeometry args={[(0.7 - j * 0.08), 0.038, 0.001]} />
-                <meshBasicMaterial color={['#0e2040', '#12103a', '#061a12'][i]} />
-              </mesh>
-            ))}
+            <Text position={[0, 0.06, 0.004]} fontSize={0.072} color="#c0d8f0" anchorX="center" anchorY="middle">{title}</Text>
+            <Text position={[0, -0.08, 0.004]} fontSize={0.046} color="#2a4060" anchorX="center" anchorY="middle">{sub}</Text>
           </group>
         ))}
       </group>
@@ -315,7 +292,7 @@ function ScreenLanding() {
   const Z = 0.083;
   return (
     <>
-      {/* NAV — dark, minimal */}
+      {/* NAV */}
       <mesh position={[0, 0.99, Z]}>
         <boxGeometry args={[3.38, 0.17, 0.001]} />
         <meshBasicMaterial color="#030810" />
@@ -324,57 +301,40 @@ function ScreenLanding() {
         <sphereGeometry args={[0.032, 8, 8]} />
         <meshStandardMaterial color="#3b82f6" emissive="#3b82f6" emissiveIntensity={2.2} />
       </mesh>
-      <mesh position={[-1.24, 0.99, Z + 0.002]}>
-        <boxGeometry args={[0.22, 0.052, 0.001]} />
-        <meshBasicMaterial color="#c0d4f0" />
-      </mesh>
-      {[0.6, 1.1, 1.52].map((x, i) => (
-        <mesh key={i} position={[x, 0.99, Z + 0.002]}>
-          <boxGeometry args={[0.2, 0.038, 0.001]} />
-          <meshBasicMaterial color="#1a2d48" />
-        </mesh>
+      <Text position={[-1.22, 0.99, Z + 0.003]} fontSize={0.062} color="#c0d4f0" anchorX="left" anchorY="middle">WebsiteAgent</Text>
+      {['Sluzby', 'Ceny', 'Portfolio', 'Kontakt'].map((label, i) => (
+        <Text key={i} position={[0.28 + i * 0.4, 0.99, Z + 0.002]} fontSize={0.046} color="#1a2d48" anchorX="center" anchorY="middle">{label}</Text>
       ))}
       <mesh position={[1.5, 0.99, Z + 0.002]}>
         <boxGeometry args={[0.26, 0.1, 0.001]} />
         <meshBasicMaterial color="#2563eb" />
       </mesh>
+      <Text position={[1.5, 0.99, Z + 0.004]} fontSize={0.054} color="#ffffff" anchorX="center" anchorY="middle">Chci web</Text>
 
-      {/* HERO gradient bg */}
+      {/* Hero bg */}
       <mesh position={[0, 0.37, Z - 0.003]}>
         <boxGeometry args={[3.38, 1.18, 0.001]} />
         <meshBasicMaterial color="#030a1a" />
       </mesh>
-      {/* Subtle hero glow */}
       <mesh position={[0, 0.55, Z - 0.002]}>
         <boxGeometry args={[2.4, 0.6, 0.001]} />
         <meshBasicMaterial color="#0a1e50" transparent opacity={0.35} />
       </mesh>
 
-      {/* BIG HEADLINE — centered */}
-      <mesh position={[0, 0.74, Z]}>
-        <boxGeometry args={[2.2, 0.16, 0.001]} />
-        <meshBasicMaterial color="#e0eeff" />
-      </mesh>
-      <mesh position={[0, 0.55, Z]}>
-        <boxGeometry args={[1.65, 0.16, 0.001]} />
-        <meshBasicMaterial color="#3b82f6" />
-      </mesh>
+      {/* Headline */}
+      <Text position={[0, 0.74, Z + 0.002]} fontSize={0.110} color="#e0eeff" anchorX="center" anchorY="middle">Moderni web</Text>
+      <Text position={[0, 0.55, Z + 0.002]} fontSize={0.110} color="#3b82f6" anchorX="center" anchorY="middle">pro vasi firmu</Text>
 
-      {/* Sub text */}
-      <mesh position={[0, 0.36, Z]}>
-        <boxGeometry args={[1.8, 0.05, 0.001]} />
-        <meshBasicMaterial color="#2a3e5a" />
-      </mesh>
-      <mesh position={[0, 0.28, Z]}>
-        <boxGeometry args={[1.4, 0.05, 0.001]} />
-        <meshBasicMaterial color="#1e3050" />
-      </mesh>
+      {/* Subtext */}
+      <Text position={[0, 0.36, Z + 0.001]} fontSize={0.054} color="#1e3a54" anchorX="center" anchorY="middle">Profesionalni web do 48 hodin.</Text>
+      <Text position={[0, 0.27, Z + 0.001]} fontSize={0.050} color="#162e44" anchorX="center" anchorY="middle">Bez zalohy. Bez zavazku.</Text>
 
-      {/* CTAs — centered */}
+      {/* CTAs */}
       <mesh position={[-0.4, 0.1, Z]}>
         <boxGeometry args={[0.65, 0.17, 0.001]} />
         <meshBasicMaterial color="#1d4ed8" />
       </mesh>
+      <Text position={[-0.4, 0.1, Z + 0.003]} fontSize={0.064} color="#ffffff" anchorX="center" anchorY="middle">Chci web</Text>
       <mesh position={[0.35, 0.1, Z]}>
         <boxGeometry args={[0.52, 0.17, 0.001]} />
         <meshBasicMaterial color="#0d1e38" />
@@ -383,6 +343,7 @@ function ScreenLanding() {
         <boxGeometry args={[0.50, 0.15, 0.001]} />
         <meshBasicMaterial color="#1a3060" transparent opacity={0.4} />
       </mesh>
+      <Text position={[0.35, 0.1, Z + 0.003]} fontSize={0.064} color="#6a9abf" anchorX="center" anchorY="middle">Ukazky praci</Text>
 
       {/* Divider */}
       <mesh position={[0, -0.1, Z]}>
@@ -390,58 +351,46 @@ function ScreenLanding() {
         <meshBasicMaterial color="#0c1e34" />
       </mesh>
 
-      {/* FEATURE CARDS — 3 columns */}
-      {([-1.05, 0, 1.05] as const).map((x, i) => (
+      {/* Feature cards */}
+      {([
+        [-1.05, '#2563eb', '#040c1e', '#0f2a5c', '#3b82f6', 'Rychle dodani', 'Do 48 hodin'],
+        [0,     '#7c3aed', '#090820', '#2a1060', '#8b5cf6', 'SEO zdarma',    'Top Google'],
+        [1.05,  '#059669', '#041814', '#063028', '#10b981', 'Záruka kvality','100% spokojenost'],
+      ] as const).map(([x, accent, bg, circleBg, dotCol, title, sub], i) => (
         <group key={i} position={[x, -0.6, Z]}>
           <mesh>
             <boxGeometry args={[0.95, 0.75, 0.006]} />
-            <meshStandardMaterial color="#040c1e" metalness={0.1} roughness={0.9} />
+            <meshStandardMaterial color={bg} metalness={0.1} roughness={0.9} />
           </mesh>
-          {/* Top accent */}
           <mesh position={[0, 0.37, 0.004]}>
             <boxGeometry args={[0.95, 0.006, 0.001]} />
-            <meshBasicMaterial color={['#2563eb', '#7c3aed', '#059669'][i]} />
+            <meshBasicMaterial color={accent} />
           </mesh>
-          {/* Icon circle */}
-          <mesh position={[-0.32, 0.2, 0.005]}>
+          <mesh position={[-0.32, 0.18, 0.005]}>
             <circleGeometry args={[0.055, 12]} />
-            <meshBasicMaterial color={['#0f2a5c', '#2a1060', '#063028'][i]} />
+            <meshBasicMaterial color={circleBg} />
           </mesh>
-          <mesh position={[-0.32, 0.2, 0.006]}>
+          <mesh position={[-0.32, 0.18, 0.006]}>
             <sphereGeometry args={[0.028, 8, 8]} />
-            <meshStandardMaterial
-              color={['#3b82f6', '#8b5cf6', '#10b981'][i]}
-              emissive={['#3b82f6', '#8b5cf6', '#10b981'][i]}
-              emissiveIntensity={1.8}
-            />
+            <meshStandardMaterial color={dotCol} emissive={dotCol} emissiveIntensity={1.8} />
           </mesh>
-          {/* Title line */}
-          <mesh position={[0, 0.05, 0.004]}>
-            <boxGeometry args={[0.7, 0.065, 0.001]} />
-            <meshBasicMaterial color="#c0d8f0" />
-          </mesh>
-          {/* Body lines */}
-          <mesh position={[0, -0.1, 0.004]}>
-            <boxGeometry args={[0.75, 0.04, 0.001]} />
-            <meshBasicMaterial color="#1a2d44" />
-          </mesh>
-          <mesh position={[-0.07, -0.18, 0.004]}>
-            <boxGeometry args={[0.62, 0.04, 0.001]} />
-            <meshBasicMaterial color="#142236" />
-          </mesh>
+          <Text position={[0, 0.04, 0.005]} fontSize={0.070} color="#c0d8f0" anchorX="center" anchorY="middle">{title}</Text>
+          <Text position={[0, -0.10, 0.005]} fontSize={0.052} color="#2a4a6a" anchorX="center" anchorY="middle">{sub}</Text>
         </group>
       ))}
 
-      {/* TRUST BAR — bottom */}
+      {/* Trust bar */}
       <mesh position={[0, -1.0, Z]}>
         <boxGeometry args={[3.38, 0.08, 0.001]} />
         <meshBasicMaterial color="#020710" />
       </mesh>
-      {([-1.1, -0.38, 0.34, 1.06] as const).map((x, i) => (
-        <mesh key={i} position={[x, -1.0, Z + 0.002]}>
-          <boxGeometry args={[0.38, 0.03, 0.001]} />
-          <meshBasicMaterial color="#0e1e34" />
-        </mesh>
+      {([
+        [-1.1,  '48 hodin'],
+        [-0.38, '50+ webu'],
+        [0.34,  '100% spokojenost'],
+        [1.06,  '0 Kc zaloha'],
+      ] as const).map(([x, label]) => (
+        <Text key={x} position={[x, -1.0, Z + 0.002]} fontSize={0.040} color="#1a2e44" anchorX="center" anchorY="middle">{label}</Text>
       ))}
     </>
   );
@@ -455,7 +404,7 @@ function ScreenCorporate() {
   const Z = 0.083;
   return (
     <>
-      {/* NAV — slightly lighter, more links */}
+      {/* NAV */}
       <mesh position={[0, 0.99, Z]}>
         <boxGeometry args={[3.38, 0.17, 0.001]} />
         <meshBasicMaterial color="#050d1e" />
@@ -464,15 +413,9 @@ function ScreenCorporate() {
         <sphereGeometry args={[0.032, 8, 8]} />
         <meshStandardMaterial color="#7c3aed" emissive="#7c3aed" emissiveIntensity={2.0} />
       </mesh>
-      <mesh position={[-1.24, 0.99, Z + 0.002]}>
-        <boxGeometry args={[0.22, 0.052, 0.001]} />
-        <meshBasicMaterial color="#bdd0f0" />
-      </mesh>
-      {[-0.5, -0.1, 0.3, 0.68, 1.06, 1.44].map((x, i) => (
-        <mesh key={i} position={[x, 0.99, Z + 0.002]}>
-          <boxGeometry args={[0.22, 0.038, 0.001]} />
-          <meshBasicMaterial color="#162540" />
-        </mesh>
+      <Text position={[-1.22, 0.99, Z + 0.003]} fontSize={0.060} color="#bdd0f0" anchorX="left" anchorY="middle">FirmaXYZ s.r.o.</Text>
+      {['O nas', 'Sluzby', 'Reference', 'Blog', 'Kontakt'].map((label, i) => (
+        <Text key={i} position={[-0.5 + i * 0.46, 0.99, Z + 0.002]} fontSize={0.044} color="#162540" anchorX="center" anchorY="middle">{label}</Text>
       ))}
 
       {/* LEFT SIDEBAR */}
@@ -480,104 +423,83 @@ function ScreenCorporate() {
         <boxGeometry args={[0.68, 1.78, 0.005]} />
         <meshStandardMaterial color="#030a18" metalness={0.08} roughness={0.92} />
       </mesh>
-      {/* Sidebar top accent */}
       <mesh position={[-1.38, 0.93, Z + 0.003]}>
         <boxGeometry args={[0.68, 0.004, 0.001]} />
         <meshBasicMaterial color="#4a1090" transparent opacity={0.6} />
       </mesh>
-      {/* Sidebar nav items */}
-      {[0.82, 0.68, 0.54, 0.40, 0.26, 0.12, -0.02, -0.16].map((y, i) => (
-        <mesh key={i} position={[-1.38, y, Z + 0.003]}>
-          <boxGeometry args={[i === 1 ? 0.52 : 0.44, 0.042, 0.001]} />
-          <meshBasicMaterial color={i === 1 ? '#2a1060' : '#0d1e36'} />
-        </mesh>
+      {([
+        [0.82, 'Prehled',    false],
+        [0.68, 'Projekty',   true],
+        [0.54, 'Klienti',    false],
+        [0.40, 'Faktury',    false],
+        [0.26, 'Zpravy',     false],
+        [0.12, 'Analyza',    false],
+        [-0.02,'Nastaveni',  false],
+        [-0.16,'Tym',        false],
+      ] as const).map(([y, label, active]) => (
+        <Text key={y} position={[-1.38, y, Z + 0.004]} fontSize={0.048} color={active ? '#a78bfa' : '#0e2244'} anchorX="center" anchorY="middle">{label}</Text>
       ))}
-      {/* Active indicator */}
       <mesh position={[-1.7, 0.68, Z + 0.003]}>
         <boxGeometry args={[0.006, 0.042, 0.001]} />
         <meshBasicMaterial color="#7c3aed" />
       </mesh>
-      {/* Sidebar CTA */}
       <mesh position={[-1.38, -0.55, Z + 0.003]}>
         <boxGeometry args={[0.48, 0.13, 0.001]} />
         <meshBasicMaterial color="#4a1090" />
       </mesh>
+      <Text position={[-1.38, -0.55, Z + 0.005]} fontSize={0.052} color="#c4b5fd" anchorX="center" anchorY="middle">+ Novy projekt</Text>
 
-      {/* MAIN CONTENT area */}
-      {/* Section heading */}
-      <mesh position={[0.35, 0.82, Z]}>
-        <boxGeometry args={[1.85, 0.12, 0.001]} />
-        <meshBasicMaterial color="#c0d8f0" />
-      </mesh>
-      <mesh position={[0.2, 0.66, Z]}>
-        <boxGeometry args={[1.55, 0.12, 0.001]} />
-        <meshBasicMaterial color="#8bbcf0" />
-      </mesh>
-      {/* Body text */}
-      {[0.5, 0.4, 0.3].map((y, i) => (
-        <mesh key={i} position={[0.2, y, Z]}>
-          <boxGeometry args={[(1.7 - i * 0.15), 0.04, 0.001]} />
-          <meshBasicMaterial color="#122040" />
-        </mesh>
+      {/* MAIN CONTENT */}
+      <Text position={[-0.42, 0.82, Z + 0.002]} fontSize={0.090} color="#c0d8f0" anchorX="left" anchorY="middle">Aktivni projekty</Text>
+      <Text position={[-0.42, 0.66, Z + 0.002]} fontSize={0.072} color="#8bbcf0" anchorX="left" anchorY="middle">3 zakazky v prubehu</Text>
+      {([
+        [0.50, 'Web pro Restauraci U Novaku'],
+        [0.40, 'E-shop AutoDily Praha — faze 2'],
+        [0.30, 'Redesign Kavarna Mlyn, Brno'],
+      ] as const).map(([y, text]) => (
+        <Text key={y} position={[-0.42, y, Z + 0.001]} fontSize={0.042} color="#122040" anchorX="left" anchorY="middle" maxWidth={1.6}>{text}</Text>
       ))}
-      {/* Divider */}
       <mesh position={[0.35, 0.14, Z]}>
         <boxGeometry args={[1.85, 0.003, 0.001]} />
         <meshBasicMaterial color="#0c1e34" />
       </mesh>
 
-      {/* NEWS/BLOG CARDS — 3 cols */}
-      {([-0.57, 0.35, 1.27] as const).map((x, i) => (
+      {/* Blog cards */}
+      {([
+        [-0.57, '#040a18', '#060e28', '#1a3c9a', '#0f2a5c', '#2563eb', 'SEO',     'Jak zvysit konverze', '12. 6. 2026'],
+        [ 0.35, '#040818', '#08061e', '#3a1078', '#200860', '#7c3aed', 'Design',  'Trendy webu 2026',    '8. 6. 2026'],
+        [ 1.27, '#040e0c', '#04120c', '#0d4f3c', '#063028', '#059669', 'Rychlost','PageSpeed optimalizace','3. 6. 2026'],
+      ] as const).map(([x, bg, imgBg, imgAcc, catBg, catCol, cat, title, date], i) => (
         <group key={i} position={[x, -0.38, Z]}>
           <mesh>
             <boxGeometry args={[0.82, 0.78, 0.005]} />
-            <meshStandardMaterial color="#040a18" metalness={0.1} roughness={0.9} />
+            <meshStandardMaterial color={bg} metalness={0.1} roughness={0.9} />
           </mesh>
-          {/* Image placeholder */}
           <mesh position={[0, 0.25, 0.003]}>
             <boxGeometry args={[0.82, 0.32, 0.001]} />
-            <meshBasicMaterial color={['#060e28', '#08061e', '#04120c'][i]} />
+            <meshBasicMaterial color={imgBg} />
           </mesh>
-          {/* Image accent gradient */}
           <mesh position={[0, 0.25, 0.004]}>
             <boxGeometry args={[0.82, 0.32, 0.001]} />
-            <meshBasicMaterial
-              color={['#1a3c9a', '#3a1078', '#0d4f3c'][i]}
-              transparent opacity={0.3}
-            />
+            <meshBasicMaterial color={imgAcc} transparent opacity={0.3} />
           </mesh>
-          {/* Category pill */}
-          <mesh position={[-0.24, 0.05, 0.004]}>
-            <boxGeometry args={[0.28, 0.065, 0.001]} />
-            <meshBasicMaterial color={['#0f2a5c', '#200860', '#063028'][i]} />
+          <mesh position={[-0.22, 0.05, 0.004]}>
+            <boxGeometry args={[0.26, 0.060, 0.001]} />
+            <meshBasicMaterial color={catBg} />
           </mesh>
-          {/* Title */}
-          <mesh position={[0, -0.09, 0.004]}>
-            <boxGeometry args={[0.65, 0.055, 0.001]} />
-            <meshBasicMaterial color="#a0c0e0" />
-          </mesh>
-          <mesh position={[-0.05, -0.18, 0.004]}>
-            <boxGeometry args={[0.55, 0.055, 0.001]} />
-            <meshBasicMaterial color="#708090" />
-          </mesh>
-          {/* Date line */}
-          <mesh position={[-0.15, -0.3, 0.004]}>
-            <boxGeometry args={[0.35, 0.03, 0.001]} />
-            <meshBasicMaterial color="#0e1e34" />
-          </mesh>
+          <Text position={[-0.22, 0.05, 0.006]} fontSize={0.040} color={catCol} anchorX="center" anchorY="middle">{cat}</Text>
+          <Text position={[0, -0.09, 0.005]} fontSize={0.054} color="#a0c0e0" anchorX="center" anchorY="middle" maxWidth={0.70}>{title}</Text>
+          <Text position={[-0.15, -0.30, 0.005]} fontSize={0.036} color="#1a3040" anchorX="left" anchorY="middle">{date}</Text>
         </group>
       ))}
 
-      {/* FOOTER STRIP */}
+      {/* FOOTER */}
       <mesh position={[0, -0.98, Z]}>
         <boxGeometry args={[3.38, 0.1, 0.001]} />
         <meshBasicMaterial color="#020710" />
       </mesh>
-      {([-1.1, -0.28, 0.54, 1.36] as const).map((x, i) => (
-        <mesh key={i} position={[x, -0.98, Z + 0.002]}>
-          <boxGeometry args={[0.42, 0.032, 0.001]} />
-          <meshBasicMaterial color="#0e1e34" />
-        </mesh>
+      {([[-1.1, 'WebsiteAgent'], [-0.28, 'Podminky'], [0.54, 'GDPR'], [1.36, '2026']] as const).map(([x, text]) => (
+        <Text key={x} position={[x, -0.98, Z + 0.002]} fontSize={0.036} color="#0e1e34" anchorX="center" anchorY="middle">{text}</Text>
       ))}
     </>
   );
@@ -589,11 +511,18 @@ function ScreenCorporate() {
 ═══════════════════════════════════════════════════════════════ */
 function ScreenEcommerce() {
   const Z = 0.083;
-  const PROD_COLORS = [
-    '#061420', '#08101e', '#060c18',
-    '#04100c', '#080618', '#060e10',
+  const PROD_COLORS = ['#061420','#08101e','#060c18','#04100c','#080618','#060e10'] as const;
+  const ACCENT      = ['#3b82f6','#8b5cf6','#10b981','#f59e0b','#3b82f6','#8b5cf6'] as const;
+  const BTN_BG      = ['#0f2a5c','#200860','#063028','#3a1808','#0f2a5c','#200860'] as const;
+  const IMG_BG      = ['#04101a','#07051a','#041008','#0c0804','#04101a','#07051a'] as const;
+  const PRODUCTS = [
+    { name: 'Starter web',   price: '9 900 Kc',  cat: 'Zakladni'  },
+    { name: 'Business web',  price: '14 900 Kc', cat: 'Oblibeny'  },
+    { name: 'E-shop reseni', price: '24 900 Kc', cat: 'Premium'   },
+    { name: 'Landing page',  price: '6 900 Kc',  cat: 'Rychle'    },
+    { name: 'Redesign webu', price: '12 900 Kc', cat: 'Renovace'  },
+    { name: 'SEO balicek',   price: '4 900 Kc',  cat: 'Mesicne'   },
   ] as const;
-  const ACCENT = ['#3b82f6','#8b5cf6','#10b981','#f59e0b','#3b82f6','#8b5cf6'] as const;
 
   return (
     <>
@@ -606,10 +535,7 @@ function ScreenEcommerce() {
         <sphereGeometry args={[0.032, 8, 8]} />
         <meshStandardMaterial color="#10b981" emissive="#10b981" emissiveIntensity={2.0} />
       </mesh>
-      <mesh position={[-1.24, 0.99, Z + 0.002]}>
-        <boxGeometry args={[0.22, 0.052, 0.001]} />
-        <meshBasicMaterial color="#b0d0e0" />
-      </mesh>
+      <Text position={[-1.22, 0.99, Z + 0.003]} fontSize={0.062} color="#b0d0e0" anchorX="left" anchorY="middle">WebsiteAgent</Text>
       {/* Search bar */}
       <mesh position={[0.2, 0.99, Z + 0.002]}>
         <boxGeometry args={[1.3, 0.09, 0.001]} />
@@ -619,7 +545,8 @@ function ScreenEcommerce() {
         <boxGeometry args={[1.28, 0.07, 0.001]} />
         <meshBasicMaterial color="#0c1828" />
       </mesh>
-      {/* Cart badge */}
+      <Text position={[-0.36, 0.99, Z + 0.005]} fontSize={0.046} color="#1e3040" anchorX="left" anchorY="middle">Hledat sluzbu...</Text>
+      {/* Cart */}
       <mesh position={[1.32, 0.99, Z + 0.002]}>
         <boxGeometry args={[0.22, 0.1, 0.001]} />
         <meshBasicMaterial color="#0d4f3c" />
@@ -634,64 +561,51 @@ function ScreenEcommerce() {
         <boxGeometry args={[0.68, 1.78, 0.005]} />
         <meshStandardMaterial color="#030b0e" metalness={0.08} roughness={0.92} />
       </mesh>
-      {/* Filter section labels */}
-      {[0.82, 0.6, 0.2, -0.05, -0.42, -0.65].map((y, i) => (
-        <mesh key={i} position={[-1.38, y, Z + 0.003]}>
-          <boxGeometry args={[i % 3 === 0 ? 0.5 : 0.38, i % 3 === 0 ? 0.048 : 0.038, 0.001]} />
-          <meshBasicMaterial color={i % 3 === 0 ? '#0d2035' : '#081520'} />
+      {([
+        [0.82,  'KATEGORIE', true],
+        [0.60,  'Weby',      false],
+        [0.48,  'E-shopy',   false],
+        [0.20,  'CENA',      true],
+        [-0.05, 'do 15 000', false],
+        [-0.42, 'DODANI',    true],
+        [-0.65, 'do 48h',    false],
+      ] as const).map(([y, label, isHeader]) => (
+        <Text key={y} position={[-1.38, y, Z + 0.004]} fontSize={isHeader ? 0.042 : 0.038} color={isHeader ? '#1e3a50' : '#0a1e30'} anchorX="center" anchorY="middle">{label}</Text>
+      ))}
+      {/* Checkboxes */}
+      {([0.60, 0.48, -0.05, -0.65] as const).map((y, i) => (
+        <mesh key={y} position={[-1.68, y, Z + 0.004]}>
+          <boxGeometry args={[0.040, 0.040, 0.001]} />
+          <meshBasicMaterial color={i < 2 ? '#0f4d3c' : '#0a1525'} />
         </mesh>
       ))}
-      {/* Filter checkboxes */}
-      {[0.48, 0.36, -0.18, -0.3, -0.55].map((y, i) => (
-        <group key={i} position={[-1.38, y, Z + 0.003]}>
-          <mesh position={[-0.27, 0, 0]}>
-            <boxGeometry args={[0.04, 0.04, 0.001]} />
-            <meshBasicMaterial color={i < 2 ? '#0f4d3c' : '#0a1525'} />
-          </mesh>
-          <mesh position={[0.04, 0, 0]}>
-            <boxGeometry args={[0.32, 0.03, 0.001]} />
-            <meshBasicMaterial color="#0a1828" />
-          </mesh>
-        </group>
-      ))}
 
-      {/* PRODUCT GRID — 2 rows × 3 columns */}
-      {[0, 1, 2, 3, 4, 5].map(i => {
-        const col = i % 3;
-        const row = Math.floor(i / 3);
-        const x = -0.48 + col * 0.83;
-        const y = 0.42 - row * 0.82;
+      {/* PRODUCT GRID — 2 rows × 3 cols */}
+      {PRODUCTS.map((prod, i) => {
+        const x = -0.48 + (i % 3) * 0.83;
+        const y = 0.42 - Math.floor(i / 3) * 0.82;
         return (
           <group key={i} position={[x, y, Z]}>
             <mesh>
               <boxGeometry args={[0.78, 0.76, 0.005]} />
               <meshStandardMaterial color={PROD_COLORS[i]} metalness={0.1} roughness={0.9} />
             </mesh>
-            {/* Product image area */}
             <mesh position={[0, 0.19, 0.003]}>
               <boxGeometry args={[0.78, 0.38, 0.001]} />
-              <meshBasicMaterial color={['#04101a','#07051a','#041008','#0c0804','#04101a','#07051a'][i]} />
+              <meshBasicMaterial color={IMG_BG[i]} />
             </mesh>
-            {/* Image accent */}
             <mesh position={[0, 0.19, 0.004]}>
               <boxGeometry args={[0.78, 0.38, 0.001]} />
               <meshBasicMaterial color={ACCENT[i]} transparent opacity={0.12} />
             </mesh>
-            {/* Product name */}
-            <mesh position={[-0.05, -0.09, 0.004]}>
-              <boxGeometry args={[0.6, 0.048, 0.001]} />
-              <meshBasicMaterial color="#a0bcd4" />
-            </mesh>
-            {/* Price */}
-            <mesh position={[-0.2, -0.21, 0.004]}>
-              <boxGeometry args={[0.28, 0.065, 0.001]} />
-              <meshBasicMaterial color={ACCENT[i]} transparent opacity={0.9} />
-            </mesh>
-            {/* Add to cart button */}
+            <Text position={[0, 0.19, 0.006]} fontSize={0.058} color={ACCENT[i]} anchorX="center" anchorY="middle">{prod.cat}</Text>
+            <Text position={[0, -0.08, 0.005]} fontSize={0.060} color="#a0bcd4" anchorX="center" anchorY="middle">{prod.name}</Text>
+            <Text position={[-0.16, -0.21, 0.005]} fontSize={0.056} color={ACCENT[i]} anchorX="left" anchorY="middle">{prod.price}</Text>
             <mesh position={[0, -0.32, 0.004]}>
-              <boxGeometry args={[0.6, 0.1, 0.001]} />
-              <meshBasicMaterial color={['#0f2a5c','#200860','#063028','#3a1808','#0f2a5c','#200860'][i]} />
+              <boxGeometry args={[0.6, 0.10, 0.001]} />
+              <meshBasicMaterial color={BTN_BG[i]} />
             </mesh>
+            <Text position={[0, -0.32, 0.006]} fontSize={0.048} color={ACCENT[i]} anchorX="center" anchorY="middle">Objednat</Text>
           </group>
         );
       })}

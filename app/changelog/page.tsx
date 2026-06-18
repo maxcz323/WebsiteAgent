@@ -17,6 +17,17 @@ interface Version {
 
 const CHANGELOG: Version[] = [
   {
+    version: '3.34',
+    date: '18. 6. 2026',
+    changes: [
+      { type: 'feat', text: 'ImmersiveScene: vsechny 4 screeny mají reálný text místo barevných bloků — přidán import Text z @react-three/drei (troika SDF rendering)' },
+      { type: 'feat', text: 'ScreenHero: nav "WebsiteAgent" + položky menu, headline "Váš web / do 48 hodin", subtext, CTA "Získat web / Zjistit více", dashboard karta s číslem 1247 a +34%, stats band 48h/50+/100%/0Kč, bottom karty SEO/Speed/Mobile' },
+      { type: 'feat', text: 'ScreenLanding: nav + headline "Moderní web / pro vaši firmu", subtext, CTA tlačítka, 3 feature karty (Rychlé dodání / SEO zdarma / Záriuka kvality), trust bar se 4 statistikami' },
+      { type: 'feat', text: 'ScreenCorporate: nav "FirmaXYZ s.r.o.", sidebar s 8 položkami menu (aktivní "Projekty"), hlavní obsah "Aktivní projekty / 3 zakázky", 3 blog karty se kategoriemi (SEO/Design/Rychlost), tituly a datem' },
+      { type: 'feat', text: 'ScreenEcommerce: search bar s textem, 6 produktů se jmény a cenami (Starter 9900/Business 14900/E-shop 24900/Landing 6900/Redesign 12900/SEO 4900), filter sidebar s kategoriemi a checkboxy, tlačítko "Objednat"' },
+    ],
+  },
+  {
     version: '3.33',
     date: '18. 6. 2026',
     changes: [
