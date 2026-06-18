@@ -863,43 +863,6 @@ function CameraRig({ section }: { section: number }) {
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   ROOM — podlaha · zdi
-═══════════════════════════════════════════════════════════════ */
-function Room() {
-  return (
-    <>
-      {/* Floor */}
-      <mesh position={[0, -5.05, -1.0]} rotation={[-Math.PI / 2, 0, 0]}>
-        <planeGeometry args={[48, 32]} />
-        <meshStandardMaterial color="#0b0906" metalness={0.02} roughness={0.96} />
-      </mesh>
-
-      {/* Back wall */}
-      <mesh position={[0, 1.5, -4.0]}>
-        <planeGeometry args={[32, 20]} />
-        <meshStandardMaterial color="#0f0f19" metalness={0.0} roughness={0.98} />
-      </mesh>
-      {/* Back wall warm tint strip (simulates bounced lamp light) */}
-      <mesh position={[2.5, -1.2, -3.98]}>
-        <planeGeometry args={[3.5, 4.0]} />
-        <meshStandardMaterial color="#4a1e06" emissive="#3a1204" emissiveIntensity={0.18} transparent opacity={0.22} />
-      </mesh>
-
-      {/* Left wall */}
-      <mesh position={[-11, 1.5, -2]} rotation={[0, Math.PI / 2, 0]}>
-        <planeGeometry args={[20, 20]} />
-        <meshStandardMaterial color="#0e0e18" metalness={0.0} roughness={0.98} />
-      </mesh>
-      {/* Right wall */}
-      <mesh position={[11, 1.5, -2]} rotation={[0, -Math.PI / 2, 0]}>
-        <planeGeometry args={[20, 20]} />
-        <meshStandardMaterial color="#0e0e18" metalness={0.0} roughness={0.98} />
-      </mesh>
-    </>
-  );
-}
-
-/* ═══════════════════════════════════════════════════════════════
    EXPORTED SCENE
 ═══════════════════════════════════════════════════════════════ */
 interface Props {
@@ -1014,7 +977,6 @@ export function ImmersiveScene({ scrollContainerRef, mobile = false }: Props) {
       <pointLight position={[5, -3, 3]}   intensity={3.2} color="#8b5cf6" />
       {/* Explosion accent — red tint when exploding */}
       <pointLight position={[0, 0, 4]}    intensity={section === 5 ? 4.0 : 0} color="#ff2200" />
-      <Room />
       <Particles mobile={mobile} />
       {!mobile && <RingAccent />}
       <Monitor section={section} />
