@@ -93,12 +93,12 @@ function S1() {
   return (
     <section id="s1" aria-label="Intro" style={{ height: '100vh', display: 'flex', alignItems: 'center', pointerEvents: 'none', position: 'relative', zIndex: 10 }}>
       <ScrollIndicator />
-      <div id="s1i" style={{ maxWidth: '580px', padding: '0 52px', opacity: 0 }}>
+      <div id="s1i" style={{ maxWidth: 'min(580px, 42vw)', padding: '0 52px', opacity: 0 }}>
 
         {/* Status badge — minimal, monospace-style */}
         <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', marginBottom: '36px' }}>
           <span style={{ width: '5px', height: '5px', borderRadius: '50%', background: '#2563eb', flexShrink: 0 }} />
-          <span style={{ fontSize: '11px', color: '#2a3e56', fontWeight: 500, letterSpacing: '0.05em' }}>
+          <span style={{ fontSize: '11px', color: '#4a6278', fontWeight: 500, letterSpacing: '0.05em' }}>
             48 h dodání&ensp;·&ensp;záloha 0 Kč&ensp;·&ensp;50+ projektů
           </span>
         </div>
@@ -106,7 +106,7 @@ function S1() {
         {/* Headline — single statement */}
         <h1 style={{
           fontFamily: 'var(--font-display)',
-          fontSize: 'clamp(58px,7.5vw,100px)',
+          fontSize: 'clamp(64px,8.5vw,112px)',
           fontWeight: 300,
           lineHeight: 1.0,
           letterSpacing: '-0.045em',
@@ -116,7 +116,7 @@ function S1() {
           Web, který<br />
           <em style={{
             fontStyle: 'normal',
-            background: 'linear-gradient(135deg,#93c5fd 0%,#3b82f6 70%)',
+            background: 'linear-gradient(135deg,#22d3ee 0%,#3b82f6 70%)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
           }}>prodává.</em>
@@ -138,7 +138,7 @@ function S1() {
             display: 'inline-flex', alignItems: 'center',
             fontWeight: 500, fontSize: '14px', textDecoration: 'none',
             borderRadius: '10px', padding: '14px 24px',
-            color: '#3a5270',
+            color: '#5a7890',
             border: '1px solid rgba(255,255,255,0.07)',
             transition: 'color 0.18s, border-color 0.18s',
           }}>
@@ -159,7 +159,7 @@ function S1() {
 function S2() {
   return (
     <section id="s2" aria-label="Proces" style={{ height: '100vh', display: 'flex', alignItems: 'center', pointerEvents: 'none', position: 'relative', zIndex: 10 }}>
-      <div id="s2i" style={{ maxWidth: '520px', padding: '0 52px', opacity: 0 }}>
+      <div id="s2i" style={{ maxWidth: 'min(520px, 42vw)', padding: '0 52px', opacity: 0 }}>
 
         <p style={{ fontSize: '10px', fontWeight: 600, color: '#2563eb', textTransform: 'uppercase', letterSpacing: '0.16em', margin: '0 0 36px' }}>Jak to funguje</p>
 
@@ -173,10 +173,10 @@ function S2() {
             padding: '22px 0',
             borderBottom: i < 2 ? '1px solid rgba(255,255,255,0.05)' : 'none',
           }}>
-            <span style={{ fontSize: '10px', color: '#1a2c44', fontWeight: 500, marginRight: '20px', minWidth: '22px', letterSpacing: '0.04em', flexShrink: 0 }}>{s.n}</span>
+            <span style={{ fontSize: '10px', color: '#3a5068', fontWeight: 500, marginRight: '20px', minWidth: '22px', letterSpacing: '0.04em', flexShrink: 0 }}>{s.n}</span>
             <span style={{
               fontFamily: 'var(--font-display)',
-              fontSize: 'clamp(38px,5.5vw,68px)',
+              fontSize: 'clamp(46px,6.5vw,80px)',
               fontWeight: 300,
               color: 'white',
               letterSpacing: '-0.04em',
@@ -200,7 +200,7 @@ function S2() {
 function S3() {
   return (
     <section id="s3" aria-label="Nabídka" style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', pointerEvents: 'none', position: 'relative', zIndex: 10 }}>
-      <div id="s3i" style={{ maxWidth: '460px', padding: '0 52px', opacity: 0 }}>
+      <div id="s3i" style={{ maxWidth: 'min(460px, 38vw)', padding: '0 52px', opacity: 0 }}>
 
         <p style={{ fontSize: '10px', fontWeight: 600, color: '#2563eb', textTransform: 'uppercase', letterSpacing: '0.16em', margin: '0 0 28px' }}>Co dostanete</p>
 
@@ -221,7 +221,7 @@ function S3() {
               }}>{s.name}</span>
               <span style={{ fontSize: '11px', color: '#1e3a5e', fontWeight: 500 }}>{s.price}</span>
             </div>
-            <span style={{ fontSize: '12px', color: '#2d4460' }}>{s.sub}</span>
+            <span style={{ fontSize: '12px', color: '#4a6880' }}>{s.sub}</span>
           </div>
         ))}
 
@@ -243,7 +243,7 @@ function S3() {
 function S4() {
   return (
     <section id="s4" aria-label="Záruka" style={{ height: '100vh', display: 'flex', alignItems: 'center', pointerEvents: 'none', position: 'relative', zIndex: 10 }}>
-      <div id="s4i" style={{ maxWidth: '540px', padding: '0 52px', opacity: 0 }}>
+      <div id="s4i" style={{ maxWidth: 'min(540px, 42vw)', padding: '0 52px', opacity: 0 }}>
 
         <p style={{ fontSize: '10px', fontWeight: 600, color: '#2563eb', textTransform: 'uppercase', letterSpacing: '0.16em', margin: '0 0 32px' }}>Bez rizika</p>
 
@@ -261,7 +261,7 @@ function S4() {
           <em style={{ color: '#2563eb', fontStyle: 'normal' }}>po schválení.</em>
         </h2>
 
-        <p style={{ fontSize: '14px', color: '#2d4460', lineHeight: 1.85, margin: '0 0 28px', maxWidth: '360px' }}>
+        <p style={{ fontSize: '14px', color: '#4a6880', lineHeight: 1.85, margin: '0 0 28px', maxWidth: '360px' }}>
           Nejdřív uvidíte hotový návrh. Teprve pak se rozhodnete. Pokud web nesplní zadání &mdash; vracíme 100 %.
         </p>
 
@@ -285,7 +285,7 @@ function S4() {
 function S5() {
   return (
     <section id="s5" aria-label="Čísla" style={{ height: '100vh', display: 'flex', alignItems: 'center', pointerEvents: 'none', position: 'relative', zIndex: 10 }}>
-      <div id="s5i" style={{ maxWidth: '520px', padding: '0 52px', opacity: 0 }}>
+      <div id="s5i" style={{ maxWidth: 'min(520px, 42vw)', padding: '0 52px', opacity: 0 }}>
 
         <p style={{ fontSize: '10px', fontWeight: 600, color: '#2563eb', textTransform: 'uppercase', letterSpacing: '0.16em', margin: '0 0 40px' }}>Za rok fungování</p>
 
@@ -301,13 +301,13 @@ function S5() {
           }}>
             <span style={{
               fontFamily: 'var(--font-display)',
-              fontSize: 'clamp(44px,6.5vw,84px)',
+              fontSize: 'clamp(52px,8vw,100px)',
               fontWeight: 300,
               color: 'white',
               letterSpacing: '-0.05em',
               lineHeight: 1,
             }}>{s.val}</span>
-            <span style={{ fontSize: '12px', color: '#1e3050', maxWidth: '140px', textAlign: 'right', lineHeight: 1.5 }}>{s.label}</span>
+            <span style={{ fontSize: '12px', color: '#3a5878', maxWidth: '140px', textAlign: 'right', lineHeight: 1.5 }}>{s.label}</span>
           </div>
         ))}
 
@@ -328,7 +328,7 @@ function S6() {
 
         <h2 style={{
           fontFamily: 'var(--font-display)',
-          fontSize: 'clamp(60px,9.5vw,116px)',
+          fontSize: 'clamp(68px,11vw,128px)',
           fontWeight: 300,
           color: 'white',
           lineHeight: 0.96,
@@ -338,13 +338,13 @@ function S6() {
           Začněte<br />
           <em style={{
             fontStyle: 'normal',
-            background: 'linear-gradient(135deg,#93c5fd 0%,#3b82f6 100%)',
+            background: 'linear-gradient(135deg,#22d3ee 0%,#3b82f6 100%)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
           }}>dnes.</em>
         </h2>
 
-        <p style={{ fontSize: '14px', color: '#2d4460', lineHeight: 1.9, margin: '0 0 36px' }}>
+        <p style={{ fontSize: '14px', color: '#4a6880', lineHeight: 1.9, margin: '0 0 36px' }}>
           Záloha nula.&ensp;Návrh do 24 hodin.&ensp;Web do 48 hodin.
         </p>
 
@@ -427,7 +427,7 @@ const PLANS = [
 
 function SPricing() {
   return (
-    <section style={{ background: '#06060a', position: 'relative', zIndex: 10, padding: '128px 24px 100px' }}>
+    <section style={{ background: '#060d1a', position: 'relative', zIndex: 10, padding: '128px 24px 100px' }}>
       <style>{`
         .price-card { transition: transform .25s ease, border-color .25s ease; }
         .price-card:hover { transform: translateY(-5px); border-color: rgba(255,255,255,.12) !important; }
@@ -461,7 +461,7 @@ function SPricing() {
             Transparentní ceny.<br />
             <em style={{ color: '#2563eb', fontStyle: 'normal' }}>Žádná překvapení.</em>
           </h2>
-          <p style={{ fontSize: '14px', color: '#2d4460', margin: 0 }}>Platíte až po schválení návrhu. Záloha nula.</p>
+          <p style={{ fontSize: '14px', color: '#4a6880', margin: 0 }}>Platíte až po schválení návrhu. Záloha nula.</p>
         </div>
 
         {/* Guarantee strip */}
@@ -540,7 +540,7 @@ function SPricing() {
 
         {/* Bottom CTA */}
         <div style={{ textAlign: 'center', marginTop: '56px' }}>
-          <p style={{ fontSize: '13px', color: '#2a3e56', marginBottom: '16px' }}>Nejste si jistí, který plán je pro vás správný?</p>
+          <p style={{ fontSize: '13px', color: '#4a6278', marginBottom: '16px' }}>Nejste si jistí, který plán je pro vás správný?</p>
           <Link href="/kontakt" style={{ display: 'inline-flex', alignItems: 'center', gap: '7px', fontSize: '14px', fontWeight: 600, color: '#2563eb', textDecoration: 'none', padding: '11px 26px', background: 'rgba(37,99,235,0.08)', border: '1px solid rgba(37,99,235,0.18)', borderRadius: '10px', transition: 'background .18s' }}>
             Nezávazná konzultace zdarma →
           </Link>
@@ -566,7 +566,7 @@ export default function HomePage() {
   }, []);
 
   useEffect(() => {
-    const bg = '#06060a';
+    const bg = '#060d1a';
     document.documentElement.style.background = bg;
     document.body.style.background = bg;
     const wrap = document.body.firstElementChild as HTMLElement | null;
@@ -648,7 +648,7 @@ export default function HomePage() {
 
   return (
     <>
-      <div aria-hidden style={{ position: 'fixed', inset: 0, background: '#06060a', zIndex: 1 }} />
+      <div aria-hidden style={{ position: 'fixed', inset: 0, background: '#060d1a', zIndex: 1 }} />
 
       <Grain />
       <CursorBlob />
