@@ -17,6 +17,13 @@ interface Version {
 
 const CHANGELOG: Version[] = [
   {
+    version: '3.78',
+    date: '21. 6. 2026',
+    changes: [
+      { type: 'fix', text: 'Logo nahrazeno správnou verzí — předchozí mělo špatný poměr stran (čtvercový formát), nová verze je horizontální a správně sedí do navbaru i footeru' },
+    ],
+  },
+  {
     version: '3.77',
     date: '21. 6. 2026',
     changes: [
