@@ -21,9 +21,10 @@ function isActive(href: string, pathname: string) {
 export function MarketingNav() {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
-  const [indicator, setIndicator] = useState({ left: 0, width: 0, visible: false });
+  const [indicator, setIndicator] = useState({ left: 0, width: 0, visible: false, animated: false });
   const navRef = useRef<HTMLElement>(null);
   const linkRefs = useRef<(HTMLAnchorElement | null)[]>([]);
+  const hasInitialized = useRef(false);
 
   useEffect(() => { setMenuOpen(false); }, [pathname]);
 
@@ -36,10 +37,15 @@ export function MarketingNav() {
       if (!el || !nav) return;
       const nr = nav.getBoundingClientRect();
       const er = el.getBoundingClientRect();
-      if (nr.width === 0) return; // nav not laid out yet
-      setIndicator({ left: er.left - nr.left, width: er.width, visible: true });
+      if (nr.width === 0) return;
+      setIndicator({
+        left: er.left - nr.left,
+        width: er.width,
+        visible: true,
+        animated: hasInitialized.current, // first render: snap, subsequent: slide
+      });
+      hasInitialized.current = true;
     };
-    // Double rAF ensures layout is fully painted before measuring
     const id = requestAnimationFrame(() => requestAnimationFrame(measure));
     return () => cancelAnimationFrame(id);
   }, [pathname]);
@@ -63,7 +69,9 @@ export function MarketingNav() {
         background: '#ffffff',
         borderRadius: '2px 2px 0 0',
         opacity: indicator.visible ? 1 : 0,
-        transition: 'left 0.35s cubic-bezier(0.4,0,0.2,1), width 0.35s cubic-bezier(0.4,0,0.2,1), opacity 0.2s',
+        transition: indicator.animated
+          ? 'left 0.35s cubic-bezier(0.4,0,0.2,1), width 0.35s cubic-bezier(0.4,0,0.2,1), opacity 0.2s'
+          : 'opacity 0.2s',
         pointerEvents: 'none',
       }} />
 

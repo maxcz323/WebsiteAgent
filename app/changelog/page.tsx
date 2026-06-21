@@ -17,6 +17,13 @@ interface Version {
 
 const CHANGELOG: Version[] = [
   {
+    version: '3.58',
+    date: '21. 6. 2026',
+    changes: [
+      { type: 'fix', text: 'MarketingNav indikátor — při page load se snapne na správnou pozici bez animace (první render), slide animace se zapne až při navigaci mezi sekcemi' },
+    ],
+  },
+  {
     version: '3.57',
     date: '21. 6. 2026',
     changes: [
