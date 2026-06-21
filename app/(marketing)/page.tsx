@@ -675,9 +675,9 @@ export default function HomePage() {
       <ProcessSection />
       <PortfolioSection />
       <TestimonialsSection />
-      <FAQ />
       <CTA />
       <Pricing />
+      <FAQ />
     </>
   );
 }
