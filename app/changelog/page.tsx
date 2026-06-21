@@ -17,6 +17,13 @@ interface Version {
 
 const CHANGELOG: Version[] = [
   {
+    version: '3.82',
+    date: '22. 6. 2026',
+    changes: [
+      { type: 'fix', text: 'Dekorativní čáry — oprava z-indexu (0 → 10), sekce stránek je překrývaly. Přidán mix-blend-mode: multiply — na světlých sekcích viditelné, na tmavých (#285570) automaticky mizí.' },
+    ],
+  },
+  {
     version: '3.81',
     date: '22. 6. 2026',
     changes: [
