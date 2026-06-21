@@ -362,8 +362,8 @@ function Process() {
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={VIEWPORT}
           transition={{ duration: 0.75 }}
-          className="rounded-2xl overflow-hidden shadow-2xl ring-1"
-          style={{ boxShadow: '0 32px 80px rgba(0,0,0,0.6)', ringColor: 'rgba(255,255,255,0.08)' }}
+          className="rounded-2xl overflow-hidden shadow-2xl ring-1 ring-white/10"
+          style={{ boxShadow: '0 32px 80px rgba(0,0,0,0.6)' }}
         >
           <img
             src="https://images.unsplash.com/photo-1531403009284-440f080d1e12?w=900&q=80&auto=format&fit=crop"
