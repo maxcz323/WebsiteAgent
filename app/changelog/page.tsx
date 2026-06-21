@@ -17,6 +17,17 @@ interface Version {
 
 const CHANGELOG: Version[] = [
   {
+    version: '3.81',
+    date: '22. 6. 2026',
+    changes: [
+      { type: 'feat', text: 'Dekorativní SVG čáry v pozadí — 7 organických křivek vpravo + 5 vlevo dole, napodobení referenčního designu. Fixed overlay pod obsahem, navbar nezasažen.' },
+      { type: 'feat', text: 'Nové logo — nahrazeno barevnou horizontální verzí (W + hvězdička), správný poměr stran pro navbar. Footer logo invertováno do bílé přes CSS filter.' },
+      { type: 'feat', text: 'Stránka Zásady ochrany soukromí (/zasady-ochrany-soukromi) — 10 sekcí dle GDPR, link v patičce webu.' },
+      { type: 'change', text: 'Celoplošná warm light paleta (#faf7f6 / #285570) — přepsány všechny marketing stránky: layout, MarketingNav, Footer, CookieConsent, Jak pracujeme, Kontakt, O nás, Portfolio, Reference, Služby, Kalkulace.' },
+      { type: 'fix', text: "Footer.tsx chyběl 'use client' — event handlery způsobovaly build error, Vercel nasazoval starou verzi." },
+    ],
+  },
+  {
     version: '3.80',
     date: '22. 6. 2026',
     changes: [
