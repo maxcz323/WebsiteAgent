@@ -17,6 +17,15 @@ interface Version {
 
 const CHANGELOG: Version[] = [
   {
+    version: '3.60',
+    date: '21. 6. 2026',
+    changes: [
+      { type: 'feat', text: 'Scroll-locked animace — každá sekce je sticky-pinned, karty vlétají ze stran přesně úměrně aktuální scroll pozici (useScroll + useTransform)' },
+      { type: 'change', text: 'Obnoven veškerý obsah homepage: Služby, Jak pracujeme, Portfolio, Reference, Ceník, CTA' },
+      { type: 'change', text: 'Paper-slide směry: headingy z leva/prava, karty L/zdola/R, process kroky staggered zprava' },
+    ],
+  },
+  {
     version: '3.59',
     date: '21. 6. 2026',
     changes: [
