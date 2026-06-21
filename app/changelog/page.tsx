@@ -17,6 +17,14 @@ interface Version {
 
 const CHANGELOG: Version[] = [
   {
+    version: '3.83',
+    date: '22. 6. 2026',
+    changes: [
+      { type: 'fix', text: 'Dekorativní čáry vlevo — opraveno height: 65vh → 100vh a bottom: 0 → top: 0, čáry nyní pokrývají celou výšku stránky stejně jako pravá strana' },
+      { type: 'change', text: 'Dekorativní čáry — asymetrické tvary, každá křivka má unikátní kontrolní body, amplitudu a tloušťku (0.5–1.2px), žádné dvě nejdou stejnou cestou' },
+    ],
+  },
+  {
     version: '3.82',
     date: '22. 6. 2026',
     changes: [
