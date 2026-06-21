@@ -17,6 +17,13 @@ interface Version {
 
 const CHANGELOG: Version[] = [
   {
+    version: '3.76',
+    date: '21. 6. 2026',
+    changes: [
+      { type: 'fix', text: "Footer.tsx chyběl 'use client' — onMouseEnter/onMouseLeave handlery způsobovaly build error v Next.js App Routeru, Vercel nasazoval starou verzi webu" },
+    ],
+  },
+  {
     version: '3.75',
     date: '21. 6. 2026',
     changes: [
