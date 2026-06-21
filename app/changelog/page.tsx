@@ -17,6 +17,15 @@ interface Version {
 
 const CHANGELOG: Version[] = [
   {
+    version: '3.57',
+    date: '21. 6. 2026',
+    changes: [
+      { type: 'feat', text: 'Tlačítka — fill-sweep animace: na hover se barva plynule vyplní zleva doprava (background-position trick, CSS only)' },
+      { type: 'feat', text: 'Tlačítka — Montserrat font, letter-spacing, unified třídy: btn-mkt-primary / btn-mkt-ghost / btn-mkt-card-primary / btn-mkt-card-ghost / btn-nav-cta' },
+      { type: 'change', text: 'Tlačítka — defaultní stav je outline (ne solid), fill přichází na hover' },
+    ],
+  },
+  {
     version: '3.56',
     date: '21. 6. 2026',
     changes: [

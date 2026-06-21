@@ -128,18 +128,11 @@ function Hero() {
           transition={{ duration: 0.6, delay: 0.32 }}
           className="flex flex-col sm:flex-row gap-3 mb-16"
         >
-          <Link
-            href="/kontakt"
-            className="inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white font-semibold px-8 py-4 rounded-xl text-sm transition-all duration-200 cursor-pointer hover:-translate-y-0.5 hover:shadow-xl hover:shadow-blue-500/30"
-          >
+          <Link href="/kontakt" className="btn-mkt-primary">
             Chci web pro svou firmu
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
           </Link>
-          <Link
-            href="/jak-pracujeme"
-            className="inline-flex items-center justify-center gap-2 font-semibold px-8 py-4 rounded-xl text-sm border transition-all duration-200 cursor-pointer"
-            style={{ color: 'rgba(255,255,255,0.6)', borderColor: 'rgba(255,255,255,0.12)' }}
-          >
+          <Link href="/jak-pracujeme" className="btn-mkt-ghost">
             Jak to funguje
           </Link>
         </motion.div>
@@ -553,18 +546,11 @@ function CTA() {
             Poptávka zdarma a nezávazná.<br />Do 24 hodin máte první ukázku.
           </motion.p>
           <motion.div variants={fade} className="flex flex-col sm:flex-row gap-3 justify-center">
-            <Link
-              href="/kontakt"
-              className="inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white font-semibold px-8 py-4 rounded-xl text-sm transition-all duration-200 cursor-pointer hover:-translate-y-0.5 hover:shadow-xl hover:shadow-blue-500/30"
-            >
+            <Link href="/kontakt" className="btn-mkt-primary">
               Získat web ke shlédnutí zdarma
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
             </Link>
-            <Link
-              href="/sluzby"
-              className="inline-flex items-center justify-center gap-2 font-semibold px-10 py-4 rounded-xl text-sm transition-all duration-200 cursor-pointer"
-              style={{ color: 'rgba(255,255,255,0.55)', border: '1px solid rgba(255,255,255,0.1)' }}
-            >
+            <Link href="/sluzby" className="btn-mkt-ghost">
               Prohlédnout služby
             </Link>
           </motion.div>
@@ -720,14 +706,7 @@ function SPricing() {
 
               <Link
                 href="/kontakt"
-                className={plan.popular ? 'price-btn' : 'price-btn-ghost'}
-                style={{
-                  display: 'block', textAlign: 'center', padding: '13px 20px',
-                  background: plan.popular ? '#2563eb' : 'rgba(255,255,255,0.04)',
-                  color: 'white', fontSize: '14px', fontWeight: 600,
-                  borderRadius: '10px', textDecoration: 'none',
-                  border: `1px solid ${plan.popular ? 'transparent' : 'rgba(255,255,255,0.08)'}`,
-                }}
+                className={plan.popular ? 'btn-mkt-card-primary' : 'btn-mkt-card-ghost'}
               >
                 {plan.cta}
               </Link>
@@ -737,7 +716,7 @@ function SPricing() {
 
         <div style={{ textAlign: 'center', marginTop: '56px' }}>
           <p style={{ fontSize: '13px', color: '#4a6278', marginBottom: '16px' }}>Nejste si jistí, který plán je pro vás správný?</p>
-          <Link href="/kontakt" style={{ display: 'inline-flex', alignItems: 'center', gap: '7px', fontSize: '14px', fontWeight: 600, color: '#2563eb', textDecoration: 'none', padding: '11px 26px', background: 'rgba(37,99,235,0.08)', border: '1px solid rgba(37,99,235,0.18)', borderRadius: '10px', transition: 'background .18s' }}>
+          <Link href="/kontakt" className="btn-mkt-primary">
             Nezávazná konzultace zdarma →
           </Link>
         </div>

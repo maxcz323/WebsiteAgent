@@ -109,26 +109,7 @@ export function MarketingNav() {
 
         {/* CTA + mobile toggle */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0 }}>
-          <Link
-            href="/kontakt"
-            className="hidden sm:inline-flex"
-            style={{
-              alignItems: 'center', gap: '7px',
-              padding: '9px 20px',
-              background: '#2563eb', color: '#fff',
-              fontSize: '13.5px', fontWeight: 600,
-              borderRadius: '9px', textDecoration: 'none',
-              transition: 'background 0.15s, transform 0.15s',
-            }}
-            onMouseEnter={e => {
-              (e.currentTarget as HTMLElement).style.background = '#1d4ed8';
-              (e.currentTarget as HTMLElement).style.transform = 'translateY(-1px)';
-            }}
-            onMouseLeave={e => {
-              (e.currentTarget as HTMLElement).style.background = '#2563eb';
-              (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
-            }}
-          >
+          <Link href="/kontakt" className="hidden sm:inline-flex btn-nav-cta">
             Kontaktujte nás
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <path d="M5 12h14M12 5l7 7-7 7" />

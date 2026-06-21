@@ -9,6 +9,144 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* ── Marketing button fill-sweep animation ─────────────────────
+   Background trick: gradient is 200% wide.
+   Default shows right half (transparent), hover slides to left half (color).
+   Result: smooth left-to-right color fill on hover.
+──────────────────────────────────────────────────────────────── */
+.btn-mkt-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  text-decoration: none;
+  padding: 13px 28px;
+  border-radius: 10px;
+  border: 1.5px solid #2563eb;
+  color: #2563eb;
+  background: linear-gradient(to right, #2563eb 50%, transparent 50%);
+  background-size: 200% 100%;
+  background-position: right center;
+  transition: background-position 0.4s cubic-bezier(0.4,0,0.2,1), color 0.35s, transform 0.2s;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.btn-mkt-primary:hover {
+  background-position: left center;
+  color: #fff;
+  transform: translateY(-1px);
+}
+.btn-mkt-primary:active { transform: translateY(0); }
+
+.btn-mkt-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  text-decoration: none;
+  padding: 13px 28px;
+  border-radius: 10px;
+  border: 1.5px solid rgba(255,255,255,0.15);
+  color: rgba(255,255,255,0.55);
+  background: linear-gradient(to right, rgba(255,255,255,0.09) 50%, transparent 50%);
+  background-size: 200% 100%;
+  background-position: right center;
+  transition: background-position 0.4s cubic-bezier(0.4,0,0.2,1), color 0.35s, border-color 0.35s, transform 0.2s;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.btn-mkt-ghost:hover {
+  background-position: left center;
+  color: #fff;
+  border-color: rgba(255,255,255,0.35);
+  transform: translateY(-1px);
+}
+.btn-mkt-ghost:active { transform: translateY(0); }
+
+/* Pricing card buttons */
+.btn-mkt-card-primary {
+  display: block;
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  text-decoration: none;
+  padding: 13px 20px;
+  border-radius: 10px;
+  border: 1.5px solid #2563eb;
+  color: #2563eb;
+  background: linear-gradient(to right, #2563eb 50%, transparent 50%);
+  background-size: 200% 100%;
+  background-position: right center;
+  transition: background-position 0.4s cubic-bezier(0.4,0,0.2,1), color 0.35s;
+  cursor: pointer;
+}
+.btn-mkt-card-primary:hover {
+  background-position: left center;
+  color: #fff;
+}
+
+.btn-mkt-card-ghost {
+  display: block;
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  text-decoration: none;
+  padding: 13px 20px;
+  border-radius: 10px;
+  border: 1.5px solid rgba(255,255,255,0.1);
+  color: rgba(255,255,255,0.5);
+  background: linear-gradient(to right, rgba(255,255,255,0.07) 50%, transparent 50%);
+  background-size: 200% 100%;
+  background-position: right center;
+  transition: background-position 0.4s cubic-bezier(0.4,0,0.2,1), color 0.35s, border-color 0.35s;
+  cursor: pointer;
+}
+.btn-mkt-card-ghost:hover {
+  background-position: left center;
+  color: #fff;
+  border-color: rgba(255,255,255,0.2);
+}
+
+/* Navbar CTA button */
+.btn-nav-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--font-display);
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  text-decoration: none;
+  padding: 9px 20px;
+  border-radius: 9px;
+  border: 1.5px solid #2563eb;
+  color: #2563eb;
+  background: linear-gradient(to right, #2563eb 50%, transparent 50%);
+  background-size: 200% 100%;
+  background-position: right center;
+  transition: background-position 0.35s cubic-bezier(0.4,0,0.2,1), color 0.3s, transform 0.2s;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.btn-nav-cta:hover {
+  background-position: left center;
+  color: #fff;
+  transform: translateY(-1px);
+}
+.btn-nav-cta:active { transform: translateY(0); }
+
 @layer components {
   .btn-primary {
     @apply inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white text-sm font-semibold rounded-lg hover:bg-indigo-500 active:bg-indigo-700 transition-all shadow-sm disabled:opacity-40 disabled:cursor-not-allowed;
