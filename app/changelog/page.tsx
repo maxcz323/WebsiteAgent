@@ -17,6 +17,15 @@ interface Version {
 
 const CHANGELOG: Version[] = [
   {
+    version: '3.77',
+    date: '21. 6. 2026',
+    changes: [
+      { type: 'feat', text: 'Nové logo — nahrazen logo.png barevnou verzí s ikonou W a hvězdičkou, funguje na světlém i tmavém pozadí (footer invertuje přes CSS filter)' },
+      { type: 'feat', text: 'Stránka Zásady ochrany soukromí (/zasady-ochrany-soukromi) — 10 sekcí dle GDPR: správce, rozsah dat, účel, doba uchování, příjemci, práva subjektů, cookies, zabezpečení, stížnosti, aktualizace' },
+      { type: 'feat', text: 'Footer: link na Zásady ochrany soukromí v patičce vedle copyright textu' },
+    ],
+  },
+  {
     version: '3.76',
     date: '21. 6. 2026',
     changes: [

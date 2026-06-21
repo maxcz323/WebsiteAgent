@@ -76,7 +76,17 @@ export function Footer() {
         {/* Bottom bar */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-3" style={{ borderTop: '1px solid rgba(255,255,255,0.1)' }}>
           <p className="text-xs" style={{ color: 'rgba(255,255,255,0.35)' }}>© 2026 WebsiteAgent. Všechna práva vyhrazena.</p>
-          <p className="text-xs" style={{ color: 'rgba(255,255,255,0.35)' }}>Tvoříme weby, které vydělávají.</p>
+          <div className="flex items-center gap-5">
+            <Link
+              href="/zasady-ochrany-soukromi"
+              className="text-xs transition-colors duration-150"
+              style={{ color: 'rgba(255,255,255,0.35)', textDecoration: 'none' }}
+              onMouseEnter={e => ((e.currentTarget as HTMLElement).style.color = 'rgba(255,255,255,0.7)')}
+              onMouseLeave={e => ((e.currentTarget as HTMLElement).style.color = 'rgba(255,255,255,0.35)')}
+            >
+              Zásady ochrany soukromí
+            </Link>
+          </div>
         </div>
       </div>
     </footer>
