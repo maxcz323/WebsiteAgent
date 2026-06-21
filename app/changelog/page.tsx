@@ -17,6 +17,16 @@ interface Version {
 
 const CHANGELOG: Version[] = [
   {
+    version: '3.48',
+    date: '21. 6. 2026',
+    changes: [
+      { type: 'change', text: 'Homepage — kompletní redesign, 3D scéna (Three.js/ImmersiveScene) odstraněna, nahrazena fotkami s dark navy stylem' },
+      { type: 'feat', text: 'Homepage — 7 sekcí: Hero (foto bg), Služby, Proces (foto), Portfolio, Reference, CTA, Ceník' },
+      { type: 'fix', text: 'Homepage — animace při scrollu se spouštějí dříve (amount: 0.05 místo 0.2), texty se neobjevují pozdě' },
+      { type: 'change', text: 'Smazány komponenty ImmersiveScene, HeroScene, Monitor3D (Three.js závislosti)' },
+    ],
+  },
+  {
     version: '3.47',
     date: '21. 6. 2026',
     changes: [

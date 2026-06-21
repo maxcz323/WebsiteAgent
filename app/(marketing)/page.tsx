@@ -1,19 +1,23 @@
 'use client';
 
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect } from 'react';
 import Link from 'next/link';
-import dynamic from 'next/dynamic';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { motion } from 'framer-motion';
 
-if (typeof window !== 'undefined') gsap.registerPlugin(ScrollTrigger);
+/* ─── Animation constants ─────────────────────────────────────── */
+const VIEWPORT = { once: true, amount: 0.05 } as const;
 
-const ImmersiveScene = dynamic(
-  () => import('@/components/marketing/ImmersiveScene').then(m => ({ default: m.ImmersiveScene })),
-  { ssr: false },
-);
+const fade = {
+  hidden: { opacity: 0, y: 28 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.55, ease: [0.25, 0.1, 0.25, 1] as const } },
+};
 
-/* ─── Grain ──────────────────────────────────────────────────── */
+const stagger = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.10 } },
+};
+
+/* ─── Grain ───────────────────────────────────────────────────── */
 function Grain() {
   return (
     <div aria-hidden style={{
@@ -24,7 +28,7 @@ function Grain() {
   );
 }
 
-/* ─── Cursor blob ────────────────────────────────────────────── */
+/* ─── Cursor blob ─────────────────────────────────────────────── */
 function CursorBlob() {
   const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -68,42 +72,47 @@ function ScrollBar() {
   );
 }
 
-/* ─── Scroll indicator ───────────────────────────────────────── */
-function ScrollIndicator() {
-  return (
-    <div id="scroll-ind" aria-hidden style={{
-      position: 'absolute', bottom: '40px', left: '50%', transform: 'translateX(-50%)',
-      display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px',
-      opacity: 0, pointerEvents: 'none',
-    }}>
-      <span style={{ fontSize: '10px', fontWeight: 500, color: 'rgba(255,255,255,0.35)', textTransform: 'uppercase', letterSpacing: '0.2em' }}>Scroll</span>
-      <div style={{ position: 'relative', width: '24px', height: '38px', borderRadius: '12px', border: '1.5px solid rgba(255,255,255,0.18)', display: 'flex', justifyContent: 'center', paddingTop: '6px' }}>
-        <div style={{ width: '3px', height: '8px', borderRadius: '2px', background: 'rgba(37,99,235,0.9)', animation: 'scrollWheel 1.8s ease-in-out infinite' }} />
-      </div>
-    </div>
-  );
-}
+/* ─── HERO ────────────────────────────────────────────────────── */
+const STATS = [
+  { n: '48h',  l: 'Průměrné dodání' },
+  { n: '50+',  l: 'Hotových webů' },
+  { n: '0 Kč', l: 'Záloha předem' },
+  { n: '100%', l: 'Spokojených klientů' },
+];
 
-/* ═══════════════════════════════════════════════════════════════
-   S1 — HERO
-   3D: monitor floats, first breathe
-   Copy: the product, one line
-═══════════════════════════════════════════════════════════════ */
-function S1() {
+function Hero() {
   return (
-    <section id="s1" aria-label="Intro" style={{ height: '100vh', display: 'flex', alignItems: 'center', pointerEvents: 'none', position: 'relative', zIndex: 10 }}>
-      <ScrollIndicator />
-      <div id="s1i" style={{ width: 'clamp(280px, 36vw, 480px)', padding: '0 40px 0 52px', opacity: 0 }}>
+    <section className="relative min-h-screen flex items-center overflow-hidden">
+      <img
+        src="https://images.unsplash.com/photo-1547658719-da2b51169166?w=1800&q=80&auto=format&fit=crop"
+        alt=""
+        className="absolute inset-0 w-full h-full object-cover scale-105"
+      />
+      <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(6,13,26,0.88) 0%, rgba(6,13,26,0.72) 50%, rgba(6,13,26,0.97) 100%)' }} />
 
-        <h1 style={{
-          fontFamily: 'var(--font-display)',
-          fontSize: 'clamp(76px, 10vw, 130px)',
-          fontWeight: 300,
-          lineHeight: 0.93,
-          letterSpacing: '-0.05em',
-          color: 'white',
-          margin: '0 0 48px',
-        }}>
+      <div className="relative z-10 w-full max-w-6xl mx-auto px-5 sm:px-8" style={{ paddingTop: '160px', paddingBottom: '80px' }}>
+
+        {/* Badge */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="mb-8"
+        >
+          <span className="inline-flex items-center gap-2 text-xs font-semibold text-blue-300 bg-blue-500/10 border border-blue-400/20 px-4 py-2 rounded-full backdrop-blur-sm">
+            <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" />
+            Profesionální weby · Hotovo za 48 hodin
+          </span>
+        </motion.div>
+
+        {/* H1 */}
+        <motion.h1
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.1 }}
+          className="text-5xl sm:text-7xl lg:text-8xl font-light text-white tracking-tight leading-[0.95] mb-7"
+          style={{ fontFamily: 'var(--font-display)', fontWeight: 300, letterSpacing: '-0.04em' }}
+        >
           Web, který<br />
           <em style={{
             fontStyle: 'normal',
@@ -111,171 +120,474 @@ function S1() {
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
           }}>prodává.</em>
-        </h1>
+        </motion.h1>
 
-        <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', pointerEvents: 'auto' }}>
-          <Link href="/kontakt" style={{
-            display: 'inline-flex', alignItems: 'center', gap: '9px',
-            fontWeight: 600, fontSize: '14px', textDecoration: 'none',
-            borderRadius: '8px', padding: '14px 28px',
-            background: '#2563eb', color: 'white',
-            transition: 'background 0.18s',
-          }}>
-            Chci web
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
-          </Link>
-          <Link href="/jak-pracujeme" style={{
-            display: 'inline-flex', alignItems: 'center',
-            fontWeight: 500, fontSize: '14px', textDecoration: 'none',
-            borderRadius: '8px', padding: '14px 24px',
-            color: '#4a6880',
-            border: '1px solid rgba(255,255,255,0.10)',
-            transition: 'color 0.18s, border-color 0.18s',
-          }}>
-            Jak to funguje
-          </Link>
-        </div>
+        {/* Subtitle */}
+        <motion.p
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.22 }}
+          className="text-lg sm:text-xl mb-10 max-w-md leading-relaxed"
+          style={{ color: 'rgba(255,255,255,0.55)' }}
+        >
+          Moderní weby pro lokální firmy.<br />
+          <span style={{ color: 'rgba(255,255,255,0.35)' }}>Platíte až po schválení. Záloha 0 Kč.</span>
+        </motion.p>
 
-      </div>
-    </section>
-  );
-}
-
-/* ═══════════════════════════════════════════════════════════════
-   S2 — BUILD
-   3D: camera zooms in, UI assembles on screen
-   Copy: process as three words — confidence, not explanation
-═══════════════════════════════════════════════════════════════ */
-function S2() {
-  return (
-    <section id="s2" aria-label="Proces" style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', paddingRight: 'clamp(24px, 6vw, 120px)', pointerEvents: 'none', position: 'relative', zIndex: 10 }}>
-      <div id="s2i" style={{ width: 'clamp(260px, 33vw, 440px)', padding: '0 0 0 40px', opacity: 0 }}>
-
-        <p style={{ fontSize: '10px', fontWeight: 600, color: '#2563eb', textTransform: 'uppercase', letterSpacing: '0.16em', margin: '0 0 36px' }}>Jak to funguje</p>
-
-        {[
-          { n: '01', word: 'Formulář.', note: '3 min' },
-          { n: '02', word: 'Návrh.',    note: '24 h'  },
-          { n: '03', word: 'Online.',   note: '48 h'  },
-        ].map((s, i) => (
-          <div key={s.n} style={{
-            padding: '18px 0',
-            borderBottom: i < 2 ? '1px solid rgba(255,255,255,0.05)' : 'none',
-          }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
-              <span style={{ fontSize: '10px', color: '#3a5068', fontWeight: 500, letterSpacing: '0.08em' }}>{s.n}</span>
-              <span style={{ fontSize: '11px', color: '#4a6880', fontWeight: 500, letterSpacing: '0.06em' }}>{s.note}</span>
-            </div>
-            <span style={{
-              fontFamily: 'var(--font-display)',
-              fontSize: 'clamp(52px,7.5vw,94px)',
-              fontWeight: 300,
-              color: 'white',
-              letterSpacing: '-0.04em',
-              lineHeight: 1,
-              display: 'block',
-            }}>{s.word}</span>
-          </div>
-        ))}
-
-      </div>
-    </section>
-  );
-}
-
-/* ═══════════════════════════════════════════════════════════════
-   S3 — RESULTS
-   3D: monitor is a small thumbnail on the right
-   Copy: raw numbers — the weight of proof
-═══════════════════════════════════════════════════════════════ */
-function S3() {
-  return (
-    <section id="s3" aria-label="Čísla" style={{ height: '100vh', display: 'flex', alignItems: 'center', pointerEvents: 'none', position: 'relative', zIndex: 10 }}>
-      <div id="s3i" style={{ width: 'clamp(300px, 44vw, 560px)', padding: '0 40px 0 52px', opacity: 0 }}>
-
-        <p style={{ fontSize: '10px', fontWeight: 600, color: '#2563eb', textTransform: 'uppercase', letterSpacing: '0.16em', margin: '0 0 40px' }}>Co klienti získají</p>
-
-        {[
-          { val: '48h',  label: 'Průměrná doba dodání' },
-          { val: '50+',  label: 'Dokončených projektů'  },
-          { val: '0 Kč', label: 'Záloha předem'         },
-        ].map((s, i) => (
-          <div key={s.val} style={{
-            display: 'flex', alignItems: 'baseline', justifyContent: 'space-between',
-            padding: '18px 0',
-            borderBottom: i < 2 ? '1px solid rgba(255,255,255,0.05)' : 'none',
-          }}>
-            <span style={{
-              fontFamily: 'var(--font-display)',
-              fontSize: 'clamp(64px,9.5vw,120px)',
-              fontWeight: 300,
-              color: 'white',
-              letterSpacing: '-0.05em',
-              lineHeight: 1,
-            }}>{s.val}</span>
-            <span style={{ fontSize: '12px', color: '#3a5878', maxWidth: '140px', textAlign: 'right', lineHeight: 1.5 }}>{s.label}</span>
-          </div>
-        ))}
-
-      </div>
-    </section>
-  );
-}
-
-/* ═══════════════════════════════════════════════════════════════
-   S4 — CTA
-   3D: monitor is a distant minimal presence
-   Copy: single ask — clean, no decorations
-═══════════════════════════════════════════════════════════════ */
-function S4() {
-  return (
-    <section id="s4" aria-label="Výzva k akci" style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', pointerEvents: 'none', position: 'relative', zIndex: 10 }}>
-      <div id="s4i" style={{ textAlign: 'center', maxWidth: '580px', padding: '0 36px', opacity: 0, position: 'relative', zIndex: 1 }}>
-
-        <h2 style={{
-          fontFamily: 'var(--font-display)',
-          fontSize: 'clamp(68px,11vw,128px)',
-          fontWeight: 300,
-          color: 'white',
-          lineHeight: 0.96,
-          letterSpacing: '-0.05em',
-          margin: '0 0 48px',
-        }}>
-          Začněte<br />
-          <em style={{
-            fontStyle: 'normal',
-            background: 'linear-gradient(135deg,#22d3ee 0%,#3b82f6 100%)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-          }}>dnes.</em>
-        </h2>
-
-        <div style={{ pointerEvents: 'auto' }}>
-          <Link href="/kontakt" style={{
-            display: 'inline-flex', alignItems: 'center', gap: '10px',
-            padding: '17px 52px',
-            background: '#2563eb',
-            color: '#fff',
-            fontWeight: 600,
-            fontSize: '15px',
-            letterSpacing: '-0.01em',
-            borderRadius: '8px',
-            textDecoration: 'none',
-            transition: 'background 0.18s',
-          }}>
-            Poptat projekt zdarma
+        {/* CTAs */}
+        <motion.div
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.32 }}
+          className="flex flex-col sm:flex-row gap-3 mb-16"
+        >
+          <Link
+            href="/kontakt"
+            className="inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white font-semibold px-8 py-4 rounded-xl text-sm transition-all duration-200 cursor-pointer hover:-translate-y-0.5 hover:shadow-xl hover:shadow-blue-500/30"
+          >
+            Chci web pro svou firmu
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
           </Link>
-        </div>
+          <Link
+            href="/jak-pracujeme"
+            className="inline-flex items-center justify-center gap-2 font-semibold px-8 py-4 rounded-xl text-sm border transition-all duration-200 cursor-pointer"
+            style={{ color: 'rgba(255,255,255,0.6)', borderColor: 'rgba(255,255,255,0.12)' }}
+          >
+            Jak to funguje
+          </Link>
+        </motion.div>
 
+        {/* Stats */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8, delay: 0.5 }}
+          className="grid grid-cols-2 sm:grid-cols-4 gap-6 pt-10 border-t"
+          style={{ borderColor: 'rgba(255,255,255,0.08)' }}
+        >
+          {STATS.map(s => (
+            <div key={s.l} className="text-center">
+              <p className="text-2xl sm:text-3xl font-bold text-white mb-0.5" style={{ letterSpacing: '-0.03em' }}>{s.n}</p>
+              <p className="text-xs" style={{ color: 'rgba(255,255,255,0.38)' }}>{s.l}</p>
+            </div>
+          ))}
+        </motion.div>
+      </div>
+
+      {/* Scroll hint */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 pointer-events-none" style={{ opacity: 0.3 }}>
+        <div className="w-5 h-8 rounded-full border flex items-start justify-center pt-1.5" style={{ borderColor: 'rgba(255,255,255,0.4)' }}>
+          <motion.div
+            className="w-1 h-1.5 rounded-full bg-white"
+            animate={{ y: [0, 10, 0] }}
+            transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
+          />
+        </div>
       </div>
     </section>
   );
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   PRICING
-═══════════════════════════════════════════════════════════════ */
+/* ─── SERVICES ────────────────────────────────────────────────── */
+const SERVICES = [
+  {
+    title: 'Landing page',
+    slug: 'landing-page',
+    desc: 'Jednostránkový web zaměřený na konverze.',
+    price: 'od 9 900 Kč',
+    accent: '#2563EB',
+    accentBg: 'rgba(37,99,235,0.12)',
+    accentShadow: 'rgba(37,99,235,0.18)',
+    icon: (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="2" y="3" width="20" height="14" rx="2" /><line x1="8" y1="21" x2="16" y2="21" /><line x1="12" y1="17" x2="12" y2="21" />
+      </svg>
+    ),
+  },
+  {
+    title: 'Firemní web',
+    slug: 'firemni-web',
+    desc: 'Kompletní online prezentace vaší firmy.',
+    price: 'od 14 900 Kč',
+    accent: '#7c3aed',
+    accentBg: 'rgba(124,58,237,0.12)',
+    accentShadow: 'rgba(124,58,237,0.18)',
+    icon: (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /><polyline points="9 22 9 12 15 12 15 22" />
+      </svg>
+    ),
+  },
+  {
+    title: 'E-commerce',
+    slug: 'ecommerce',
+    desc: 'Online obchod s košíkem a platební bránou.',
+    price: 'od 24 900 Kč',
+    accent: '#059669',
+    accentBg: 'rgba(5,150,105,0.12)',
+    accentShadow: 'rgba(5,150,105,0.18)',
+    icon: (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="9" cy="21" r="1" /><circle cx="20" cy="21" r="1" /><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+      </svg>
+    ),
+  },
+];
+
+function Services() {
+  return (
+    <section className="py-28 px-5 sm:px-8" style={{ background: 'rgba(255,255,255,0.01)' }}>
+      <div className="max-w-6xl mx-auto">
+        <motion.div
+          variants={stagger}
+          initial="hidden"
+          whileInView="show"
+          viewport={VIEWPORT}
+          className="mb-14"
+        >
+          <motion.p variants={fade} className="text-xs font-semibold text-blue-500 uppercase tracking-widest mb-3">
+            Naše služby
+          </motion.p>
+          <motion.div variants={fade} className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+            <h2 className="text-3xl sm:text-5xl font-light text-white leading-tight" style={{ fontFamily: 'var(--font-display)', fontWeight: 300, letterSpacing: '-0.03em' }}>
+              Co vytvoříme<br />pro vaši firmu
+            </h2>
+            <Link href="/sluzby" className="text-sm font-semibold text-blue-500 hover:text-blue-400 transition-colors whitespace-nowrap cursor-pointer group">
+              Všechny služby <span className="group-hover:translate-x-1 inline-block transition-transform duration-200">→</span>
+            </Link>
+          </motion.div>
+        </motion.div>
+
+        <motion.div
+          variants={stagger}
+          initial="hidden"
+          whileInView="show"
+          viewport={VIEWPORT}
+          className="grid grid-cols-1 md:grid-cols-3 gap-5"
+        >
+          {SERVICES.map((s) => (
+            <motion.div
+              key={s.title}
+              variants={fade}
+              whileHover={{ y: -6, boxShadow: `0 24px 60px ${s.accentShadow}` }}
+              transition={{ type: 'spring', stiffness: 300, damping: 22 }}
+              className="group relative p-8 rounded-2xl cursor-pointer overflow-hidden"
+              style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)' }}
+              onClick={() => (window.location.href = `/kalkulace/${s.slug}`)}
+            >
+              <div className="absolute top-0 left-0 right-0 h-[3px] rounded-t-2xl" style={{ background: s.accent }} />
+              <div
+                className="w-11 h-11 rounded-2xl flex items-center justify-center mb-5 transition-transform duration-200 group-hover:scale-110"
+                style={{ background: s.accentBg, color: s.accent }}
+              >
+                {s.icon}
+              </div>
+              <h3 className="text-lg font-semibold text-white mb-2">{s.title}</h3>
+              <p className="text-sm leading-relaxed mb-6" style={{ color: 'rgba(255,255,255,0.45)' }}>{s.desc}</p>
+              <div className="flex items-center justify-between">
+                <span className="text-sm font-bold" style={{ color: s.accent }}>{s.price}</span>
+                <span className="text-xs font-semibold transition-all duration-200 group-hover:translate-x-1" style={{ color: 'rgba(255,255,255,0.25)' }}>
+                  Detail →
+                </span>
+              </div>
+            </motion.div>
+          ))}
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
+/* ─── PROCESS ─────────────────────────────────────────────────── */
+const STEPS = [
+  { n: '01', title: 'Vyplníte formulář', desc: 'Řeknete nám o firmě. Zabere to 5 minut.', time: '3 min' },
+  { n: '02', title: 'Navrhneme web na míru', desc: 'Do 48 hodin máte hotový návrh webu.', time: '24 h' },
+  { n: '03', title: 'Schválíte a spustíte', desc: 'Zapracujeme připomínky. Platíte až po schválení.', time: '48 h' },
+];
+
+function Process() {
+  return (
+    <section className="py-28 px-5 sm:px-8 overflow-hidden" style={{ background: '#060d1a' }}>
+      <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        <motion.div
+          variants={stagger}
+          initial="hidden"
+          whileInView="show"
+          viewport={VIEWPORT}
+        >
+          <motion.p variants={fade} className="text-xs font-semibold text-blue-500 uppercase tracking-widest mb-4">
+            Jak pracujeme
+          </motion.p>
+          <motion.h2 variants={fade} className="text-3xl sm:text-5xl font-light text-white leading-tight mb-8" style={{ fontFamily: 'var(--font-display)', fontWeight: 300, letterSpacing: '-0.03em' }}>
+            Od formuláře<br />
+            <em style={{ fontStyle: 'normal', color: '#3b82f6' }}>po hotový web</em><br />
+            za 48 hodin.
+          </motion.h2>
+
+          <div className="space-y-3 mb-8">
+            {STEPS.map((step, i) => (
+              <motion.div
+                key={step.n}
+                variants={fade}
+                custom={i}
+                className="flex gap-4 items-start p-4 rounded-xl transition-all duration-200"
+                style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.07)' }}
+              >
+                <div className="flex-shrink-0 flex items-center justify-between w-full">
+                  <div className="flex gap-4 items-start">
+                    <span className="text-xs font-bold rounded-lg px-2.5 py-1 shrink-0 tabular-nums" style={{ color: '#60a5fa', background: 'rgba(37,99,235,0.15)' }}>
+                      {step.n}
+                    </span>
+                    <div>
+                      <p className="font-semibold text-white text-sm">{step.title}</p>
+                      <p className="text-xs mt-0.5" style={{ color: 'rgba(255,255,255,0.4)' }}>{step.desc}</p>
+                    </div>
+                  </div>
+                  <span className="text-xs font-medium shrink-0 ml-3" style={{ color: 'rgba(255,255,255,0.25)' }}>{step.time}</span>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          <motion.div variants={fade}>
+            <Link href="/jak-pracujeme" className="inline-flex items-center gap-2 text-sm font-semibold text-blue-400 hover:text-blue-300 transition-colors group cursor-pointer">
+              Celý postup
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="transition-transform duration-200 group-hover:translate-x-1"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+            </Link>
+          </motion.div>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={VIEWPORT}
+          transition={{ duration: 0.75 }}
+          className="rounded-2xl overflow-hidden shadow-2xl ring-1"
+          style={{ boxShadow: '0 32px 80px rgba(0,0,0,0.6)', ringColor: 'rgba(255,255,255,0.08)' }}
+        >
+          <img
+            src="https://images.unsplash.com/photo-1531403009284-440f080d1e12?w=900&q=80&auto=format&fit=crop"
+            alt="Tým pracující na designu webu"
+            className="w-full object-cover"
+            style={{ height: '420px' }}
+          />
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
+/* ─── PORTFOLIO ───────────────────────────────────────────────── */
+const PORTFOLIO = [
+  { client: 'Pavel Novák Instalace', obor: 'Instalatér', city: 'Praha', result: '+340% kontaktů', color: 'from-blue-600 to-blue-800' },
+  { client: 'Zubní ordinace Procházková', obor: 'Zubař', city: 'Brno', result: '70% nových pacientů', color: 'from-teal-600 to-cyan-700' },
+  { client: 'Kavárna Na Rohu', obor: 'Kavárna', city: 'Jihlava', result: '+40% rezervací', color: 'from-amber-500 to-orange-600' },
+];
+
+function Portfolio() {
+  return (
+    <section className="py-28 px-5 sm:px-8" style={{ background: 'rgba(255,255,255,0.01)' }}>
+      <div className="max-w-6xl mx-auto">
+        <motion.div
+          variants={stagger}
+          initial="hidden"
+          whileInView="show"
+          viewport={VIEWPORT}
+          className="mb-14"
+        >
+          <motion.p variants={fade} className="text-xs font-semibold text-blue-500 uppercase tracking-widest mb-3">
+            Naše práce
+          </motion.p>
+          <motion.div variants={fade} className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+            <h2 className="text-3xl sm:text-5xl font-light text-white leading-tight" style={{ fontFamily: 'var(--font-display)', fontWeight: 300, letterSpacing: '-0.03em' }}>
+              Výsledky,<br />které mluví za sebe
+            </h2>
+            <Link href="/portfolio" className="text-sm font-semibold text-blue-500 hover:text-blue-400 transition-colors whitespace-nowrap cursor-pointer group">
+              Celé portfolio <span className="group-hover:translate-x-1 inline-block transition-transform duration-200">→</span>
+            </Link>
+          </motion.div>
+        </motion.div>
+
+        <motion.div
+          variants={stagger}
+          initial="hidden"
+          whileInView="show"
+          viewport={VIEWPORT}
+          className="grid grid-cols-1 md:grid-cols-3 gap-5"
+        >
+          {PORTFOLIO.map((p) => (
+            <motion.div
+              key={p.client}
+              variants={fade}
+              whileHover={{ y: -6, boxShadow: '0 20px 50px rgba(0,0,0,0.4)' }}
+              transition={{ type: 'spring', stiffness: 300, damping: 22 }}
+              className="rounded-2xl overflow-hidden"
+              style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)' }}
+            >
+              <div className={`h-44 bg-gradient-to-br ${p.color} relative overflow-hidden`}>
+                <div className="absolute inset-3 rounded-lg" style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.15)' }}>
+                  <div className="flex items-center gap-1.5 px-3 py-2" style={{ borderBottom: '1px solid rgba(255,255,255,0.10)' }}>
+                    {[0, 1, 2].map(i => <div key={i} className="w-2 h-2 rounded-full" style={{ background: 'rgba(255,255,255,0.25)' }} />)}
+                    <div className="flex-1 mx-2 h-3 rounded" style={{ background: 'rgba(255,255,255,0.15)' }} />
+                  </div>
+                  <div className="p-3 space-y-2">
+                    <div className="h-3 rounded w-3/4" style={{ background: 'rgba(255,255,255,0.25)' }} />
+                    <div className="h-2 rounded w-full" style={{ background: 'rgba(255,255,255,0.15)' }} />
+                    <div className="h-2 rounded w-5/6" style={{ background: 'rgba(255,255,255,0.15)' }} />
+                  </div>
+                </div>
+              </div>
+              <div className="p-6">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="text-xs font-semibold uppercase tracking-wide" style={{ color: 'rgba(255,255,255,0.35)' }}>{p.obor}</span>
+                  <span style={{ color: 'rgba(255,255,255,0.2)' }}>·</span>
+                  <span className="text-xs" style={{ color: 'rgba(255,255,255,0.35)' }}>{p.city}</span>
+                </div>
+                <h3 className="font-semibold text-white text-sm mb-3">{p.client}</h3>
+                <span className="text-xs font-semibold px-3 py-1.5 rounded-full inline-block" style={{ color: '#34d399', background: 'rgba(52,211,153,0.08)', border: '1px solid rgba(52,211,153,0.18)' }}>
+                  {p.result}
+                </span>
+              </div>
+            </motion.div>
+          ))}
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
+/* ─── TESTIMONIALS ────────────────────────────────────────────── */
+const TESTIMONIALS = [
+  { quote: 'Čekal jsem měsíce. Dostal jsem web za 48 hodin a hned první týden mi volali noví zákazníci.', name: 'Pavel Novák', role: 'Instalatér, Praha', initial: 'P', color: '#2563EB' },
+  { quote: 'Zákazníci důvěřují ordinaci ještě předtím, než vůbec přijdou.', name: 'MUDr. Jana Procházková', role: 'Zubní lékařka, Brno', initial: 'J', color: '#0d9488' },
+  { quote: 'Moderní, přehledný, funkční. Přesně takový web jsem chtěl.', name: 'Martin Kovář', role: 'Restauratér, Ostrava', initial: 'M', color: '#7c3aed' },
+];
+
+function Testimonials() {
+  return (
+    <section className="py-28 px-5 sm:px-8" style={{ background: '#060d1a' }}>
+      <div className="max-w-6xl mx-auto">
+        <motion.div
+          variants={stagger}
+          initial="hidden"
+          whileInView="show"
+          viewport={VIEWPORT}
+          className="mb-14"
+        >
+          <motion.p variants={fade} className="text-xs font-semibold text-blue-500 uppercase tracking-widest mb-3">
+            Reference
+          </motion.p>
+          <motion.h2 variants={fade} className="text-3xl sm:text-5xl font-light text-white leading-tight" style={{ fontFamily: 'var(--font-display)', fontWeight: 300, letterSpacing: '-0.03em' }}>
+            Co říkají klienti
+          </motion.h2>
+        </motion.div>
+
+        <motion.div
+          variants={stagger}
+          initial="hidden"
+          whileInView="show"
+          viewport={VIEWPORT}
+          className="grid grid-cols-1 md:grid-cols-3 gap-5"
+        >
+          {TESTIMONIALS.map((t) => (
+            <motion.div
+              key={t.name}
+              variants={fade}
+              whileHover={{ y: -5, borderColor: 'rgba(37,99,235,0.2)' }}
+              transition={{ type: 'spring', stiffness: 300, damping: 22 }}
+              className="p-8 rounded-2xl transition-colors duration-300"
+              style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)' }}
+            >
+              <div className="flex gap-0.5 mb-5">
+                {[1, 2, 3, 4, 5].map(s => (
+                  <svg key={s} width="13" height="13" viewBox="0 0 24 24" fill="#f59e0b">
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                  </svg>
+                ))}
+              </div>
+              <p className="text-sm leading-relaxed mb-6" style={{ color: 'rgba(255,255,255,0.6)' }}>&ldquo;{t.quote}&rdquo;</p>
+              <div className="flex items-center gap-3">
+                <div className="w-9 h-9 rounded-full flex items-center justify-center text-white text-sm font-bold shrink-0" style={{ background: t.color }}>
+                  {t.initial}
+                </div>
+                <div>
+                  <p className="font-semibold text-white text-sm">{t.name}</p>
+                  <p className="text-xs" style={{ color: 'rgba(255,255,255,0.35)' }}>{t.role}</p>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={VIEWPORT}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          className="text-center mt-10"
+        >
+          <Link href="/reference" className="text-sm font-semibold text-blue-500 hover:text-blue-400 transition-colors cursor-pointer">
+            Zobrazit všechny reference →
+          </Link>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
+/* ─── CTA ─────────────────────────────────────────────────────── */
+function CTA() {
+  return (
+    <section className="py-32 px-5 sm:px-8 relative overflow-hidden" style={{ background: '#060d1a' }}>
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{ background: 'radial-gradient(ellipse 70% 60% at 50% 60%, rgba(37,99,235,0.12) 0%, transparent 70%)' }}
+      />
+      <div className="max-w-2xl mx-auto relative text-center">
+        <motion.div
+          variants={stagger}
+          initial="hidden"
+          whileInView="show"
+          viewport={VIEWPORT}
+        >
+          <motion.p variants={fade} className="text-xs font-semibold text-blue-500 uppercase tracking-widest mb-6">
+            Začněte ještě dnes
+          </motion.p>
+          <motion.h2 variants={fade} className="text-4xl sm:text-6xl font-light text-white tracking-tight leading-tight mb-5" style={{ fontFamily: 'var(--font-display)', fontWeight: 300, letterSpacing: '-0.04em' }}>
+            Váš nový web<br />
+            <em style={{
+              fontStyle: 'normal',
+              background: 'linear-gradient(135deg,#22d3ee 0%,#3b82f6 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+            }}>čeká na vás.</em>
+          </motion.h2>
+          <motion.p variants={fade} className="text-base mb-10 max-w-xs mx-auto leading-relaxed" style={{ color: 'rgba(255,255,255,0.45)' }}>
+            Poptávka zdarma a nezávazná.<br />Do 24 hodin máte první ukázku.
+          </motion.p>
+          <motion.div variants={fade} className="flex flex-col sm:flex-row gap-3 justify-center">
+            <Link
+              href="/kontakt"
+              className="inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white font-semibold px-8 py-4 rounded-xl text-sm transition-all duration-200 cursor-pointer hover:-translate-y-0.5 hover:shadow-xl hover:shadow-blue-500/30"
+            >
+              Získat web ke shlédnutí zdarma
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+            </Link>
+            <Link
+              href="/sluzby"
+              className="inline-flex items-center justify-center gap-2 font-semibold px-10 py-4 rounded-xl text-sm transition-all duration-200 cursor-pointer"
+              style={{ color: 'rgba(255,255,255,0.55)', border: '1px solid rgba(255,255,255,0.1)' }}
+            >
+              Prohlédnout služby
+            </Link>
+          </motion.div>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
+/* ─── PRICING ─────────────────────────────────────────────────── */
 const PLANS = [
   {
     name: 'Landing page',
@@ -347,8 +659,6 @@ function SPricing() {
       <div aria-hidden style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '1px', background: 'linear-gradient(90deg,transparent 0%,rgba(37,99,235,.25) 40%,rgba(37,99,235,.25) 60%,transparent 100%)' }} />
 
       <div style={{ maxWidth: '1080px', margin: '0 auto' }}>
-
-        {/* Header */}
         <div style={{ textAlign: 'center', marginBottom: '72px' }}>
           <p style={{ fontSize: '10px', fontWeight: 600, color: '#2563eb', textTransform: 'uppercase', letterSpacing: '0.16em', margin: '0 0 20px' }}>Ceník</p>
           <h2 style={{
@@ -366,13 +676,11 @@ function SPricing() {
           <p style={{ fontSize: '14px', color: '#4a6880', margin: 0 }}>Platíte až po schválení návrhu. Záloha nula.</p>
         </div>
 
-        {/* Guarantee strip */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', background: 'rgba(16,185,129,0.05)', border: '1px solid rgba(16,185,129,0.12)', borderRadius: '10px', padding: '14px 24px', marginBottom: '40px' }}>
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#10b981" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg>
           <span style={{ fontSize: '13px', color: '#10b981', fontWeight: 500 }}>Záruka spokojenosti &mdash; web nesplní zadání? Vrátíme 100 % ceny, bez diskuze.</span>
         </div>
 
-        {/* Cards */}
         <div className="price-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '16px', alignItems: 'start' }}>
           {PLANS.map(plan => (
             <div
@@ -440,152 +748,31 @@ function SPricing() {
           ))}
         </div>
 
-        {/* Bottom CTA */}
         <div style={{ textAlign: 'center', marginTop: '56px' }}>
           <p style={{ fontSize: '13px', color: '#4a6278', marginBottom: '16px' }}>Nejste si jistí, který plán je pro vás správný?</p>
           <Link href="/kontakt" style={{ display: 'inline-flex', alignItems: 'center', gap: '7px', fontSize: '14px', fontWeight: 600, color: '#2563eb', textDecoration: 'none', padding: '11px 26px', background: 'rgba(37,99,235,0.08)', border: '1px solid rgba(37,99,235,0.18)', borderRadius: '10px', transition: 'background .18s' }}>
             Nezávazná konzultace zdarma →
           </Link>
         </div>
-
       </div>
     </section>
   );
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   PAGE ROOT
-═══════════════════════════════════════════════════════════════ */
+/* ─── PAGE ROOT ───────────────────────────────────────────────── */
 export default function HomePage() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 768);
-    check();
-    window.addEventListener('resize', check, { passive: true });
-    return () => window.removeEventListener('resize', check);
-  }, []);
-
-  useEffect(() => {
-    const bg = '#060d1a';
-    document.documentElement.style.background = bg;
-    document.body.style.background = bg;
-    const wrap = document.body.firstElementChild as HTMLElement | null;
-    if (wrap) wrap.style.background = bg;
-    return () => {
-      document.documentElement.style.background = '';
-      document.body.style.background = '';
-      if (wrap) wrap.style.background = '';
-    };
-  }, []);
-
-  useEffect(() => {
-    gsap.registerPlugin(ScrollTrigger);
-
-    /* S1 — immediate fade-in with subtle lift */
-    gsap.set('#s1i', { opacity: 1 });
-    gsap.fromTo('#s1i > *',
-      { opacity: 0, y: 16 },
-      { opacity: 1, y: 0, duration: 0.7, stagger: 0.10, ease: 'power2.out', delay: 0.3 },
-    );
-
-    /* Scroll indicator */
-    gsap.to('#scroll-ind', { opacity: 1, duration: 0.6, delay: 1.5, ease: 'power2.out' });
-    const hideInd = () => {
-      if (window.scrollY > 60) {
-        gsap.to('#scroll-ind', { opacity: 0, duration: 0.4 });
-        window.removeEventListener('scroll', hideInd);
-      }
-    };
-    window.addEventListener('scroll', hideInd, { passive: true });
-
-    const s1hide = ScrollTrigger.create({
-      trigger: '#s1', start: 'bottom 25%',
-      onEnter:     () => gsap.to('#s1i', { opacity: 0, duration: 0.45, ease: 'power2.inOut' }),
-      onLeaveBack: () => {
-        gsap.set('#s1i', { opacity: 1 });
-        gsap.fromTo('#s1i > *', { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.6, stagger: 0.09, ease: 'power2.out' });
-      },
-    });
-
-    /* S2-S4 — pure opacity, per-element stagger */
-    const pairs: Array<{ t: string; i: string }> = [
-      { t: '#s2', i: '#s2i' },
-      { t: '#s3', i: '#s3i' },
-      { t: '#s4', i: '#s4i' },
-    ];
-
-    const triggers = pairs.map(({ t, i }) => {
-      gsap.set(i, { opacity: 0 });
-      gsap.set(`${i} > *`, { opacity: 0 });
-
-      return ScrollTrigger.create({
-        trigger: t, start: 'top 18%', end: 'bottom 38%',
-        onEnter: () => {
-          gsap.set(i, { opacity: 1 });
-          gsap.fromTo(`${i} > *`, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.65, stagger: 0.09, ease: 'power2.out' });
-        },
-        onLeave: () => {
-          gsap.to(`${i} > *`, { opacity: 0, y: -10, duration: 0.35, ease: 'power2.inOut', onComplete: () => { gsap.set(i, { opacity: 0 }); gsap.set(`${i} > *`, { opacity: 0, y: 0 }); } });
-        },
-        onEnterBack: () => {
-          gsap.set(i, { opacity: 1 });
-          gsap.fromTo(`${i} > *`, { opacity: 0, y: -12 }, { opacity: 1, y: 0, duration: 0.55, stagger: { each: 0.07, from: 'end' }, ease: 'power2.out' });
-        },
-        onLeaveBack: () => {
-          gsap.to(`${i} > *`, { opacity: 0, y: 10, duration: 0.35, ease: 'power2.inOut', onComplete: () => { gsap.set(i, { opacity: 0 }); gsap.set(`${i} > *`, { opacity: 0, y: 0 }); } });
-        },
-      });
-    });
-
-    return () => {
-      s1hide.kill();
-      triggers.forEach(t => t.kill());
-      window.removeEventListener('scroll', hideInd);
-    };
-  }, []);
-
   return (
     <>
-      <div aria-hidden style={{ position: 'fixed', inset: 0, background: '#060d1a', zIndex: 1 }} />
-
       <Grain />
       <CursorBlob />
       <ScrollBar />
-
-      <div style={{ position: 'fixed', inset: 0, zIndex: 2, pointerEvents: 'none' }}>
-        <ImmersiveScene scrollContainerRef={containerRef} mobile={isMobile} />
-      </div>
-
-      <div ref={containerRef} style={{ position: 'relative', height: '400vh' }}>
-        <S1 /><S2 /><S3 /><S4 />
-      </div>
-
+      <Hero />
+      <Services />
+      <Process />
+      <Portfolio />
+      <Testimonials />
+      <CTA />
       <SPricing />
-
-      <style>{`
-        @keyframes scrollWheel {
-          0%   { transform: translateY(0);    opacity: 1; }
-          60%  { transform: translateY(10px); opacity: 0; }
-          61%  { transform: translateY(0);    opacity: 0; }
-          100% { transform: translateY(0);    opacity: 1; }
-        }
-
-        html, body { scroll-behavior: smooth; }
-
-        #s1i, #s2i, #s3i, #s4i { will-change: opacity; }
-        #scroll-ind { will-change: opacity; }
-
-        @media (max-width: 767px) {
-          #s1i, #s2i, #s3i, #s4i {
-            padding-left: 22px !important;
-            padding-right: 22px !important;
-            max-width: 100% !important;
-          }
-          #s4i { text-align: left !important; }
-        }
-      `}</style>
     </>
   );
 }
