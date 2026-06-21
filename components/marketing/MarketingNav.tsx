@@ -28,14 +28,20 @@ export function MarketingNav() {
   useEffect(() => { setMenuOpen(false); }, [pathname]);
 
   useEffect(() => {
-    const idx = LINKS.findIndex(({ href }) => isActive(href, pathname));
-    if (idx < 0) { setIndicator(p => ({ ...p, visible: false })); return; }
-    const el = linkRefs.current[idx];
-    const nav = navRef.current;
-    if (!el || !nav) return;
-    const nr = nav.getBoundingClientRect();
-    const er = el.getBoundingClientRect();
-    setIndicator({ left: er.left - nr.left, width: er.width, visible: true });
+    const measure = () => {
+      const idx = LINKS.findIndex(({ href }) => isActive(href, pathname));
+      if (idx < 0) { setIndicator(p => ({ ...p, visible: false })); return; }
+      const el = linkRefs.current[idx];
+      const nav = navRef.current;
+      if (!el || !nav) return;
+      const nr = nav.getBoundingClientRect();
+      const er = el.getBoundingClientRect();
+      if (nr.width === 0) return; // nav not laid out yet
+      setIndicator({ left: er.left - nr.left, width: er.width, visible: true });
+    };
+    // Double rAF ensures layout is fully painted before measuring
+    const id = requestAnimationFrame(() => requestAnimationFrame(measure));
+    return () => cancelAnimationFrame(id);
   }, [pathname]);
 
   return (
@@ -54,7 +60,7 @@ export function MarketingNav() {
         position: 'absolute', bottom: 0,
         left: indicator.left, width: indicator.width,
         height: '2px',
-        background: 'linear-gradient(90deg, #2563eb, #22d3ee)',
+        background: '#ffffff',
         borderRadius: '2px 2px 0 0',
         opacity: indicator.visible ? 1 : 0,
         transition: 'left 0.35s cubic-bezier(0.4,0,0.2,1), width 0.35s cubic-bezier(0.4,0,0.2,1), opacity 0.2s',

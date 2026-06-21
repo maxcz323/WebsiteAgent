@@ -17,6 +17,14 @@ interface Version {
 
 const CHANGELOG: Version[] = [
   {
+    version: '3.56',
+    date: '21. 6. 2026',
+    changes: [
+      { type: 'fix', text: 'MarketingNav — indikátor se při page reload přestal zobrazovat na špatném místě (double requestAnimationFrame před měřením)' },
+      { type: 'change', text: 'MarketingNav — barva indikátoru změněna z modré na bílou' },
+    ],
+  },
+  {
     version: '3.55',
     date: '21. 6. 2026',
     changes: [
