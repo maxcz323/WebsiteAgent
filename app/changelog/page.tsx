@@ -17,6 +17,31 @@ interface Version {
 
 const CHANGELOG: Version[] = [
   {
+    version: '3.72',
+    date: '21. 6. 2026',
+    changes: [
+      { type: 'feat', text: 'Exit animace — každá sekce se animuje zpět do výchozí polohy (opacity 0, x/y offset) při opuštění viewportu (useInView once: false) — plynulý leave efekt při scrollu oběma směry' },
+      { type: 'change', text: 'Padding sekcí Služby / Jak pracujeme / Portfolio / Reference zdvojen na 220px — více prostoru pro animaci, plynulejší scrolling experience bez zasekávání' },
+    ],
+  },
+  {
+    version: '3.63',
+    date: '21. 6. 2026',
+    changes: [
+      { type: 'change', text: 'Animační systém přepracován z scroll-linked (useScroll + useTransform) na viewport-based (useInView + fixní čas) — rychlost animace je vždy 0.9 s bez ohledu na rychlost scrollu myší' },
+      { type: 'fix', text: 'Odstraněno sticky scroll-pin (position: sticky + 3× výška sekce) — stránka se již nezasekává v sekcích, normální scroll flow' },
+      { type: 'change', text: 'Karty Služby: L/zdola/R vstup (x: ±110, rotate: ±2.5°) se stagger 0.1/0.18/0.1 s; Process / Portfolio / Reference: analogické directionální animace per karta' },
+    ],
+  },
+  {
+    version: '3.62',
+    date: '21. 6. 2026',
+    changes: [
+      { type: 'feat', text: 'FAQ sekce na homepage — 6 nejčastějších otázek jako accordion (Jak dlouho trvá web / Záloha / Revize / SEO / Co potřebujeme / Úpravy po spuštění), umístěna mezi Ceník a konec stránky' },
+      { type: 'feat', text: 'FAQ accordion: AnimatePresence + framer-motion pro plynulé otevření/zavření odpovědi; ikona + rotuje na × při otevření; pouze jedna otázka otevřena najednou' },
+    ],
+  },
+  {
     version: '3.61',
     date: '21. 6. 2026',
     changes: [
