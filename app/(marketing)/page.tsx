@@ -2,7 +2,7 @@
 
 import { useRef, useEffect, useState } from 'react';
 import Link from 'next/link';
-import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
+import { motion, useScroll, useTransform, useInView, AnimatePresence } from 'framer-motion';
 
 /* ─── Shared ──────────────────────────────────────────────────── */
 const BG = '#060d1a';
@@ -150,33 +150,20 @@ const SERVICES = [
 ];
 
 function ServicesSection() {
-  const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end end'] });
-
-  /* header: enter from left, exit to left */
-  const hX  = useTransform(scrollYProgress, [0, 0.18, 0.18], [-80, 0]);
-  const hOp = useTransform(scrollYProgress, [0, 0.12], [0, 1]);
-
-  /* card 1: from left */
-  const c1X  = useTransform(scrollYProgress, [0.05, 0.24], [-110, 0]);
-  const c1R  = useTransform(scrollYProgress, [0.05, 0.24], [-2.5, 0]);
-  const c1Op = useTransform(scrollYProgress, [0.05, 0.18], [0, 1]);
-
-  /* card 2: from below */
-  const c2Y  = useTransform(scrollYProgress, [0.08, 0.28], [90, 0]);
-  const c2Op = useTransform(scrollYProgress, [0.08, 0.22], [0, 1]);
-
-  /* card 3: from right */
-  const c3X  = useTransform(scrollYProgress, [0.05, 0.24], [110, 0]);
-  const c3R  = useTransform(scrollYProgress, [0.05, 0.24], [2.5, 0]);
-  const c3Op = useTransform(scrollYProgress, [0.05, 0.18], [0, 1]);
+  const outerRef = useRef<HTMLDivElement>(null);
+  const inView = useInView(outerRef, { once: false, amount: 0.15 });
+  const E = (delay = 0) => ({ duration: 0.9, ease: [0.22, 1, 0.36, 1] as any, delay: inView ? delay : 0 });
 
   return (
-    <div ref={ref} className="sp-outer" style={{ height: '5000vh', position: 'relative' }}>
+    <div ref={outerRef} className="sp-outer" style={{ height: '300vh', position: 'relative' }}>
         <div className="sp-inner" style={{ position: 'sticky', top: 0, height: '100vh', overflow: 'hidden', background: BG, display: 'flex', alignItems: 'center' }}>
           <div style={{ width: '100%', maxWidth: '1080px', margin: '0 auto', padding: '0 24px', paddingTop: '88px' }}>
 
-            <motion.div style={{ x: hX, opacity: hOp }} className="mb-10">
+            <motion.div
+              animate={{ opacity: inView ? 1 : 0, x: inView ? 0 : -80 }}
+              transition={E(0)}
+              className="mb-10"
+            >
               <p style={{ fontSize: '11px', fontWeight: 600, color: 'rgba(255,255,255,0.25)', textTransform: 'uppercase', letterSpacing: '0.16em', marginBottom: '14px' }}>Naše služby</p>
               <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
                 <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px,3.8vw,50px)', fontWeight: 300, color: '#fff', letterSpacing: '-0.03em', lineHeight: 1.1, margin: 0 }}>
@@ -191,11 +178,14 @@ function ServicesSection() {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {[
-                { style: { x: c1X, rotate: c1R, opacity: c1Op }, s: SERVICES[0] },
-                { style: { y: c2Y, opacity: c2Op },               s: SERVICES[1] },
-                { style: { x: c3X, rotate: c3R, opacity: c3Op }, s: SERVICES[2] },
-              ].map(({ style, s }) => (
-                <motion.div key={s.title} style={{ ...style, ...CARD } as any}
+                { from: { x: -110, rotate: -2.5 }, to: { x: 0, rotate: 0 }, delay: 0.1, s: SERVICES[0] },
+                { from: { y:   90 },                to: { y: 0 },             delay: 0.18, s: SERVICES[1] },
+                { from: { x:  110, rotate:  2.5 }, to: { x: 0, rotate: 0 }, delay: 0.1, s: SERVICES[2] },
+              ].map(({ from, to, delay, s }) => (
+                <motion.div key={s.title}
+                  animate={{ opacity: inView ? 1 : 0, ...(inView ? to : from) }}
+                  transition={E(delay)}
+                  style={CARD}
                   className="cursor-pointer group"
                   onClick={() => (window.location.href = s.href)}
                 >
@@ -225,35 +215,17 @@ const STEPS = [
 ];
 
 function ProcessSection() {
-  const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end end'] });
-
-  /* left panel: enter from left, exit to left */
-  const lX  = useTransform(scrollYProgress, [0, 0.2, 0.2], [-90, 0]);
-  const lOp = useTransform(scrollYProgress, [0, 0.13], [0, 1]);
-
-  /* right panel — each step staggered */
-  const s1X  = useTransform(scrollYProgress, [0.06, 0.24], [90, 0]);
-  const s1Op = useTransform(scrollYProgress, [0.06, 0.18], [0, 1]);
-  const s2X  = useTransform(scrollYProgress, [0.1,  0.28], [90, 0]);
-  const s2Op = useTransform(scrollYProgress, [0.1,  0.22], [0, 1]);
-  const s3X  = useTransform(scrollYProgress, [0.14, 0.32], [90, 0]);
-  const s3Op = useTransform(scrollYProgress, [0.14, 0.26], [0, 1]);
-
-  const stepStyles = [
-    { x: s1X, opacity: s1Op },
-    { x: s2X, opacity: s2Op },
-    { x: s3X, opacity: s3Op },
-  ];
+  const outerRef = useRef<HTMLDivElement>(null);
+  const inView = useInView(outerRef, { once: false, amount: 0.15 });
+  const E = (delay = 0) => ({ duration: 0.9, ease: [0.22, 1, 0.36, 1] as any, delay: inView ? delay : 0 });
 
   return (
-    <div ref={ref} className="sp-outer" style={{ height: '4500vh', position: 'relative' }}>
+    <div ref={outerRef} className="sp-outer" style={{ height: '300vh', position: 'relative' }}>
       <div className="sp-inner" style={{ position: 'sticky', top: 0, height: '100vh', overflow: 'hidden', background: 'rgba(8,16,32,0.95)', display: 'flex', alignItems: 'center' }}>
         <div style={{ width: '100%', maxWidth: '1080px', margin: '0 auto', padding: '0 24px', paddingTop: '88px' }}>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
 
-            {/* Left: heading */}
-            <motion.div style={{ x: lX, opacity: lOp }}>
+            <motion.div animate={{ opacity: inView ? 1 : 0, x: inView ? 0 : -90 }} transition={E(0)}>
               <p style={{ fontSize: '11px', fontWeight: 600, color: 'rgba(255,255,255,0.25)', textTransform: 'uppercase', letterSpacing: '0.16em', marginBottom: '14px' }}>Jak pracujeme</p>
               <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px,3.8vw,50px)', fontWeight: 300, color: '#fff', letterSpacing: '-0.03em', lineHeight: 1.1, marginBottom: '24px' }}>
                 Od formuláře<br />po hotový web<br />za 48 hodin.
@@ -270,20 +242,13 @@ function ProcessSection() {
               </Link>
             </motion.div>
 
-            {/* Right: step cards */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               {STEPS.map((step, i) => (
-                <motion.div key={step.n} style={{
-                  ...stepStyles[i],
-                  background: 'rgba(255,255,255,0.04)',
-                  border: '1px solid rgba(255,255,255,0.08)',
-                  borderRadius: '14px',
-                  padding: '18px 22px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '16px',
-                  boxShadow: '0 4px 24px rgba(0,0,0,0.28)',
-                } as any}>
+                <motion.div key={step.n}
+                  animate={{ opacity: inView ? 1 : 0, x: inView ? 0 : 90 }}
+                  transition={E(0.1 + i * 0.1)}
+                  style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '14px', padding: '18px 22px', display: 'flex', alignItems: 'center', gap: '16px', boxShadow: '0 4px 24px rgba(0,0,0,0.28)' }}
+                >
                   <span style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.05em', color: 'rgba(255,255,255,0.35)', background: 'rgba(255,255,255,0.06)', borderRadius: '8px', padding: '4px 10px', flexShrink: 0 }}>{step.n}</span>
                   <div style={{ flex: 1 }}>
                     <p style={{ fontSize: '14px', fontWeight: 600, color: '#fff', marginBottom: '2px' }}>{step.title}</p>
@@ -309,35 +274,21 @@ const PORTFOLIO = [
 ];
 
 function PortfolioSection() {
-  const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end end'] });
-
-  const hX  = useTransform(scrollYProgress, [0, 0.18, 0.18], [80, 0]);
-  const hOp = useTransform(scrollYProgress, [0, 0.12], [0, 1]);
-
-  const p1X  = useTransform(scrollYProgress, [0.05, 0.24], [-110, 0]);
-  const p1R  = useTransform(scrollYProgress, [0.05, 0.24], [-2, 0]);
-  const p1Op = useTransform(scrollYProgress, [0.05, 0.18], [0, 1]);
-
-  const p2Y  = useTransform(scrollYProgress, [0.08, 0.28], [80, 0]);
-  const p2Op = useTransform(scrollYProgress, [0.08, 0.22], [0, 1]);
-
-  const p3X  = useTransform(scrollYProgress, [0.05, 0.24], [-110, 0]);
-  const p3R  = useTransform(scrollYProgress, [0.05, 0.24], [-2, 0]);
-  const p3Op = useTransform(scrollYProgress, [0.05, 0.18], [0, 1]);
-
-  const cardStyles = [
-    { x: p1X, rotate: p1R, opacity: p1Op },
-    { y: p2Y, opacity: p2Op },
-    { x: p3X, rotate: p3R, opacity: p3Op },
+  const outerRef = useRef<HTMLDivElement>(null);
+  const inView = useInView(outerRef, { once: false, amount: 0.15 });
+  const E = (delay = 0) => ({ duration: 0.9, ease: [0.22, 1, 0.36, 1] as any, delay: inView ? delay : 0 });
+  const cardAnim = [
+    { from: { x: -110, rotate: -2 }, to: { x: 0, rotate: 0 }, delay: 0.1 },
+    { from: { y:   80 },              to: { y: 0 },             delay: 0.18 },
+    { from: { x: -110, rotate: -2 }, to: { x: 0, rotate: 0 }, delay: 0.1 },
   ];
 
   return (
-    <div ref={ref} className="sp-outer" style={{ height: '4500vh', position: 'relative' }}>
+    <div ref={outerRef} className="sp-outer" style={{ height: '300vh', position: 'relative' }}>
       <div className="sp-inner" style={{ position: 'sticky', top: 0, height: '100vh', overflow: 'hidden', background: BG, display: 'flex', alignItems: 'center' }}>
         <div style={{ width: '100%', maxWidth: '1080px', margin: '0 auto', padding: '0 24px', paddingTop: '88px' }}>
 
-          <motion.div style={{ x: hX, opacity: hOp }} className="mb-10">
+          <motion.div animate={{ opacity: inView ? 1 : 0, x: inView ? 0 : 80 }} transition={E(0)} className="mb-10">
             <p style={{ fontSize: '11px', fontWeight: 600, color: 'rgba(255,255,255,0.25)', textTransform: 'uppercase', letterSpacing: '0.16em', marginBottom: '14px' }}>Naše práce</p>
             <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
               <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px,3.8vw,50px)', fontWeight: 300, color: '#fff', letterSpacing: '-0.03em', lineHeight: 1.1, margin: 0 }}>
@@ -352,7 +303,10 @@ function PortfolioSection() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {PORTFOLIO.map((p, i) => (
-              <motion.div key={p.client} style={{ ...cardStyles[i], overflow: 'hidden', borderRadius: '18px', border: '1px solid rgba(255,255,255,0.08)' } as any}>
+              <motion.div key={p.client}
+                animate={{ opacity: inView ? 1 : 0, ...(inView ? cardAnim[i].to : cardAnim[i].from) }}
+                transition={E(cardAnim[i].delay)}
+                style={{ overflow: 'hidden', borderRadius: '18px', border: '1px solid rgba(255,255,255,0.08)' }}>
                 <div className={`h-36 bg-gradient-to-br ${p.color} relative overflow-hidden`}>
                   <div className="absolute inset-3 rounded-lg" style={{ background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.12)' }}>
                     <div className="flex items-center gap-1.5 px-3 py-2" style={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
@@ -394,35 +348,21 @@ const TESTIMONIALS = [
 ];
 
 function TestimonialsSection() {
-  const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end end'] });
-
-  const hX  = useTransform(scrollYProgress, [0, 0.18, 0.18],  [-80, 0]);
-  const hOp = useTransform(scrollYProgress, [0, 0.12], [0, 1]);
-
-  const t1X  = useTransform(scrollYProgress, [0.05, 0.24], [-100, 0]);
-  const t1R  = useTransform(scrollYProgress, [0.05, 0.24], [-2, 0]);
-  const t1Op = useTransform(scrollYProgress, [0.05, 0.18], [0, 1]);
-
-  const t2Y  = useTransform(scrollYProgress, [0.08, 0.28],  [80, 0]);
-  const t2Op = useTransform(scrollYProgress, [0.08, 0.22], [0, 1]);
-
-  const t3X  = useTransform(scrollYProgress, [0.05, 0.24], [100, 0]);
-  const t3R  = useTransform(scrollYProgress, [0.05, 0.24], [2, 0]);
-  const t3Op = useTransform(scrollYProgress, [0.05, 0.18], [0, 1]);
-
-  const tStyles = [
-    { x: t1X, rotate: t1R, opacity: t1Op },
-    { y: t2Y, opacity: t2Op },
-    { x: t3X, rotate: t3R, opacity: t3Op },
+  const outerRef = useRef<HTMLDivElement>(null);
+  const inView = useInView(outerRef, { once: false, amount: 0.15 });
+  const E = (delay = 0) => ({ duration: 0.9, ease: [0.22, 1, 0.36, 1] as any, delay: inView ? delay : 0 });
+  const cardAnim = [
+    { from: { x: -100, rotate: -2 }, to: { x: 0, rotate: 0 }, delay: 0.1 },
+    { from: { y:    80 },             to: { y: 0 },             delay: 0.18 },
+    { from: { x:  100, rotate:  2 }, to: { x: 0, rotate: 0 }, delay: 0.1 },
   ];
 
   return (
-    <div ref={ref} className="sp-outer" style={{ height: '4500vh', position: 'relative' }}>
+    <div ref={outerRef} className="sp-outer" style={{ height: '300vh', position: 'relative' }}>
       <div className="sp-inner" style={{ position: 'sticky', top: 0, height: '100vh', overflow: 'hidden', background: 'rgba(8,16,32,0.95)', display: 'flex', alignItems: 'center' }}>
         <div style={{ width: '100%', maxWidth: '1080px', margin: '0 auto', padding: '0 24px', paddingTop: '88px' }}>
 
-          <motion.div style={{ x: hX, opacity: hOp }} className="mb-10">
+          <motion.div animate={{ opacity: inView ? 1 : 0, x: inView ? 0 : -80 }} transition={E(0)} className="mb-10">
             <p style={{ fontSize: '11px', fontWeight: 600, color: 'rgba(255,255,255,0.25)', textTransform: 'uppercase', letterSpacing: '0.16em', marginBottom: '14px' }}>Reference</p>
             <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
               <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px,3.8vw,50px)', fontWeight: 300, color: '#fff', letterSpacing: '-0.03em', lineHeight: 1.1, margin: 0 }}>
@@ -437,7 +377,10 @@ function TestimonialsSection() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {TESTIMONIALS.map((t, i) => (
-              <motion.div key={t.name} style={{ ...tStyles[i], ...CARD } as any}>
+              <motion.div key={t.name}
+                animate={{ opacity: inView ? 1 : 0, ...(inView ? cardAnim[i].to : cardAnim[i].from) }}
+                transition={E(cardAnim[i].delay)}
+                style={CARD}>
                 <div style={{ display: 'flex', gap: '2px', marginBottom: '18px' }}>
                   {[1,2,3,4,5].map(s => (
                     <svg key={s} width="12" height="12" viewBox="0 0 24 24" fill="rgba(255,255,255,0.5)">
