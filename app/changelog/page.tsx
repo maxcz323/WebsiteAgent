@@ -17,6 +17,13 @@ interface Version {
 
 const CHANGELOG: Version[] = [
   {
+    version: '3.80',
+    date: '22. 6. 2026',
+    changes: [
+      { type: 'feat', text: 'Dekorativní čáry v pozadí — redesign: 7 organicky zakřivených linií soustředěných vpravo (jako v referenčním designu) + 5 menší cluster vlevo dole. Čáry se nepřekrývají s obsahem (zIndex 0 pod main).' },
+    ],
+  },
+  {
     version: '3.78',
     date: '21. 6. 2026',
     changes: [
