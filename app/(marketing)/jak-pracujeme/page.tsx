@@ -3,6 +3,10 @@
 import { useRef, useEffect, useState, ReactNode } from 'react';
 import Link from 'next/link';
 
+const BG = '#faf7f6';
+const BG2 = '#f0ebe7';
+const ACCENT = '#285570';
+
 function useReveal(delay = 0) {
   const ref = useRef<HTMLDivElement>(null);
   const [v, setV] = useState(false);
@@ -56,17 +60,19 @@ function StepCard({ s, delay }: { s: Step; delay: number }) {
   return (
     <div ref={r.ref} style={r.style} className="relative flex flex-col sm:flex-row gap-6 sm:gap-8 pb-14 last:pb-0">
       <div className="flex-shrink-0 flex items-start">
-        <div className="w-14 h-14 rounded-2xl bg-[#0d1e38] border-2 border-blue-500/25 flex items-center justify-center text-blue-400 relative z-10">{s.icon}</div>
+        <div style={{ width: 56, height: 56, borderRadius: 16, background: 'rgba(40,85,112,0.08)', border: '1.5px solid rgba(40,85,112,0.16)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: ACCENT, position: 'relative', zIndex: 10, flexShrink: 0 }}>
+          {s.icon}
+        </div>
       </div>
       <div className="pt-1 flex-1">
         <div className="flex items-center gap-3 mb-2">
-          <span className="text-xs font-bold text-blue-400 font-mono">{s.num}</span>
-          <span className="text-xs text-slate-500">{s.subtitle}</span>
+          <span style={{ fontSize: 11, fontWeight: 700, color: ACCENT, fontFamily: 'monospace' }}>{s.num}</span>
+          <span style={{ fontSize: 12, color: '#a8a4a0' }}>{s.subtitle}</span>
         </div>
-        <h2 className="text-2xl font-bold text-white mb-3">{s.title}</h2>
-        <p className="text-slate-400 leading-relaxed mb-4">{s.desc}</p>
-        <div className="inline-flex items-center gap-2 text-xs text-emerald-400 bg-emerald-950/40 px-3 py-2 rounded-lg border border-emerald-500/20">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
+        <h2 style={{ fontSize: 22, fontWeight: 700, color: '#1a2e3d', marginBottom: 10 }}>{s.title}</h2>
+        <p style={{ color: '#6b6560', lineHeight: 1.7, marginBottom: 14, fontSize: 15 }}>{s.desc}</p>
+        <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, fontSize: 12, color: ACCENT, background: 'rgba(40,85,112,0.07)', padding: '7px 14px', borderRadius: 9, border: '1px solid rgba(40,85,112,0.14)' }}>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={ACCENT} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
           {s.detail}
         </div>
       </div>
@@ -78,12 +84,12 @@ function FaqItem({ q, a, delay }: { q: string; a: string; delay: number }) {
   const [open, setOpen] = useState(false);
   const r = useReveal(delay);
   return (
-    <div ref={r.ref} style={r.style} className="border-b border-white/8 last:border-0">
+    <div ref={r.ref} style={{ ...r.style, borderBottom: '1px solid #e3ded7' }} className="last:border-0">
       <button onClick={() => setOpen(!open)} className="w-full flex items-center justify-between py-5 text-left group">
-        <span className="font-semibold text-slate-200 text-sm group-hover:text-blue-400 transition-colors">{q}</span>
-        <span className={`text-slate-400 transition-transform duration-200 ${open ? 'rotate-45' : ''} text-xl leading-none ml-4 shrink-0`}>+</span>
+        <span style={{ fontWeight: 600, color: open ? ACCENT : '#1a2e3d', fontSize: 14, transition: 'color 0.15s' }}>{q}</span>
+        <span style={{ color: '#cbcac7', fontSize: 22, lineHeight: 1, marginLeft: 16, flexShrink: 0, transform: open ? 'rotate(45deg)' : 'none', display: 'inline-block', transition: 'transform 0.2s' }}>+</span>
       </button>
-      {open && <p className="text-slate-400 text-sm leading-relaxed pb-5">{a}</p>}
+      {open && <p style={{ color: '#6b6560', fontSize: 14, lineHeight: 1.7, paddingBottom: 20 }}>{a}</p>}
     </div>
   );
 }
@@ -93,13 +99,13 @@ export default function JakPracujemePage() {
   const faqTitle = useReveal(0);
 
   return (
-    <div className="pt-28">
+    <div className="pt-28" style={{ background: BG }}>
       <section className="py-20 px-5 sm:px-8 text-center">
         <div className="max-w-3xl mx-auto">
           <div ref={title.ref} style={title.style}>
-            <p className="text-xs font-semibold text-blue-400 uppercase tracking-widest mb-4">Jak pracujeme</p>
-            <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-white mb-5">Od poptávky k webu za 48 hodin</h1>
-            <p className="text-lg text-slate-400 leading-relaxed">Jednoduchý proces bez zbytečného papírování. Vy se soustředíte na byznys, my na web.</p>
+            <p style={{ fontSize: 11, fontWeight: 700, color: 'rgba(40,85,112,0.55)', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: 16 }}>Jak pracujeme</p>
+            <h1 style={{ fontSize: 'clamp(32px,5vw,46px)', fontWeight: 700, letterSpacing: '-0.03em', color: '#1a2e3d', marginBottom: 18, lineHeight: 1.15 }}>Od poptávky k webu za 48 hodin</h1>
+            <p style={{ fontSize: 17, color: '#6b6560', lineHeight: 1.65 }}>Jednoduchý proces bez zbytečného papírování. Vy se soustředíte na byznys, my na web.</p>
           </div>
         </div>
       </section>
@@ -107,7 +113,7 @@ export default function JakPracujemePage() {
       <section className="pb-24 px-5 sm:px-8">
         <div className="max-w-4xl mx-auto">
           <div className="relative">
-            <div className="absolute left-[27px] top-12 bottom-12 w-px bg-gradient-to-b from-blue-700 via-blue-800 to-transparent hidden sm:block" />
+            <div className="absolute left-[27px] top-12 bottom-12 w-px hidden sm:block" style={{ background: '#e3ded7' }} />
             <div className="space-y-0">
               {STEPS.map((s, i) => <StepCard key={s.num} s={s} delay={i * 100} />)}
             </div>
@@ -115,23 +121,25 @@ export default function JakPracujemePage() {
         </div>
       </section>
 
-      <section className="py-20 px-5 sm:px-8 border-t border-white/8" style={{ background: '#081428' }}>
+      <section className="py-20 px-5 sm:px-8" style={{ background: BG2, borderTop: '1px solid #e3ded7' }}>
         <div className="max-w-3xl mx-auto">
           <div ref={faqTitle.ref} style={faqTitle.style} className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-white mb-3">Časté otázky</h2>
-            <p className="text-slate-400">Odpovědi na to, co řeší většina klientů.</p>
+            <h2 style={{ fontSize: 30, fontWeight: 700, color: '#1a2e3d', marginBottom: 10 }}>Časté otázky</h2>
+            <p style={{ color: '#6b6560' }}>Odpovědi na to, co řeší většina klientů.</p>
           </div>
-          <div className="bg-[#0d1e38] rounded-2xl border border-white/8 px-6 sm:px-8 divide-y divide-white/8">
+          <div style={{ background: '#fff', borderRadius: 18, border: '1px solid #e3ded7', padding: '0 32px' }}>
             {FAQS.map((f, i) => <FaqItem key={f.q} q={f.q} a={f.a} delay={i * 60} />)}
           </div>
         </div>
       </section>
 
-      <section className="py-20 px-5 sm:px-8" style={{ background: '#0f1629' }}>
+      <section className="py-20 px-5 sm:px-8" style={{ background: ACCENT }}>
         <div className="max-w-2xl mx-auto text-center">
-          <h2 className="text-3xl font-bold text-white mb-4">Připraveni začít?</h2>
-          <p className="text-slate-400 leading-relaxed mb-8">Poptávka je zdarma a nezávazná. Odpovídáme do 2 hodin.</p>
-          <Link href="/kontakt" className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-semibold px-7 py-3.5 rounded-xl text-sm transition-all duration-200 hover:-translate-y-px hover:shadow-xl hover:shadow-blue-500/25">
+          <h2 style={{ fontSize: 30, fontWeight: 700, color: '#fff', marginBottom: 14 }}>Připraveni začít?</h2>
+          <p style={{ color: 'rgba(255,255,255,0.7)', lineHeight: 1.65, marginBottom: 32 }}>Poptávka je zdarma a nezávazná. Odpovídáme do 2 hodin.</p>
+          <Link href="/kontakt" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: '#fff', color: ACCENT, fontWeight: 700, padding: '14px 32px', borderRadius: 12, fontSize: 14, textDecoration: 'none', transition: 'box-shadow 0.2s, transform 0.2s' }}
+            onMouseEnter={e => { e.currentTarget.style.boxShadow = '0 8px 32px rgba(0,0,0,0.15)'; e.currentTarget.style.transform = 'translateY(-1px)'; }}
+            onMouseLeave={e => { e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.transform = 'none'; }}>
             Získat web →
           </Link>
         </div>

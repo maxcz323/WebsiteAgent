@@ -17,6 +17,24 @@ interface Version {
 
 const CHANGELOG: Version[] = [
   {
+    version: '3.75',
+    date: '21. 6. 2026',
+    changes: [
+      { type: 'change', text: 'Celoplošné přepracování barevného schématu na warm light paletu: #faf7f6 (pozadí), #f0ebe7 (alt sekce), #285570 (akcent), #e3ded7 (bordery), #1a2e3d (nadpisy), #6b6560 (text), #cbcac7 (muted)' },
+      { type: 'change', text: 'MarketingNav přepsán z dark (#060d1a) na light (#fff), indikátor aktivní stránky nyní #285570 místo bílé, hamburger a linky v tmavých warm tónech' },
+      { type: 'change', text: 'Footer přepnut na #285570 dark background s bílým textem — elegantní kontrast vůči světlým stránkám, logo invertováno do bílé' },
+      { type: 'change', text: 'CookieConsent přepsán na bílé pozadí s #e3ded7 borderem a warm shadow, tlačítko Přijmout vše má background #285570' },
+      { type: 'change', text: 'Jak pracujeme: step ikony warm beige místo dark blue, FAQ sekce na #f0ebe7, bílá karta, všechny dark třídy nahrazeny warm inline styly' },
+      { type: 'change', text: 'Kontakt: formulář bílý s #e3ded7 inputy, ikony #285570, focus ring warm, success stav s #285570 checkem místo zelené' },
+      { type: 'change', text: 'O nás: stats strip přepnut na #285570 dark, team karta bílá, approach boxy warm beige/bílá, value karty bílé s #285570 levou čárkou' },
+      { type: 'change', text: 'Portfolio: karty bílé s #e3ded7 borderem, hover overlay zůstává tmavý (nad gradient MockBrowser), CTA sekce #285570' },
+      { type: 'change', text: 'Reference: testimonial karty bílé, featured karta s #285570 borderem a warm badge, result badge warm #285570 verze místo emerald, stats bar bílý' },
+      { type: 'change', text: 'Služby: service karty bílé (#fff), popular karta s #285570 borderem a badge, check ikony stroke #285570, pricing box na #faf7f6, CTA sekce #285570' },
+      { type: 'change', text: 'Kalkulace: všechny per-service barvy normalizovány na #285570 / rgba(40,85,112,0.06) — konzistentní look napříč všemi kalkulacemi' },
+      { type: 'change', text: 'Layout wrapper přepnut z bg-[#060d1a] na bg-[#faf7f6] text-[#1a2e3d]' },
+    ],
+  },
+  {
     version: '3.72',
     date: '21. 6. 2026',
     changes: [

@@ -21,7 +21,7 @@ export const metadata: Metadata = {
 
 export default function MarketingLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className={`bg-[#060d1a] text-slate-100 antialiased ${display.variable}`}>
+    <div className={`bg-[#faf7f6] text-[#1a2e3d] antialiased ${display.variable}`}>
       <MarketingNav />
       <main>{children}</main>
       <Footer />

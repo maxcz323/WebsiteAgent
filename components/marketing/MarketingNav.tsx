@@ -42,7 +42,7 @@ export function MarketingNav() {
         left: er.left - nr.left,
         width: er.width,
         visible: true,
-        animated: hasInitialized.current, // first render: snap, subsequent: slide
+        animated: hasInitialized.current,
       });
       hasInitialized.current = true;
     };
@@ -54,10 +54,10 @@ export function MarketingNav() {
     <nav ref={navRef} style={{
       position: 'fixed', top: '16px', left: '50%', transform: 'translateX(-50%)',
       width: 'calc(100% - 48px)', maxWidth: '1140px', zIndex: 50,
-      background: '#060d1a',
-      border: '1px solid rgba(255,255,255,0.08)',
+      background: '#ffffff',
+      border: '1px solid #e3ded7',
       borderRadius: '14px',
-      boxShadow: '0 8px 40px rgba(0,0,0,0.55)',
+      boxShadow: '0 4px 24px rgba(40,85,112,0.09)',
       overflow: 'hidden',
     }}>
 
@@ -66,7 +66,7 @@ export function MarketingNav() {
         position: 'absolute', bottom: 0,
         left: indicator.left, width: indicator.width,
         height: '2px',
-        background: '#ffffff',
+        background: '#285570',
         borderRadius: '2px 2px 0 0',
         opacity: indicator.visible ? 1 : 0,
         transition: indicator.animated
@@ -101,13 +101,13 @@ export function MarketingNav() {
                   fontWeight: active ? 600 : 400,
                   fontFamily: 'var(--font-display)',
                   letterSpacing: '-0.01em',
-                  color: active ? '#fff' : 'rgba(255,255,255,0.4)',
+                  color: active ? '#285570' : '#a8a4a0',
                   textDecoration: 'none',
                   whiteSpace: 'nowrap',
                   transition: 'color 0.15s',
                 }}
-                onMouseEnter={e => { if (!active) (e.currentTarget as HTMLElement).style.color = 'rgba(255,255,255,0.8)'; }}
-                onMouseLeave={e => { if (!active) (e.currentTarget as HTMLElement).style.color = 'rgba(255,255,255,0.4)'; }}
+                onMouseEnter={e => { if (!active) (e.currentTarget as HTMLElement).style.color = '#1a2e3d'; }}
+                onMouseLeave={e => { if (!active) (e.currentTarget as HTMLElement).style.color = '#a8a4a0'; }}
               >
                 {label}
               </Link>
@@ -132,13 +132,13 @@ export function MarketingNav() {
             style={{
               width: '38px', height: '38px', display: 'flex', flexDirection: 'column',
               alignItems: 'center', justifyContent: 'center', gap: '5px',
-              background: 'transparent', border: '1px solid rgba(255,255,255,0.12)',
+              background: 'transparent', border: '1px solid #e3ded7',
               borderRadius: '8px', cursor: 'pointer', padding: 0,
             }}
           >
-            <span style={{ display: 'block', width: '16px', height: '1.5px', background: 'rgba(255,255,255,0.7)', transform: menuOpen ? 'rotate(45deg) translate(4px,4px)' : 'none', transition: 'transform 0.2s' }} />
-            <span style={{ display: 'block', width: '16px', height: '1.5px', background: 'rgba(255,255,255,0.7)', opacity: menuOpen ? 0 : 1, transition: 'opacity 0.2s' }} />
-            <span style={{ display: 'block', width: '16px', height: '1.5px', background: 'rgba(255,255,255,0.7)', transform: menuOpen ? 'rotate(-45deg) translate(4px,-4px)' : 'none', transition: 'transform 0.2s' }} />
+            <span style={{ display: 'block', width: '16px', height: '1.5px', background: '#285570', transform: menuOpen ? 'rotate(45deg) translate(4px,4px)' : 'none', transition: 'transform 0.2s' }} />
+            <span style={{ display: 'block', width: '16px', height: '1.5px', background: '#285570', opacity: menuOpen ? 0 : 1, transition: 'opacity 0.2s' }} />
+            <span style={{ display: 'block', width: '16px', height: '1.5px', background: '#285570', transform: menuOpen ? 'rotate(-45deg) translate(4px,-4px)' : 'none', transition: 'transform 0.2s' }} />
           </button>
         </div>
       </div>
@@ -148,7 +148,8 @@ export function MarketingNav() {
         overflow: 'hidden',
         maxHeight: menuOpen ? '400px' : '0',
         transition: 'max-height 0.3s ease',
-        borderTop: menuOpen ? '1px solid rgba(255,255,255,0.06)' : 'none',
+        borderTop: menuOpen ? '1px solid #e3ded7' : 'none',
+        background: '#fff',
       }}>
         <div style={{ padding: '10px 16px 16px' }}>
           {LINKS.map(({ href, label }) => {
@@ -158,19 +159,19 @@ export function MarketingNav() {
                 display: 'block', padding: '11px 14px', borderRadius: '9px',
                 fontSize: '14px', fontWeight: active ? 600 : 400,
                 fontFamily: 'var(--font-display)',
-                color: active ? '#fff' : 'rgba(255,255,255,0.5)',
-                background: active ? 'rgba(37,99,235,0.1)' : 'transparent',
-                borderLeft: active ? '2px solid #2563eb' : '2px solid transparent',
+                color: active ? '#285570' : '#6b6560',
+                background: active ? 'rgba(40,85,112,0.06)' : 'transparent',
+                borderLeft: active ? '2px solid #285570' : '2px solid transparent',
                 textDecoration: 'none', marginBottom: '2px',
               }}>
                 {label}
               </Link>
             );
           })}
-          <div style={{ marginTop: '10px', paddingTop: '10px', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+          <div style={{ marginTop: '10px', paddingTop: '10px', borderTop: '1px solid #e3ded7' }}>
             <Link href="/kontakt" style={{
               display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
-              padding: '12px', background: '#2563eb', color: '#fff',
+              padding: '12px', background: '#285570', color: '#fff',
               borderRadius: '9px', fontSize: '14px', fontWeight: 600, textDecoration: 'none',
             }}>
               Kontaktujte nás

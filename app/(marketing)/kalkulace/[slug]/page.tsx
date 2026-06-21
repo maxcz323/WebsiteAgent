@@ -23,8 +23,8 @@ const SERVICES: Record<string, ServiceDef> = {
   'landing-page': {
     title: 'Landing page',
     subtitle: 'Jednostránkový web zaměřený na konverzi',
-    color: '#2563EB',
-    colorBg: '#eff6ff',
+    color: '#285570',
+    colorBg: 'rgba(40,85,112,0.06)',
     basePrice: 9900,
     time: '24–48 hodin',
     icon: '🖥',
@@ -49,8 +49,8 @@ const SERVICES: Record<string, ServiceDef> = {
   'firemni-web': {
     title: 'Firemní web',
     subtitle: 'Kompletní prezentace vaší firmy online',
-    color: '#7c3aed',
-    colorBg: '#f5f3ff',
+    color: '#285570',
+    colorBg: 'rgba(40,85,112,0.06)',
     basePrice: 14900,
     time: '48–72 hodin',
     icon: '🏢',
@@ -76,8 +76,8 @@ const SERVICES: Record<string, ServiceDef> = {
   'ecommerce': {
     title: 'E-commerce',
     subtitle: 'Plnohodnotný online obchod',
-    color: '#059669',
-    colorBg: '#ecfdf5',
+    color: '#285570',
+    colorBg: 'rgba(40,85,112,0.06)',
     basePrice: 24900,
     time: '5–7 dní',
     icon: '🛒',
@@ -103,8 +103,8 @@ const SERVICES: Record<string, ServiceDef> = {
   'sprava': {
     title: 'Správa a údržba',
     subtitle: 'Pravidelná péče o váš web',
-    color: '#d97706',
-    colorBg: '#fffbeb',
+    color: '#285570',
+    colorBg: 'rgba(40,85,112,0.06)',
     basePrice: 990,
     isMonthly: true,
     time: 'Průběžně každý měsíc',

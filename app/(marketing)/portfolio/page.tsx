@@ -3,6 +3,9 @@
 import { useRef, useEffect, useState } from 'react';
 import Link from 'next/link';
 
+const ACCENT = '#285570';
+const BG = '#faf7f6';
+
 function useReveal(delay = 0) {
   const ref = useRef<HTMLDivElement>(null);
   const [v, setV] = useState(false);
@@ -37,7 +40,7 @@ function MockBrowser({ color }: { color: string }) {
 function ProjectCard({ p, delay }: { p: Project; delay: number }) {
   const r = useReveal(delay);
   return (
-    <div ref={r.ref} style={{ ...r.style, minHeight: 280 }} className={`group relative rounded-2xl overflow-hidden bg-[#0d1e38] border border-white/8 hover:shadow-2xl hover:shadow-black/50 hover:-translate-y-1 transition-all duration-300 ${p.size}`}>
+    <div ref={r.ref} style={{ ...r.style, minHeight: 280, background: '#fff', border: '1px solid #e3ded7', boxShadow: '0 2px 12px rgba(40,85,112,0.05)' }} className={`group relative rounded-2xl overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ${p.size}`}>
       <MockBrowser color={p.color} />
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
         <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
@@ -47,7 +50,7 @@ function ProjectCard({ p, delay }: { p: Project; delay: number }) {
             <span className="text-xs text-white/60">{p.city}</span>
           </div>
           <h3 className="text-white font-bold text-base mb-2">{p.client}</h3>
-          <p className="text-emerald-400 text-xs font-semibold">{p.result}</p>
+          <p className="text-xs font-semibold" style={{ color: 'rgba(255,255,255,0.8)' }}>{p.result}</p>
           {p.quote && <p className="text-white/70 text-xs mt-2 leading-relaxed">&ldquo;{p.quote}&rdquo;</p>}
         </div>
       </div>
@@ -70,13 +73,13 @@ const PROJECTS: Project[] = [
 export default function PortfolioPage() {
   const title = useReveal(0);
   return (
-    <div className="pt-28">
+    <div className="pt-28" style={{ background: BG }}>
       <section className="py-20 px-5 sm:px-8 text-center">
         <div className="max-w-3xl mx-auto">
           <div ref={title.ref} style={title.style}>
-            <p className="text-xs font-semibold text-blue-400 uppercase tracking-widest mb-4">Portfolio</p>
-            <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-white mb-5">Weby, které mluví za sebe</h1>
-            <p className="text-lg text-slate-400 leading-relaxed">Každý projekt je jiný. Stejná je kvalita a péče o každý detail.</p>
+            <p style={{ fontSize: 11, fontWeight: 700, color: 'rgba(40,85,112,0.55)', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: 16 }}>Portfolio</p>
+            <h1 style={{ fontSize: 'clamp(32px,5vw,46px)', fontWeight: 700, letterSpacing: '-0.03em', color: '#1a2e3d', marginBottom: 18 }}>Weby, které mluví za sebe</h1>
+            <p style={{ fontSize: 17, color: '#6b6560', lineHeight: 1.65 }}>Každý projekt je jiný. Stejná je kvalita a péče o každý detail.</p>
           </div>
         </div>
       </section>
@@ -87,11 +90,13 @@ export default function PortfolioPage() {
         </div>
       </section>
 
-      <section className="py-20 px-5 sm:px-8" style={{ background: '#0f1629' }}>
+      <section className="py-20 px-5 sm:px-8" style={{ background: ACCENT }}>
         <div className="max-w-2xl mx-auto text-center">
-          <h2 className="text-3xl font-bold text-white mb-4">Chcete být v naší galerii?</h2>
-          <p className="text-slate-400 leading-relaxed mb-8">Váš web může být dalším úspěšným projektem. Začneme co nejdřív.</p>
-          <Link href="/kontakt" className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-semibold px-7 py-3.5 rounded-xl text-sm transition-all duration-200 hover:-translate-y-px hover:shadow-xl hover:shadow-blue-500/25">
+          <h2 style={{ fontSize: 30, fontWeight: 700, color: '#fff', marginBottom: 14 }}>Chcete být v naší galerii?</h2>
+          <p style={{ color: 'rgba(255,255,255,0.7)', lineHeight: 1.65, marginBottom: 32 }}>Váš web může být dalším úspěšným projektem. Začneme co nejdřív.</p>
+          <Link href="/kontakt" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: '#fff', color: ACCENT, fontWeight: 700, padding: '14px 32px', borderRadius: 12, fontSize: 14, textDecoration: 'none', transition: 'box-shadow 0.2s, transform 0.2s' }}
+            onMouseEnter={e => { e.currentTarget.style.boxShadow = '0 8px 32px rgba(0,0,0,0.15)'; e.currentTarget.style.transform = 'translateY(-1px)'; }}
+            onMouseLeave={e => { e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.transform = 'none'; }}>
             Získat web →
           </Link>
         </div>
