@@ -5,14 +5,14 @@ import Link from 'next/link';
 export function MarketingNav() {
   return (
     <nav style={{
-      position: 'fixed', top: '12px', left: 0, right: 0, zIndex: 50,
-      background: '#f8f9fb',
-      borderBottom: '1px solid #e2e6ec',
-      boxShadow: '0 1px 12px rgba(0,0,0,0.08)',
+      position: 'fixed', top: '16px', left: '50%', transform: 'translateX(-50%)',
+      width: 'calc(100% - 48px)', maxWidth: '1140px', zIndex: 50,
+      background: '#060d1a',
+      border: '1px solid rgba(255,255,255,0.08)',
+      boxShadow: '0 8px 32px rgba(0,0,0,0.5)',
     }}>
       <div style={{
-        maxWidth: '1200px', margin: '0 auto',
-        padding: '0 32px', height: '64px',
+        padding: '0 28px', height: '64px',
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
       }}>
 

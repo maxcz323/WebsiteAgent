@@ -17,6 +17,13 @@ interface Version {
 
 const CHANGELOG: Version[] = [
   {
+    version: '3.54',
+    date: '21. 6. 2026',
+    changes: [
+      { type: 'change', text: 'MarketingNav — dark navy barva zpět, navbar jako levitující obdélník (ne přes celou šířku, s mezerami po stranách)' },
+    ],
+  },
+  {
     version: '3.53',
     date: '21. 6. 2026',
     changes: [
