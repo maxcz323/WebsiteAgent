@@ -28,39 +28,40 @@ export default function MarketingLayout({ children }: { children: React.ReactNod
       <Footer />
       <CookieConsent />
 
-      {/* Decorative lines — nad obsahem, mizí na tmavých sekcích díky multiply */}
+      {/* Decorative lines — asymetrické, každá jiná */}
       <div aria-hidden style={{
         position: 'fixed', top: 0, right: 0,
-        width: '520px', height: '100vh',
+        width: '560px', height: '100vh',
         zIndex: 10, pointerEvents: 'none', overflow: 'hidden',
         mixBlendMode: 'multiply',
       }}>
-        <svg width="100%" height="100%" viewBox="0 0 520 900" preserveAspectRatio="xMaxYMid meet" xmlns="http://www.w3.org/2000/svg">
-          <g stroke="#bfb9b2" strokeWidth="1" fill="none">
-            <path d="M 560 -80 C 420 80  280 160 380 340 S 520 520 360 700 S 220 860 400 980" />
-            <path d="M 590 -80 C 450 80  310 160 410 340 S 550 520 390 700 S 250 860 430 980" strokeWidth="0.8" />
-            <path d="M 530 -80 C 390 80  250 160 350 340 S 490 520 330 700 S 190 860 370 980" strokeWidth="1.2" />
-            <path d="M 620 -80 C 480 80  340 160 440 340 S 580 520 420 700 S 280 860 460 980" strokeWidth="0.7" />
-            <path d="M 500 -80 C 360 80  220 160 320 340 S 460 520 300 700 S 160 860 340 980" strokeWidth="0.9" />
-            <path d="M 650 -80 C 510 80  370 160 470 340 S 610 520 450 700 S 310 860 490 980" strokeWidth="0.6" />
-            <path d="M 470 -80 C 330 80  190 160 290 340 S 430 520 270 700 S 130 860 310 980" strokeWidth="0.5" />
+        <svg width="100%" height="100%" viewBox="0 0 560 900" preserveAspectRatio="xMaxYMid meet" xmlns="http://www.w3.org/2000/svg">
+          <g stroke="#bab4ad" fill="none">
+            {/* Každá křivka má unikátní tvar, amplitudu i délku */}
+            <path strokeWidth="1"   d="M 560 -60 C 380 60  200 200 340 380 S 480 580 300 760 S 180 880 420 1000" />
+            <path strokeWidth="0.7" d="M 520 20  C 460 180 280 140 360 360 S 440 600 240 720 S 160 840 380 960" />
+            <path strokeWidth="1.2" d="M 600 -20 C 520 120 300 80  440 300 S 560 500 380 680 S 260 820 460 940" />
+            <path strokeWidth="0.5" d="M 480 80  C 360 260 160 180 300 420 S 400 620 200 780 S 120 920 340 1020" />
+            <path strokeWidth="0.9" d="M 640 40  C 540 200 400 100 500 340 S 600 540 420 700 S 320 860 500 980" />
+            <path strokeWidth="0.6" d="M 440 -40 C 280 140 100 240 260 440 S 360 660 140 800 S  60 960 300 1040" />
+            <path strokeWidth="1.1" d="M 580 100 C 480 280 360 160 460 400 S 540 580 340 760 S 220 900 440 1000" />
           </g>
         </svg>
       </div>
 
       <div aria-hidden style={{
         position: 'fixed', bottom: 0, left: 0,
-        width: '340px', height: '60vh',
+        width: '380px', height: '65vh',
         zIndex: 10, pointerEvents: 'none', overflow: 'hidden',
         mixBlendMode: 'multiply',
       }}>
-        <svg width="100%" height="100%" viewBox="0 0 340 540" preserveAspectRatio="xMinYMax meet" xmlns="http://www.w3.org/2000/svg">
-          <g stroke="#bfb9b2" strokeWidth="1" fill="none">
-            <path d="M -40 600 C 80 450 40 330 160 220 S 280 120 180 -20" />
-            <path d="M -70 600 C 50 450 10 330 130 220 S 250 120 150 -20" strokeWidth="0.8" />
-            <path d="M -10 600 C 110 450 70 330 190 220 S 310 120 210 -20" strokeWidth="0.7" />
-            <path d="M -100 600 C 20 450 -20 330 100 220 S 220 120 120 -20" strokeWidth="0.6" />
-            <path d="M 20 600 C 140 450 100 330 220 220 S 340 120 240 -20" strokeWidth="0.5" />
+        <svg width="100%" height="100%" viewBox="0 0 380 580" preserveAspectRatio="xMinYMax meet" xmlns="http://www.w3.org/2000/svg">
+          <g stroke="#bab4ad" fill="none">
+            <path strokeWidth="1"   d="M -60 620 C  60 460  20 300 180 180 S 320  80 200 -40" />
+            <path strokeWidth="0.7" d="M  20 640 C 160 500  80 320 220 200 S 380 100 260 -20" />
+            <path strokeWidth="0.5" d="M -20 600 C 100 420  40 260 160 160 S 280  60 140 -60" />
+            <path strokeWidth="0.9" d="M  60 660 C 200 520 140 340 280 220 S 420 120 300  -0" />
+            <path strokeWidth="0.6" d="M -100 580 C  20 400  -40 240 120 120 S 260  20  80 -80" />
           </g>
         </svg>
       </div>
