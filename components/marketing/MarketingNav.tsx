@@ -30,7 +30,7 @@ export function MarketingNav() {
   return (
     <>
       <nav style={{
-        position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50,
+        position: 'fixed', top: '12px', left: 0, right: 0, zIndex: 50,
         background: '#060d1a',
         borderBottom: '1px solid rgba(255,255,255,0.06)',
         boxShadow: scrolled ? '0 2px 24px rgba(0,0,0,0.5)' : 'none',
@@ -43,11 +43,8 @@ export function MarketingNav() {
         }}>
 
           {/* Logo */}
-          <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none', flexShrink: 0 }}>
-            <img src="/logo.png" alt="WebsiteAgent" style={{ height: '32px', width: 'auto' }} />
-            <span style={{ fontSize: '15px', fontWeight: 400, color: 'white', letterSpacing: '-0.01em' }}>
-              Website<strong style={{ fontWeight: 700 }}>Agent</strong>
-            </span>
+          <Link href="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none', flexShrink: 0 }}>
+            <img src="/logo.png" alt="WebsiteAgent" style={{ height: '36px', width: 'auto' }} />
           </Link>
 
           {/* Desktop nav links — centered */}
@@ -134,30 +131,6 @@ export function MarketingNav() {
               <span style={{ display: 'block', width: '18px', height: '1.5px', background: 'rgba(255,255,255,0.7)', transform: menuOpen ? 'rotate(-45deg) translate(4.5px, -4.5px)' : 'none', transition: 'transform 0.2s' }} />
             </button>
 
-            {/* Desktop hamburger-style icon (after CTA, like the reference image) */}
-            <button
-              className="hidden md:flex"
-              style={{
-                width: '40px', height: '40px', alignItems: 'center', justifyContent: 'center',
-                background: 'transparent', border: '1px solid rgba(255,255,255,0.12)',
-                borderRadius: '8px', cursor: 'pointer', padding: 0,
-                flexDirection: 'column', gap: '5px',
-                transition: 'border-color 0.15s, background 0.15s',
-              }}
-              aria-label="Více"
-              onMouseEnter={e => {
-                (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,255,255,0.25)';
-                (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.04)';
-              }}
-              onMouseLeave={e => {
-                (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,255,255,0.12)';
-                (e.currentTarget as HTMLElement).style.background = 'transparent';
-              }}
-            >
-              <span style={{ display: 'block', width: '16px', height: '1.5px', background: 'rgba(255,255,255,0.6)' }} />
-              <span style={{ display: 'block', width: '16px', height: '1.5px', background: 'rgba(255,255,255,0.6)' }} />
-              <span style={{ display: 'block', width: '16px', height: '1.5px', background: 'rgba(255,255,255,0.6)' }} />
-            </button>
           </div>
         </div>
 

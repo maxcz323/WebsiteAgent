@@ -17,6 +17,15 @@ interface Version {
 
 const CHANGELOG: Version[] = [
   {
+    version: '3.52',
+    date: '21. 6. 2026',
+    changes: [
+      { type: 'fix', text: 'MarketingNav — odstraněn text "WebsiteAgent" vedle loga (zůstává jen logo obrázek)' },
+      { type: 'fix', text: 'MarketingNav — odstraněn duplicitní desktop hamburger, zůstává jen jeden pro mobil' },
+      { type: 'change', text: 'MarketingNav — top: 0 → top: 12px, navbar není přilepený na vrchol stránky' },
+    ],
+  },
+  {
     version: '3.51',
     date: '21. 6. 2026',
     changes: [
