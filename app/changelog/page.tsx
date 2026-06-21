@@ -17,6 +17,13 @@ interface Version {
 
 const CHANGELOG: Version[] = [
   {
+    version: '3.49',
+    date: '21. 6. 2026',
+    changes: [
+      { type: 'feat', text: 'Font — DM Serif Display nahrazen Montserrat (weights 300/400/600/700) pro lepší čitelnost na dark bg' },
+    ],
+  },
+  {
     version: '3.48',
     date: '21. 6. 2026',
     changes: [

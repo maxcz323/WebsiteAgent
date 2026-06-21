@@ -1,9 +1,9 @@
 import { MarketingNav } from '@/components/marketing/MarketingNav';
 import { Footer } from '@/components/marketing/Footer';
-import { DM_Serif_Display } from 'next/font/google';
+import { Montserrat } from 'next/font/google';
 import type { Metadata } from 'next';
 
-const serif = DM_Serif_Display({ subsets: ['latin'], weight: '400', style: ['normal', 'italic'], variable: '--font-display' });
+const display = Montserrat({ subsets: ['latin'], weight: ['300', '400', '600', '700'], variable: '--font-display' });
 
 export const metadata: Metadata = {
   title: { default: 'WebsiteAgent – Profesionální weby pro lokální firmy', template: '%s | WebsiteAgent' },
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
 
 export default function MarketingLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className={`bg-[#060d1a] text-slate-100 antialiased ${serif.variable}`}>
+    <div className={`bg-[#060d1a] text-slate-100 antialiased ${display.variable}`}>
       <MarketingNav />
       <main>{children}</main>
       <Footer />
