@@ -17,6 +17,14 @@ interface Version {
 
 const CHANGELOG: Version[] = [
   {
+    version: '3.55',
+    date: '21. 6. 2026',
+    changes: [
+      { type: 'feat', text: 'MarketingNav — zaoblené rohy (border-radius 14px), sekce zpět (Domů/Služby/Portfolio/Jak pracujeme/Reference/O nás)' },
+      { type: 'feat', text: 'MarketingNav — sliding indikátor: modrá čárka na spodku navbaru plynule přejíždí pod aktivní sekci (CSS transition left+width)' },
+    ],
+  },
+  {
     version: '3.54',
     date: '21. 6. 2026',
     changes: [
