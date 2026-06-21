@@ -154,25 +154,25 @@ function ServicesSection() {
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end end'] });
 
   /* header slides from left */
-  const hX  = useTransform(scrollYProgress, [0, 0.42], [-80, 0]);
-  const hOp = useTransform(scrollYProgress, [0, 0.28], [0, 1]);
+  const hX  = useTransform(scrollYProgress, [0.05, 0.52], [-80, 0]);
+  const hOp = useTransform(scrollYProgress, [0.05, 0.36], [0, 1]);
 
   /* card 1: from left */
-  const c1X  = useTransform(scrollYProgress, [0.1, 0.55], [-110, 0]);
-  const c1R  = useTransform(scrollYProgress, [0.1, 0.55], [-2.5, 0]);
-  const c1Op = useTransform(scrollYProgress, [0.1, 0.4],  [0, 1]);
+  const c1X  = useTransform(scrollYProgress, [0.15, 0.65], [-110, 0]);
+  const c1R  = useTransform(scrollYProgress, [0.15, 0.65], [-2.5, 0]);
+  const c1Op = useTransform(scrollYProgress, [0.15, 0.5],  [0, 1]);
 
   /* card 2: from below */
-  const c2Y  = useTransform(scrollYProgress, [0.16, 0.6], [90, 0]);
-  const c2Op = useTransform(scrollYProgress, [0.16, 0.46], [0, 1]);
+  const c2Y  = useTransform(scrollYProgress, [0.22, 0.72], [90, 0]);
+  const c2Op = useTransform(scrollYProgress, [0.22, 0.57], [0, 1]);
 
   /* card 3: from right */
-  const c3X  = useTransform(scrollYProgress, [0.1, 0.55], [110, 0]);
-  const c3R  = useTransform(scrollYProgress, [0.1, 0.55], [2.5, 0]);
-  const c3Op = useTransform(scrollYProgress, [0.1, 0.4],  [0, 1]);
+  const c3X  = useTransform(scrollYProgress, [0.15, 0.65], [110, 0]);
+  const c3R  = useTransform(scrollYProgress, [0.15, 0.65], [2.5, 0]);
+  const c3Op = useTransform(scrollYProgress, [0.15, 0.5],  [0, 1]);
 
   return (
-    <div ref={ref} className="sp-outer" style={{ height: '240vh', position: 'relative' }}>
+    <div ref={ref} className="sp-outer" style={{ height: '300vh', position: 'relative' }}>
         <div className="sp-inner" style={{ position: 'sticky', top: 0, height: '100vh', overflow: 'hidden', background: BG, display: 'flex', alignItems: 'center' }}>
           <div style={{ width: '100%', maxWidth: '1080px', margin: '0 auto', padding: '0 24px', paddingTop: '88px' }}>
 
@@ -229,16 +229,16 @@ function ProcessSection() {
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end end'] });
 
   /* left panel */
-  const lX  = useTransform(scrollYProgress, [0, 0.48], [-90, 0]);
-  const lOp = useTransform(scrollYProgress, [0, 0.32], [0, 1]);
+  const lX  = useTransform(scrollYProgress, [0.05, 0.56], [-90, 0]);
+  const lOp = useTransform(scrollYProgress, [0.05, 0.38], [0, 1]);
 
   /* right panel — each step staggered */
-  const s1X  = useTransform(scrollYProgress, [0.12, 0.56], [90, 0]);
-  const s1Op = useTransform(scrollYProgress, [0.12, 0.4],  [0, 1]);
-  const s2X  = useTransform(scrollYProgress, [0.2,  0.64], [90, 0]);
-  const s2Op = useTransform(scrollYProgress, [0.2,  0.48], [0, 1]);
-  const s3X  = useTransform(scrollYProgress, [0.28, 0.72], [90, 0]);
-  const s3Op = useTransform(scrollYProgress, [0.28, 0.56], [0, 1]);
+  const s1X  = useTransform(scrollYProgress, [0.15, 0.62], [90, 0]);
+  const s1Op = useTransform(scrollYProgress, [0.15, 0.46], [0, 1]);
+  const s2X  = useTransform(scrollYProgress, [0.24, 0.72], [90, 0]);
+  const s2Op = useTransform(scrollYProgress, [0.24, 0.54], [0, 1]);
+  const s3X  = useTransform(scrollYProgress, [0.33, 0.82], [90, 0]);
+  const s3Op = useTransform(scrollYProgress, [0.33, 0.62], [0, 1]);
 
   const stepStyles = [
     { x: s1X, opacity: s1Op },
@@ -247,7 +247,7 @@ function ProcessSection() {
   ];
 
   return (
-    <div ref={ref} className="sp-outer" style={{ height: '220vh', position: 'relative' }}>
+    <div ref={ref} className="sp-outer" style={{ height: '280vh', position: 'relative' }}>
       <div className="sp-inner" style={{ position: 'sticky', top: 0, height: '100vh', overflow: 'hidden', background: 'rgba(8,16,32,0.95)', display: 'flex', alignItems: 'center' }}>
         <div style={{ width: '100%', maxWidth: '1080px', margin: '0 auto', padding: '0 24px', paddingTop: '88px' }}>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
@@ -312,19 +312,19 @@ function PortfolioSection() {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end end'] });
 
-  const hX  = useTransform(scrollYProgress, [0, 0.42], [80, 0]);
-  const hOp = useTransform(scrollYProgress, [0, 0.28], [0, 1]);
+  const hX  = useTransform(scrollYProgress, [0.05, 0.52], [80, 0]);
+  const hOp = useTransform(scrollYProgress, [0.05, 0.36], [0, 1]);
 
-  const p1X  = useTransform(scrollYProgress, [0.1,  0.54], [-110, 0]);
-  const p1R  = useTransform(scrollYProgress, [0.1,  0.54], [-2, 0]);
-  const p1Op = useTransform(scrollYProgress, [0.1,  0.4],  [0, 1]);
+  const p1X  = useTransform(scrollYProgress, [0.15, 0.63], [-110, 0]);
+  const p1R  = useTransform(scrollYProgress, [0.15, 0.63], [-2, 0]);
+  const p1Op = useTransform(scrollYProgress, [0.15, 0.5],  [0, 1]);
 
-  const p2Y  = useTransform(scrollYProgress, [0.18, 0.62], [80, 0]);
-  const p2Op = useTransform(scrollYProgress, [0.18, 0.48], [0, 1]);
+  const p2Y  = useTransform(scrollYProgress, [0.22, 0.7], [80, 0]);
+  const p2Op = useTransform(scrollYProgress, [0.22, 0.56], [0, 1]);
 
-  const p3X  = useTransform(scrollYProgress, [0.1,  0.54], [-110, 0]);
-  const p3R  = useTransform(scrollYProgress, [0.1,  0.54], [-2, 0]);
-  const p3Op = useTransform(scrollYProgress, [0.1,  0.4],  [0, 1]);
+  const p3X  = useTransform(scrollYProgress, [0.15, 0.63], [-110, 0]);
+  const p3R  = useTransform(scrollYProgress, [0.15, 0.63], [-2, 0]);
+  const p3Op = useTransform(scrollYProgress, [0.15, 0.5],  [0, 1]);
 
   const cardStyles = [
     { x: p1X, rotate: p1R, opacity: p1Op },
@@ -333,7 +333,7 @@ function PortfolioSection() {
   ];
 
   return (
-    <div ref={ref} className="sp-outer" style={{ height: '220vh', position: 'relative' }}>
+    <div ref={ref} className="sp-outer" style={{ height: '280vh', position: 'relative' }}>
       <div className="sp-inner" style={{ position: 'sticky', top: 0, height: '100vh', overflow: 'hidden', background: BG, display: 'flex', alignItems: 'center' }}>
         <div style={{ width: '100%', maxWidth: '1080px', margin: '0 auto', padding: '0 24px', paddingTop: '88px' }}>
 
@@ -397,19 +397,19 @@ function TestimonialsSection() {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end end'] });
 
-  const hX  = useTransform(scrollYProgress, [0, 0.4],  [-80, 0]);
-  const hOp = useTransform(scrollYProgress, [0, 0.26], [0, 1]);
+  const hX  = useTransform(scrollYProgress, [0.05, 0.5],  [-80, 0]);
+  const hOp = useTransform(scrollYProgress, [0.05, 0.33], [0, 1]);
 
-  const t1X  = useTransform(scrollYProgress, [0.1,  0.55], [-100, 0]);
-  const t1R  = useTransform(scrollYProgress, [0.1,  0.55], [-2, 0]);
-  const t1Op = useTransform(scrollYProgress, [0.1,  0.4],  [0, 1]);
+  const t1X  = useTransform(scrollYProgress, [0.15, 0.63], [-100, 0]);
+  const t1R  = useTransform(scrollYProgress, [0.15, 0.63], [-2, 0]);
+  const t1Op = useTransform(scrollYProgress, [0.15, 0.5],  [0, 1]);
 
-  const t2Y  = useTransform(scrollYProgress, [0.16, 0.6],  [80, 0]);
-  const t2Op = useTransform(scrollYProgress, [0.16, 0.46], [0, 1]);
+  const t2Y  = useTransform(scrollYProgress, [0.22, 0.68],  [80, 0]);
+  const t2Op = useTransform(scrollYProgress, [0.22, 0.54], [0, 1]);
 
-  const t3X  = useTransform(scrollYProgress, [0.1,  0.55], [100, 0]);
-  const t3R  = useTransform(scrollYProgress, [0.1,  0.55], [2, 0]);
-  const t3Op = useTransform(scrollYProgress, [0.1,  0.4],  [0, 1]);
+  const t3X  = useTransform(scrollYProgress, [0.15, 0.63], [100, 0]);
+  const t3R  = useTransform(scrollYProgress, [0.15, 0.63], [2, 0]);
+  const t3Op = useTransform(scrollYProgress, [0.15, 0.5],  [0, 1]);
 
   const tStyles = [
     { x: t1X, rotate: t1R, opacity: t1Op },
@@ -418,7 +418,7 @@ function TestimonialsSection() {
   ];
 
   return (
-    <div ref={ref} className="sp-outer" style={{ height: '220vh', position: 'relative' }}>
+    <div ref={ref} className="sp-outer" style={{ height: '280vh', position: 'relative' }}>
       <div className="sp-inner" style={{ position: 'sticky', top: 0, height: '100vh', overflow: 'hidden', background: 'rgba(8,16,32,0.95)', display: 'flex', alignItems: 'center' }}>
         <div style={{ width: '100%', maxWidth: '1080px', margin: '0 auto', padding: '0 24px', paddingTop: '88px' }}>
 
