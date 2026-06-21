@@ -50,18 +50,18 @@ export default function MarketingLayout({ children }: { children: React.ReactNod
       </div>
 
       <div aria-hidden style={{
-        position: 'fixed', bottom: 0, left: 0,
-        width: '380px', height: '65vh',
+        position: 'fixed', top: 0, left: 0,
+        width: '380px', height: '100vh',
         zIndex: 10, pointerEvents: 'none', overflow: 'hidden',
         mixBlendMode: 'multiply',
       }}>
-        <svg width="100%" height="100%" viewBox="0 0 380 580" preserveAspectRatio="xMinYMax meet" xmlns="http://www.w3.org/2000/svg">
+        <svg width="100%" height="100%" viewBox="0 0 380 900" preserveAspectRatio="xMinYMid meet" xmlns="http://www.w3.org/2000/svg">
           <g stroke="#bab4ad" fill="none">
-            <path strokeWidth="1"   d="M -60 620 C  60 460  20 300 180 180 S 320  80 200 -40" />
-            <path strokeWidth="0.7" d="M  20 640 C 160 500  80 320 220 200 S 380 100 260 -20" />
-            <path strokeWidth="0.5" d="M -20 600 C 100 420  40 260 160 160 S 280  60 140 -60" />
-            <path strokeWidth="0.9" d="M  60 660 C 200 520 140 340 280 220 S 420 120 300  -0" />
-            <path strokeWidth="0.6" d="M -100 580 C  20 400  -40 240 120 120 S 260  20  80 -80" />
+            <path strokeWidth="1"   d="M -60 -60 C  60 120  20 300 180 480 S 320 660 200 840 S  80 960 220 1020" />
+            <path strokeWidth="0.7" d="M  20 -40 C 160 140  80 320 220 500 S 380 680 260 860 S 140 980 280 1040" />
+            <path strokeWidth="0.5" d="M -20 -80 C 100 100  40 280 160 460 S 280 640 140 820 S  20 940 160 1000" />
+            <path strokeWidth="0.9" d="M  60 -20 C 200 160 140 340 280 520 S 420 700 300 880 S 180 1000 320 1060" />
+            <path strokeWidth="0.6" d="M -100 -100 C 20 80  -40 260 120 440 S 260 620  80 800 S -40 920 100  980" />
           </g>
         </svg>
       </div>
