@@ -151,25 +151,25 @@ const SERVICES = [
 
 function ServicesSection() {
   const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end end'] });
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end end'] });
 
   /* header slides from left */
-  const hX  = useTransform(scrollYProgress, [0, 0.38], [-80, 0]);
-  const hOp = useTransform(scrollYProgress, [0, 0.24], [0, 1]);
+  const hX  = useTransform(scrollYProgress, [0, 0.18], [-80, 0]);
+  const hOp = useTransform(scrollYProgress, [0, 0.12], [0, 1]);
 
   /* card 1: from left */
-  const c1X  = useTransform(scrollYProgress, [0.05, 0.48], [-110, 0]);
-  const c1R  = useTransform(scrollYProgress, [0.05, 0.48], [-2.5, 0]);
-  const c1Op = useTransform(scrollYProgress, [0.05, 0.35], [0, 1]);
+  const c1X  = useTransform(scrollYProgress, [0.05, 0.24], [-110, 0]);
+  const c1R  = useTransform(scrollYProgress, [0.05, 0.24], [-2.5, 0]);
+  const c1Op = useTransform(scrollYProgress, [0.05, 0.18], [0, 1]);
 
   /* card 2: from below */
-  const c2Y  = useTransform(scrollYProgress, [0.1, 0.54], [90, 0]);
-  const c2Op = useTransform(scrollYProgress, [0.1, 0.4],  [0, 1]);
+  const c2Y  = useTransform(scrollYProgress, [0.08, 0.28], [90, 0]);
+  const c2Op = useTransform(scrollYProgress, [0.08, 0.22], [0, 1]);
 
   /* card 3: from right */
-  const c3X  = useTransform(scrollYProgress, [0.05, 0.48], [110, 0]);
-  const c3R  = useTransform(scrollYProgress, [0.05, 0.48], [2.5, 0]);
-  const c3Op = useTransform(scrollYProgress, [0.05, 0.35], [0, 1]);
+  const c3X  = useTransform(scrollYProgress, [0.05, 0.24], [110, 0]);
+  const c3R  = useTransform(scrollYProgress, [0.05, 0.24], [2.5, 0]);
+  const c3Op = useTransform(scrollYProgress, [0.05, 0.18], [0, 1]);
 
   return (
     <div ref={ref} className="sp-outer" style={{ height: '300vh', position: 'relative' }}>
@@ -226,19 +226,19 @@ const STEPS = [
 
 function ProcessSection() {
   const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end end'] });
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end end'] });
 
   /* left panel */
-  const lX  = useTransform(scrollYProgress, [0, 0.42], [-90, 0]);
-  const lOp = useTransform(scrollYProgress, [0, 0.28], [0, 1]);
+  const lX  = useTransform(scrollYProgress, [0, 0.2], [-90, 0]);
+  const lOp = useTransform(scrollYProgress, [0, 0.13], [0, 1]);
 
   /* right panel — each step staggered */
-  const s1X  = useTransform(scrollYProgress, [0.08, 0.48], [90, 0]);
-  const s1Op = useTransform(scrollYProgress, [0.08, 0.35], [0, 1]);
-  const s2X  = useTransform(scrollYProgress, [0.15, 0.56], [90, 0]);
-  const s2Op = useTransform(scrollYProgress, [0.15, 0.42], [0, 1]);
-  const s3X  = useTransform(scrollYProgress, [0.22, 0.64], [90, 0]);
-  const s3Op = useTransform(scrollYProgress, [0.22, 0.49], [0, 1]);
+  const s1X  = useTransform(scrollYProgress, [0.06, 0.24], [90, 0]);
+  const s1Op = useTransform(scrollYProgress, [0.06, 0.18], [0, 1]);
+  const s2X  = useTransform(scrollYProgress, [0.1,  0.28], [90, 0]);
+  const s2Op = useTransform(scrollYProgress, [0.1,  0.22], [0, 1]);
+  const s3X  = useTransform(scrollYProgress, [0.14, 0.32], [90, 0]);
+  const s3Op = useTransform(scrollYProgress, [0.14, 0.26], [0, 1]);
 
   const stepStyles = [
     { x: s1X, opacity: s1Op },
@@ -310,21 +310,21 @@ const PORTFOLIO = [
 
 function PortfolioSection() {
   const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end end'] });
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end end'] });
 
-  const hX  = useTransform(scrollYProgress, [0, 0.38], [80, 0]);
-  const hOp = useTransform(scrollYProgress, [0, 0.24], [0, 1]);
+  const hX  = useTransform(scrollYProgress, [0, 0.18], [80, 0]);
+  const hOp = useTransform(scrollYProgress, [0, 0.12], [0, 1]);
 
-  const p1X  = useTransform(scrollYProgress, [0.05, 0.48], [-110, 0]);
-  const p1R  = useTransform(scrollYProgress, [0.05, 0.48], [-2, 0]);
-  const p1Op = useTransform(scrollYProgress, [0.05, 0.35], [0, 1]);
+  const p1X  = useTransform(scrollYProgress, [0.05, 0.24], [-110, 0]);
+  const p1R  = useTransform(scrollYProgress, [0.05, 0.24], [-2, 0]);
+  const p1Op = useTransform(scrollYProgress, [0.05, 0.18], [0, 1]);
 
-  const p2Y  = useTransform(scrollYProgress, [0.1, 0.54], [80, 0]);
-  const p2Op = useTransform(scrollYProgress, [0.1, 0.4],  [0, 1]);
+  const p2Y  = useTransform(scrollYProgress, [0.08, 0.28], [80, 0]);
+  const p2Op = useTransform(scrollYProgress, [0.08, 0.22], [0, 1]);
 
-  const p3X  = useTransform(scrollYProgress, [0.05, 0.48], [-110, 0]);
-  const p3R  = useTransform(scrollYProgress, [0.05, 0.48], [-2, 0]);
-  const p3Op = useTransform(scrollYProgress, [0.05, 0.35], [0, 1]);
+  const p3X  = useTransform(scrollYProgress, [0.05, 0.24], [-110, 0]);
+  const p3R  = useTransform(scrollYProgress, [0.05, 0.24], [-2, 0]);
+  const p3Op = useTransform(scrollYProgress, [0.05, 0.18], [0, 1]);
 
   const cardStyles = [
     { x: p1X, rotate: p1R, opacity: p1Op },
@@ -395,21 +395,21 @@ const TESTIMONIALS = [
 
 function TestimonialsSection() {
   const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end end'] });
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end end'] });
 
-  const hX  = useTransform(scrollYProgress, [0, 0.38],  [-80, 0]);
-  const hOp = useTransform(scrollYProgress, [0, 0.24], [0, 1]);
+  const hX  = useTransform(scrollYProgress, [0, 0.18],  [-80, 0]);
+  const hOp = useTransform(scrollYProgress, [0, 0.12], [0, 1]);
 
-  const t1X  = useTransform(scrollYProgress, [0.05, 0.48], [-100, 0]);
-  const t1R  = useTransform(scrollYProgress, [0.05, 0.48], [-2, 0]);
-  const t1Op = useTransform(scrollYProgress, [0.05, 0.35], [0, 1]);
+  const t1X  = useTransform(scrollYProgress, [0.05, 0.24], [-100, 0]);
+  const t1R  = useTransform(scrollYProgress, [0.05, 0.24], [-2, 0]);
+  const t1Op = useTransform(scrollYProgress, [0.05, 0.18], [0, 1]);
 
-  const t2Y  = useTransform(scrollYProgress, [0.1, 0.54],  [80, 0]);
-  const t2Op = useTransform(scrollYProgress, [0.1, 0.4],  [0, 1]);
+  const t2Y  = useTransform(scrollYProgress, [0.08, 0.28],  [80, 0]);
+  const t2Op = useTransform(scrollYProgress, [0.08, 0.22], [0, 1]);
 
-  const t3X  = useTransform(scrollYProgress, [0.05, 0.48], [100, 0]);
-  const t3R  = useTransform(scrollYProgress, [0.05, 0.48], [2, 0]);
-  const t3Op = useTransform(scrollYProgress, [0.05, 0.35], [0, 1]);
+  const t3X  = useTransform(scrollYProgress, [0.05, 0.24], [100, 0]);
+  const t3R  = useTransform(scrollYProgress, [0.05, 0.24], [2, 0]);
+  const t3Op = useTransform(scrollYProgress, [0.05, 0.18], [0, 1]);
 
   const tStyles = [
     { x: t1X, rotate: t1R, opacity: t1Op },
