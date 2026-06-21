@@ -155,9 +155,8 @@ function ServicesSection() {
   const E = (delay = 0) => ({ duration: 0.9, ease: [0.22, 1, 0.36, 1] as any, delay: inView ? delay : 0 });
 
   return (
-    <div ref={outerRef} className="sp-outer" style={{ height: '300vh', position: 'relative' }}>
-        <div className="sp-inner" style={{ position: 'sticky', top: 0, height: '100vh', overflow: 'hidden', background: BG, display: 'flex', alignItems: 'center' }}>
-          <div style={{ width: '100%', maxWidth: '1080px', margin: '0 auto', padding: '0 24px', paddingTop: '88px' }}>
+    <div ref={outerRef} style={{ background: BG, padding: '112px 24px' }}>
+        <div style={{ maxWidth: '1080px', margin: '0 auto' }}>
 
             <motion.div
               animate={{ opacity: inView ? 1 : 0, x: inView ? 0 : -80 }}
@@ -201,13 +200,12 @@ function ServicesSection() {
                 </motion.div>
               ))}
             </div>
-          </div>
         </div>
-      </div>
+    </div>
   );
 }
 
-/* ─── PROCESS ── scroll-pinned, left panel ← right panel → ─────── */
+/* ─── PROCESS ─────────────────────────────────────────────────── */
 const STEPS = [
   { n: '01', title: 'Vyplníte formulář', desc: 'Řeknete nám o firmě. Zabere to 5 minut.', time: '3 min' },
   { n: '02', title: 'Navrhneme web na míru', desc: 'Do 48 hodin máte hotový návrh připravený ke schválení.', time: '24 h' },
@@ -220,9 +218,8 @@ function ProcessSection() {
   const E = (delay = 0) => ({ duration: 0.9, ease: [0.22, 1, 0.36, 1] as any, delay: inView ? delay : 0 });
 
   return (
-    <div ref={outerRef} className="sp-outer" style={{ height: '300vh', position: 'relative' }}>
-      <div className="sp-inner" style={{ position: 'sticky', top: 0, height: '100vh', overflow: 'hidden', background: 'rgba(8,16,32,0.95)', display: 'flex', alignItems: 'center' }}>
-        <div style={{ width: '100%', maxWidth: '1080px', margin: '0 auto', padding: '0 24px', paddingTop: '88px' }}>
+    <div ref={outerRef} style={{ background: 'rgba(8,16,32,0.95)', padding: '112px 24px' }}>
+        <div style={{ maxWidth: '1080px', margin: '0 auto' }}>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
 
             <motion.div animate={{ opacity: inView ? 1 : 0, x: inView ? 0 : -90 }} transition={E(0)}>
@@ -261,12 +258,11 @@ function ProcessSection() {
 
           </div>
         </div>
-      </div>
     </div>
   );
 }
 
-/* ─── PORTFOLIO ── scroll-pinned, header R, cards from L ────────── */
+/* ─── PORTFOLIO ─────────────────────────────────────────────────── */
 const PORTFOLIO = [
   { client: 'Pavel Novák Instalace', obor: 'Instalatér', city: 'Praha', result: '+340% kontaktů', color: 'from-blue-700 to-blue-900' },
   { client: 'Zubní ordinace Procházková', obor: 'Zubař', city: 'Brno', result: '70% nových pacientů', color: 'from-slate-600 to-slate-800' },
@@ -284,9 +280,8 @@ function PortfolioSection() {
   ];
 
   return (
-    <div ref={outerRef} className="sp-outer" style={{ height: '300vh', position: 'relative' }}>
-      <div className="sp-inner" style={{ position: 'sticky', top: 0, height: '100vh', overflow: 'hidden', background: BG, display: 'flex', alignItems: 'center' }}>
-        <div style={{ width: '100%', maxWidth: '1080px', margin: '0 auto', padding: '0 24px', paddingTop: '88px' }}>
+    <div ref={outerRef} style={{ background: BG, padding: '112px 24px' }}>
+        <div style={{ maxWidth: '1080px', margin: '0 auto' }}>
 
           <motion.div animate={{ opacity: inView ? 1 : 0, x: inView ? 0 : 80 }} transition={E(0)} className="mb-10">
             <p style={{ fontSize: '11px', fontWeight: 600, color: 'rgba(255,255,255,0.25)', textTransform: 'uppercase', letterSpacing: '0.16em', marginBottom: '14px' }}>Naše práce</p>
@@ -335,12 +330,11 @@ function PortfolioSection() {
             ))}
           </div>
         </div>
-      </div>
     </div>
   );
 }
 
-/* ─── TESTIMONIALS ── scroll-pinned, L / bottom / R ─────────────── */
+/* ─── TESTIMONIALS ──────────────────────────────────────────────── */
 const TESTIMONIALS = [
   { quote: 'Čekal jsem měsíce. Dostal jsem web za 48 hodin a hned první týden mi volali noví zákazníci.', name: 'Pavel Novák', role: 'Instalatér, Praha', initial: 'P' },
   { quote: 'Zákazníci důvěřují ordinaci ještě předtím, než vůbec přijdou. Web vypadá opravdu profesionálně.', name: 'MUDr. Jana Procházková', role: 'Zubní lékařka, Brno', initial: 'J' },
@@ -358,9 +352,8 @@ function TestimonialsSection() {
   ];
 
   return (
-    <div ref={outerRef} className="sp-outer" style={{ height: '300vh', position: 'relative' }}>
-      <div className="sp-inner" style={{ position: 'sticky', top: 0, height: '100vh', overflow: 'hidden', background: 'rgba(8,16,32,0.95)', display: 'flex', alignItems: 'center' }}>
-        <div style={{ width: '100%', maxWidth: '1080px', margin: '0 auto', padding: '0 24px', paddingTop: '88px' }}>
+    <div ref={outerRef} style={{ background: 'rgba(8,16,32,0.95)', padding: '112px 24px' }}>
+        <div style={{ maxWidth: '1080px', margin: '0 auto' }}>
 
           <motion.div animate={{ opacity: inView ? 1 : 0, x: inView ? 0 : -80 }} transition={E(0)} className="mb-10">
             <p style={{ fontSize: '11px', fontWeight: 600, color: 'rgba(255,255,255,0.25)', textTransform: 'uppercase', letterSpacing: '0.16em', marginBottom: '14px' }}>Reference</p>
@@ -402,7 +395,6 @@ function TestimonialsSection() {
             ))}
           </div>
         </div>
-      </div>
     </div>
   );
 }
