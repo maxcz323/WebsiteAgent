@@ -172,7 +172,7 @@ function ServicesSection() {
   const c3Op = useTransform(scrollYProgress, [0.05, 0.18], [0, 1]);
 
   return (
-    <div ref={ref} className="sp-outer" style={{ height: '300vh', position: 'relative' }}>
+    <div ref={ref} className="sp-outer" style={{ height: '550vh', position: 'relative' }}>
         <div className="sp-inner" style={{ position: 'sticky', top: 0, height: '100vh', overflow: 'hidden', background: BG, display: 'flex', alignItems: 'center' }}>
           <div style={{ width: '100%', maxWidth: '1080px', margin: '0 auto', padding: '0 24px', paddingTop: '88px' }}>
 
@@ -247,7 +247,7 @@ function ProcessSection() {
   ];
 
   return (
-    <div ref={ref} className="sp-outer" style={{ height: '280vh', position: 'relative' }}>
+    <div ref={ref} className="sp-outer" style={{ height: '500vh', position: 'relative' }}>
       <div className="sp-inner" style={{ position: 'sticky', top: 0, height: '100vh', overflow: 'hidden', background: 'rgba(8,16,32,0.95)', display: 'flex', alignItems: 'center' }}>
         <div style={{ width: '100%', maxWidth: '1080px', margin: '0 auto', padding: '0 24px', paddingTop: '88px' }}>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
@@ -333,7 +333,7 @@ function PortfolioSection() {
   ];
 
   return (
-    <div ref={ref} className="sp-outer" style={{ height: '280vh', position: 'relative' }}>
+    <div ref={ref} className="sp-outer" style={{ height: '500vh', position: 'relative' }}>
       <div className="sp-inner" style={{ position: 'sticky', top: 0, height: '100vh', overflow: 'hidden', background: BG, display: 'flex', alignItems: 'center' }}>
         <div style={{ width: '100%', maxWidth: '1080px', margin: '0 auto', padding: '0 24px', paddingTop: '88px' }}>
 
@@ -418,7 +418,7 @@ function TestimonialsSection() {
   ];
 
   return (
-    <div ref={ref} className="sp-outer" style={{ height: '280vh', position: 'relative' }}>
+    <div ref={ref} className="sp-outer" style={{ height: '500vh', position: 'relative' }}>
       <div className="sp-inner" style={{ position: 'sticky', top: 0, height: '100vh', overflow: 'hidden', background: 'rgba(8,16,32,0.95)', display: 'flex', alignItems: 'center' }}>
         <div style={{ width: '100%', maxWidth: '1080px', margin: '0 auto', padding: '0 24px', paddingTop: '88px' }}>
 
