@@ -17,6 +17,13 @@ interface Version {
 
 const CHANGELOG: Version[] = [
   {
+    version: '3.79',
+    date: '21. 6. 2026',
+    changes: [
+      { type: 'feat', text: 'Dekorativní čáry v pozadí — 13 organicky zakřivených SVG linek přes celý web (position: fixed, mix-blend-mode: multiply), na světlých sekcích viditelné, na tmavých (#285570 CTA) automaticky mizí. Navbar nezasažen (z-index 50 > overlay z-index 2). Čáry mají variující stroke-width (0.8–1.2) pro přirozený vzhled.' },
+    ],
+  },
+  {
     version: '3.78',
     date: '21. 6. 2026',
     changes: [
