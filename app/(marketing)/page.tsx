@@ -69,67 +69,132 @@ const STATS = [
 
 function Hero() {
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden" style={{ background: BG }}>
-      {/* Subtle decorative blobs */}
-      <div aria-hidden style={{ position: 'absolute', top: '-10%', right: '-5%', width: '600px', height: '600px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(40,85,112,0.07) 0%, transparent 65%)', pointerEvents: 'none' }} />
-      <div aria-hidden style={{ position: 'absolute', bottom: '0', left: '-8%', width: '500px', height: '500px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(203,202,199,0.18) 0%, transparent 65%)', pointerEvents: 'none' }} />
+    <section style={{ background: BG, minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', overflow: 'hidden', position: 'relative' }}>
+      {/* Background blobs */}
+      <div aria-hidden style={{ position: 'absolute', top: '-15%', right: '-8%', width: '700px', height: '700px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(40,85,112,0.06) 0%, transparent 65%)', pointerEvents: 'none' }} />
+      <div aria-hidden style={{ position: 'absolute', bottom: '-5%', left: '-10%', width: '550px', height: '550px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(227,222,215,0.45) 0%, transparent 65%)', pointerEvents: 'none' }} />
 
-      <div className="relative z-10 w-full max-w-6xl mx-auto px-5 sm:px-8" style={{ paddingTop: '160px', paddingBottom: '80px' }}>
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-5 sm:px-10" style={{ paddingTop: '120px', paddingBottom: '60px' }}>
 
+        {/* ── 2-column grid ── */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center" style={{ marginBottom: '72px' }}>
+
+          {/* Left: text */}
+          <div>
+            <motion.div
+              initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.05 }}
+              style={{ display: 'inline-flex', alignItems: 'center', gap: '7px', background: 'rgba(40,85,112,0.08)', border: '1px solid rgba(40,85,112,0.14)', borderRadius: '20px', padding: '5px 14px', marginBottom: '28px' }}
+            >
+              <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: ACCENT }} />
+              <span style={{ fontSize: '12px', fontWeight: 600, color: ACCENT, letterSpacing: '0.02em' }}>Přijímáme nové projekty</span>
+            </motion.div>
+
+            <motion.h1
+              initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.12 }}
+              style={{ fontFamily: 'var(--font-display)', fontWeight: 300, letterSpacing: '-0.04em', lineHeight: 0.95, color: '#1a2e3d', fontSize: 'clamp(44px,6vw,88px)', marginBottom: '28px' }}
+            >
+              Web, který<br />prodává.
+            </motion.h1>
+
+            <motion.p
+              initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.22 }}
+              style={{ fontSize: '17px', lineHeight: 1.7, color: '#5c5650', maxWidth: '380px', marginBottom: '40px' }}
+            >
+              Moderní weby pro lokální firmy.<br />
+              <span style={{ color: '#cbcac7' }}>Platíte až po schválení. Záloha 0 Kč.</span>
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.32 }}
+              className="flex flex-col sm:flex-row gap-3"
+            >
+              <Link href="/kontakt" className="btn-mkt-primary">
+                Chci web pro svou firmu
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+              </Link>
+              <Link href="/jak-pracujeme" className="btn-mkt-ghost">Jak to funguje</Link>
+            </motion.div>
+          </div>
+
+          {/* Right: image with floating badges */}
+          <motion.div
+            initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.85, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+            className="hidden lg:block"
+            style={{ position: 'relative' }}
+          >
+            {/* Main image */}
+            <div style={{ borderRadius: '24px', overflow: 'hidden', boxShadow: '0 32px 80px rgba(40,85,112,0.14), 0 4px 16px rgba(40,85,112,0.08)', border: '1px solid #e3ded7' }}>
+              <img
+                src="https://images.unsplash.com/photo-1547658719-da2b51169166?w=900&q=85&auto=format&fit=crop"
+                alt="Web design na monitoru"
+                style={{ width: '100%', height: '480px', objectFit: 'cover', display: 'block' }}
+              />
+            </div>
+
+            {/* Floating card — bottom left */}
+            <motion.div
+              initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.65 }}
+              style={{ position: 'absolute', bottom: '28px', left: '-28px', background: '#fff', border: '1px solid #e3ded7', borderRadius: '16px', padding: '14px 18px', boxShadow: '0 12px 32px rgba(40,85,112,0.12)', display: 'flex', alignItems: 'center', gap: '12px', minWidth: '200px' }}
+            >
+              <div style={{ width: '36px', height: '36px', borderRadius: '10px', background: 'rgba(40,85,112,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={ACCENT} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
+              </div>
+              <div>
+                <p style={{ fontSize: '13px', fontWeight: 700, color: '#1a2e3d', margin: 0, lineHeight: 1.2 }}>Web schválen</p>
+                <p style={{ fontSize: '11px', color: '#cbcac7', margin: 0, marginTop: '2px' }}>Pavel Novák Instalace</p>
+              </div>
+            </motion.div>
+
+            {/* Floating badge — top right */}
+            <motion.div
+              initial={{ opacity: 0, y: -12 }} animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.75 }}
+              style={{ position: 'absolute', top: '28px', right: '-24px', background: ACCENT, borderRadius: '16px', padding: '14px 20px', boxShadow: '0 12px 32px rgba(40,85,112,0.3)', display: 'flex', flexDirection: 'column', alignItems: 'center' }}
+            >
+              <span style={{ fontSize: '26px', fontWeight: 700, color: '#fff', lineHeight: 1 }}>48h</span>
+              <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.65)', marginTop: '3px', letterSpacing: '0.04em' }}>DODÁNÍ</span>
+            </motion.div>
+
+            {/* Floating mini-card — middle right edge */}
+            <motion.div
+              initial={{ opacity: 0, x: 12 }} animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.85 }}
+              style={{ position: 'absolute', top: '50%', right: '-20px', transform: 'translateY(-50%)', background: '#fff', border: '1px solid #e3ded7', borderRadius: '12px', padding: '10px 14px', boxShadow: '0 8px 24px rgba(40,85,112,0.1)', display: 'flex', alignItems: 'center', gap: '8px' }}
+            >
+              <div style={{ display: 'flex', gap: '1px' }}>
+                {[1,2,3,4,5].map(s => (
+                  <svg key={s} width="10" height="10" viewBox="0 0 24 24" fill={ACCENT}><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg>
+                ))}
+              </div>
+              <span style={{ fontSize: '11px', fontWeight: 600, color: '#1a2e3d' }}>50+ klientů</span>
+            </motion.div>
+          </motion.div>
+        </div>
+
+        {/* ── Stats bar — full width ── */}
         <motion.div
-          initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.05 }}
-          style={{ display: 'inline-flex', alignItems: 'center', gap: '7px', background: 'rgba(40,85,112,0.08)', border: '1px solid rgba(40,85,112,0.14)', borderRadius: '20px', padding: '5px 14px', marginBottom: '28px' }}
-        >
-          <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: ACCENT }} />
-          <span style={{ fontSize: '12px', fontWeight: 600, color: ACCENT, letterSpacing: '0.02em' }}>Přijímáme nové projekty</span>
-        </motion.div>
-
-        <motion.h1
-          initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.12 }}
-          style={{ fontFamily: 'var(--font-display)', fontWeight: 300, letterSpacing: '-0.04em', lineHeight: 0.95, color: '#1a2e3d', fontSize: 'clamp(48px,8vw,96px)', marginBottom: '28px' }}
-        >
-          Web, který<br />prodává.
-        </motion.h1>
-
-        <motion.p
           initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.22 }}
-          style={{ fontSize: '18px', lineHeight: 1.65, color: '#5c5650', maxWidth: '380px', marginBottom: '40px' }}
-        >
-          Moderní weby pro lokální firmy.<br />
-          <span style={{ color: '#cbcac7' }}>Platíte až po schválení. Záloha 0 Kč.</span>
-        </motion.p>
-
-        <motion.div
-          initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.32 }}
-          className="flex flex-col sm:flex-row gap-3" style={{ marginBottom: '64px' }}
-        >
-          <Link href="/kontakt" className="btn-mkt-primary">
-            Chci web pro svou firmu
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
-          </Link>
-          <Link href="/jak-pracujeme" className="btn-mkt-ghost">Jak to funguje</Link>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.5 }}
-          className="grid grid-cols-2 sm:grid-cols-4 gap-6 pt-10 border-t"
-          style={{ borderColor: '#e3ded7' }}
+          transition={{ duration: 0.7, delay: 0.5 }}
+          className="grid grid-cols-2 sm:grid-cols-4 gap-px"
+          style={{ background: '#e3ded7', borderRadius: '16px', overflow: 'hidden', border: '1px solid #e3ded7' }}
         >
           {STATS.map(s => (
-            <div key={s.l} className="text-center">
-              <p style={{ fontSize: '28px', fontWeight: 700, color: ACCENT, letterSpacing: '-0.03em', marginBottom: '4px' }}>{s.n}</p>
-              <p style={{ fontSize: '11px', color: '#cbcac7' }}>{s.l}</p>
+            <div key={s.l} style={{ background: '#fff', padding: '22px 28px', textAlign: 'center' }}>
+              <p style={{ fontSize: '26px', fontWeight: 700, color: ACCENT, letterSpacing: '-0.03em', marginBottom: '4px' }}>{s.n}</p>
+              <p style={{ fontSize: '11px', color: '#cbcac7', margin: 0 }}>{s.l}</p>
             </div>
           ))}
         </motion.div>
       </div>
 
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 pointer-events-none" style={{ opacity: 0.35 }}>
+      {/* Scroll indicator */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 pointer-events-none" style={{ opacity: 0.3 }}>
         <div style={{ width: '20px', height: '32px', borderRadius: '10px', border: `1px solid ${ACCENT}`, display: 'flex', alignItems: 'flex-start', justifyContent: 'center', paddingTop: '6px' }}>
           <motion.div style={{ width: '4px', height: '6px', borderRadius: '2px', background: ACCENT }}
             animate={{ y: [0, 10, 0] }} transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }} />
