@@ -17,6 +17,13 @@ interface Version {
 
 const CHANGELOG: Version[] = [
   {
+    version: '3.53',
+    date: '21. 6. 2026',
+    changes: [
+      { type: 'change', text: 'MarketingNav — zjednodušen na logo + CTA button, odebrány nav linky, světlé pozadí (#f8f9fb), ostré obdélné hrany' },
+    ],
+  },
+  {
     version: '3.52',
     date: '21. 6. 2026',
     changes: [
