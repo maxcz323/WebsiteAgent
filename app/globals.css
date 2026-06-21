@@ -26,9 +26,9 @@ body {
   text-decoration: none;
   padding: 13px 28px;
   border-radius: 10px;
-  border: 1.5px solid #2563eb;
-  color: #2563eb;
-  background: linear-gradient(to right, #2563eb 50%, transparent 50%);
+  border: 1.5px solid #285570;
+  color: #285570;
+  background: linear-gradient(to right, #285570 50%, transparent 50%);
   background-size: 200% 100%;
   background-position: right center;
   transition: background-position 0.4s cubic-bezier(0.4,0,0.2,1), color 0.35s, transform 0.2s;
@@ -54,9 +54,9 @@ body {
   text-decoration: none;
   padding: 13px 28px;
   border-radius: 10px;
-  border: 1.5px solid rgba(255,255,255,0.15);
-  color: rgba(255,255,255,0.55);
-  background: linear-gradient(to right, rgba(255,255,255,0.09) 50%, transparent 50%);
+  border: 1.5px solid #e3ded7;
+  color: #6b6560;
+  background: linear-gradient(to right, #e3ded7 50%, transparent 50%);
   background-size: 200% 100%;
   background-position: right center;
   transition: background-position 0.4s cubic-bezier(0.4,0,0.2,1), color 0.35s, border-color 0.35s, transform 0.2s;
@@ -65,8 +65,8 @@ body {
 }
 .btn-mkt-ghost:hover {
   background-position: left center;
-  color: #fff;
-  border-color: rgba(255,255,255,0.35);
+  color: #1a2e3d;
+  border-color: #cbcac7;
   transform: translateY(-1px);
 }
 .btn-mkt-ghost:active { transform: translateY(0); }
@@ -82,9 +82,9 @@ body {
   text-decoration: none;
   padding: 13px 20px;
   border-radius: 10px;
-  border: 1.5px solid #2563eb;
-  color: #2563eb;
-  background: linear-gradient(to right, #2563eb 50%, transparent 50%);
+  border: 1.5px solid #285570;
+  color: #285570;
+  background: linear-gradient(to right, #285570 50%, transparent 50%);
   background-size: 200% 100%;
   background-position: right center;
   transition: background-position 0.4s cubic-bezier(0.4,0,0.2,1), color 0.35s;
@@ -105,9 +105,9 @@ body {
   text-decoration: none;
   padding: 13px 20px;
   border-radius: 10px;
-  border: 1.5px solid rgba(255,255,255,0.1);
-  color: rgba(255,255,255,0.5);
-  background: linear-gradient(to right, rgba(255,255,255,0.07) 50%, transparent 50%);
+  border: 1.5px solid #e3ded7;
+  color: #6b6560;
+  background: linear-gradient(to right, #e3ded7 50%, transparent 50%);
   background-size: 200% 100%;
   background-position: right center;
   transition: background-position 0.4s cubic-bezier(0.4,0,0.2,1), color 0.35s, border-color 0.35s;
@@ -115,8 +115,8 @@ body {
 }
 .btn-mkt-card-ghost:hover {
   background-position: left center;
-  color: #fff;
-  border-color: rgba(255,255,255,0.2);
+  color: #1a2e3d;
+  border-color: #cbcac7;
 }
 
 /* Navbar CTA button */
@@ -131,9 +131,9 @@ body {
   text-decoration: none;
   padding: 9px 20px;
   border-radius: 9px;
-  border: 1.5px solid #2563eb;
-  color: #2563eb;
-  background: linear-gradient(to right, #2563eb 50%, transparent 50%);
+  border: 1.5px solid #285570;
+  color: #285570;
+  background: linear-gradient(to right, #285570 50%, transparent 50%);
   background-size: 200% 100%;
   background-position: right center;
   transition: background-position 0.35s cubic-bezier(0.4,0,0.2,1), color 0.3s, transform 0.2s;
