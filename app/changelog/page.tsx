@@ -17,6 +17,15 @@ interface Version {
 
 const CHANGELOG: Version[] = [
   {
+    version: '3.59',
+    date: '21. 6. 2026',
+    changes: [
+      { type: 'change', text: 'Homepage přepracovaná — odstraněny neonové prvky (cyan gradient, fialová, neonová zelená), čistší barevná paleta' },
+      { type: 'feat', text: 'Paper-slide animace — karty vlétávají z boku (vlevo/zdola/zprava) s rotací, process karty staggered ze strany' },
+      { type: 'change', text: 'Homepage zkrácena ze 7 na 4 sekce — odstraněny Portfolio, Reference a Ceník (mají vlastní podstránky)' },
+    ],
+  },
+  {
     version: '3.58',
     date: '21. 6. 2026',
     changes: [
