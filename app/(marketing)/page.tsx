@@ -151,11 +151,11 @@ const SERVICES = [
 
 function ServicesSection() {
   const outerRef = useRef<HTMLDivElement>(null);
-  const inView = useInView(outerRef, { once: false, amount: 0.15 });
+  const inView = useInView(outerRef, { once: false, amount: 0.2 });
   const E = (delay = 0) => ({ duration: 0.9, ease: [0.22, 1, 0.36, 1] as any, delay: inView ? delay : 0 });
 
   return (
-    <div ref={outerRef} style={{ background: BG, padding: '112px 24px' }}>
+    <div ref={outerRef} style={{ background: BG, padding: '220px 24px' }}>
         <div style={{ maxWidth: '1080px', margin: '0 auto' }}>
 
             <motion.div
@@ -214,11 +214,11 @@ const STEPS = [
 
 function ProcessSection() {
   const outerRef = useRef<HTMLDivElement>(null);
-  const inView = useInView(outerRef, { once: false, amount: 0.15 });
+  const inView = useInView(outerRef, { once: false, amount: 0.2 });
   const E = (delay = 0) => ({ duration: 0.9, ease: [0.22, 1, 0.36, 1] as any, delay: inView ? delay : 0 });
 
   return (
-    <div ref={outerRef} style={{ background: 'rgba(8,16,32,0.95)', padding: '112px 24px' }}>
+    <div ref={outerRef} style={{ background: 'rgba(8,16,32,0.95)', padding: '220px 24px' }}>
         <div style={{ maxWidth: '1080px', margin: '0 auto' }}>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
 
@@ -271,7 +271,7 @@ const PORTFOLIO = [
 
 function PortfolioSection() {
   const outerRef = useRef<HTMLDivElement>(null);
-  const inView = useInView(outerRef, { once: false, amount: 0.15 });
+  const inView = useInView(outerRef, { once: false, amount: 0.2 });
   const E = (delay = 0) => ({ duration: 0.9, ease: [0.22, 1, 0.36, 1] as any, delay: inView ? delay : 0 });
   const cardAnim = [
     { from: { x: -110, rotate: -2 }, to: { x: 0, rotate: 0 }, delay: 0.1 },
@@ -280,7 +280,7 @@ function PortfolioSection() {
   ];
 
   return (
-    <div ref={outerRef} style={{ background: BG, padding: '112px 24px' }}>
+    <div ref={outerRef} style={{ background: BG, padding: '220px 24px' }}>
         <div style={{ maxWidth: '1080px', margin: '0 auto' }}>
 
           <motion.div animate={{ opacity: inView ? 1 : 0, x: inView ? 0 : 80 }} transition={E(0)} className="mb-10">
@@ -343,7 +343,7 @@ const TESTIMONIALS = [
 
 function TestimonialsSection() {
   const outerRef = useRef<HTMLDivElement>(null);
-  const inView = useInView(outerRef, { once: false, amount: 0.15 });
+  const inView = useInView(outerRef, { once: false, amount: 0.2 });
   const E = (delay = 0) => ({ duration: 0.9, ease: [0.22, 1, 0.36, 1] as any, delay: inView ? delay : 0 });
   const cardAnim = [
     { from: { x: -100, rotate: -2 }, to: { x: 0, rotate: 0 }, delay: 0.1 },
@@ -352,7 +352,7 @@ function TestimonialsSection() {
   ];
 
   return (
-    <div ref={outerRef} style={{ background: 'rgba(8,16,32,0.95)', padding: '112px 24px' }}>
+    <div ref={outerRef} style={{ background: 'rgba(8,16,32,0.95)', padding: '220px 24px' }}>
         <div style={{ maxWidth: '1080px', margin: '0 auto' }}>
 
           <motion.div animate={{ opacity: inView ? 1 : 0, x: inView ? 0 : -80 }} transition={E(0)} className="mb-10">
@@ -446,7 +446,7 @@ function FaqItem({ item, index }: { item: typeof FAQS[0]; index: number }) {
 
 function FAQ() {
   return (
-    <section style={{ background: BG, padding: '112px 24px' }}>
+    <section style={{ background: BG, padding: '220px 24px' }}>
       <div style={{ maxWidth: '720px', margin: '0 auto' }}>
         <motion.div
           initial={{ opacity: 0, y: 36 }}
