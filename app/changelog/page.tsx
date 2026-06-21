@@ -17,6 +17,14 @@ interface Version {
 
 const CHANGELOG: Version[] = [
   {
+    version: '3.61',
+    date: '21. 6. 2026',
+    changes: [
+      { type: 'feat', text: 'Cookie consent banner — "Přijmout vše" nebo "Pouze nezbytné", volba uložena do localStorage (wa-cookie-consent), banner se zobrazí jen při první návštěvě' },
+      { type: 'feat', text: 'Animovaný slide-up při zobrazení / slide-down při zavření (AnimatePresence + framer-motion)' },
+    ],
+  },
+  {
     version: '3.60',
     date: '21. 6. 2026',
     changes: [

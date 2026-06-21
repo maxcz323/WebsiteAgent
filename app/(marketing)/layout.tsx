@@ -1,5 +1,6 @@
 import { MarketingNav } from '@/components/marketing/MarketingNav';
 import { Footer } from '@/components/marketing/Footer';
+import { CookieConsent } from '@/components/marketing/CookieConsent';
 import { Montserrat } from 'next/font/google';
 import type { Metadata } from 'next';
 
@@ -24,6 +25,7 @@ export default function MarketingLayout({ children }: { children: React.ReactNod
       <MarketingNav />
       <main>{children}</main>
       <Footer />
+      <CookieConsent />
     </div>
   );
 }
