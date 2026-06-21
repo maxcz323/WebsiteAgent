@@ -17,6 +17,13 @@ interface Version {
 
 const CHANGELOG: Version[] = [
   {
+    version: '3.47',
+    date: '21. 6. 2026',
+    changes: [
+      { type: 'change', text: 'Kontakt — OriginButton (cursor-origin fill animace) nahrazen normálním tlačítkem' },
+    ],
+  },
+  {
     version: '3.46',
     date: '18. 6. 2026',
     changes: [
