@@ -17,6 +17,14 @@ interface Version {
 
 const CHANGELOG: Version[] = [
   {
+    version: '3.50',
+    date: '21. 6. 2026',
+    changes: [
+      { type: 'change', text: 'Hero — odstraněn AI-looking badge "Profesionální weby · Hotovo za 48 hodin"' },
+      { type: 'feat', text: 'MarketingNav — kompletní redesign: solidní tmavý navbar (ne průhledný), links vizuálně seskupeny v jednom containeru se separátory, modrá accent linka nahoře' },
+    ],
+  },
+  {
     version: '3.49',
     date: '21. 6. 2026',
     changes: [

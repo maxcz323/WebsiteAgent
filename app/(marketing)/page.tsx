@@ -92,19 +92,6 @@ function Hero() {
 
       <div className="relative z-10 w-full max-w-6xl mx-auto px-5 sm:px-8" style={{ paddingTop: '160px', paddingBottom: '80px' }}>
 
-        {/* Badge */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="mb-8"
-        >
-          <span className="inline-flex items-center gap-2 text-xs font-semibold text-blue-300 bg-blue-500/10 border border-blue-400/20 px-4 py-2 rounded-full backdrop-blur-sm">
-            <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" />
-            Profesionální weby · Hotovo za 48 hodin
-          </span>
-        </motion.div>
-
         {/* H1 */}
         <motion.h1
           initial={{ opacity: 0, y: 24 }}
