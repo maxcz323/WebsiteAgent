@@ -23,14 +23,20 @@ export default function MarketingLayout({ children }: { children: React.ReactNod
   return (
     <div className={`bg-[#faf7f6] text-[#1a2e3d] antialiased ${display.variable}`}>
 
-      {/* Decorative lines — right cluster */}
+      <MarketingNav />
+      <main style={{ position: 'relative', zIndex: 1 }}>{children}</main>
+      <Footer />
+      <CookieConsent />
+
+      {/* Decorative lines — nad obsahem, mizí na tmavých sekcích díky multiply */}
       <div aria-hidden style={{
         position: 'fixed', top: 0, right: 0,
         width: '520px', height: '100vh',
-        zIndex: 0, pointerEvents: 'none', overflow: 'hidden',
+        zIndex: 10, pointerEvents: 'none', overflow: 'hidden',
+        mixBlendMode: 'multiply',
       }}>
         <svg width="100%" height="100%" viewBox="0 0 520 900" preserveAspectRatio="xMaxYMid meet" xmlns="http://www.w3.org/2000/svg">
-          <g stroke="#d8d3cc" strokeWidth="1" fill="none" opacity="0.9">
+          <g stroke="#bfb9b2" strokeWidth="1" fill="none">
             <path d="M 560 -80 C 420 80  280 160 380 340 S 520 520 360 700 S 220 860 400 980" />
             <path d="M 590 -80 C 450 80  310 160 410 340 S 550 520 390 700 S 250 860 430 980" strokeWidth="0.8" />
             <path d="M 530 -80 C 390 80  250 160 350 340 S 490 520 330 700 S 190 860 370 980" strokeWidth="1.2" />
@@ -42,14 +48,14 @@ export default function MarketingLayout({ children }: { children: React.ReactNod
         </svg>
       </div>
 
-      {/* Decorative lines — bottom-left accent */}
       <div aria-hidden style={{
         position: 'fixed', bottom: 0, left: 0,
         width: '340px', height: '60vh',
-        zIndex: 0, pointerEvents: 'none', overflow: 'hidden',
+        zIndex: 10, pointerEvents: 'none', overflow: 'hidden',
+        mixBlendMode: 'multiply',
       }}>
         <svg width="100%" height="100%" viewBox="0 0 340 540" preserveAspectRatio="xMinYMax meet" xmlns="http://www.w3.org/2000/svg">
-          <g stroke="#d8d3cc" strokeWidth="1" fill="none" opacity="0.7">
+          <g stroke="#bfb9b2" strokeWidth="1" fill="none">
             <path d="M -40 600 C 80 450 40 330 160 220 S 280 120 180 -20" />
             <path d="M -70 600 C 50 450 10 330 130 220 S 250 120 150 -20" strokeWidth="0.8" />
             <path d="M -10 600 C 110 450 70 330 190 220 S 310 120 210 -20" strokeWidth="0.7" />
@@ -59,10 +65,6 @@ export default function MarketingLayout({ children }: { children: React.ReactNod
         </svg>
       </div>
 
-      <MarketingNav />
-      <main style={{ position: 'relative', zIndex: 1 }}>{children}</main>
-      <Footer />
-      <CookieConsent />
     </div>
   );
 }
