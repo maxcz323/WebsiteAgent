@@ -17,6 +17,13 @@ interface Version {
 
 const CHANGELOG: Version[] = [
   {
+    version: '3.98',
+    date: '22. 6. 2026',
+    changes: [
+      { type: 'fix', text: 'Hero — laptop nahrazen zpět monitorem se stojanem. Mount animace (y:80→0) místo scroll-driven. Watermark přesunut výš (top:22%). Odstraněny floating badges (48h, Web schválen, 50+ klientů).' },
+    ],
+  },
+  {
     version: '3.97',
     date: '22. 6. 2026',
     changes: [

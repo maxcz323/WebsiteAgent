@@ -66,34 +66,25 @@ function CursorBlob() {
   );
 }
 
-/* ─── LAPTOP VISUAL ──────────────────────────────────────────── */
-function LaptopVisual() {
+/* ─── MONITOR VISUAL ─────────────────────────────────────────── */
+function MonitorVisual() {
   const Bar = ({ w, h = 5, r = 3, bg = '#e3ded7' }: { w: string | number; h?: number; r?: number; bg?: string }) => (
     <div style={{ width: w, height: h, borderRadius: r, background: bg }} />
-  );
-
-  const KeyRow = ({ count, mt = 3 }: { count: number; mt?: number }) => (
-    <div style={{ display: 'flex', gap: '3px', marginTop: mt }}>
-      {Array.from({ length: count }).map((_, i) => (
-        <div key={i} style={{ flex: 1, height: '10px', borderRadius: '3px', background: 'rgba(255,255,255,0.09)', border: '1px solid rgba(255,255,255,0.04)' }} />
-      ))}
-    </div>
   );
 
   return (
     <div style={{ position: 'relative' }}>
 
-      {/* ── Lid (screen) ── */}
+      {/* ── Monitor body ── */}
       <div style={{
-        width: '640px',
         background: '#1a2e3d',
-        borderRadius: '14px 14px 3px 3px',
+        borderRadius: '18px 18px 6px 6px',
         padding: '10px 10px 0',
         boxShadow: '0 40px 100px rgba(26,46,61,0.3), 0 8px 24px rgba(26,46,61,0.14)',
       }}>
-        <div style={{ width: '5px', height: '5px', borderRadius: '50%', background: 'rgba(255,255,255,0.18)', margin: '0 auto 6px' }} />
+        <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'rgba(255,255,255,0.18)', margin: '0 auto 7px' }} />
 
-        <div style={{ background: '#fff', borderRadius: '8px 8px 0 0', overflow: 'hidden', height: '340px' }}>
+        <div style={{ background: '#fff', borderRadius: '8px 8px 0 0', overflow: 'hidden', height: '330px' }}>
           <div style={{ height: '3px', background: ACCENT }} />
 
           <div className="preview-page" style={{ animation: 'autoScrollPreview 18s ease-in-out infinite alternate' }}>
@@ -189,88 +180,29 @@ function LaptopVisual() {
         </div>
       </div>
 
-      {/* ── Hinge ── */}
-      <div style={{ height: '5px', background: '#0d1b26', width: '660px', marginLeft: '-10px' }} />
-
-      {/* ── Base (keyboard) ── */}
-      <div style={{
-        width: '660px',
-        marginLeft: '-10px',
-        background: 'linear-gradient(175deg, #1e3347 0%, #192939 100%)',
-        borderRadius: '0 0 14px 14px',
-        padding: '16px 24px 14px',
-        boxShadow: '0 30px 80px rgba(26,46,61,0.5)',
-      }}>
-        <KeyRow count={14} mt={0} />
-        <KeyRow count={14} />
-        <KeyRow count={13} />
-        <KeyRow count={12} />
-        {/* Spacebar row */}
-        <div style={{ display: 'flex', gap: '3px', marginTop: '3px' }}>
-          {[30, 30, 0, 30, 30, 30].map((w, i) => (
-            <div key={i} style={{ width: w || undefined, flex: w ? undefined : 1, height: '10px', borderRadius: '3px', background: 'rgba(255,255,255,0.09)', border: '1px solid rgba(255,255,255,0.04)' }} />
-          ))}
-        </div>
-        {/* Trackpad */}
-        <div style={{ width: '180px', height: '88px', borderRadius: '10px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.07)', margin: '10px auto 0' }} />
+      {/* ── Stand ── */}
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <div style={{ width: '54px', height: '17px', background: '#1a2e3d', borderRadius: '0 0 5px 5px', opacity: 0.85 }} />
+        <div style={{ width: '108px', height: '5px', background: '#1a2e3d', borderRadius: '3px', opacity: 0.4 }} />
       </div>
-
-      {/* ── Floating badges ── */}
-      <motion.div
-        initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.65 }}
-        style={{ position: 'absolute', top: '52%', left: '-28px', background: '#fff', border: '1px solid #e3ded7', borderRadius: '16px', padding: '12px 16px', boxShadow: '0 12px 32px rgba(40,85,112,0.12)', display: 'flex', alignItems: 'center', gap: '10px', zIndex: 3 }}
-      >
-        <div style={{ width: '32px', height: '32px', borderRadius: '9px', background: 'rgba(40,85,112,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={ACCENT} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-        </div>
-        <div>
-          <p style={{ fontSize: '13px', fontWeight: 700, color: '#1a2e3d', margin: 0, lineHeight: 1.2 }}>Web schválen</p>
-          <p style={{ fontSize: '11px', color: '#cbcac7', margin: 0, marginTop: '2px' }}>Pavel Novák Instalace</p>
-        </div>
-      </motion.div>
-
-      <motion.div
-        initial={{ opacity: 0, y: -12 }} animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.75 }}
-        style={{ position: 'absolute', top: '-14px', right: '-20px', background: ACCENT, borderRadius: '14px', padding: '12px 18px', boxShadow: '0 12px 32px rgba(40,85,112,0.3)', display: 'flex', flexDirection: 'column', alignItems: 'center', zIndex: 3 }}
-      >
-        <span style={{ fontSize: '24px', fontWeight: 700, color: '#fff', lineHeight: 1 }}>48h</span>
-        <span style={{ fontSize: '10px', color: 'rgba(255,255,255,0.65)', marginTop: '3px', letterSpacing: '0.04em' }}>DODÁNÍ</span>
-      </motion.div>
-
-      <motion.div
-        initial={{ opacity: 0, x: 12 }} animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.6, delay: 0.85 }}
-        style={{ position: 'absolute', top: '28%', right: '-18px', transform: 'translateY(-50%)', background: '#fff', border: '1px solid #e3ded7', borderRadius: '12px', padding: '9px 13px', boxShadow: '0 8px 24px rgba(40,85,112,0.1)', display: 'flex', alignItems: 'center', gap: '6px', zIndex: 3 }}
-      >
-        <div style={{ display: 'flex', gap: '1px' }}>
-          {[1,2,3,4,5].map(s => <svg key={s} width="9" height="9" viewBox="0 0 24 24" fill={ACCENT}><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>)}
-        </div>
-        <span style={{ fontSize: '11px', fontWeight: 600, color: '#1a2e3d' }}>50+ klientů</span>
-      </motion.div>
     </div>
   );
 }
 
 /* ─── HERO ────────────────────────────────────────────────────── */
 function Hero() {
-  const { scrollY } = useScroll();
-  const laptopY = useTransform(scrollY, [0, 380], [140, 0]);
-  const laptopOpacity = useTransform(scrollY, [0, 260], [0.55, 1]);
-
   return (
     <section style={{ background: BG, minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', overflow: 'hidden', position: 'relative' }}>
       {/* Background blobs */}
       <div aria-hidden style={{ position: 'absolute', top: '-15%', right: '-8%', width: '700px', height: '700px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(40,85,112,0.06) 0%, transparent 65%)', pointerEvents: 'none' }} />
       <div aria-hidden style={{ position: 'absolute', bottom: '-5%', left: '-10%', width: '550px', height: '550px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(227,222,215,0.45) 0%, transparent 65%)', pointerEvents: 'none' }} />
 
-      {/* Watermark text */}
+      {/* Watermark text — above the monitor */}
       <div aria-hidden style={{
         position: 'absolute',
-        top: '50%',
+        top: '22%',
         left: '50%',
-        transform: 'translate(-50%, -54%)',
+        transform: 'translateX(-50%)',
         fontFamily: 'var(--font-display)',
         fontSize: 'clamp(52px, 10vw, 148px)',
         fontWeight: 300,
@@ -288,10 +220,15 @@ function Hero() {
 
       <div className="relative z-10 w-full max-w-7xl mx-auto px-5 sm:px-10" style={{ paddingTop: '120px', paddingBottom: '60px' }}>
 
-        {/* ── Centered laptop — scroll-driven entry from bottom ── */}
+        {/* ── Centered monitor — slides up from below on mount ── */}
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-          <motion.div style={{ y: laptopY, opacity: laptopOpacity, position: 'relative' }}>
-            <LaptopVisual />
+          <motion.div
+            initial={{ opacity: 0, y: 80 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.0, ease: [0.22, 1, 0.36, 1] }}
+            style={{ position: 'relative' }}
+          >
+            <MonitorVisual />
           </motion.div>
         </div>
       </div>
