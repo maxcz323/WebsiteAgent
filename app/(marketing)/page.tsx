@@ -175,6 +175,118 @@ function TabletVisual() {
   );
 }
 
+/* ─── MONITOR VISUAL (landscape) ────────────────────────────── */
+function MonitorVisual() {
+  const Bar = ({ w, h = 5, r = 3, bg = '#e3ded7' }: { w: string | number; h?: number; r?: number; bg?: string }) => (
+    <div style={{ width: w, height: h, borderRadius: r, background: bg }} />
+  );
+
+  return (
+    <div style={{
+      width: '460px',
+      background: '#1a2e3d',
+      borderRadius: '24px',
+      padding: '10px 10px 14px',
+      boxShadow: '0 60px 140px rgba(26,46,61,0.4), 0 12px 40px rgba(26,46,61,0.2)',
+    }}>
+      {/* Camera */}
+      <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'rgba(255,255,255,0.18)', margin: '0 auto 6px' }} />
+
+      {/* Screen */}
+      <div style={{ background: '#fff', borderRadius: '14px', overflow: 'hidden', height: '300px' }}>
+        <div style={{ height: '3px', background: ACCENT }} />
+
+        <div className="preview-page" style={{ animation: 'autoScrollPreview 22s ease-in-out infinite alternate' }}>
+
+          {/* ── Navbar ── */}
+          <div style={{ padding: '7px 10px', borderBottom: '1px solid #f0ebe7', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: '#fff' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+              <div style={{ width: '14px', height: '14px', borderRadius: '4px', background: ACCENT }} />
+              <Bar w={44} h={4} bg="#e3ded7" />
+            </div>
+            <div style={{ display: 'flex', gap: '6px' }}>
+              <Bar w={28} h={3} bg="#e3ded7" />
+              <Bar w={34} h={3} bg="#e3ded7" />
+              <Bar w={24} h={3} bg="#e3ded7" />
+            </div>
+            <div style={{ width: '44px', height: '16px', borderRadius: '5px', background: ACCENT }} />
+          </div>
+
+          {/* ── Hero 2-col ── */}
+          <div style={{ padding: '14px 10px 10px', background: '#faf7f6', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', alignItems: 'center' }}>
+            <div>
+              <Bar w="80%" h={9} r={4} bg="#1a2e3d" />
+              <div style={{ height: '5px' }} />
+              <Bar w="60%" h={9} r={4} bg="#1a2e3d" />
+              <div style={{ height: '8px' }} />
+              <Bar w="95%" h={4} bg="#cbcac7" />
+              <div style={{ height: '3px' }} />
+              <Bar w="80%" h={4} bg="#cbcac7" />
+              <div style={{ height: '10px' }} />
+              <div style={{ display: 'flex', gap: '4px' }}>
+                <div style={{ width: '56px', height: '18px', borderRadius: '5px', background: ACCENT }} />
+                <div style={{ width: '46px', height: '18px', borderRadius: '5px', border: '1px solid #e3ded7' }} />
+              </div>
+            </div>
+            <div style={{ height: '110px', borderRadius: '10px', background: `linear-gradient(145deg, ${ACCENT} 0%, #1a3a52 100%)`, position: 'relative', overflow: 'hidden' }}>
+              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(255,255,255,0.08) 0%, transparent 60%)' }} />
+              <div style={{ position: 'absolute', bottom: '6px', left: '6px', background: 'rgba(255,255,255,0.92)', borderRadius: '5px', padding: '3px 7px', display: 'flex', alignItems: 'center', gap: '3px' }}>
+                <svg width="7" height="7" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                <span style={{ fontSize: '7px', fontWeight: 700, color: '#1a2e3d' }}>Web schválen</span>
+              </div>
+            </div>
+          </div>
+
+          {/* ── Services 3-col ── */}
+          <div style={{ padding: '8px 10px 10px' }}>
+            <Bar w="38%" h={6} r={3} bg="#1a2e3d" />
+            <div style={{ height: '7px' }} />
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '5px' }}>
+              {[ACCENT, '#faf7f6', '#faf7f6'].map((bg, i) => (
+                <div key={i} style={{ background: bg, borderRadius: '7px', padding: '7px', border: `1px solid ${i === 0 ? 'transparent' : '#e3ded7'}` }}>
+                  <div style={{ width: '11px', height: '11px', borderRadius: '3px', background: i === 0 ? 'rgba(255,255,255,0.22)' : '#e3ded7', marginBottom: '4px' }} />
+                  <Bar w="60%" h={3} r={2} bg={i === 0 ? 'rgba(255,255,255,0.6)' : '#cbcac7'} />
+                  <div style={{ height: '3px' }} />
+                  <Bar w="80%" h={3} r={2} bg={i === 0 ? 'rgba(255,255,255,0.3)' : '#e3ded7'} />
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* ── Process ── */}
+          <div style={{ padding: '7px 10px 8px', borderTop: '1px solid #f0ebe7' }}>
+            <Bar w="42%" h={6} r={3} bg="#1a2e3d" />
+            <div style={{ height: '7px' }} />
+            {['01', '02', '03'].map(n => (
+              <div key={n} style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '5px' }}>
+                <div style={{ width: '15px', height: '15px', borderRadius: '4px', background: 'rgba(40,85,112,0.09)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  <span style={{ fontSize: '6px', fontWeight: 700, color: ACCENT }}>{n}</span>
+                </div>
+                <div style={{ flex: 1 }}>
+                  <Bar w="52%" h={3} r={2} bg="rgba(26,46,61,0.4)" />
+                  <div style={{ height: '3px' }} />
+                  <Bar w="74%" h={3} r={2} bg="#e3ded7" />
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* ── CTA ── */}
+          <div style={{ margin: '0 10px 12px', background: ACCENT, borderRadius: '8px', padding: '12px', textAlign: 'center' }}>
+            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '4px' }}><Bar w="50%" h={5} r={3} bg="rgba(255,255,255,0.75)" /></div>
+            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '8px' }}><Bar w="38%" h={5} r={3} bg="rgba(255,255,255,0.45)" /></div>
+            <div style={{ width: '64px', height: '17px', borderRadius: '5px', background: '#fff', margin: '0 auto' }} />
+          </div>
+
+        </div>
+      </div>
+
+      {/* Bottom indicator */}
+      <div style={{ width: '60px', height: '3px', borderRadius: '2px', background: 'rgba(255,255,255,0.15)', margin: '10px auto 0' }} />
+    </div>
+  );
+}
+
 /* ─── HERO ────────────────────────────────────────────────────── */
 function Hero() {
   return (
@@ -183,10 +295,10 @@ function Hero() {
       <div aria-hidden style={{ position: 'absolute', top: '-15%', right: '-8%', width: '700px', height: '700px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(40,85,112,0.06) 0%, transparent 65%)', pointerEvents: 'none' }} />
       <div aria-hidden style={{ position: 'absolute', bottom: '-5%', left: '-10%', width: '550px', height: '550px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(227,222,215,0.45) 0%, transparent 65%)', pointerEvents: 'none' }} />
 
-      {/* Watermark text — above the monitor */}
+      {/* Watermark text — high above the devices */}
       <div aria-hidden style={{
         position: 'absolute',
-        top: '22%',
+        top: '8%',
         left: '50%',
         transform: 'translateX(-50%)',
         fontFamily: 'var(--font-display)',
@@ -206,15 +318,27 @@ function Hero() {
 
       <div className="relative z-10 w-full max-w-7xl mx-auto px-5 sm:px-10" style={{ paddingTop: '120px', paddingBottom: '60px' }}>
 
-        {/* ── Tilted tablet — enters from bottom-left ── */}
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        {/* ── Two devices side by side, pushed lower ── */}
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-end', gap: '48px', marginTop: '120px' }}>
+
+          {/* Tablet — comes from bottom-left */}
           <motion.div
-            initial={{ opacity: 0, x: -200, y: 140, rotate: -32 }}
+            initial={{ opacity: 0, x: -220, y: 160, rotate: -32 }}
             animate={{ opacity: 1, x: 0, y: 0, rotate: -14 }}
             transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
           >
             <TabletVisual />
           </motion.div>
+
+          {/* Monitor — comes from bottom-right */}
+          <motion.div
+            initial={{ opacity: 0, x: 220, y: 160, rotate: 28 }}
+            animate={{ opacity: 1, x: 0, y: 0, rotate: 12 }}
+            transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1], delay: 0.08 }}
+          >
+            <MonitorVisual />
+          </motion.div>
+
         </div>
       </div>
 

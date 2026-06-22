@@ -17,6 +17,13 @@ interface Version {
 
 const CHANGELOG: Version[] = [
   {
+    version: '4.01',
+    date: '22. 6. 2026',
+    changes: [
+      { type: 'feat', text: 'Hero — přidán landscape monitor (460px, rotate:+12°) vedle tabletu, přijíždí zprava. Oba posunuty níž (marginTop:120px). Watermark přesunut výš (top:8%).' },
+    ],
+  },
+  {
     version: '4.00',
     date: '22. 6. 2026',
     changes: [
