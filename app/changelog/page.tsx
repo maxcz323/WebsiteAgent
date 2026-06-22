@@ -17,6 +17,13 @@ interface Version {
 
 const CHANGELOG: Version[] = [
   {
+    version: '3.96',
+    date: '22. 6. 2026',
+    changes: [
+      { type: 'change', text: 'Hero sekce — odstraněn levý text (badge, nadpis, popis, tlačítka) a stats bar (48h/50+/0Kč/100%). Monitor přesunut na střed obrazovky.' },
+    ],
+  },
+  {
     version: '3.95',
     date: '22. 6. 2026',
     changes: [

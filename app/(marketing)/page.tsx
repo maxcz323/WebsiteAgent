@@ -240,13 +240,6 @@ function MonitorVisual() {
 }
 
 /* ─── HERO ────────────────────────────────────────────────────── */
-const STATS = [
-  { n: '48h',  l: 'Průměrné dodání' },
-  { n: '50+',  l: 'Hotových webů' },
-  { n: '0 Kč', l: 'Záloha předem' },
-  { n: '100%', l: 'Spokojených klientů' },
-];
-
 function Hero() {
   return (
     <section style={{ background: BG, minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', overflow: 'hidden', position: 'relative' }}>
@@ -256,55 +249,11 @@ function Hero() {
 
       <div className="relative z-10 w-full max-w-7xl mx-auto px-5 sm:px-10" style={{ paddingTop: '120px', paddingBottom: '60px' }}>
 
-        {/* ── 2-column grid ── */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center" style={{ marginBottom: '72px' }}>
-
-          {/* Left: text */}
-          <div>
-            <motion.div
-              initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.05 }}
-              style={{ display: 'inline-flex', alignItems: 'center', gap: '7px', background: 'rgba(40,85,112,0.08)', border: '1px solid rgba(40,85,112,0.14)', borderRadius: '20px', padding: '5px 14px', marginBottom: '28px' }}
-            >
-              <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: ACCENT }} />
-              <span style={{ fontSize: '12px', fontWeight: 600, color: ACCENT, letterSpacing: '0.02em' }}>Přijímáme nové projekty</span>
-            </motion.div>
-
-            <motion.h1
-              initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.12 }}
-              style={{ fontFamily: 'var(--font-display)', fontWeight: 300, letterSpacing: '-0.04em', lineHeight: 0.95, color: '#1a2e3d', fontSize: 'clamp(44px,6vw,88px)', marginBottom: '28px' }}
-            >
-              Web, který<br />prodává.
-            </motion.h1>
-
-            <motion.p
-              initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.22 }}
-              style={{ fontSize: '19px', lineHeight: 1.7, color: '#5c5650', maxWidth: '380px', marginBottom: '40px' }}
-            >
-              Moderní weby pro lokální firmy.<br />
-              <span style={{ color: '#cbcac7' }}>Platíte až po schválení. Záloha 0 Kč.</span>
-            </motion.p>
-
-            <motion.div
-              initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.32 }}
-              className="flex flex-col sm:flex-row gap-3"
-            >
-              <Link href="/kontakt" className="btn-mkt-primary">
-                Chci web pro svou firmu
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
-              </Link>
-              <Link href="/jak-pracujeme" className="btn-mkt-ghost">Jak to funguje</Link>
-            </motion.div>
-          </div>
-
-          {/* Right: monitor visual with background text watermark */}
+        {/* ── Centered monitor ── */}
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
           <motion.div
-            initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.85, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-            className="hidden lg:block"
             style={{ position: 'relative' }}
           >
             {/* Ghost text — centered behind the monitor */}
@@ -333,21 +282,6 @@ function Hero() {
             </div>
           </motion.div>
         </div>
-
-        {/* ── Stats bar — full width ── */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.5 }}
-          className="grid grid-cols-2 sm:grid-cols-4 gap-px"
-          style={{ background: '#e3ded7', borderRadius: '16px', overflow: 'hidden', border: '1px solid #e3ded7' }}
-        >
-          {STATS.map(s => (
-            <div key={s.l} style={{ background: '#fff', padding: '22px 28px', textAlign: 'center' }}>
-              <p style={{ fontSize: '26px', fontWeight: 700, color: ACCENT, letterSpacing: '-0.03em', marginBottom: '4px' }}>{s.n}</p>
-              <p style={{ fontSize: '11px', color: '#cbcac7', margin: 0 }}>{s.l}</p>
-            </div>
-          ))}
-        </motion.div>
       </div>
 
       {/* Scroll indicator */}
