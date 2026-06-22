@@ -17,13 +17,6 @@ interface Version {
 
 const CHANGELOG: Version[] = [
   {
-    version: '3.97',
-    date: '22. 6. 2026',
-    changes: [
-      { type: 'feat', text: 'Homepage redesign — tmavý hero (#1a2e3d bg, krémový text, outline badge, krémové CTA tlačítko), stats bar průhledný na dark pozadí, service karty čisté bez top borderu, ikony light fill, process kroky outline kroužky, pricing popular karta bílá s ACCENT borderem.' },
-    ],
-  },
-  {
     version: '3.96',
     date: '22. 6. 2026',
     changes: [
