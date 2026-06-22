@@ -2,7 +2,7 @@
 
 import { useRef, useEffect, useState } from 'react';
 import Link from 'next/link';
-import { motion, useScroll, useTransform, useInView, AnimatePresence } from 'framer-motion';
+import { motion, useScroll, useTransform, useInView } from 'framer-motion';
 
 /* ─── Palette ─────────────────────────────────────────────────── */
 const BG    = '#faf7f6';
@@ -702,74 +702,6 @@ function Pricing() {
   );
 }
 
-/* ─── FAQ ─────────────────────────────────────────────────────── */
-const FAQS = [
-  { q: 'Jak dlouho trvá vytvoření webu?', a: 'Návrh webu máte do 48 hodin od vyplnění formuláře. Po schválení a případných úpravách web spustíme — celý proces obvykle trvá 3–5 dní.' },
-  { q: 'Musím platit zálohu předem?', a: 'Ne. Platíte až po schválení hotového webu. Pokud se vám výsledek nebude líbit, neplatíte nic. Žádné riziko.' },
-  { q: 'Co když se mi web nebude líbit?', a: 'Zapracujeme veškeré připomínky. Počet úprav není omezen — přijdete za hotovým webem, který vám sedí, nebo neplatíte.' },
-  { q: 'Děláte také SEO optimalizaci?', a: 'Ano. Základní technické SEO (rychlost, meta tagy, struktura, schema markup) je součástí každého webu. Pokročilá obsahová strategie je na domluvě.' },
-  { q: 'Co od vás potřebujeme?', a: 'Jen 5 minut na vyplnění formuláře — název firmy, obor, co nabízíte a kontakt. Zbytek vyřídíme my.' },
-  { q: 'Mohu web po spuštění upravovat?', a: 'Samozřejmě. Předáme vám přístup nebo nastavíme CMS dle potřeby. Větší úpravy za vás rádi zpracujeme.' },
-];
-
-function FaqItem({ item, index }: { item: typeof FAQS[0]; index: number }) {
-  const [open, setOpen] = useState(false);
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0, transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1], delay: index * 0.07 } }}
-      viewport={{ once: true, amount: 0.1 }}
-      style={{ borderBottom: '1px solid #e3ded7' }}
-    >
-      <button
-        onClick={() => setOpen(o => !o)}
-        style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '22px 0', background: 'none', border: 'none', cursor: 'pointer', gap: '16px', textAlign: 'left' }}
-      >
-        <span style={{ fontSize: '17px', fontWeight: 500, color: open ? ACCENT : '#1a2e3d', transition: 'color 0.2s' }}>{item.q}</span>
-        <span style={{ flexShrink: 0, width: '24px', height: '24px', borderRadius: '50%', border: `1px solid ${open ? 'rgba(40,85,112,0.3)' : '#e3ded7'}`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: ACCENT, transition: 'transform 0.25s, border-color 0.2s', transform: open ? 'rotate(45deg)' : 'rotate(0deg)' }}>
-          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M12 5v14M5 12h14" /></svg>
-        </span>
-      </button>
-      <AnimatePresence initial={false}>
-        {open && (
-          <motion.div
-            key="a"
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1, transition: { duration: 0.28, ease: [0.4, 0, 0.2, 1] } }}
-            exit={{ height: 0, opacity: 0, transition: { duration: 0.22, ease: [0.4, 0, 0.2, 1] } }}
-            style={{ overflow: 'hidden' }}
-          >
-            <p style={{ fontSize: '16px', lineHeight: 1.7, color: '#6b6560', paddingBottom: '22px', margin: 0 }}>{item.a}</p>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </motion.div>
-  );
-}
-
-function FAQ() {
-  return (
-    <section style={{ background: BG2, padding: '220px 24px' }}>
-      <div style={{ maxWidth: '720px', margin: '0 auto' }}>
-        <motion.div
-          initial={{ opacity: 0, y: 36 }}
-          whileInView={{ opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } }}
-          viewport={{ once: true, amount: 0.2 }}
-          style={{ marginBottom: '56px' }}
-        >
-          <p style={{ fontSize: '11px', fontWeight: 600, color: 'rgba(40,85,112,0.55)', textTransform: 'uppercase', letterSpacing: '0.16em', marginBottom: '16px' }}>Časté otázky</p>
-          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(28px,4vw,52px)', fontWeight: 300, color: '#1a2e3d', letterSpacing: '-0.03em', lineHeight: 1.1, margin: 0 }}>
-            Máte otázky?<br />Máme odpovědi.
-          </h2>
-        </motion.div>
-        <div style={{ borderTop: '1px solid #e3ded7' }}>
-          {FAQS.map((item, i) => <FaqItem key={item.q} item={item} index={i} />)}
-        </div>
-      </div>
-    </section>
-  );
-}
-
 /* ─── SECTION DIVIDER ────────────────────────────────────────── */
 function SectionDivider({ from, to }: { from: string; to: string }) {
   return (
@@ -794,8 +726,6 @@ export default function HomePage() {
       <CTA />
       <SectionDivider from={ACCENT} to={BG} />
       <Pricing />
-      <SectionDivider from={BG} to={BG2} />
-      <FAQ />
     </>
   );
 }

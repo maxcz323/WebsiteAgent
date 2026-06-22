@@ -17,6 +17,13 @@ interface Version {
 
 const CHANGELOG: Version[] = [
   {
+    version: '3.95',
+    date: '22. 6. 2026',
+    changes: [
+      { type: 'change', text: 'FAQ sekce přesunuta z homepage na stránku /sluzby (za service karty, před CTA). Z homepage odstraněna včetně SectionDivideru a AnimatePresence importu.' },
+    ],
+  },
+  {
     version: '3.94',
     date: '22. 6. 2026',
     changes: [
