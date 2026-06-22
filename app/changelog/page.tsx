@@ -17,6 +17,13 @@ interface Version {
 
 const CHANGELOG: Version[] = [
   {
+    version: '4.02',
+    date: '22. 6. 2026',
+    changes: [
+      { type: 'change', text: 'Hero — tablet i monitor jako plain tmavé obdélníky (žádná grafika). Monitor nakloněn stejně jako tablet (-14°), přijíždí zprava.' },
+    ],
+  },
+  {
     version: '4.01',
     date: '22. 6. 2026',
     changes: [
