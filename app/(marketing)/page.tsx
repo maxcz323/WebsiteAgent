@@ -307,22 +307,23 @@ function Hero() {
             className="hidden lg:block"
             style={{ position: 'relative' }}
           >
-            {/* Ghost text behind the monitor */}
+            {/* Ghost text — centered behind the monitor */}
             <div aria-hidden style={{
               position: 'absolute',
-              top: '-32px',
-              right: '-24px',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -58%)',
               fontFamily: 'var(--font-display)',
-              fontSize: 'clamp(72px, 7.5vw, 112px)',
+              fontSize: 'clamp(90px, 9vw, 130px)',
               fontWeight: 300,
               letterSpacing: '-0.04em',
               lineHeight: 0.88,
-              color: 'transparent',
-              WebkitTextStroke: '1.5px rgba(26,46,61,0.08)',
+              color: 'rgba(26,46,61,0.06)',
               userSelect: 'none',
               pointerEvents: 'none',
               zIndex: 0,
               whiteSpace: 'nowrap',
+              textAlign: 'center',
             }}>
               Web,<br />který
             </div>
