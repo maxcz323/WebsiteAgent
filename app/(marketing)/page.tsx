@@ -28,10 +28,6 @@ const MOBILE_RESET = `
   @media(prefers-reduced-motion: reduce){
     .preview-page { animation: none !important; }
   }
-  @media(max-width:1023px){
-    .hero-right{display:none!important}
-    .hero-left{width:100%!important;min-height:100vh}
-  }
 `;
 
 /* ─── Grain ───────────────────────────────────────────────────── */
@@ -253,74 +249,114 @@ const STATS = [
 
 function Hero() {
   return (
-    <section style={{ minHeight: '100vh', display: 'flex', overflow: 'hidden', position: 'relative' }}>
+    <section style={{ background: BG, minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', overflow: 'hidden', position: 'relative' }}>
+      {/* Background blobs */}
+      <div aria-hidden style={{ position: 'absolute', top: '-15%', right: '-8%', width: '700px', height: '700px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(40,85,112,0.06) 0%, transparent 65%)', pointerEvents: 'none' }} />
+      <div aria-hidden style={{ position: 'absolute', bottom: '-5%', left: '-10%', width: '550px', height: '550px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(227,222,215,0.45) 0%, transparent 65%)', pointerEvents: 'none' }} />
 
-      {/* ── Left: blue panel ── */}
-      <div className="hero-left" style={{ width: '55%', background: ACCENT, display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: 'clamp(100px,12vw,160px) clamp(36px,5vw,80px) 60px', position: 'relative', overflow: 'hidden' }}>
-        <div aria-hidden style={{ position: 'absolute', top: '-20%', right: '-20%', width: '560px', height: '560px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(255,255,255,0.07) 0%, transparent 65%)', pointerEvents: 'none' }} />
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-5 sm:px-10" style={{ paddingTop: '120px', paddingBottom: '60px' }}>
 
-        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.05 }}
-          style={{ display: 'inline-flex', alignItems: 'center', gap: '7px', border: '1px solid rgba(255,255,255,0.2)', borderRadius: '20px', padding: '5px 14px', marginBottom: '32px', width: 'fit-content' }}
+        {/* ── 2-column grid ── */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center" style={{ marginBottom: '72px' }}>
+
+          {/* Left: text */}
+          <div>
+            <motion.div
+              initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.05 }}
+              style={{ display: 'inline-flex', alignItems: 'center', gap: '7px', background: 'rgba(40,85,112,0.08)', border: '1px solid rgba(40,85,112,0.14)', borderRadius: '20px', padding: '5px 14px', marginBottom: '28px' }}
+            >
+              <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: ACCENT }} />
+              <span style={{ fontSize: '12px', fontWeight: 600, color: ACCENT, letterSpacing: '0.02em' }}>Přijímáme nové projekty</span>
+            </motion.div>
+
+            <motion.h1
+              initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.12 }}
+              style={{ fontFamily: 'var(--font-display)', fontWeight: 300, letterSpacing: '-0.04em', lineHeight: 0.95, color: '#1a2e3d', fontSize: 'clamp(44px,6vw,88px)', marginBottom: '28px' }}
+            >
+              Web, který<br />prodává.
+            </motion.h1>
+
+            <motion.p
+              initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.22 }}
+              style={{ fontSize: '19px', lineHeight: 1.7, color: '#5c5650', maxWidth: '380px', marginBottom: '40px' }}
+            >
+              Moderní weby pro lokální firmy.<br />
+              <span style={{ color: '#cbcac7' }}>Platíte až po schválení. Záloha 0 Kč.</span>
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.32 }}
+              className="flex flex-col sm:flex-row gap-3"
+            >
+              <Link href="/kontakt" className="btn-mkt-primary">
+                Chci web pro svou firmu
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+              </Link>
+              <Link href="/jak-pracujeme" className="btn-mkt-ghost">Jak to funguje</Link>
+            </motion.div>
+          </div>
+
+          {/* Right: monitor visual with background text watermark */}
+          <motion.div
+            initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.85, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+            className="hidden lg:block"
+            style={{ position: 'relative' }}
+          >
+            {/* Ghost text — centered behind the monitor */}
+            <div aria-hidden style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -58%)',
+              fontFamily: 'var(--font-display)',
+              fontSize: 'clamp(90px, 9vw, 130px)',
+              fontWeight: 300,
+              letterSpacing: '-0.04em',
+              lineHeight: 0.88,
+              color: 'rgba(26,46,61,0.06)',
+              userSelect: 'none',
+              pointerEvents: 'none',
+              zIndex: 0,
+              whiteSpace: 'nowrap',
+              textAlign: 'center',
+            }}>
+              Web,<br />který
+            </div>
+
+            <div style={{ position: 'relative', zIndex: 1 }}>
+              <MonitorVisual />
+            </div>
+          </motion.div>
+        </div>
+
+        {/* ── Stats bar — full width ── */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.5 }}
+          className="grid grid-cols-2 sm:grid-cols-4 gap-px"
+          style={{ background: '#e3ded7', borderRadius: '16px', overflow: 'hidden', border: '1px solid #e3ded7' }}
         >
-          <div style={{ width: '5px', height: '5px', borderRadius: '50%', background: 'rgba(255,255,255,0.7)' }} />
-          <span style={{ fontSize: '12px', fontWeight: 600, color: 'rgba(255,255,255,0.7)', letterSpacing: '0.03em' }}>Přijímáme nové projekty</span>
-        </motion.div>
-
-        <motion.h1 initial={{ opacity: 0, y: 28 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.75, delay: 0.12 }}
-          style={{ fontFamily: 'var(--font-display)', fontWeight: 300, letterSpacing: '-0.04em', lineHeight: 0.9, color: '#fff', fontSize: 'clamp(52px,6.5vw,96px)', marginBottom: '28px' }}
-        >
-          Web,<br />který<br />prodává.
-        </motion.h1>
-
-        <motion.p initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.22 }}
-          style={{ fontSize: '17px', lineHeight: 1.75, color: 'rgba(255,255,255,0.58)', maxWidth: '320px', marginBottom: '44px' }}
-        >
-          Moderní weby pro lokální firmy.<br />
-          <span style={{ color: 'rgba(255,255,255,0.3)' }}>Platíte až po schválení. Záloha 0 Kč.</span>
-        </motion.p>
-
-        {/* Stats row */}
-        <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.32 }}
-          style={{ display: 'flex', gap: '28px', marginBottom: '44px', paddingBottom: '44px', borderBottom: '1px solid rgba(255,255,255,0.12)' }}
-        >
-          {STATS.slice(0, 3).map(s => (
-            <div key={s.l}>
-              <p style={{ fontSize: '22px', fontWeight: 700, color: '#fff', letterSpacing: '-0.03em', marginBottom: '3px' }}>{s.n}</p>
-              <p style={{ fontSize: '10px', color: 'rgba(255,255,255,0.38)', textTransform: 'uppercase', letterSpacing: '0.07em', margin: 0 }}>{s.l}</p>
+          {STATS.map(s => (
+            <div key={s.l} style={{ background: '#fff', padding: '22px 28px', textAlign: 'center' }}>
+              <p style={{ fontSize: '26px', fontWeight: 700, color: ACCENT, letterSpacing: '-0.03em', marginBottom: '4px' }}>{s.n}</p>
+              <p style={{ fontSize: '11px', color: '#cbcac7', margin: 0 }}>{s.l}</p>
             </div>
           ))}
         </motion.div>
-
-        {/* CTA buttons */}
-        <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.42 }}
-          style={{ display: 'flex', flexDirection: 'column', gap: '12px', maxWidth: '320px' }}
-        >
-          <Link href="/kontakt"
-            style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '8px', fontSize: '14px', fontWeight: 600, textDecoration: 'none', padding: '14px 28px', borderRadius: '10px', background: '#fff', color: ACCENT, transition: 'opacity .2s, transform .2s', letterSpacing: '-0.01em' }}
-            onMouseEnter={e => { e.currentTarget.style.opacity = '0.9'; e.currentTarget.style.transform = 'translateY(-1px)'; }}
-            onMouseLeave={e => { e.currentTarget.style.opacity = '1'; e.currentTarget.style.transform = ''; }}
-          >
-            Chci web pro svou firmu
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
-          </Link>
-          <Link href="/jak-pracujeme"
-            style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '8px', fontSize: '14px', fontWeight: 500, textDecoration: 'none', padding: '14px 28px', borderRadius: '10px', border: '1.5px solid rgba(255,255,255,0.2)', color: 'rgba(255,255,255,0.65)', transition: 'border-color .2s, color .2s, transform .2s', letterSpacing: '-0.01em' }}
-            onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.45)'; e.currentTarget.style.color = '#fff'; e.currentTarget.style.transform = 'translateY(-1px)'; }}
-            onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.2)'; e.currentTarget.style.color = 'rgba(255,255,255,0.65)'; e.currentTarget.style.transform = ''; }}
-          >Jak to funguje</Link>
-        </motion.div>
       </div>
 
-      {/* ── Right: cream panel with monitor ── */}
-      <div className="hero-right" style={{ flex: 1, background: BG, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '80px 40px', position: 'relative', overflow: 'hidden' }}>
-        <div aria-hidden style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -58%)', fontFamily: 'var(--font-display)', fontSize: 'clamp(80px, 9vw, 120px)', fontWeight: 300, letterSpacing: '-0.04em', lineHeight: 0.88, color: 'rgba(26,46,61,0.05)', userSelect: 'none', pointerEvents: 'none', zIndex: 0, whiteSpace: 'nowrap', textAlign: 'center' }}>
-          Web,<br />který
+      {/* Scroll indicator */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 pointer-events-none" style={{ opacity: 0.3 }}>
+        <div style={{ width: '20px', height: '32px', borderRadius: '10px', border: `1px solid ${ACCENT}`, display: 'flex', alignItems: 'flex-start', justifyContent: 'center', paddingTop: '6px' }}>
+          <motion.div style={{ width: '4px', height: '6px', borderRadius: '2px', background: ACCENT }}
+            animate={{ y: [0, 10, 0] }} transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }} />
         </div>
-        <motion.div initial={{ opacity: 0, x: 32 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.9, delay: 0.25, ease: [0.22, 1, 0.36, 1] }} style={{ position: 'relative', zIndex: 1, width: '100%', maxWidth: '420px' }}>
-          <MonitorVisual />
-        </motion.div>
       </div>
-
     </section>
   );
 }
@@ -346,54 +382,54 @@ const SERVICES = [
 
 function ServicesSection() {
   const outerRef = useRef<HTMLDivElement>(null);
-  const inView = useInView(outerRef, { once: false, amount: 0.1 });
-  const E = (delay = 0) => ({ duration: 0.8, ease: [0.22, 1, 0.36, 1] as any, delay: inView ? delay : 0 });
+  const inView = useInView(outerRef, { once: false, amount: 0.2 });
+  const E = (delay = 0) => ({ duration: 0.9, ease: [0.22, 1, 0.36, 1] as any, delay: inView ? delay : 0 });
 
   return (
-    <div ref={outerRef} style={{ background: BG, padding: '120px 24px' }}>
+    <div ref={outerRef} style={{ background: BG, padding: '220px 24px' }}>
       <div style={{ maxWidth: '1080px', margin: '0 auto' }}>
 
-        {/* Header */}
-        <motion.div animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 20 }} transition={E(0)}
-          style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', paddingBottom: '40px', borderBottom: '1px solid #e3ded7', marginBottom: '0' }}
+        <motion.div
+          animate={{ opacity: inView ? 1 : 0, x: inView ? 0 : -80 }}
+          transition={E(0)}
+          className="mb-10"
         >
-          <div>
-            <p style={{ fontSize: '11px', fontWeight: 600, color: 'rgba(40,85,112,0.55)', textTransform: 'uppercase', letterSpacing: '0.16em', marginBottom: '12px' }}>Naše služby</p>
+          <p style={{ fontSize: '11px', fontWeight: 600, color: 'rgba(40,85,112,0.55)', textTransform: 'uppercase', letterSpacing: '0.16em', marginBottom: '14px' }}>Naše služby</p>
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
             <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px,3.8vw,50px)', fontWeight: 300, color: '#1a2e3d', letterSpacing: '-0.03em', lineHeight: 1.1, margin: 0 }}>
               Co vytvoříme<br />pro vaši firmu
             </h2>
-          </div>
-          <Link href="/sluzby" style={{ fontSize: '13px', fontWeight: 600, color: '#cbcac7', textDecoration: 'none', whiteSpace: 'nowrap', transition: 'color .15s', paddingBottom: '4px' }}
-            onMouseEnter={e => (e.currentTarget.style.color = ACCENT)}
-            onMouseLeave={e => (e.currentTarget.style.color = '#cbcac7')}
-          >Všechny služby →</Link>
-        </motion.div>
-
-        {/* Service list */}
-        {SERVICES.map((s, i) => (
-          <motion.div key={s.title}
-            animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 18 }}
-            transition={E(0.1 + i * 0.1)}
-            onClick={() => (window.location.href = s.href)}
-            style={{ borderBottom: '1px solid #e3ded7', padding: '40px 0', cursor: 'pointer', display: 'grid', gridTemplateColumns: '72px 1fr auto', alignItems: 'center', gap: '32px' }}
-            className="group"
-            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = 'rgba(40,85,112,0.02)'; }}
-            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.backgroundColor = 'transparent'; }}
-          >
-            <span style={{ fontFamily: 'var(--font-display)', fontSize: '38px', fontWeight: 300, color: ACCENT, letterSpacing: '-0.04em', lineHeight: 1, opacity: 0.9 }}>0{i + 1}</span>
-            <div>
-              <h3 style={{ fontSize: '20px', fontWeight: 600, color: '#1a2e3d', marginBottom: '6px' }}>{s.title}</h3>
-              <p style={{ fontSize: '15px', color: '#a8a4a0', lineHeight: 1.6, margin: 0 }}>{s.desc}</p>
-            </div>
-            <span style={{ fontSize: '13px', color: '#cbcac7', whiteSpace: 'nowrap', display: 'inline-flex', alignItems: 'center', gap: '5px', transition: 'color .2s' }}
+            <Link href="/sluzby" style={{ fontSize: '13px', fontWeight: 600, color: '#cbcac7', textDecoration: 'none', whiteSpace: 'nowrap', transition: 'color .15s' }}
               onMouseEnter={e => (e.currentTarget.style.color = ACCENT)}
               onMouseLeave={e => (e.currentTarget.style.color = '#cbcac7')}
+            >Všechny služby →</Link>
+          </div>
+        </motion.div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {[
+            { from: { x: -110, rotate: -2.5 }, to: { x: 0, rotate: 0 }, delay: 0.1, s: SERVICES[0] },
+            { from: { y:   90 },                to: { y: 0 },             delay: 0.18, s: SERVICES[1] },
+            { from: { x:  110, rotate:  2.5 }, to: { x: 0, rotate: 0 }, delay: 0.1, s: SERVICES[2] },
+          ].map(({ from, to, delay, s }) => (
+            <motion.div key={s.title}
+              animate={{ opacity: inView ? 1 : 0, ...(inView ? to : from) }}
+              transition={E(delay)}
+              style={CARD}
+              className="cursor-pointer group"
+              onClick={() => (window.location.href = s.href)}
             >
-              Detail
-              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
-            </span>
-          </motion.div>
-        ))}
+              <div style={{ width: '44px', height: '44px', borderRadius: '12px', background: 'rgba(40,85,112,0.08)', color: ACCENT, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '22px' }}>
+                {s.icon}
+              </div>
+              <h3 style={{ fontSize: '15px', fontWeight: 600, color: '#1a2e3d', marginBottom: '8px' }}>{s.title}</h3>
+              <p style={{ fontSize: '15px', lineHeight: 1.65, color: '#a8a4a0', marginBottom: '28px' }}>{s.desc}</p>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
+                <span style={{ fontSize: '12px', color: '#cbcac7' }}>Detail →</span>
+              </div>
+            </motion.div>
+          ))}
+        </div>
       </div>
     </div>
   );
