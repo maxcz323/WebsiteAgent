@@ -21,6 +21,13 @@ const MOBILE_RESET = `
     .sp-outer{height:auto!important}
     .sp-inner{position:relative!important;height:auto!important;overflow:visible!important;padding:100px 24px 80px!important;align-items:flex-start!important}
   }
+  @keyframes autoScrollPreview {
+    0%   { transform: translateY(0); }
+    100% { transform: translateY(-260px); }
+  }
+  @media(prefers-reduced-motion: reduce){
+    .preview-page { animation: none !important; }
+  }
 `;
 
 /* ─── Grain ───────────────────────────────────────────────────── */
@@ -56,6 +63,187 @@ function CursorBlob() {
       width: '700px', height: '700px', borderRadius: '50%', willChange: 'transform',
       background: 'radial-gradient(circle, rgba(40,85,112,0.06) 0%, transparent 70%)',
     }} />
+  );
+}
+
+/* ─── MONITOR VISUAL ─────────────────────────────────────────── */
+function MonitorVisual() {
+  const S = (w: string | number, h: number, r = 4, bg = '#e3ded7') => (
+    <div style={{ width: w, height: `${h}px`, borderRadius: `${r}px`, background: bg, flexShrink: 0 }} />
+  );
+
+  return (
+    <div style={{ position: 'relative' }}>
+
+      {/* ── Monitor body ── */}
+      <div style={{
+        background: '#1a2e3d',
+        borderRadius: '18px 18px 6px 6px',
+        padding: '10px 10px 0',
+        boxShadow: '0 40px 100px rgba(26,46,61,0.28), 0 8px 24px rgba(26,46,61,0.14)',
+      }}>
+        {/* Camera */}
+        <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'rgba(255,255,255,0.18)', margin: '0 auto 7px' }} />
+
+        {/* Screen */}
+        <div style={{ background: '#fff', borderRadius: '8px 8px 0 0', overflow: 'hidden', height: '310px', position: 'relative' }}>
+          {/* Brand bar */}
+          <div style={{ height: '3px', background: ACCENT }} />
+
+          {/* Scrolling preview */}
+          <div className="preview-page" style={{ animation: 'autoScrollPreview 18s ease-in-out infinite alternate' }}>
+
+            {/* Mini nav */}
+            <div style={{ padding: '9px 14px', borderBottom: '1px solid #f0ebe7', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: '#fff' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                <div style={{ width: '18px', height: '18px', borderRadius: '5px', background: ACCENT }} />
+                {S(52, 6, 3, '#e3ded7')}
+              </div>
+              <div style={{ display: 'flex', gap: '8px' }}>
+                {[36, 44, 32].map((w, i) => S(w, 5, 3, '#e3ded7'))}
+              </div>
+              <div style={{ width: '52px', height: '20px', borderRadius: '6px', background: ACCENT }} />
+            </div>
+
+            {/* Hero */}
+            <div style={{ padding: '18px 14px 14px', background: 'linear-gradient(150deg,#faf7f6 0%,#f0ebe7 100%)' }}>
+              {S('68%', 11, 5, '#1a2e3d')}
+              <div style={{ height: '7px' }} />
+              {S('52%', 11, 5, '#1a2e3d')}
+              <div style={{ height: '11px' }} />
+              {S('82%', 6, 3, '#cbcac7')}
+              <div style={{ height: '4px' }} />
+              {S('66%', 6, 3, '#cbcac7')}
+              <div style={{ height: '14px' }} />
+              <div style={{ display: 'flex', gap: '6px' }}>
+                <div style={{ width: '76px', height: '25px', borderRadius: '7px', background: ACCENT }} />
+                <div style={{ width: '66px', height: '25px', borderRadius: '7px', border: '1px solid #e3ded7' }} />
+              </div>
+            </div>
+
+            {/* Image / preview card */}
+            <div style={{ margin: '12px 14px', height: '88px', borderRadius: '10px', background: `linear-gradient(135deg,${ACCENT} 0%,#1a2e3d 100%)`, overflow: 'hidden', position: 'relative' }}>
+              <div style={{ padding: '9px 10px' }}>
+                <div style={{ display: 'flex', gap: '4px', marginBottom: '7px' }}>
+                  {[1,2,3].map(i => <div key={i} style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'rgba(255,255,255,0.28)' }} />)}
+                </div>
+                {S('58%', 5, 3, 'rgba(255,255,255,0.38)')}
+                <div style={{ height: '4px' }} />
+                {S('76%', 4, 3, 'rgba(255,255,255,0.22)')}
+                <div style={{ height: '3px' }} />
+                {S('64%', 4, 3, 'rgba(255,255,255,0.22)')}
+              </div>
+              <div style={{ position: 'absolute', bottom: '8px', right: '10px', background: 'rgba(255,255,255,0.96)', borderRadius: '6px', padding: '3px 7px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                <svg width="7" height="7" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                <span style={{ fontSize: '7px', fontWeight: 700, color: '#1a2e3d' }}>Web schválen</span>
+              </div>
+            </div>
+
+            {/* Services row */}
+            <div style={{ padding: '0 14px 12px' }}>
+              {S('38%', 7, 3, '#1a2e3d')}
+              <div style={{ height: '10px' }} />
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '6px' }}>
+                {[ACCENT, '#faf7f6', '#faf7f6'].map((bg, i) => (
+                  <div key={i} style={{ background: bg, borderRadius: '8px', padding: '9px 8px', border: `1px solid ${i === 0 ? 'transparent' : '#e3ded7'}` }}>
+                    <div style={{ width: '14px', height: '14px', borderRadius: '4px', background: i === 0 ? 'rgba(255,255,255,0.22)' : '#e3ded7', marginBottom: '6px' }} />
+                    {S('65%', 5, 2, i === 0 ? 'rgba(255,255,255,0.6)' : '#cbcac7')}
+                    <div style={{ height: '3px' }} />
+                    {S('85%', 4, 2, i === 0 ? 'rgba(255,255,255,0.3)' : '#e3ded7')}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Process steps */}
+            <div style={{ padding: '10px 14px 12px', borderTop: '1px solid #f0ebe7' }}>
+              {S('46%', 7, 3, '#1a2e3d')}
+              <div style={{ height: '10px' }} />
+              {(['01','02','03'] as const).map((n) => (
+                <div key={n} style={{ display: 'flex', alignItems: 'center', gap: '7px', marginBottom: '7px' }}>
+                  <div style={{ width: '18px', height: '18px', borderRadius: '5px', background: 'rgba(40,85,112,0.09)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                    <span style={{ fontSize: '6px', fontWeight: 700, color: ACCENT }}>{n}</span>
+                  </div>
+                  <div style={{ flex: 1 }}>
+                    {S('55%', 5, 2, 'rgba(26,46,61,0.45)')}
+                    <div style={{ height: '3px' }} />
+                    {S('80%', 4, 2, '#e3ded7')}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Testimonial */}
+            <div style={{ margin: '0 14px 12px', background: '#f8f6f4', borderRadius: '10px', padding: '11px' }}>
+              <div style={{ display: 'flex', gap: '2px', marginBottom: '7px' }}>
+                {[1,2,3,4,5].map(s => <svg key={s} width="7" height="7" viewBox="0 0 24 24" fill={ACCENT}><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>)}
+              </div>
+              {S('88%', 4, 2, '#cbcac7')}
+              <div style={{ height: '3px' }} />
+              {S('72%', 4, 2, '#cbcac7')}
+              <div style={{ height: '9px' }} />
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <div style={{ width: '18px', height: '18px', borderRadius: '50%', background: 'rgba(40,85,112,0.1)', flexShrink: 0 }} />
+                <div>
+                  {S(48, 5, 2, 'rgba(26,46,61,0.45)')}
+                  <div style={{ height: '3px' }} />
+                  {S(66, 4, 2, '#e3ded7')}
+                </div>
+              </div>
+            </div>
+
+            {/* CTA block */}
+            <div style={{ margin: '0 14px 16px', background: ACCENT, borderRadius: '10px', padding: '14px', textAlign: 'center' }}>
+              {S('55%', 7, 3, 'rgba(255,255,255,0.75)')}
+              <div style={{ display: 'flex', justifyContent: 'center', marginTop: '5px', marginBottom: '5px' }}>{S('42%', 7, 3, 'rgba(255,255,255,0.45)')}</div>
+              <div style={{ width: '72px', height: '20px', borderRadius: '6px', background: '#fff', margin: '10px auto 0' }} />
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      {/* ── Stand ── */}
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <div style={{ width: '56px', height: '18px', background: '#1a2e3d', borderRadius: '0 0 5px 5px', opacity: 0.9 }} />
+        <div style={{ width: '110px', height: '5px', background: '#1a2e3d', borderRadius: '3px', opacity: 0.45 }} />
+      </div>
+
+      {/* ── Floating badges ── */}
+      <motion.div
+        initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.65 }}
+        style={{ position: 'absolute', bottom: '44px', left: '-28px', background: '#fff', border: '1px solid #e3ded7', borderRadius: '16px', padding: '12px 16px', boxShadow: '0 12px 32px rgba(40,85,112,0.12)', display: 'flex', alignItems: 'center', gap: '10px', zIndex: 3 }}
+      >
+        <div style={{ width: '32px', height: '32px', borderRadius: '9px', background: 'rgba(40,85,112,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={ACCENT} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <div>
+          <p style={{ fontSize: '13px', fontWeight: 700, color: '#1a2e3d', margin: 0, lineHeight: 1.2 }}>Web schválen</p>
+          <p style={{ fontSize: '11px', color: '#cbcac7', margin: 0, marginTop: '2px' }}>Pavel Novák Instalace</p>
+        </div>
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0, y: -12 }} animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.75 }}
+        style={{ position: 'absolute', top: '-14px', right: '-20px', background: ACCENT, borderRadius: '14px', padding: '12px 18px', boxShadow: '0 12px 32px rgba(40,85,112,0.3)', display: 'flex', flexDirection: 'column', alignItems: 'center', zIndex: 3 }}
+      >
+        <span style={{ fontSize: '24px', fontWeight: 700, color: '#fff', lineHeight: 1 }}>48h</span>
+        <span style={{ fontSize: '10px', color: 'rgba(255,255,255,0.65)', marginTop: '3px', letterSpacing: '0.04em' }}>DODÁNÍ</span>
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0, x: 12 }} animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.6, delay: 0.85 }}
+        style={{ position: 'absolute', top: '42%', right: '-18px', transform: 'translateY(-50%)', background: '#fff', border: '1px solid #e3ded7', borderRadius: '12px', padding: '9px 13px', boxShadow: '0 8px 24px rgba(40,85,112,0.1)', display: 'flex', alignItems: 'center', gap: '6px', zIndex: 3 }}
+      >
+        <div style={{ display: 'flex', gap: '1px' }}>
+          {[1,2,3,4,5].map(s => <svg key={s} width="9" height="9" viewBox="0 0 24 24" fill={ACCENT}><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>)}
+        </div>
+        <span style={{ fontSize: '11px', fontWeight: 600, color: '#1a2e3d' }}>50+ klientů</span>
+      </motion.div>
+    </div>
   );
 }
 
@@ -120,60 +308,13 @@ function Hero() {
             </motion.div>
           </div>
 
-          {/* Right: image with floating badges */}
+          {/* Right: monitor visual */}
           <motion.div
             initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.85, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
             className="hidden lg:block"
-            style={{ position: 'relative' }}
           >
-            {/* Main image */}
-            <div style={{ borderRadius: '24px', overflow: 'hidden', boxShadow: '0 32px 80px rgba(40,85,112,0.14), 0 4px 16px rgba(40,85,112,0.08)', border: '1px solid #e3ded7' }}>
-              <img
-                src="https://images.unsplash.com/photo-1547658719-da2b51169166?w=900&q=85&auto=format&fit=crop"
-                alt="Web design na monitoru"
-                style={{ width: '100%', height: '480px', objectFit: 'cover', display: 'block' }}
-              />
-            </div>
-
-            {/* Floating card — bottom left */}
-            <motion.div
-              initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.65 }}
-              style={{ position: 'absolute', bottom: '28px', left: '-28px', background: '#fff', border: '1px solid #e3ded7', borderRadius: '16px', padding: '14px 18px', boxShadow: '0 12px 32px rgba(40,85,112,0.12)', display: 'flex', alignItems: 'center', gap: '12px', minWidth: '200px' }}
-            >
-              <div style={{ width: '36px', height: '36px', borderRadius: '10px', background: 'rgba(40,85,112,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={ACCENT} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
-              </div>
-              <div>
-                <p style={{ fontSize: '13px', fontWeight: 700, color: '#1a2e3d', margin: 0, lineHeight: 1.2 }}>Web schválen</p>
-                <p style={{ fontSize: '11px', color: '#cbcac7', margin: 0, marginTop: '2px' }}>Pavel Novák Instalace</p>
-              </div>
-            </motion.div>
-
-            {/* Floating badge — top right */}
-            <motion.div
-              initial={{ opacity: 0, y: -12 }} animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.75 }}
-              style={{ position: 'absolute', top: '28px', right: '-24px', background: ACCENT, borderRadius: '16px', padding: '14px 20px', boxShadow: '0 12px 32px rgba(40,85,112,0.3)', display: 'flex', flexDirection: 'column', alignItems: 'center' }}
-            >
-              <span style={{ fontSize: '26px', fontWeight: 700, color: '#fff', lineHeight: 1 }}>48h</span>
-              <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.65)', marginTop: '3px', letterSpacing: '0.04em' }}>DODÁNÍ</span>
-            </motion.div>
-
-            {/* Floating mini-card — middle right edge */}
-            <motion.div
-              initial={{ opacity: 0, x: 12 }} animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.85 }}
-              style={{ position: 'absolute', top: '50%', right: '-20px', transform: 'translateY(-50%)', background: '#fff', border: '1px solid #e3ded7', borderRadius: '12px', padding: '10px 14px', boxShadow: '0 8px 24px rgba(40,85,112,0.1)', display: 'flex', alignItems: 'center', gap: '8px' }}
-            >
-              <div style={{ display: 'flex', gap: '1px' }}>
-                {[1,2,3,4,5].map(s => (
-                  <svg key={s} width="10" height="10" viewBox="0 0 24 24" fill={ACCENT}><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg>
-                ))}
-              </div>
-              <span style={{ fontSize: '11px', fontWeight: 600, color: '#1a2e3d' }}>50+ klientů</span>
-            </motion.div>
+            <MonitorVisual />
           </motion.div>
         </div>
 

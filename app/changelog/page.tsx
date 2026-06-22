@@ -17,6 +17,14 @@ interface Version {
 
 const CHANGELOG: Version[] = [
   {
+    version: '3.92',
+    date: '22. 6. 2026',
+    changes: [
+      { type: 'feat', text: 'Hero — nahrazena Unsplash fotka vlastním monitor vizuálem. Monitor má tmavý rám, bílou obrazovku, brand bar, stojan a 3 floating badges (Web schválen, 48h dodání, 50+ klientů).' },
+      { type: 'feat', text: 'Monitor preview — automatický plynulý scroll obsahu (nav, hero, image card, 3 service karty, process steps, testimonial, CTA) přes CSS keyframe animaci 18s ease-in-out infinite alternate. Respektuje prefers-reduced-motion.' },
+    ],
+  },
+  {
     version: '3.91',
     date: '22. 6. 2026',
     changes: [
