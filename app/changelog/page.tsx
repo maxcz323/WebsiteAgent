@@ -17,6 +17,13 @@ interface Version {
 
 const CHANGELOG: Version[] = [
   {
+    version: '3.98',
+    date: '22. 6. 2026',
+    changes: [
+      { type: 'feat', text: 'Homepage redesign — split hero: levá polovina #285570 s bílým textem, inline stats a bílým CTA; pravá polovina krémová s monitorem. ServicesSection přepracována z karet na číslovaný seznam (01/02/03) s horizontálními čárami.' },
+    ],
+  },
+  {
     version: '3.95',
     date: '22. 6. 2026',
     changes: [
