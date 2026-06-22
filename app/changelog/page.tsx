@@ -17,6 +17,13 @@ interface Version {
 
 const CHANGELOG: Version[] = [
   {
+    version: '3.97',
+    date: '22. 6. 2026',
+    changes: [
+      { type: 'feat', text: 'Hero sekce — monitor nahrazen laptop vizuálem (klávesnice + trackpad). Scroll-driven animace: laptop vyjíždí zespoda při scrollu (y: 140→0 za 380px). Watermark text "WEB KTERÝ PRODÁVÁ" v pozadí.' },
+    ],
+  },
+  {
     version: '3.96',
     date: '22. 6. 2026',
     changes: [

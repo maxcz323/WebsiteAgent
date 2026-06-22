@@ -66,31 +66,36 @@ function CursorBlob() {
   );
 }
 
-/* ─── MONITOR VISUAL ─────────────────────────────────────────── */
-function MonitorVisual() {
+/* ─── LAPTOP VISUAL ──────────────────────────────────────────── */
+function LaptopVisual() {
   const Bar = ({ w, h = 5, r = 3, bg = '#e3ded7' }: { w: string | number; h?: number; r?: number; bg?: string }) => (
     <div style={{ width: w, height: h, borderRadius: r, background: bg }} />
+  );
+
+  const KeyRow = ({ count, mt = 3 }: { count: number; mt?: number }) => (
+    <div style={{ display: 'flex', gap: '3px', marginTop: mt }}>
+      {Array.from({ length: count }).map((_, i) => (
+        <div key={i} style={{ flex: 1, height: '10px', borderRadius: '3px', background: 'rgba(255,255,255,0.09)', border: '1px solid rgba(255,255,255,0.04)' }} />
+      ))}
+    </div>
   );
 
   return (
     <div style={{ position: 'relative' }}>
 
-      {/* ── Monitor body ── */}
+      {/* ── Lid (screen) ── */}
       <div style={{
+        width: '640px',
         background: '#1a2e3d',
-        borderRadius: '18px 18px 6px 6px',
+        borderRadius: '14px 14px 3px 3px',
         padding: '10px 10px 0',
         boxShadow: '0 40px 100px rgba(26,46,61,0.3), 0 8px 24px rgba(26,46,61,0.14)',
       }}>
-        {/* Camera */}
-        <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'rgba(255,255,255,0.18)', margin: '0 auto 7px' }} />
+        <div style={{ width: '5px', height: '5px', borderRadius: '50%', background: 'rgba(255,255,255,0.18)', margin: '0 auto 6px' }} />
 
-        {/* Screen */}
-        <div style={{ background: '#fff', borderRadius: '8px 8px 0 0', overflow: 'hidden', height: '310px' }}>
-          {/* Accent bar */}
+        <div style={{ background: '#fff', borderRadius: '8px 8px 0 0', overflow: 'hidden', height: '340px' }}>
           <div style={{ height: '3px', background: ACCENT }} />
 
-          {/* Scrolling preview page */}
           <div className="preview-page" style={{ animation: 'autoScrollPreview 18s ease-in-out infinite alternate' }}>
 
             {/* ── Navbar ── */}
@@ -109,7 +114,6 @@ function MonitorVisual() {
 
             {/* ── Hero — 2 columns ── */}
             <div style={{ padding: '18px 12px 14px', background: '#faf7f6', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', alignItems: 'center' }}>
-              {/* Left: text */}
               <div>
                 <Bar w="80%" h={10} r={5} bg="#1a2e3d" />
                 <div style={{ height: '6px' }} />
@@ -126,28 +130,18 @@ function MonitorVisual() {
                   <div style={{ width: '50px', height: '20px', borderRadius: '5px', border: '1px solid #e3ded7' }} />
                 </div>
               </div>
-
-              {/* Right: 2 image placeholders */}
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6px' }}>
                 <div style={{ height: '80px', borderRadius: '8px', background: `linear-gradient(145deg, ${ACCENT} 0%, #1a3a52 100%)`, position: 'relative', overflow: 'hidden' }}>
                   <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 60%)' }} />
                 </div>
                 <div style={{ height: '80px', borderRadius: '8px', background: 'linear-gradient(145deg, #8fa8b8 0%, #5a7a8e 100%)', position: 'relative', overflow: 'hidden' }}>
                   <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 60%)' }} />
-                  {/* "Web schválen" badge */}
                   <div style={{ position: 'absolute', bottom: '5px', left: '5px', background: 'rgba(255,255,255,0.95)', borderRadius: '4px', padding: '2px 5px', display: 'flex', alignItems: 'center', gap: '3px' }}>
                     <svg width="6" height="6" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
                     <span style={{ fontSize: '6px', fontWeight: 700, color: '#1a2e3d' }}>Schváleno</span>
                   </div>
                 </div>
               </div>
-            </div>
-
-            {/* ── Wave divider ── */}
-            <div style={{ padding: '4px 12px 2px' }}>
-              <svg viewBox="0 0 260 20" style={{ width: '100%', height: '20px', display: 'block' }}>
-                <path d="M0,10 C20,2 40,18 65,10 S105,2 130,10 S170,18 195,10 S230,2 260,10" stroke="#9c84b8" strokeWidth="1.5" fill="none" strokeLinecap="round" opacity="0.55"/>
-              </svg>
             </div>
 
             {/* ── Services ── */}
@@ -195,17 +189,37 @@ function MonitorVisual() {
         </div>
       </div>
 
-      {/* ── Stand ── */}
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-        <div style={{ width: '54px', height: '17px', background: '#1a2e3d', borderRadius: '0 0 5px 5px', opacity: 0.85 }} />
-        <div style={{ width: '108px', height: '5px', background: '#1a2e3d', borderRadius: '3px', opacity: 0.4 }} />
+      {/* ── Hinge ── */}
+      <div style={{ height: '5px', background: '#0d1b26', width: '660px', marginLeft: '-10px' }} />
+
+      {/* ── Base (keyboard) ── */}
+      <div style={{
+        width: '660px',
+        marginLeft: '-10px',
+        background: 'linear-gradient(175deg, #1e3347 0%, #192939 100%)',
+        borderRadius: '0 0 14px 14px',
+        padding: '16px 24px 14px',
+        boxShadow: '0 30px 80px rgba(26,46,61,0.5)',
+      }}>
+        <KeyRow count={14} mt={0} />
+        <KeyRow count={14} />
+        <KeyRow count={13} />
+        <KeyRow count={12} />
+        {/* Spacebar row */}
+        <div style={{ display: 'flex', gap: '3px', marginTop: '3px' }}>
+          {[30, 30, 0, 30, 30, 30].map((w, i) => (
+            <div key={i} style={{ width: w || undefined, flex: w ? undefined : 1, height: '10px', borderRadius: '3px', background: 'rgba(255,255,255,0.09)', border: '1px solid rgba(255,255,255,0.04)' }} />
+          ))}
+        </div>
+        {/* Trackpad */}
+        <div style={{ width: '180px', height: '88px', borderRadius: '10px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.07)', margin: '10px auto 0' }} />
       </div>
 
       {/* ── Floating badges ── */}
       <motion.div
         initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.65 }}
-        style={{ position: 'absolute', bottom: '44px', left: '-28px', background: '#fff', border: '1px solid #e3ded7', borderRadius: '16px', padding: '12px 16px', boxShadow: '0 12px 32px rgba(40,85,112,0.12)', display: 'flex', alignItems: 'center', gap: '10px', zIndex: 3 }}
+        style={{ position: 'absolute', top: '52%', left: '-28px', background: '#fff', border: '1px solid #e3ded7', borderRadius: '16px', padding: '12px 16px', boxShadow: '0 12px 32px rgba(40,85,112,0.12)', display: 'flex', alignItems: 'center', gap: '10px', zIndex: 3 }}
       >
         <div style={{ width: '32px', height: '32px', borderRadius: '9px', background: 'rgba(40,85,112,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={ACCENT} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
@@ -228,7 +242,7 @@ function MonitorVisual() {
       <motion.div
         initial={{ opacity: 0, x: 12 }} animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.6, delay: 0.85 }}
-        style={{ position: 'absolute', top: '42%', right: '-18px', transform: 'translateY(-50%)', background: '#fff', border: '1px solid #e3ded7', borderRadius: '12px', padding: '9px 13px', boxShadow: '0 8px 24px rgba(40,85,112,0.1)', display: 'flex', alignItems: 'center', gap: '6px', zIndex: 3 }}
+        style={{ position: 'absolute', top: '28%', right: '-18px', transform: 'translateY(-50%)', background: '#fff', border: '1px solid #e3ded7', borderRadius: '12px', padding: '9px 13px', boxShadow: '0 8px 24px rgba(40,85,112,0.1)', display: 'flex', alignItems: 'center', gap: '6px', zIndex: 3 }}
       >
         <div style={{ display: 'flex', gap: '1px' }}>
           {[1,2,3,4,5].map(s => <svg key={s} width="9" height="9" viewBox="0 0 24 24" fill={ACCENT}><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>)}
@@ -241,45 +255,43 @@ function MonitorVisual() {
 
 /* ─── HERO ────────────────────────────────────────────────────── */
 function Hero() {
+  const { scrollY } = useScroll();
+  const laptopY = useTransform(scrollY, [0, 380], [140, 0]);
+  const laptopOpacity = useTransform(scrollY, [0, 260], [0.55, 1]);
+
   return (
     <section style={{ background: BG, minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', overflow: 'hidden', position: 'relative' }}>
       {/* Background blobs */}
       <div aria-hidden style={{ position: 'absolute', top: '-15%', right: '-8%', width: '700px', height: '700px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(40,85,112,0.06) 0%, transparent 65%)', pointerEvents: 'none' }} />
       <div aria-hidden style={{ position: 'absolute', bottom: '-5%', left: '-10%', width: '550px', height: '550px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(227,222,215,0.45) 0%, transparent 65%)', pointerEvents: 'none' }} />
 
+      {/* Watermark text */}
+      <div aria-hidden style={{
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -54%)',
+        fontFamily: 'var(--font-display)',
+        fontSize: 'clamp(52px, 10vw, 148px)',
+        fontWeight: 300,
+        letterSpacing: '-0.04em',
+        lineHeight: 0.9,
+        color: 'rgba(26,46,61,0.055)',
+        userSelect: 'none',
+        pointerEvents: 'none',
+        zIndex: 0,
+        whiteSpace: 'nowrap',
+        textAlign: 'center',
+      }}>
+        WEB KTERÝ<br />PRODÁVÁ
+      </div>
+
       <div className="relative z-10 w-full max-w-7xl mx-auto px-5 sm:px-10" style={{ paddingTop: '120px', paddingBottom: '60px' }}>
 
-        {/* ── Centered monitor ── */}
+        {/* ── Centered laptop — scroll-driven entry from bottom ── */}
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-          <motion.div
-            initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.85, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-            style={{ position: 'relative' }}
-          >
-            {/* Ghost text — centered behind the monitor */}
-            <div aria-hidden style={{
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -58%)',
-              fontFamily: 'var(--font-display)',
-              fontSize: 'clamp(90px, 9vw, 130px)',
-              fontWeight: 300,
-              letterSpacing: '-0.04em',
-              lineHeight: 0.88,
-              color: 'rgba(26,46,61,0.06)',
-              userSelect: 'none',
-              pointerEvents: 'none',
-              zIndex: 0,
-              whiteSpace: 'nowrap',
-              textAlign: 'center',
-            }}>
-              Web,<br />který
-            </div>
-
-            <div style={{ position: 'relative', zIndex: 1 }}>
-              <MonitorVisual />
-            </div>
+          <motion.div style={{ y: laptopY, opacity: laptopOpacity, position: 'relative' }}>
+            <LaptopVisual />
           </motion.div>
         </div>
       </div>
