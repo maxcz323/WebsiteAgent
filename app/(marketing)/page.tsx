@@ -374,12 +374,7 @@ function Hero() {
       {/* ── Centered content ── */}
       <div style={{ maxWidth: '860px', margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 2 }}>
 
-        <motion.div {...item(0)} style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'rgba(40,85,112,0.07)', borderRadius: '100px', padding: '6px 16px 6px 8px', marginBottom: '40px' }}>
-          <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: ACCENT, display: 'inline-block' }} />
-          <span style={{ fontSize: '12px', fontWeight: 600, color: ACCENT, letterSpacing: '0.08em' }}>Weby pro lokální firmy</span>
-        </motion.div>
-
-        <motion.h1 {...item(0.1)} style={{
+        <motion.h1 {...item(0)} style={{
           fontFamily: 'var(--font-display)',
           fontSize: 'clamp(52px, 8vw, 108px)',
           fontWeight: 300, lineHeight: 1.0, letterSpacing: '-0.04em',
@@ -401,11 +396,11 @@ function Hero() {
           </span>
         </motion.h1>
 
-        <motion.p {...item(0.2)} style={{ fontFamily: 'var(--font-body)', fontSize: '18px', lineHeight: 1.75, color: '#7a8e98', maxWidth: '480px', margin: '0 auto 44px' }}>
+        <motion.p {...item(0.1)} style={{ fontFamily: 'var(--font-body)', fontSize: '18px', lineHeight: 1.75, color: '#7a8e98', maxWidth: '480px', margin: '0 auto 44px' }}>
           Tvoříme moderní weby a landing pages pro české firmy. Hotovo do 48 hodin, platíte až po schválení výsledku.
         </motion.p>
 
-        <motion.div {...item(0.28)} style={{ display: 'flex', gap: '14px', justifyContent: 'center', flexWrap: 'wrap' }}>
+        <motion.div {...item(0.18)} style={{ display: 'flex', gap: '14px', justifyContent: 'center', flexWrap: 'wrap' }}>
           <a href="/kalkulace"
             style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: ACCENT, color: '#fff', fontSize: '15px', fontWeight: 700, padding: '16px 32px', borderRadius: '12px', textDecoration: 'none', letterSpacing: '0.01em', transition: 'transform 0.2s, box-shadow 0.2s' }}
             onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.transform = 'translateY(-2px)'; el.style.boxShadow = '0 10px 28px rgba(40,85,112,0.32)'; }}

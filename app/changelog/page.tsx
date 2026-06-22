@@ -17,6 +17,14 @@ interface Version {
 
 const CHANGELOG: Version[] = [
   {
+    version: '4.20',
+    date: '22. 6. 2026',
+    changes: [
+      { type: 'feat', text: 'globals.css: h1–h6 automaticky Montserrat (var(--font-display)), body Inter (var(--font-body)) — platí pro všechny marketing stránky bez úprav jednotlivých pages.' },
+      { type: 'fix', text: 'Hero — odstraněn eyebrow badge "Weby pro lokální firmy" nad nadpisem.' },
+    ],
+  },
+  {
     version: '4.19',
     date: '22. 6. 2026',
     changes: [
