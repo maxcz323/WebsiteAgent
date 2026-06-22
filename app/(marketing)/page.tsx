@@ -72,9 +72,9 @@ function TabletVisual() {
     <div style={{
       width: '300px',
       height: '500px',
-      background: '#1a2e3d',
+      background: 'transparent',
       borderRadius: '28px',
-      boxShadow: '0 60px 140px rgba(26,46,61,0.45), 0 12px 40px rgba(26,46,61,0.2)',
+      border: `2px solid ${ACCENT}`,
     }} />
   );
 }
@@ -85,9 +85,9 @@ function MonitorVisual() {
     <div style={{
       width: '460px',
       height: '300px',
-      background: '#1a2e3d',
+      background: 'transparent',
       borderRadius: '24px',
-      boxShadow: '0 60px 140px rgba(26,46,61,0.4), 0 12px 40px rgba(26,46,61,0.18)',
+      border: `2px solid ${ACCENT}`,
     }} />
   );
 }
@@ -135,11 +135,12 @@ function Hero() {
             <TabletVisual />
           </motion.div>
 
-          {/* Monitor — comes from bottom-right, same tilt as tablet */}
+          {/* Monitor — comes from bottom-right, pushed higher */}
           <motion.div
             initial={{ opacity: 0, x: 220, y: 160, rotate: -28 }}
             animate={{ opacity: 1, x: 0, y: 0, rotate: -14 }}
             transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1], delay: 0.08 }}
+            style={{ marginBottom: '180px' }}
           >
             <MonitorVisual />
           </motion.div>

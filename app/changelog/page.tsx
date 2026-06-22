@@ -17,6 +17,13 @@ interface Version {
 
 const CHANGELOG: Version[] = [
   {
+    version: '4.03',
+    date: '22. 6. 2026',
+    changes: [
+      { type: 'change', text: 'Hero — obdélníky jen jako outline (border ACCENT, transparent fill). Monitor posunut výš (marginBottom: 180px).' },
+    ],
+  },
+  {
     version: '4.02',
     date: '22. 6. 2026',
     changes: [
