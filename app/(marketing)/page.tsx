@@ -68,8 +68,8 @@ function CursorBlob() {
 
 /* ─── MONITOR VISUAL ─────────────────────────────────────────── */
 function MonitorVisual() {
-  const S = (w: string | number, h: number, r = 4, bg = '#e3ded7') => (
-    <div style={{ width: w, height: `${h}px`, borderRadius: `${r}px`, background: bg, flexShrink: 0 }} />
+  const Bar = ({ w, h = 5, r = 3, bg = '#e3ded7' }: { w: string | number; h?: number; r?: number; bg?: string }) => (
+    <div style={{ width: w, height: h, borderRadius: r, background: bg }} />
   );
 
   return (
@@ -80,123 +80,115 @@ function MonitorVisual() {
         background: '#1a2e3d',
         borderRadius: '18px 18px 6px 6px',
         padding: '10px 10px 0',
-        boxShadow: '0 40px 100px rgba(26,46,61,0.28), 0 8px 24px rgba(26,46,61,0.14)',
+        boxShadow: '0 40px 100px rgba(26,46,61,0.3), 0 8px 24px rgba(26,46,61,0.14)',
       }}>
         {/* Camera */}
         <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'rgba(255,255,255,0.18)', margin: '0 auto 7px' }} />
 
         {/* Screen */}
-        <div style={{ background: '#fff', borderRadius: '8px 8px 0 0', overflow: 'hidden', height: '310px', position: 'relative' }}>
-          {/* Brand bar */}
+        <div style={{ background: '#fff', borderRadius: '8px 8px 0 0', overflow: 'hidden', height: '310px' }}>
+          {/* Accent bar */}
           <div style={{ height: '3px', background: ACCENT }} />
 
-          {/* Scrolling preview */}
+          {/* Scrolling preview page */}
           <div className="preview-page" style={{ animation: 'autoScrollPreview 18s ease-in-out infinite alternate' }}>
 
-            {/* Mini nav */}
-            <div style={{ padding: '9px 14px', borderBottom: '1px solid #f0ebe7', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: '#fff' }}>
+            {/* ── Navbar ── */}
+            <div style={{ padding: '8px 12px', borderBottom: '1px solid #f0ebe7', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: '#fff' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-                <div style={{ width: '18px', height: '18px', borderRadius: '5px', background: ACCENT }} />
-                {S(52, 6, 3, '#e3ded7')}
+                <div style={{ width: '16px', height: '16px', borderRadius: '4px', background: ACCENT }} />
+                <Bar w={50} h={5} bg="#e3ded7" />
               </div>
               <div style={{ display: 'flex', gap: '8px' }}>
-                {[36, 44, 32].map((w, i) => S(w, 5, 3, '#e3ded7'))}
+                <Bar w={32} h={4} bg="#e3ded7" />
+                <Bar w={40} h={4} bg="#e3ded7" />
+                <Bar w={28} h={4} bg="#e3ded7" />
               </div>
-              <div style={{ width: '52px', height: '20px', borderRadius: '6px', background: ACCENT }} />
+              <div style={{ width: '48px', height: '18px', borderRadius: '5px', background: ACCENT }} />
             </div>
 
-            {/* Hero */}
-            <div style={{ padding: '18px 14px 14px', background: 'linear-gradient(150deg,#faf7f6 0%,#f0ebe7 100%)' }}>
-              {S('68%', 11, 5, '#1a2e3d')}
-              <div style={{ height: '7px' }} />
-              {S('52%', 11, 5, '#1a2e3d')}
-              <div style={{ height: '11px' }} />
-              {S('82%', 6, 3, '#cbcac7')}
-              <div style={{ height: '4px' }} />
-              {S('66%', 6, 3, '#cbcac7')}
-              <div style={{ height: '14px' }} />
-              <div style={{ display: 'flex', gap: '6px' }}>
-                <div style={{ width: '76px', height: '25px', borderRadius: '7px', background: ACCENT }} />
-                <div style={{ width: '66px', height: '25px', borderRadius: '7px', border: '1px solid #e3ded7' }} />
-              </div>
-            </div>
-
-            {/* Image / preview card */}
-            <div style={{ margin: '12px 14px', height: '88px', borderRadius: '10px', background: `linear-gradient(135deg,${ACCENT} 0%,#1a2e3d 100%)`, overflow: 'hidden', position: 'relative' }}>
-              <div style={{ padding: '9px 10px' }}>
-                <div style={{ display: 'flex', gap: '4px', marginBottom: '7px' }}>
-                  {[1,2,3].map(i => <div key={i} style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'rgba(255,255,255,0.28)' }} />)}
-                </div>
-                {S('58%', 5, 3, 'rgba(255,255,255,0.38)')}
-                <div style={{ height: '4px' }} />
-                {S('76%', 4, 3, 'rgba(255,255,255,0.22)')}
+            {/* ── Hero — 2 columns ── */}
+            <div style={{ padding: '18px 12px 14px', background: '#faf7f6', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', alignItems: 'center' }}>
+              {/* Left: text */}
+              <div>
+                <Bar w="80%" h={10} r={5} bg="#1a2e3d" />
+                <div style={{ height: '6px' }} />
+                <Bar w="60%" h={10} r={5} bg="#1a2e3d" />
+                <div style={{ height: '10px' }} />
+                <Bar w="95%" h={5} bg="#cbcac7" />
                 <div style={{ height: '3px' }} />
-                {S('64%', 4, 3, 'rgba(255,255,255,0.22)')}
+                <Bar w="85%" h={5} bg="#cbcac7" />
+                <div style={{ height: '3px' }} />
+                <Bar w="70%" h={5} bg="#cbcac7" />
+                <div style={{ height: '12px' }} />
+                <div style={{ display: 'flex', gap: '5px' }}>
+                  <div style={{ width: '60px', height: '20px', borderRadius: '5px', background: ACCENT }} />
+                  <div style={{ width: '50px', height: '20px', borderRadius: '5px', border: '1px solid #e3ded7' }} />
+                </div>
               </div>
-              <div style={{ position: 'absolute', bottom: '8px', right: '10px', background: 'rgba(255,255,255,0.96)', borderRadius: '6px', padding: '3px 7px', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                <svg width="7" height="7" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                <span style={{ fontSize: '7px', fontWeight: 700, color: '#1a2e3d' }}>Web schválen</span>
+
+              {/* Right: 2 image placeholders */}
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6px' }}>
+                <div style={{ height: '80px', borderRadius: '8px', background: `linear-gradient(145deg, ${ACCENT} 0%, #1a3a52 100%)`, position: 'relative', overflow: 'hidden' }}>
+                  <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 60%)' }} />
+                </div>
+                <div style={{ height: '80px', borderRadius: '8px', background: 'linear-gradient(145deg, #8fa8b8 0%, #5a7a8e 100%)', position: 'relative', overflow: 'hidden' }}>
+                  <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 60%)' }} />
+                  {/* "Web schválen" badge */}
+                  <div style={{ position: 'absolute', bottom: '5px', left: '5px', background: 'rgba(255,255,255,0.95)', borderRadius: '4px', padding: '2px 5px', display: 'flex', alignItems: 'center', gap: '3px' }}>
+                    <svg width="6" height="6" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    <span style={{ fontSize: '6px', fontWeight: 700, color: '#1a2e3d' }}>Schváleno</span>
+                  </div>
+                </div>
               </div>
             </div>
 
-            {/* Services row */}
-            <div style={{ padding: '0 14px 12px' }}>
-              {S('38%', 7, 3, '#1a2e3d')}
-              <div style={{ height: '10px' }} />
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '6px' }}>
+            {/* ── Wave divider ── */}
+            <div style={{ padding: '4px 12px 2px' }}>
+              <svg viewBox="0 0 260 20" style={{ width: '100%', height: '20px', display: 'block' }}>
+                <path d="M0,10 C20,2 40,18 65,10 S105,2 130,10 S170,18 195,10 S230,2 260,10" stroke="#9c84b8" strokeWidth="1.5" fill="none" strokeLinecap="round" opacity="0.55"/>
+              </svg>
+            </div>
+
+            {/* ── Services ── */}
+            <div style={{ padding: '10px 12px 12px' }}>
+              <Bar w="40%" h={7} r={3} bg="#1a2e3d" />
+              <div style={{ height: '9px' }} />
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '5px' }}>
                 {[ACCENT, '#faf7f6', '#faf7f6'].map((bg, i) => (
-                  <div key={i} style={{ background: bg, borderRadius: '8px', padding: '9px 8px', border: `1px solid ${i === 0 ? 'transparent' : '#e3ded7'}` }}>
-                    <div style={{ width: '14px', height: '14px', borderRadius: '4px', background: i === 0 ? 'rgba(255,255,255,0.22)' : '#e3ded7', marginBottom: '6px' }} />
-                    {S('65%', 5, 2, i === 0 ? 'rgba(255,255,255,0.6)' : '#cbcac7')}
+                  <div key={i} style={{ background: bg, borderRadius: '7px', padding: '8px', border: `1px solid ${i === 0 ? 'transparent' : '#e3ded7'}` }}>
+                    <div style={{ width: '12px', height: '12px', borderRadius: '3px', background: i === 0 ? 'rgba(255,255,255,0.22)' : '#e3ded7', marginBottom: '5px' }} />
+                    <Bar w="65%" h={4} r={2} bg={i === 0 ? 'rgba(255,255,255,0.6)' : '#cbcac7'} />
                     <div style={{ height: '3px' }} />
-                    {S('85%', 4, 2, i === 0 ? 'rgba(255,255,255,0.3)' : '#e3ded7')}
+                    <Bar w="85%" h={3} r={2} bg={i === 0 ? 'rgba(255,255,255,0.3)' : '#e3ded7'} />
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* Process steps */}
-            <div style={{ padding: '10px 14px 12px', borderTop: '1px solid #f0ebe7' }}>
-              {S('46%', 7, 3, '#1a2e3d')}
-              <div style={{ height: '10px' }} />
-              {(['01','02','03'] as const).map((n) => (
-                <div key={n} style={{ display: 'flex', alignItems: 'center', gap: '7px', marginBottom: '7px' }}>
-                  <div style={{ width: '18px', height: '18px', borderRadius: '5px', background: 'rgba(40,85,112,0.09)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+            {/* ── Process ── */}
+            <div style={{ padding: '8px 12px 10px', borderTop: '1px solid #f0ebe7' }}>
+              <Bar w="44%" h={7} r={3} bg="#1a2e3d" />
+              <div style={{ height: '8px' }} />
+              {['01', '02', '03'].map(n => (
+                <div key={n} style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '6px' }}>
+                  <div style={{ width: '16px', height: '16px', borderRadius: '4px', background: 'rgba(40,85,112,0.09)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                     <span style={{ fontSize: '6px', fontWeight: 700, color: ACCENT }}>{n}</span>
                   </div>
                   <div style={{ flex: 1 }}>
-                    {S('55%', 5, 2, 'rgba(26,46,61,0.45)')}
+                    <Bar w="55%" h={4} r={2} bg="rgba(26,46,61,0.4)" />
                     <div style={{ height: '3px' }} />
-                    {S('80%', 4, 2, '#e3ded7')}
+                    <Bar w="78%" h={3} r={2} bg="#e3ded7" />
                   </div>
                 </div>
               ))}
             </div>
 
-            {/* Testimonial */}
-            <div style={{ margin: '0 14px 12px', background: '#f8f6f4', borderRadius: '10px', padding: '11px' }}>
-              <div style={{ display: 'flex', gap: '2px', marginBottom: '7px' }}>
-                {[1,2,3,4,5].map(s => <svg key={s} width="7" height="7" viewBox="0 0 24 24" fill={ACCENT}><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>)}
-              </div>
-              {S('88%', 4, 2, '#cbcac7')}
-              <div style={{ height: '3px' }} />
-              {S('72%', 4, 2, '#cbcac7')}
-              <div style={{ height: '9px' }} />
-              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <div style={{ width: '18px', height: '18px', borderRadius: '50%', background: 'rgba(40,85,112,0.1)', flexShrink: 0 }} />
-                <div>
-                  {S(48, 5, 2, 'rgba(26,46,61,0.45)')}
-                  <div style={{ height: '3px' }} />
-                  {S(66, 4, 2, '#e3ded7')}
-                </div>
-              </div>
-            </div>
-
-            {/* CTA block */}
-            <div style={{ margin: '0 14px 16px', background: ACCENT, borderRadius: '10px', padding: '14px', textAlign: 'center' }}>
-              {S('55%', 7, 3, 'rgba(255,255,255,0.75)')}
-              <div style={{ display: 'flex', justifyContent: 'center', marginTop: '5px', marginBottom: '5px' }}>{S('42%', 7, 3, 'rgba(255,255,255,0.45)')}</div>
-              <div style={{ width: '72px', height: '20px', borderRadius: '6px', background: '#fff', margin: '10px auto 0' }} />
+            {/* ── CTA block ── */}
+            <div style={{ margin: '0 12px 14px', background: ACCENT, borderRadius: '9px', padding: '13px', textAlign: 'center' }}>
+              <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '4px' }}><Bar w="52%" h={6} r={3} bg="rgba(255,255,255,0.75)" /></div>
+              <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '10px' }}><Bar w="40%" h={6} r={3} bg="rgba(255,255,255,0.45)" /></div>
+              <div style={{ width: '68px', height: '19px', borderRadius: '5px', background: '#fff', margin: '0 auto' }} />
             </div>
 
           </div>
@@ -205,8 +197,8 @@ function MonitorVisual() {
 
       {/* ── Stand ── */}
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-        <div style={{ width: '56px', height: '18px', background: '#1a2e3d', borderRadius: '0 0 5px 5px', opacity: 0.9 }} />
-        <div style={{ width: '110px', height: '5px', background: '#1a2e3d', borderRadius: '3px', opacity: 0.45 }} />
+        <div style={{ width: '54px', height: '17px', background: '#1a2e3d', borderRadius: '0 0 5px 5px', opacity: 0.85 }} />
+        <div style={{ width: '108px', height: '5px', background: '#1a2e3d', borderRadius: '3px', opacity: 0.4 }} />
       </div>
 
       {/* ── Floating badges ── */}
@@ -308,13 +300,36 @@ function Hero() {
             </motion.div>
           </div>
 
-          {/* Right: monitor visual */}
+          {/* Right: monitor visual with background text watermark */}
           <motion.div
             initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.85, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
             className="hidden lg:block"
+            style={{ position: 'relative' }}
           >
-            <MonitorVisual />
+            {/* Ghost text behind the monitor */}
+            <div aria-hidden style={{
+              position: 'absolute',
+              top: '-32px',
+              right: '-24px',
+              fontFamily: 'var(--font-display)',
+              fontSize: 'clamp(72px, 7.5vw, 112px)',
+              fontWeight: 300,
+              letterSpacing: '-0.04em',
+              lineHeight: 0.88,
+              color: 'transparent',
+              WebkitTextStroke: '1.5px rgba(26,46,61,0.08)',
+              userSelect: 'none',
+              pointerEvents: 'none',
+              zIndex: 0,
+              whiteSpace: 'nowrap',
+            }}>
+              Web,<br />který
+            </div>
+
+            <div style={{ position: 'relative', zIndex: 1 }}>
+              <MonitorVisual />
+            </div>
           </motion.div>
         </div>
 

@@ -17,6 +17,14 @@ interface Version {
 
 const CHANGELOG: Version[] = [
   {
+    version: '3.93',
+    date: '22. 6. 2026',
+    changes: [
+      { type: 'feat', text: 'Hero — přidán ghost text "Web, který" za monitorem (outline styl, webkit-text-stroke, z-index:0), monitor je před ním (z-index:1).' },
+      { type: 'feat', text: 'Monitor preview — redesign na realistický dvousloupcový layout: navbar, hero sekce (text vlevo + 2 image boxy vpravo s barevnými gradienty), SVG vlnka (fialová), services, process, CTA.' },
+    ],
+  },
+  {
     version: '3.92',
     date: '22. 6. 2026',
     changes: [
