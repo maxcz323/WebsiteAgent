@@ -17,13 +17,6 @@ interface Version {
 
 const CHANGELOG: Version[] = [
   {
-    version: '3.96',
-    date: '22. 6. 2026',
-    changes: [
-      { type: 'feat', text: 'Homepage redesign — hero badge solid #285570 (bílý text), stats bar plně tmavomodrá s bílými čísly, service card ikony solid fill, top border accent na kartách, process kroky solid kruhy, pricing popular karta full #285570 s bílým textem a bílým CTA tlačítkem.' },
-    ],
-  },
-  {
     version: '3.95',
     date: '22. 6. 2026',
     changes: [

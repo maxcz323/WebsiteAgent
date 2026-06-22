@@ -12,9 +12,8 @@ const ACCENT = '#285570';
 const CARD: React.CSSProperties = {
   background: '#ffffff',
   border: '1px solid #e3ded7',
-  borderTop: '3px solid #285570',
   borderRadius: '18px', padding: '28px',
-  boxShadow: '0 4px 24px rgba(40,85,112,0.08)',
+  boxShadow: '0 2px 20px rgba(40,85,112,0.06)',
 };
 
 const MOBILE_RESET = `
@@ -265,10 +264,10 @@ function Hero() {
             <motion.div
               initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.05 }}
-              style={{ display: 'inline-flex', alignItems: 'center', gap: '7px', background: ACCENT, borderRadius: '20px', padding: '6px 16px', marginBottom: '28px' }}
+              style={{ display: 'inline-flex', alignItems: 'center', gap: '7px', background: 'rgba(40,85,112,0.08)', border: '1px solid rgba(40,85,112,0.14)', borderRadius: '20px', padding: '5px 14px', marginBottom: '28px' }}
             >
-              <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'rgba(255,255,255,0.7)' }} />
-              <span style={{ fontSize: '12px', fontWeight: 600, color: '#fff', letterSpacing: '0.02em' }}>Přijímáme nové projekty</span>
+              <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: ACCENT }} />
+              <span style={{ fontSize: '12px', fontWeight: 600, color: ACCENT, letterSpacing: '0.02em' }}>Přijímáme nové projekty</span>
             </motion.div>
 
             <motion.h1
@@ -340,12 +339,12 @@ function Hero() {
           initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.5 }}
           className="grid grid-cols-2 sm:grid-cols-4 gap-px"
-          style={{ background: ACCENT, borderRadius: '16px', overflow: 'hidden', border: `1px solid ${ACCENT}` }}
+          style={{ background: '#e3ded7', borderRadius: '16px', overflow: 'hidden', border: '1px solid #e3ded7' }}
         >
           {STATS.map(s => (
-            <div key={s.l} style={{ background: ACCENT, padding: '22px 28px', textAlign: 'center' }}>
-              <p style={{ fontSize: '26px', fontWeight: 700, color: '#fff', letterSpacing: '-0.03em', marginBottom: '4px' }}>{s.n}</p>
-              <p style={{ fontSize: '11px', color: 'rgba(255,255,255,0.55)', margin: 0 }}>{s.l}</p>
+            <div key={s.l} style={{ background: '#fff', padding: '22px 28px', textAlign: 'center' }}>
+              <p style={{ fontSize: '26px', fontWeight: 700, color: ACCENT, letterSpacing: '-0.03em', marginBottom: '4px' }}>{s.n}</p>
+              <p style={{ fontSize: '11px', color: '#cbcac7', margin: 0 }}>{s.l}</p>
             </div>
           ))}
         </motion.div>
@@ -420,7 +419,7 @@ function ServicesSection() {
               className="cursor-pointer group"
               onClick={() => (window.location.href = s.href)}
             >
-              <div style={{ width: '44px', height: '44px', borderRadius: '12px', background: ACCENT, color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '22px' }}>
+              <div style={{ width: '44px', height: '44px', borderRadius: '12px', background: 'rgba(40,85,112,0.08)', color: ACCENT, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '22px' }}>
                 {s.icon}
               </div>
               <h3 style={{ fontSize: '15px', fontWeight: 600, color: '#1a2e3d', marginBottom: '8px' }}>{s.title}</h3>
@@ -477,7 +476,7 @@ function ProcessSection() {
                 transition={E(0.1 + i * 0.1)}
                 style={{ background: '#fff', border: '1px solid #e3ded7', borderRadius: '14px', padding: '18px 22px', display: 'flex', alignItems: 'center', gap: '16px', boxShadow: '0 2px 12px rgba(40,85,112,0.05)' }}
               >
-                <span style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.05em', color: '#fff', background: ACCENT, borderRadius: '50%', width: '34px', height: '34px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>{step.n}</span>
+                <span style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.05em', color: ACCENT, background: 'rgba(40,85,112,0.08)', borderRadius: '8px', padding: '4px 10px', flexShrink: 0 }}>{step.n}</span>
                 <div style={{ flex: 1 }}>
                   <p style={{ fontSize: '15px', fontWeight: 600, color: '#1a2e3d', marginBottom: '2px' }}>{step.title}</p>
                   <p style={{ fontSize: '14px', color: '#a8a4a0', lineHeight: 1.5, margin: 0 }}>{step.desc}</p>
@@ -659,40 +658,36 @@ function Pricing() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-start">
           {PLANS.map((plan, i) => {
             const motionStyle = i === 0 ? { x: p1X, opacity: pOp } : i === 1 ? { y: p2Y, opacity: pOp } : { x: p3X, opacity: pOp };
-            const pop = plan.popular;
             return (
               <motion.div
                 key={plan.name}
-                style={{ ...motionStyle, position: 'relative', padding: pop ? '40px 28px 32px' : '32px 28px', background: pop ? ACCENT : '#fff', border: `1px solid ${pop ? ACCENT : '#e3ded7'}`, borderTop: `3px solid ${pop ? 'rgba(255,255,255,0.35)' : ACCENT}`, borderRadius: '18px', boxShadow: pop ? '0 12px 48px rgba(40,85,112,0.28)' : '0 2px 12px rgba(40,85,112,0.04)', ...(pop ? { marginTop: '-10px' } : {}) } as any}
+                style={{ ...motionStyle, position: 'relative', padding: plan.popular ? '40px 28px 32px' : '32px 28px', background: plan.popular ? 'rgba(40,85,112,0.05)' : '#fff', border: `1px solid ${plan.popular ? 'rgba(40,85,112,0.2)' : '#e3ded7'}`, borderRadius: '18px', boxShadow: plan.popular ? '0 4px 24px rgba(40,85,112,0.1)' : '0 2px 12px rgba(40,85,112,0.04)', ...(plan.popular ? { marginTop: '-10px' } : {}) } as any}
               >
-                {pop && (
-                  <div style={{ position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)', background: '#fff', color: ACCENT, fontSize: '10px', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', padding: '5px 16px', borderRadius: '0 0 10px 10px' }}>
+                {plan.popular && (
+                  <div style={{ position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)', background: ACCENT, color: '#fff', fontSize: '10px', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', padding: '5px 16px', borderRadius: '0 0 10px 10px' }}>
                     Nejoblíbenější
                   </div>
                 )}
                 <div style={{ display: 'flex', alignItems: 'center', gap: '9px', marginBottom: '18px' }}>
-                  <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: pop ? 'rgba(255,255,255,0.55)' : ACCENT, flexShrink: 0 }} />
-                  <span style={{ fontSize: '15px', fontWeight: 600, color: pop ? '#fff' : '#1a2e3d' }}>{plan.name}</span>
+                  <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: ACCENT, flexShrink: 0 }} />
+                  <span style={{ fontSize: '15px', fontWeight: 600, color: '#1a2e3d' }}>{plan.name}</span>
                 </div>
                 <div style={{ marginBottom: '6px', lineHeight: 1 }}>
-                  <span style={{ fontSize: '11px', color: pop ? 'rgba(255,255,255,0.55)' : '#cbcac7', verticalAlign: 'top', paddingTop: '8px', display: 'inline-block', marginRight: '2px' }}>od</span>
-                  <span style={{ fontSize: 'clamp(32px,3.5vw,44px)', fontWeight: 700, color: pop ? '#fff' : '#1a2e3d', letterSpacing: '-0.04em' }}>{plan.price}</span>
-                  <span style={{ fontSize: '13px', color: pop ? 'rgba(255,255,255,0.55)' : '#cbcac7', marginLeft: '4px' }}>Kč</span>
+                  <span style={{ fontSize: '11px', color: '#cbcac7', verticalAlign: 'top', paddingTop: '8px', display: 'inline-block', marginRight: '2px' }}>od</span>
+                  <span style={{ fontSize: 'clamp(32px,3.5vw,44px)', fontWeight: 700, color: '#1a2e3d', letterSpacing: '-0.04em' }}>{plan.price}</span>
+                  <span style={{ fontSize: '13px', color: '#cbcac7', marginLeft: '4px' }}>Kč</span>
                 </div>
-                <p style={{ fontSize: '15px', color: pop ? 'rgba(255,255,255,0.72)' : '#8a8480', lineHeight: 1.65, margin: '0 0 20px' }}>{plan.desc}</p>
-                <div style={{ height: '1px', background: pop ? 'rgba(255,255,255,0.2)' : '#e3ded7', marginBottom: '18px' }} />
+                <p style={{ fontSize: '15px', color: '#8a8480', lineHeight: 1.65, margin: '0 0 20px' }}>{plan.desc}</p>
+                <div style={{ height: '1px', background: '#e3ded7', marginBottom: '18px' }} />
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '26px' }}>
                   {plan.features.map(f => (
                     <div key={f} style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
-                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={pop ? '#fff' : ACCENT} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, marginTop: '3px' }}><polyline points="20 6 9 17 4 12" /></svg>
-                      <span style={{ fontSize: '15px', color: pop ? 'rgba(255,255,255,0.85)' : '#6b6560', lineHeight: 1.55 }}>{f}</span>
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={ACCENT} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, marginTop: '3px' }}><polyline points="20 6 9 17 4 12" /></svg>
+                      <span style={{ fontSize: '15px', color: '#6b6560', lineHeight: 1.55 }}>{f}</span>
                     </div>
                   ))}
                 </div>
-                {pop
-                  ? <Link href="/kontakt" style={{ display: 'block', textAlign: 'center', background: '#fff', color: ACCENT, fontWeight: 700, padding: '12px 20px', borderRadius: '10px', fontSize: '14px', textDecoration: 'none', transition: 'opacity 0.15s' }}>{plan.cta}</Link>
-                  : <Link href="/kontakt" className="btn-mkt-card-ghost">{plan.cta}</Link>
-                }
+                <Link href="/kontakt" className={plan.popular ? 'btn-mkt-card-primary' : 'btn-mkt-card-ghost'}>{plan.cta}</Link>
               </motion.div>
             );
           })}
