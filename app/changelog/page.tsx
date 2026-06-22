@@ -17,6 +17,13 @@ interface Version {
 
 const CHANGELOG: Version[] = [
   {
+    version: '3.90',
+    date: '22. 6. 2026',
+    changes: [
+      { type: 'fix', text: 'SectionDivider — odstraněn grain SVG overlay který způsoboval viditelné pruhy. Přechody jsou teď čistý hladký gradient.' },
+    ],
+  },
+  {
     version: '3.89',
     date: '22. 6. 2026',
     changes: [
