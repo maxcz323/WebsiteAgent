@@ -17,6 +17,14 @@ interface Version {
 
 const CHANGELOG: Version[] = [
   {
+    version: '3.91',
+    date: '22. 6. 2026',
+    changes: [
+      { type: 'fix', text: 'SectionDivider — prodloužen přechod 120→160px' },
+      { type: 'change', text: 'Layout — odstraněny dekorativní SVG čáry (fixed overlay vlevo i vpravo)' },
+    ],
+  },
+  {
     version: '3.90',
     date: '22. 6. 2026',
     changes: [

@@ -617,7 +617,7 @@ function FAQ() {
 /* ─── SECTION DIVIDER ────────────────────────────────────────── */
 function SectionDivider({ from, to }: { from: string; to: string }) {
   return (
-    <div style={{ height: '120px', background: `linear-gradient(to bottom, ${from}, ${to})` }} />
+    <div style={{ height: '160px', background: `linear-gradient(to bottom, ${from}, ${to})` }} />
   );
 }
 
