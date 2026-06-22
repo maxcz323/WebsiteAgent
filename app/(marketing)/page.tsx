@@ -12,9 +12,8 @@ const ACCENT = '#285570';
 const CARD: React.CSSProperties = {
   background: '#ffffff',
   border: '1px solid #e3ded7',
-  borderTop: '3px solid #285570',
   borderRadius: '18px', padding: '28px',
-  boxShadow: '0 4px 24px rgba(40,85,112,0.08)',
+  boxShadow: '0 2px 16px rgba(40,85,112,0.05)',
 };
 
 const MOBILE_RESET = `
@@ -250,14 +249,12 @@ const STATS = [
 
 function Hero() {
   return (
-    <section style={{ background: BG, minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', overflow: 'hidden', position: 'relative' }}>
-      {/* Background blobs */}
-      <div aria-hidden style={{ position: 'absolute', top: '-15%', right: '-8%', width: '700px', height: '700px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(40,85,112,0.06) 0%, transparent 65%)', pointerEvents: 'none' }} />
-      <div aria-hidden style={{ position: 'absolute', bottom: '-5%', left: '-10%', width: '550px', height: '550px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(227,222,215,0.45) 0%, transparent 65%)', pointerEvents: 'none' }} />
+    <section style={{ background: '#1a2e3d', minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', overflow: 'hidden', position: 'relative' }}>
+      <div aria-hidden style={{ position: 'absolute', top: '-15%', right: '-8%', width: '700px', height: '700px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(40,85,112,0.45) 0%, transparent 65%)', pointerEvents: 'none' }} />
+      <div aria-hidden style={{ position: 'absolute', bottom: '-5%', left: '-10%', width: '550px', height: '550px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(40,85,112,0.22) 0%, transparent 65%)', pointerEvents: 'none' }} />
 
       <div className="relative z-10 w-full max-w-7xl mx-auto px-5 sm:px-10" style={{ paddingTop: '120px', paddingBottom: '60px' }}>
 
-        {/* ── 2-column grid ── */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center" style={{ marginBottom: '72px' }}>
 
           {/* Left: text */}
@@ -265,16 +262,16 @@ function Hero() {
             <motion.div
               initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.05 }}
-              style={{ display: 'inline-flex', alignItems: 'center', gap: '7px', background: ACCENT, borderRadius: '20px', padding: '6px 16px', marginBottom: '28px' }}
+              style={{ display: 'inline-flex', alignItems: 'center', gap: '7px', border: '1px solid rgba(250,247,246,0.18)', borderRadius: '20px', padding: '6px 16px', marginBottom: '28px' }}
             >
-              <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'rgba(255,255,255,0.7)' }} />
-              <span style={{ fontSize: '12px', fontWeight: 600, color: '#fff', letterSpacing: '0.02em' }}>Přijímáme nové projekty</span>
+              <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: ACCENT }} />
+              <span style={{ fontSize: '12px', fontWeight: 600, color: 'rgba(250,247,246,0.6)', letterSpacing: '0.02em' }}>Přijímáme nové projekty</span>
             </motion.div>
 
             <motion.h1
               initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.12 }}
-              style={{ fontFamily: 'var(--font-display)', fontWeight: 300, letterSpacing: '-0.04em', lineHeight: 0.95, color: '#1a2e3d', fontSize: 'clamp(44px,6vw,88px)', marginBottom: '28px' }}
+              style={{ fontFamily: 'var(--font-display)', fontWeight: 300, letterSpacing: '-0.04em', lineHeight: 0.95, color: '#faf7f6', fontSize: 'clamp(44px,6vw,88px)', marginBottom: '28px' }}
             >
               Web, který<br />prodává.
             </motion.h1>
@@ -282,10 +279,10 @@ function Hero() {
             <motion.p
               initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.22 }}
-              style={{ fontSize: '19px', lineHeight: 1.7, color: '#5c5650', maxWidth: '380px', marginBottom: '40px' }}
+              style={{ fontSize: '19px', lineHeight: 1.7, color: 'rgba(250,247,246,0.58)', maxWidth: '380px', marginBottom: '40px' }}
             >
               Moderní weby pro lokální firmy.<br />
-              <span style={{ color: '#cbcac7' }}>Platíte až po schválení. Záloha 0 Kč.</span>
+              <span style={{ color: 'rgba(250,247,246,0.28)' }}>Platíte až po schválení. Záloha 0 Kč.</span>
             </motion.p>
 
             <motion.div
@@ -293,68 +290,67 @@ function Hero() {
               transition={{ duration: 0.6, delay: 0.32 }}
               className="flex flex-col sm:flex-row gap-3"
             >
-              <Link href="/kontakt" className="btn-mkt-primary">
+              <Link href="/kontakt"
+                style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '8px', fontSize: '14px', fontWeight: 600, letterSpacing: '-0.01em', textDecoration: 'none', padding: '13px 28px', borderRadius: '10px', background: '#faf7f6', color: '#1a2e3d', transition: 'opacity 0.2s, transform 0.2s', whiteSpace: 'nowrap' }}
+                onMouseEnter={e => { e.currentTarget.style.opacity = '0.88'; e.currentTarget.style.transform = 'translateY(-1px)'; }}
+                onMouseLeave={e => { e.currentTarget.style.opacity = '1'; e.currentTarget.style.transform = ''; }}
+              >
                 Chci web pro svou firmu
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
               </Link>
-              <Link href="/jak-pracujeme" className="btn-mkt-ghost">Jak to funguje</Link>
+              <Link href="/jak-pracujeme"
+                style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '8px', fontSize: '14px', fontWeight: 500, letterSpacing: '-0.01em', textDecoration: 'none', padding: '13px 28px', borderRadius: '10px', border: '1.5px solid rgba(250,247,246,0.18)', color: 'rgba(250,247,246,0.6)', transition: 'border-color 0.2s, color 0.2s, transform 0.2s', whiteSpace: 'nowrap' }}
+                onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(250,247,246,0.4)'; e.currentTarget.style.color = '#faf7f6'; e.currentTarget.style.transform = 'translateY(-1px)'; }}
+                onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(250,247,246,0.18)'; e.currentTarget.style.color = 'rgba(250,247,246,0.6)'; e.currentTarget.style.transform = ''; }}
+              >Jak to funguje</Link>
             </motion.div>
           </div>
 
-          {/* Right: monitor visual with background text watermark */}
+          {/* Right: monitor visual */}
           <motion.div
             initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.85, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
             className="hidden lg:block"
             style={{ position: 'relative' }}
           >
-            {/* Ghost text — centered behind the monitor */}
             <div aria-hidden style={{
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
+              position: 'absolute', top: '50%', left: '50%',
               transform: 'translate(-50%, -58%)',
               fontFamily: 'var(--font-display)',
-              fontSize: 'clamp(90px, 9vw, 130px)',
-              fontWeight: 300,
-              letterSpacing: '-0.04em',
-              lineHeight: 0.88,
-              color: 'rgba(26,46,61,0.06)',
-              userSelect: 'none',
-              pointerEvents: 'none',
-              zIndex: 0,
-              whiteSpace: 'nowrap',
-              textAlign: 'center',
+              fontSize: 'clamp(90px, 9vw, 130px)', fontWeight: 300,
+              letterSpacing: '-0.04em', lineHeight: 0.88,
+              color: 'rgba(250,247,246,0.04)',
+              userSelect: 'none', pointerEvents: 'none', zIndex: 0,
+              whiteSpace: 'nowrap', textAlign: 'center',
             }}>
               Web,<br />který
             </div>
-
             <div style={{ position: 'relative', zIndex: 1 }}>
               <MonitorVisual />
             </div>
           </motion.div>
         </div>
 
-        {/* ── Stats bar — full width ── */}
+        {/* ── Stats bar ── */}
         <motion.div
           initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.5 }}
           className="grid grid-cols-2 sm:grid-cols-4 gap-px"
-          style={{ background: ACCENT, borderRadius: '16px', overflow: 'hidden', border: `1px solid ${ACCENT}` }}
+          style={{ background: 'rgba(250,247,246,0.07)', borderRadius: '16px', overflow: 'hidden', border: '1px solid rgba(250,247,246,0.08)' }}
         >
           {STATS.map(s => (
-            <div key={s.l} style={{ background: ACCENT, padding: '22px 28px', textAlign: 'center' }}>
-              <p style={{ fontSize: '26px', fontWeight: 700, color: '#fff', letterSpacing: '-0.03em', marginBottom: '4px' }}>{s.n}</p>
-              <p style={{ fontSize: '11px', color: 'rgba(255,255,255,0.55)', margin: 0 }}>{s.l}</p>
+            <div key={s.l} style={{ background: 'rgba(250,247,246,0.04)', padding: '22px 28px', textAlign: 'center' }}>
+              <p style={{ fontSize: '26px', fontWeight: 700, color: '#faf7f6', letterSpacing: '-0.03em', marginBottom: '4px' }}>{s.n}</p>
+              <p style={{ fontSize: '11px', color: 'rgba(250,247,246,0.35)', margin: 0 }}>{s.l}</p>
             </div>
           ))}
         </motion.div>
       </div>
 
       {/* Scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 pointer-events-none" style={{ opacity: 0.3 }}>
-        <div style={{ width: '20px', height: '32px', borderRadius: '10px', border: `1px solid ${ACCENT}`, display: 'flex', alignItems: 'flex-start', justifyContent: 'center', paddingTop: '6px' }}>
-          <motion.div style={{ width: '4px', height: '6px', borderRadius: '2px', background: ACCENT }}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 pointer-events-none" style={{ opacity: 0.2 }}>
+        <div style={{ width: '20px', height: '32px', borderRadius: '10px', border: '1px solid rgba(250,247,246,0.4)', display: 'flex', alignItems: 'flex-start', justifyContent: 'center', paddingTop: '6px' }}>
+          <motion.div style={{ width: '4px', height: '6px', borderRadius: '2px', background: '#faf7f6' }}
             animate={{ y: [0, 10, 0] }} transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }} />
         </div>
       </div>
@@ -420,7 +416,7 @@ function ServicesSection() {
               className="cursor-pointer group"
               onClick={() => (window.location.href = s.href)}
             >
-              <div style={{ width: '44px', height: '44px', borderRadius: '12px', background: ACCENT, color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '22px' }}>
+              <div style={{ width: '44px', height: '44px', borderRadius: '12px', background: 'rgba(40,85,112,0.07)', color: ACCENT, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '22px' }}>
                 {s.icon}
               </div>
               <h3 style={{ fontSize: '15px', fontWeight: 600, color: '#1a2e3d', marginBottom: '8px' }}>{s.title}</h3>
@@ -477,7 +473,7 @@ function ProcessSection() {
                 transition={E(0.1 + i * 0.1)}
                 style={{ background: '#fff', border: '1px solid #e3ded7', borderRadius: '14px', padding: '18px 22px', display: 'flex', alignItems: 'center', gap: '16px', boxShadow: '0 2px 12px rgba(40,85,112,0.05)' }}
               >
-                <span style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.05em', color: '#fff', background: ACCENT, borderRadius: '50%', width: '34px', height: '34px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>{step.n}</span>
+                <span style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.05em', color: ACCENT, border: `1.5px solid ${ACCENT}`, borderRadius: '50%', width: '34px', height: '34px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>{step.n}</span>
                 <div style={{ flex: 1 }}>
                   <p style={{ fontSize: '15px', fontWeight: 600, color: '#1a2e3d', marginBottom: '2px' }}>{step.title}</p>
                   <p style={{ fontSize: '14px', color: '#a8a4a0', lineHeight: 1.5, margin: 0 }}>{step.desc}</p>
@@ -663,36 +659,33 @@ function Pricing() {
             return (
               <motion.div
                 key={plan.name}
-                style={{ ...motionStyle, position: 'relative', padding: pop ? '40px 28px 32px' : '32px 28px', background: pop ? ACCENT : '#fff', border: `1px solid ${pop ? ACCENT : '#e3ded7'}`, borderTop: `3px solid ${pop ? 'rgba(255,255,255,0.35)' : ACCENT}`, borderRadius: '18px', boxShadow: pop ? '0 12px 48px rgba(40,85,112,0.28)' : '0 2px 12px rgba(40,85,112,0.04)', ...(pop ? { marginTop: '-10px' } : {}) } as any}
+                style={{ ...motionStyle, position: 'relative', padding: pop ? '40px 28px 32px' : '32px 28px', background: '#fff', border: `1px solid ${pop ? ACCENT : '#e3ded7'}`, borderRadius: '18px', boxShadow: pop ? '0 8px 36px rgba(40,85,112,0.13)' : '0 2px 12px rgba(40,85,112,0.04)', ...(pop ? { marginTop: '-10px' } : {}) } as any}
               >
                 {pop && (
-                  <div style={{ position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)', background: '#fff', color: ACCENT, fontSize: '10px', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', padding: '5px 16px', borderRadius: '0 0 10px 10px' }}>
+                  <div style={{ position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)', background: ACCENT, color: '#fff', fontSize: '10px', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', padding: '5px 16px', borderRadius: '0 0 10px 10px' }}>
                     Nejoblíbenější
                   </div>
                 )}
                 <div style={{ display: 'flex', alignItems: 'center', gap: '9px', marginBottom: '18px' }}>
-                  <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: pop ? 'rgba(255,255,255,0.55)' : ACCENT, flexShrink: 0 }} />
-                  <span style={{ fontSize: '15px', fontWeight: 600, color: pop ? '#fff' : '#1a2e3d' }}>{plan.name}</span>
+                  <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: ACCENT, flexShrink: 0 }} />
+                  <span style={{ fontSize: '15px', fontWeight: 600, color: '#1a2e3d' }}>{plan.name}</span>
                 </div>
                 <div style={{ marginBottom: '6px', lineHeight: 1 }}>
-                  <span style={{ fontSize: '11px', color: pop ? 'rgba(255,255,255,0.55)' : '#cbcac7', verticalAlign: 'top', paddingTop: '8px', display: 'inline-block', marginRight: '2px' }}>od</span>
-                  <span style={{ fontSize: 'clamp(32px,3.5vw,44px)', fontWeight: 700, color: pop ? '#fff' : '#1a2e3d', letterSpacing: '-0.04em' }}>{plan.price}</span>
-                  <span style={{ fontSize: '13px', color: pop ? 'rgba(255,255,255,0.55)' : '#cbcac7', marginLeft: '4px' }}>Kč</span>
+                  <span style={{ fontSize: '11px', color: '#cbcac7', verticalAlign: 'top', paddingTop: '8px', display: 'inline-block', marginRight: '2px' }}>od</span>
+                  <span style={{ fontSize: 'clamp(32px,3.5vw,44px)', fontWeight: 700, color: '#1a2e3d', letterSpacing: '-0.04em' }}>{plan.price}</span>
+                  <span style={{ fontSize: '13px', color: '#cbcac7', marginLeft: '4px' }}>Kč</span>
                 </div>
-                <p style={{ fontSize: '15px', color: pop ? 'rgba(255,255,255,0.72)' : '#8a8480', lineHeight: 1.65, margin: '0 0 20px' }}>{plan.desc}</p>
-                <div style={{ height: '1px', background: pop ? 'rgba(255,255,255,0.2)' : '#e3ded7', marginBottom: '18px' }} />
+                <p style={{ fontSize: '15px', color: '#8a8480', lineHeight: 1.65, margin: '0 0 20px' }}>{plan.desc}</p>
+                <div style={{ height: '1px', background: '#e3ded7', marginBottom: '18px' }} />
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '26px' }}>
                   {plan.features.map(f => (
                     <div key={f} style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
-                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={pop ? '#fff' : ACCENT} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, marginTop: '3px' }}><polyline points="20 6 9 17 4 12" /></svg>
-                      <span style={{ fontSize: '15px', color: pop ? 'rgba(255,255,255,0.85)' : '#6b6560', lineHeight: 1.55 }}>{f}</span>
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={ACCENT} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, marginTop: '3px' }}><polyline points="20 6 9 17 4 12" /></svg>
+                      <span style={{ fontSize: '15px', color: '#6b6560', lineHeight: 1.55 }}>{f}</span>
                     </div>
                   ))}
                 </div>
-                {pop
-                  ? <Link href="/kontakt" style={{ display: 'block', textAlign: 'center', background: '#fff', color: ACCENT, fontWeight: 700, padding: '12px 20px', borderRadius: '10px', fontSize: '14px', textDecoration: 'none', transition: 'opacity 0.15s' }}>{plan.cta}</Link>
-                  : <Link href="/kontakt" className="btn-mkt-card-ghost">{plan.cta}</Link>
-                }
+                <Link href="/kontakt" className={pop ? 'btn-mkt-card-primary' : 'btn-mkt-card-ghost'}>{plan.cta}</Link>
               </motion.div>
             );
           })}
@@ -722,6 +715,7 @@ export default function HomePage() {
       <Grain />
       <CursorBlob />
       <Hero />
+      <SectionDivider from="#1a2e3d" to={BG} />
       <ServicesSection />
       <SectionDivider from={BG} to={BG2} />
       <ProcessSection />
