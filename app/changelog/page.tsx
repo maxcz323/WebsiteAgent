@@ -17,6 +17,13 @@ interface Version {
 
 const CHANGELOG: Version[] = [
   {
+    version: '3.94',
+    date: '22. 6. 2026',
+    changes: [
+      { type: 'change', text: 'ServicesSection — odstraněna cena (od X Kč) z karet Landing page, Firemní web a E-commerce.' },
+    ],
+  },
+  {
     version: '3.93',
     date: '22. 6. 2026',
     changes: [

@@ -424,8 +424,7 @@ function ServicesSection() {
               </div>
               <h3 style={{ fontSize: '15px', fontWeight: 600, color: '#1a2e3d', marginBottom: '8px' }}>{s.title}</h3>
               <p style={{ fontSize: '15px', lineHeight: 1.65, color: '#a8a4a0', marginBottom: '28px' }}>{s.desc}</p>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <span style={{ fontSize: '13px', fontWeight: 600, color: ACCENT }}>{s.price}</span>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
                 <span style={{ fontSize: '12px', color: '#cbcac7' }}>Detail →</span>
               </div>
             </motion.div>
