@@ -17,6 +17,13 @@ interface Version {
 
 const CHANGELOG: Version[] = [
   {
+    version: '3.85',
+    date: '22. 6. 2026',
+    changes: [
+      { type: 'feat', text: 'Homepage — nová sekce "Marketing Ecosystem": radial vizuál (web uprostřed, 5 kanálů kolem), animované SVG čáry, countery tikou při scrollu. Kanály: SEO, Google Ads, Social Media, E-mailing, Google My Business.' },
+    ],
+  },
+  {
     version: '3.84',
     date: '22. 6. 2026',
     changes: [
