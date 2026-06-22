@@ -95,7 +95,7 @@ export function MarketingNav() {
                 ref={el => { linkRefs.current[i] = el; }}
                 style={{
                   padding: '8px 15px',
-                  fontSize: '13.5px',
+                  fontSize: '15px',
                   fontWeight: active ? 600 : 400,
                   fontFamily: 'var(--font-display)',
                   letterSpacing: '-0.01em',

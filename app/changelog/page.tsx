@@ -17,6 +17,15 @@ interface Version {
 
 const CHANGELOG: Version[] = [
   {
+    version: '3.87',
+    date: '22. 6. 2026',
+    changes: [
+      { type: 'change', text: 'Homepage — globální zvětšení textů: hero odstavec 17→19px, service karty 13→15px, process popis 12→14px, CTA text 15→17px, pricing desc + features 13→15px, FAQ otázky 15→17px, FAQ odpovědi 14→16px, záruka text 13→15px' },
+      { type: 'change', text: 'Navbar — nav linky zvětšeny z 13.5px na 15px' },
+      { type: 'change', text: 'Sekce "Web nestačí" — redesign na tmavé pozadí (#1a2e3d) se 3 impaktními statistikami (96%, 7×, 75%) ve formátu velké číslo + popis' },
+    ],
+  },
+  {
     version: '3.86',
     date: '22. 6. 2026',
     changes: [

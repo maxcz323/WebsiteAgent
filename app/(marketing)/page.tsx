@@ -101,7 +101,7 @@ function Hero() {
             <motion.p
               initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.22 }}
-              style={{ fontSize: '17px', lineHeight: 1.7, color: '#5c5650', maxWidth: '380px', marginBottom: '40px' }}
+              style={{ fontSize: '19px', lineHeight: 1.7, color: '#5c5650', maxWidth: '380px', marginBottom: '40px' }}
             >
               Moderní weby pro lokální firmy.<br />
               <span style={{ color: '#cbcac7' }}>Platíte až po schválení. Záloha 0 Kč.</span>
@@ -266,7 +266,7 @@ function ServicesSection() {
                 {s.icon}
               </div>
               <h3 style={{ fontSize: '15px', fontWeight: 600, color: '#1a2e3d', marginBottom: '8px' }}>{s.title}</h3>
-              <p style={{ fontSize: '13px', lineHeight: 1.65, color: '#a8a4a0', marginBottom: '28px' }}>{s.desc}</p>
+              <p style={{ fontSize: '15px', lineHeight: 1.65, color: '#a8a4a0', marginBottom: '28px' }}>{s.desc}</p>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                 <span style={{ fontSize: '13px', fontWeight: 600, color: ACCENT }}>{s.price}</span>
                 <span style={{ fontSize: '12px', color: '#cbcac7' }}>Detail →</span>
@@ -301,7 +301,7 @@ function ProcessSection() {
             <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px,3.8vw,50px)', fontWeight: 300, color: '#1a2e3d', letterSpacing: '-0.03em', lineHeight: 1.1, marginBottom: '24px' }}>
               Od formuláře<br />po hotový web<br />za 48 hodin.
             </h2>
-            <p style={{ fontSize: '14px', lineHeight: 1.7, color: '#8a8480', marginBottom: '32px', maxWidth: '340px' }}>
+            <p style={{ fontSize: '16px', lineHeight: 1.7, color: '#8a8480', marginBottom: '32px', maxWidth: '340px' }}>
               Žádné zálohy, žádné překvapení. Platíte až ve chvíli, kdy jste spokojení s výsledkem.
             </p>
             <Link href="/jak-pracujeme" style={{ display: 'inline-flex', alignItems: 'center', gap: '7px', fontSize: '13px', fontWeight: 600, color: '#cbcac7', textDecoration: 'none', transition: 'color .15s' }}
@@ -322,8 +322,8 @@ function ProcessSection() {
               >
                 <span style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.05em', color: ACCENT, background: 'rgba(40,85,112,0.08)', borderRadius: '8px', padding: '4px 10px', flexShrink: 0 }}>{step.n}</span>
                 <div style={{ flex: 1 }}>
-                  <p style={{ fontSize: '14px', fontWeight: 600, color: '#1a2e3d', marginBottom: '2px' }}>{step.title}</p>
-                  <p style={{ fontSize: '12px', color: '#a8a4a0', lineHeight: 1.5, margin: 0 }}>{step.desc}</p>
+                  <p style={{ fontSize: '15px', fontWeight: 600, color: '#1a2e3d', marginBottom: '2px' }}>{step.title}</p>
+                  <p style={{ fontSize: '14px', color: '#a8a4a0', lineHeight: 1.5, margin: 0 }}>{step.desc}</p>
                 </div>
                 <span style={{ fontSize: '11px', color: '#cbcac7', flexShrink: 0 }}>{step.time}</span>
               </motion.div>
@@ -337,72 +337,74 @@ function ProcessSection() {
 }
 
 /* ─── WEB NESTACI ─────────────────────────────────────────────── */
-const WEB_INSIGHTS = [
+const WEB_STATS = [
   {
-    title: 'Zákazníci vás musí nejdřív najít',
-    body: '96 % lidí začíná hledání služeb online. Bez SEO, reklamy nebo přítomnosti na sociálních sítích zůstane váš web prázdný — bez ohledu na to, jak dobře vypadá.',
+    number: '96 %',
+    label: 'hledá online',
+    desc: 'Tolik uživatelů začíná hledání produktů a služeb na internetu. Bez viditelnosti v Google nebo na sociálních sítích vás prostě nenajdou — bez ohledu na to, jak skvělý váš web je.',
   },
   {
-    title: 'Důvěra se buduje opakováním',
-    body: 'Lidé nenakupují hned. Průměrně potřebují 7 kontaktů s vaší firmou před tím, než se rozhodnou. Marketing tyto kontakty vytváří — web je pak místem, kde padne finální rozhodnutí.',
+    number: '7×',
+    label: 'kontaktů před nákupem',
+    desc: 'Průměrný zákazník potřebuje sedm kontaktů s vaší firmou, než se rozhodne nakoupit. Marketing tyto kontakty vytváří postupně. Web je místem, kde padne finální rozhodnutí.',
   },
   {
-    title: 'Web je konec cesty, ne začátek',
-    body: 'Zákazník nejdřív uvidí reklamu, přečte recenzi nebo narazí na váš příspěvek. Web je destinace, kam přichází, aby se přesvědčil. Marketing je vše, co ho tam dovede.',
+    number: '75 %',
+    label: 'hodnotí firmu podle webu',
+    desc: 'Tři ze čtyř lidí posuzují důvěryhodnost firmy přímo podle jejího webu. Ale aby tam vůbec dorazili, musí je někdo přivést — a to je práce marketingu.',
   },
 ];
 
 function WebNestaci() {
   const outerRef = useRef<HTMLDivElement>(null);
   const inView = useInView(outerRef, { once: false, amount: 0.2 });
-  const E = (delay = 0) => ({ duration: 0.9, ease: [0.22, 1, 0.36, 1] as any, delay: inView ? delay : 0 });
+  const E = (delay = 0) => ({ duration: 0.85, ease: [0.22, 1, 0.36, 1] as any, delay: inView ? delay : 0 });
 
   return (
-    <div ref={outerRef} style={{ background: BG2, padding: '220px 24px' }}>
-      <div style={{ maxWidth: '1080px', margin: '0 auto' }}>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+    <section ref={outerRef} style={{ background: '#1a2e3d', padding: '120px 24px', position: 'relative', overflow: 'hidden' }}>
+      <div aria-hidden style={{ position: 'absolute', top: '-20%', right: '-8%', width: '600px', height: '600px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(40,85,112,0.5) 0%, transparent 65%)', pointerEvents: 'none' }} />
+      <div aria-hidden style={{ position: 'absolute', bottom: '-15%', left: '-6%', width: '480px', height: '480px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(40,85,112,0.3) 0%, transparent 65%)', pointerEvents: 'none' }} />
 
-          {/* Left — heading */}
-          <motion.div animate={{ opacity: inView ? 1 : 0, x: inView ? 0 : -80 }} transition={E(0)}>
-            <p style={{ fontSize: '11px', fontWeight: 600, color: 'rgba(40,85,112,0.55)', textTransform: 'uppercase', letterSpacing: '0.16em', marginBottom: '14px' }}>Pravda o online úspěchu</p>
-            <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px,3.8vw,50px)', fontWeight: 300, color: '#1a2e3d', letterSpacing: '-0.03em', lineHeight: 1.1, marginBottom: '24px' }}>
-              Web sám<br />o sobě nestačí.
-            </h2>
-            <p style={{ fontSize: '15px', lineHeight: 1.75, color: '#6b6560', marginBottom: '32px', maxWidth: '380px' }}>
-              Krásný web je základ — ale jen základ. Firmy, které rostou online, nespoléhají jen na web. Kombinují ho s marketingem, který přivádí zákazníky a buduje důvěru dlouhodobě.
-            </p>
-            <Link href="/kontakt" style={{ display: 'inline-flex', alignItems: 'center', gap: '7px', fontSize: '13px', fontWeight: 600, color: '#cbcac7', textDecoration: 'none', transition: 'color .15s' }}
-              onMouseEnter={e => (e.currentTarget.style.color = ACCENT)}
-              onMouseLeave={e => (e.currentTarget.style.color = '#cbcac7')}
+      <div style={{ maxWidth: '1080px', margin: '0 auto', position: 'relative' }}>
+
+        <motion.div animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 28 }} transition={E(0)} style={{ marginBottom: '72px' }}>
+          <p style={{ fontSize: '12px', fontWeight: 600, color: 'rgba(250,247,246,0.38)', textTransform: 'uppercase', letterSpacing: '0.16em', marginBottom: '18px' }}>Pravda o online úspěchu</p>
+          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(32px,4.8vw,62px)', fontWeight: 300, color: '#faf7f6', letterSpacing: '-0.04em', lineHeight: 1.05, margin: 0 }}>
+            Web je základ.<br />
+            <span style={{ color: 'rgba(250,247,246,0.38)' }}>Marketing je motor.</span>
+          </h2>
+        </motion.div>
+
+        <div style={{ borderTop: '1px solid rgba(250,247,246,0.1)' }}>
+          {WEB_STATS.map((s, i) => (
+            <motion.div
+              key={s.number}
+              animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 20 }}
+              transition={E(0.12 + i * 0.12)}
+              style={{ borderBottom: '1px solid rgba(250,247,246,0.1)', padding: '44px 0' }}
             >
-              Pobavme se o vašem marketingu
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
-            </Link>
-          </motion.div>
-
-          {/* Right — insight cards */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-            {WEB_INSIGHTS.map((item, i) => (
-              <motion.div
-                key={item.title}
-                animate={{ opacity: inView ? 1 : 0, x: inView ? 0 : 80 }}
-                transition={E(0.1 + i * 0.1)}
-                style={{ background: '#fff', border: '1px solid #e3ded7', borderRadius: '16px', padding: '24px 28px', boxShadow: '0 2px 12px rgba(40,85,112,0.05)' }}
-              >
-                <div style={{ display: 'flex', alignItems: 'flex-start', gap: '16px' }}>
-                  <span style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.05em', color: ACCENT, background: 'rgba(40,85,112,0.08)', borderRadius: '8px', padding: '4px 10px', flexShrink: 0, marginTop: '2px' }}>0{i + 1}</span>
-                  <div>
-                    <p style={{ fontSize: '14px', fontWeight: 600, color: '#1a2e3d', marginBottom: '8px' }}>{item.title}</p>
-                    <p style={{ fontSize: '13px', lineHeight: 1.7, color: '#a8a4a0', margin: 0 }}>{item.body}</p>
-                  </div>
+              <div className="flex flex-col sm:flex-row items-start gap-6 sm:gap-16">
+                <div style={{ flexShrink: 0, minWidth: '160px' }}>
+                  <span style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(48px,5.5vw,72px)', fontWeight: 300, color: '#faf7f6', letterSpacing: '-0.04em', lineHeight: 1, display: 'block' }}>{s.number}</span>
+                  <p style={{ fontSize: '12px', color: 'rgba(250,247,246,0.35)', marginTop: '6px', margin: '6px 0 0', letterSpacing: '0.04em', textTransform: 'uppercase' }}>{s.label}</p>
                 </div>
-              </motion.div>
-            ))}
-          </div>
-
+                <p style={{ fontSize: '17px', lineHeight: 1.75, color: 'rgba(250,247,246,0.6)', margin: 0, maxWidth: '600px', paddingTop: '8px' }}>{s.desc}</p>
+              </div>
+            </motion.div>
+          ))}
         </div>
+
+        <motion.div animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 14 }} transition={E(0.5)} style={{ marginTop: '48px' }}>
+          <Link href="/kontakt" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', fontSize: '15px', fontWeight: 600, color: 'rgba(250,247,246,0.42)', textDecoration: 'none', transition: 'color .2s' }}
+            onMouseEnter={e => (e.currentTarget.style.color = '#faf7f6')}
+            onMouseLeave={e => (e.currentTarget.style.color = 'rgba(250,247,246,0.42)')}
+          >
+            Pojďme probrat váš online marketing
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+          </Link>
+        </motion.div>
       </div>
-    </div>
+    </section>
   );
 }
 
@@ -422,7 +424,7 @@ function CTA() {
           <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(36px,5.5vw,68px)', fontWeight: 300, color: '#fff', letterSpacing: '-0.04em', lineHeight: 1.05, marginBottom: '20px' }}>
             Váš nový web<br />čeká na vás.
           </h2>
-          <p style={{ fontSize: '15px', color: 'rgba(250,247,246,0.6)', lineHeight: 1.65, marginBottom: '44px' }}>
+          <p style={{ fontSize: '17px', color: 'rgba(250,247,246,0.6)', lineHeight: 1.65, marginBottom: '44px' }}>
             Poptávka zdarma a nezávazná.<br />Do 24 hodin máte první ukázku.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
@@ -493,7 +495,7 @@ function Pricing() {
         <motion.div style={{ opacity: pOp }} className="flex items-center justify-center gap-2 mb-10 mx-auto max-w-xl">
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px', background: 'rgba(40,85,112,0.05)', border: '1px solid rgba(40,85,112,0.1)', borderRadius: '10px', padding: '12px 20px' }}>
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke={ACCENT} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg>
-            <span style={{ fontSize: '13px', color: '#5c5650', fontWeight: 500 }}>Záruka spokojenosti — web nesplní zadání? Vrátíme 100 % ceny.</span>
+            <span style={{ fontSize: '15px', color: '#5c5650', fontWeight: 500 }}>Záruka spokojenosti — web nesplní zadání? Vrátíme 100 % ceny.</span>
           </div>
         </motion.div>
 
@@ -519,13 +521,13 @@ function Pricing() {
                   <span style={{ fontSize: 'clamp(32px,3.5vw,44px)', fontWeight: 700, color: '#1a2e3d', letterSpacing: '-0.04em' }}>{plan.price}</span>
                   <span style={{ fontSize: '13px', color: '#cbcac7', marginLeft: '4px' }}>Kč</span>
                 </div>
-                <p style={{ fontSize: '13px', color: '#8a8480', lineHeight: 1.65, margin: '0 0 20px' }}>{plan.desc}</p>
+                <p style={{ fontSize: '15px', color: '#8a8480', lineHeight: 1.65, margin: '0 0 20px' }}>{plan.desc}</p>
                 <div style={{ height: '1px', background: '#e3ded7', marginBottom: '18px' }} />
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '26px' }}>
                   {plan.features.map(f => (
                     <div key={f} style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
                       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={ACCENT} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, marginTop: '3px' }}><polyline points="20 6 9 17 4 12" /></svg>
-                      <span style={{ fontSize: '13px', color: '#6b6560', lineHeight: 1.55 }}>{f}</span>
+                      <span style={{ fontSize: '15px', color: '#6b6560', lineHeight: 1.55 }}>{f}</span>
                     </div>
                   ))}
                 </div>
@@ -536,7 +538,7 @@ function Pricing() {
         </div>
 
         <motion.div style={{ opacity: pOp }} className="text-center mt-14">
-          <p style={{ fontSize: '13px', color: '#cbcac7', marginBottom: '16px' }}>Nejste si jistí, který plán je pro vás správný?</p>
+          <p style={{ fontSize: '15px', color: '#cbcac7', marginBottom: '16px' }}>Nejste si jistí, který plán je pro vás správný?</p>
           <Link href="/kontakt" className="btn-mkt-primary">Nezávazná konzultace zdarma →</Link>
         </motion.div>
       </div>
@@ -567,7 +569,7 @@ function FaqItem({ item, index }: { item: typeof FAQS[0]; index: number }) {
         onClick={() => setOpen(o => !o)}
         style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '22px 0', background: 'none', border: 'none', cursor: 'pointer', gap: '16px', textAlign: 'left' }}
       >
-        <span style={{ fontSize: '15px', fontWeight: 500, color: open ? ACCENT : '#1a2e3d', transition: 'color 0.2s' }}>{item.q}</span>
+        <span style={{ fontSize: '17px', fontWeight: 500, color: open ? ACCENT : '#1a2e3d', transition: 'color 0.2s' }}>{item.q}</span>
         <span style={{ flexShrink: 0, width: '24px', height: '24px', borderRadius: '50%', border: `1px solid ${open ? 'rgba(40,85,112,0.3)' : '#e3ded7'}`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: ACCENT, transition: 'transform 0.25s, border-color 0.2s', transform: open ? 'rotate(45deg)' : 'rotate(0deg)' }}>
           <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M12 5v14M5 12h14" /></svg>
         </span>
@@ -581,7 +583,7 @@ function FaqItem({ item, index }: { item: typeof FAQS[0]; index: number }) {
             exit={{ height: 0, opacity: 0, transition: { duration: 0.22, ease: [0.4, 0, 0.2, 1] } }}
             style={{ overflow: 'hidden' }}
           >
-            <p style={{ fontSize: '14px', lineHeight: 1.7, color: '#6b6560', paddingBottom: '22px', margin: 0 }}>{item.a}</p>
+            <p style={{ fontSize: '16px', lineHeight: 1.7, color: '#6b6560', paddingBottom: '22px', margin: 0 }}>{item.a}</p>
           </motion.div>
         )}
       </AnimatePresence>
