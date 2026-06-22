@@ -17,6 +17,13 @@ interface Version {
 
 const CHANGELOG: Version[] = [
   {
+    version: '3.88',
+    date: '22. 6. 2026',
+    changes: [
+      { type: 'feat', text: 'Homepage — gradient grain přechody mezi sekcemi (SectionDivider komponenta). 120px vysoké přechody s SVG fractalNoise grain texturou. Přechody: Services→Process, Process→WebNestaci, WebNestaci→CTA, CTA→Pricing, Pricing→FAQ.' },
+    ],
+  },
+  {
     version: '3.87',
     date: '22. 6. 2026',
     changes: [
