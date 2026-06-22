@@ -17,6 +17,13 @@ interface Version {
 
 const CHANGELOG: Version[] = [
   {
+    version: '4.00',
+    date: '22. 6. 2026',
+    changes: [
+      { type: 'feat', text: 'Hero — monitor nahrazen nakloněným tabletem (portrait, 320px, borderRadius 32px). Animace ze zleva zespodu (x:-200 y:140 rotate:-32 → x:0 y:0 rotate:-14). Preview obsah přizpůsoben portrait layoutu.' },
+    ],
+  },
+  {
     version: '3.99',
     date: '22. 6. 2026',
     changes: [
