@@ -17,6 +17,14 @@ interface Version {
 
 const CHANGELOG: Version[] = [
   {
+    version: '3.84',
+    date: '22. 6. 2026',
+    changes: [
+      { type: 'change', text: 'Navbar — odebrány položky Portfolio a Reference' },
+      { type: 'change', text: 'Homepage — odebrány sekce Portfolio (Naše práce) a Reference (Co říkají klienti)' },
+    ],
+  },
+  {
     version: '3.83',
     date: '22. 6. 2026',
     changes: [
