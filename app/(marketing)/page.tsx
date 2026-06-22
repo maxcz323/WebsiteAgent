@@ -17,13 +17,9 @@ const CARD: React.CSSProperties = {
 };
 
 const MOBILE_RESET = `
-  @media(max-width:767px){
-    .sp-outer{height:auto!important}
-    .sp-inner{position:relative!important;height:auto!important;overflow:visible!important;padding:100px 24px 80px!important;align-items:flex-start!important}
-  }
   @keyframes autoScrollPreview {
     0%   { transform: translateY(0); }
-    100% { transform: translateY(-320px); }
+    100% { transform: translateY(-200px); }
   }
   @media(prefers-reduced-motion: reduce){
     .preview-page { animation: none !important; }
@@ -66,94 +62,362 @@ function CursorBlob() {
   );
 }
 
+/* ─── TOPENICZ PREVIEW COLORS ───────────────────────────────── */
+const TP_ACCENT = '#f97316';  // orange
+const TP_DARK   = '#1e293b';  // dark slate
+const TP_BG     = '#f8fafc';  // light bg
+
 /* ─── TABLET VISUAL ──────────────────────────────────────────── */
 function TabletVisual() {
+  const Bar = ({ w, h = 5, r = 3, bg = '#e2e8f0' }: { w: string | number; h?: number; r?: number; bg?: string }) => (
+    <div style={{ width: w, height: h, borderRadius: r, background: bg }} />
+  );
+
   return (
     <div style={{
-      width: '300px',
-      height: '500px',
-      background: 'transparent',
-      borderRadius: '28px',
+      width: '220px',
+      height: '370px',
+      background: TP_BG,
+      borderRadius: '22px',
       border: `2px solid ${ACCENT}`,
-    }} />
+      overflow: 'hidden',
+    }}>
+      <div style={{ height: '3px', background: TP_ACCENT }} />
+
+      <div className="preview-page" style={{ animation: 'autoScrollPreview 20s ease-in-out infinite alternate' }}>
+
+          {/* Navbar */}
+          <div style={{ padding: '8px 10px', background: TP_DARK, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+              <div style={{ width: '14px', height: '14px', borderRadius: '3px', background: TP_ACCENT }} />
+              <span style={{ fontSize: '7px', fontWeight: 700, color: '#fff', letterSpacing: '0.03em' }}>topenicz</span>
+            </div>
+            <div style={{ display: 'flex', gap: '5px' }}>
+              <Bar w={22} h={3} bg="rgba(255,255,255,0.25)" />
+              <Bar w={28} h={3} bg="rgba(255,255,255,0.25)" />
+              <Bar w={20} h={3} bg="rgba(255,255,255,0.25)" />
+            </div>
+            <div style={{ width: '40px', height: '15px', borderRadius: '4px', background: TP_ACCENT }} />
+          </div>
+
+          {/* Hero */}
+          <div style={{ padding: '16px 10px 12px', background: TP_BG }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '5px', marginBottom: '10px' }}>
+              <div style={{ width: '5px', height: '5px', borderRadius: '50%', background: TP_ACCENT }} />
+              <Bar w={64} h={3} r={2} bg="#cbd5e1" />
+            </div>
+            <Bar w="85%" h={11} r={4} bg={TP_DARK} />
+            <div style={{ height: '5px' }} />
+            <Bar w="62%" h={11} r={4} bg={TP_DARK} />
+            <div style={{ height: '9px' }} />
+            <Bar w="100%" h={4} bg="#cbd5e1" />
+            <div style={{ height: '3px' }} />
+            <Bar w="88%" h={4} bg="#cbd5e1" />
+            <div style={{ height: '3px' }} />
+            <Bar w="72%" h={4} bg="#cbd5e1" />
+            <div style={{ height: '13px' }} />
+            <div style={{ display: 'flex', gap: '5px' }}>
+              <div style={{ width: '80px', height: '24px', borderRadius: '6px', background: TP_ACCENT }} />
+              <div style={{ width: '66px', height: '24px', borderRadius: '6px', border: `1.5px solid ${TP_DARK}` }} />
+            </div>
+          </div>
+
+          {/* Image block */}
+          <div style={{ margin: '0 10px 10px', height: '130px', borderRadius: '10px', background: `linear-gradient(145deg, ${TP_DARK} 0%, #334155 100%)`, position: 'relative', overflow: 'hidden' }}>
+            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(249,115,22,0.18) 0%, transparent 60%)' }} />
+            <div style={{ position: 'absolute', bottom: '8px', left: '8px', background: 'rgba(249,115,22,0.88)', borderRadius: '5px', padding: '3px 8px' }}>
+              <span style={{ fontSize: '7px', fontWeight: 700, color: '#fff' }}>Voda &amp; topení</span>
+            </div>
+          </div>
+
+          {/* Services */}
+          <div style={{ padding: '8px 10px 10px' }}>
+            <Bar w="50%" h={7} r={3} bg={TP_DARK} />
+            <div style={{ height: '8px' }} />
+            {[TP_ACCENT, TP_BG, TP_BG].map((bg, i) => (
+              <div key={i} style={{ background: bg, borderRadius: '8px', padding: '8px 10px', border: `1px solid ${i === 0 ? 'transparent' : '#e2e8f0'}`, marginBottom: '5px' }}>
+                <div style={{ width: '14px', height: '14px', borderRadius: '4px', background: i === 0 ? 'rgba(255,255,255,0.25)' : '#e2e8f0', marginBottom: '5px' }} />
+                <Bar w="60%" h={4} r={2} bg={i === 0 ? 'rgba(255,255,255,0.7)' : '#cbd5e1'} />
+                <div style={{ height: '3px' }} />
+                <Bar w="80%" h={3} r={2} bg={i === 0 ? 'rgba(255,255,255,0.4)' : '#e2e8f0'} />
+              </div>
+            ))}
+          </div>
+
+          {/* Process */}
+          <div style={{ padding: '8px 10px 10px', borderTop: '1px solid #f1f5f9' }}>
+            <Bar w="55%" h={7} r={3} bg={TP_DARK} />
+            <div style={{ height: '8px' }} />
+            {['01', '02', '03'].map(n => (
+              <div key={n} style={{ display: 'flex', alignItems: 'center', gap: '7px', marginBottom: '7px' }}>
+                <div style={{ width: '18px', height: '18px', borderRadius: '5px', background: 'rgba(249,115,22,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  <span style={{ fontSize: '7px', fontWeight: 700, color: TP_ACCENT }}>{n}</span>
+                </div>
+                <div style={{ flex: 1 }}>
+                  <Bar w="60%" h={4} r={2} bg={TP_DARK} />
+                  <div style={{ height: '3px' }} />
+                  <Bar w="80%" h={3} r={2} bg="#e2e8f0" />
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* CTA */}
+          <div style={{ margin: '0 10px 14px', background: TP_ACCENT, borderRadius: '10px', padding: '14px', textAlign: 'center' }}>
+            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '4px' }}><Bar w="55%" h={6} r={3} bg="rgba(255,255,255,0.8)" /></div>
+            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '10px' }}><Bar w="40%" h={5} r={3} bg="rgba(255,255,255,0.5)" /></div>
+            <div style={{ width: '80px', height: '20px', borderRadius: '6px', background: '#fff', margin: '0 auto' }} />
+          </div>
+
+      </div>
+    </div>
   );
 }
 
 /* ─── MONITOR VISUAL (landscape) ────────────────────────────── */
 function MonitorVisual() {
+  const Bar = ({ w, h = 5, r = 3, bg = '#e2e8f0' }: { w: string | number; h?: number; r?: number; bg?: string }) => (
+    <div style={{ width: w, height: h, borderRadius: r, background: bg }} />
+  );
+
   return (
     <div style={{
-      width: '460px',
-      height: '300px',
-      background: 'transparent',
-      borderRadius: '24px',
+      width: '340px',
+      height: '220px',
+      background: TP_BG,
+      borderRadius: '18px',
       border: `2px solid ${ACCENT}`,
-    }} />
+      overflow: 'hidden',
+    }}>
+      <div style={{ height: '3px', background: TP_ACCENT }} />
+
+      <div className="preview-page" style={{ animation: 'autoScrollPreview 22s ease-in-out infinite alternate' }}>
+
+          {/* Navbar */}
+          <div style={{ padding: '7px 10px', background: TP_DARK, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+              <div style={{ width: '13px', height: '13px', borderRadius: '3px', background: TP_ACCENT }} />
+              <span style={{ fontSize: '7px', fontWeight: 700, color: '#fff', letterSpacing: '0.03em' }}>topenicz</span>
+            </div>
+            <div style={{ display: 'flex', gap: '6px' }}>
+              <Bar w={26} h={3} bg="rgba(255,255,255,0.25)" />
+              <Bar w={32} h={3} bg="rgba(255,255,255,0.25)" />
+              <Bar w={22} h={3} bg="rgba(255,255,255,0.25)" />
+            </div>
+            <div style={{ width: '42px', height: '15px', borderRadius: '4px', background: TP_ACCENT }} />
+          </div>
+
+          {/* Hero 2-col */}
+          <div style={{ padding: '14px 10px 10px', background: TP_BG, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', alignItems: 'center' }}>
+            <div>
+              <Bar w="80%" h={9} r={4} bg={TP_DARK} />
+              <div style={{ height: '5px' }} />
+              <Bar w="58%" h={9} r={4} bg={TP_DARK} />
+              <div style={{ height: '8px' }} />
+              <Bar w="95%" h={4} bg="#cbd5e1" />
+              <div style={{ height: '3px' }} />
+              <Bar w="80%" h={4} bg="#cbd5e1" />
+              <div style={{ height: '10px' }} />
+              <div style={{ display: 'flex', gap: '4px' }}>
+                <div style={{ width: '54px', height: '18px', borderRadius: '5px', background: TP_ACCENT }} />
+                <div style={{ width: '44px', height: '18px', borderRadius: '5px', border: `1.5px solid ${TP_DARK}` }} />
+              </div>
+            </div>
+            <div style={{ height: '110px', borderRadius: '10px', background: `linear-gradient(145deg, ${TP_DARK} 0%, #334155 100%)`, position: 'relative', overflow: 'hidden' }}>
+              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(249,115,22,0.2) 0%, transparent 60%)' }} />
+              <div style={{ position: 'absolute', bottom: '6px', left: '6px', background: 'rgba(249,115,22,0.88)', borderRadius: '4px', padding: '2px 7px' }}>
+                <span style={{ fontSize: '6px', fontWeight: 700, color: '#fff' }}>Voda &amp; topení</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Services 3-col */}
+          <div style={{ padding: '8px 10px 10px' }}>
+            <Bar w="38%" h={6} r={3} bg={TP_DARK} />
+            <div style={{ height: '7px' }} />
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '5px' }}>
+              {[TP_ACCENT, TP_BG, TP_BG].map((bg, i) => (
+                <div key={i} style={{ background: bg, borderRadius: '7px', padding: '7px', border: `1px solid ${i === 0 ? 'transparent' : '#e2e8f0'}` }}>
+                  <div style={{ width: '11px', height: '11px', borderRadius: '3px', background: i === 0 ? 'rgba(255,255,255,0.25)' : '#e2e8f0', marginBottom: '4px' }} />
+                  <Bar w="60%" h={3} r={2} bg={i === 0 ? 'rgba(255,255,255,0.7)' : '#cbd5e1'} />
+                  <div style={{ height: '3px' }} />
+                  <Bar w="80%" h={3} r={2} bg={i === 0 ? 'rgba(255,255,255,0.4)' : '#e2e8f0'} />
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Process */}
+          <div style={{ padding: '7px 10px 8px', borderTop: '1px solid #f1f5f9' }}>
+            <Bar w="42%" h={6} r={3} bg={TP_DARK} />
+            <div style={{ height: '7px' }} />
+            {['01', '02', '03'].map(n => (
+              <div key={n} style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '5px' }}>
+                <div style={{ width: '15px', height: '15px', borderRadius: '4px', background: 'rgba(249,115,22,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  <span style={{ fontSize: '6px', fontWeight: 700, color: TP_ACCENT }}>{n}</span>
+                </div>
+                <div style={{ flex: 1 }}>
+                  <Bar w="52%" h={3} r={2} bg={TP_DARK} />
+                  <div style={{ height: '3px' }} />
+                  <Bar w="74%" h={3} r={2} bg="#e2e8f0" />
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* CTA */}
+          <div style={{ margin: '0 10px 12px', background: TP_ACCENT, borderRadius: '8px', padding: '12px', textAlign: 'center' }}>
+            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '4px' }}><Bar w="50%" h={5} r={3} bg="rgba(255,255,255,0.8)" /></div>
+            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '8px' }}><Bar w="38%" h={5} r={3} bg="rgba(255,255,255,0.5)" /></div>
+            <div style={{ width: '64px', height: '17px', borderRadius: '5px', background: '#fff', margin: '0 auto' }} />
+          </div>
+
+      </div>
+    </div>
   );
 }
 
 /* ─── HERO ────────────────────────────────────────────────────── */
-function Hero() {
+const HERO_WORDS = ['prodává', 'zaujme', 'konvertuje', 'roste'];
+
+function FloatBadge({ children, style, delay = 0, visible }: { children: React.ReactNode; style?: React.CSSProperties; delay?: number; visible: boolean }) {
   return (
-    <section style={{ background: BG, minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', overflow: 'visible', position: 'relative' }}>
+    <motion.div
+      animate={{ opacity: visible ? 1 : 0, scale: visible ? 1 : 0.88, y: visible ? 0 : 16 }}
+      transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: visible ? delay : 0 }}
+      style={{
+        position: 'absolute', background: '#fff',
+        border: '1px solid #e3ded7',
+        borderRadius: '14px', padding: '12px 18px',
+        boxShadow: '0 4px 20px rgba(40,85,112,0.08)',
+        display: 'flex', alignItems: 'center', gap: '10px',
+        pointerEvents: 'none', whiteSpace: 'nowrap',
+        ...style,
+      }}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+function Hero() {
+  const ref = useRef<HTMLElement>(null);
+  const inView = useInView(ref, { once: false, amount: 0.15 });
+  const [wordIdx, setWordIdx] = useState(0);
+  const [exiting, setExiting] = useState(false);
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setExiting(true);
+      setTimeout(() => {
+        setWordIdx(i => (i + 1) % HERO_WORDS.length);
+        setExiting(false);
+      }, 300);
+    }, 2800);
+    return () => clearInterval(id);
+  }, []);
+
+  const item = (delay: number) => ({
+    initial: { opacity: 0, y: 30 },
+    animate: { opacity: inView ? 1 : 0, y: inView ? 0 : 30 },
+    transition: { duration: 0.9, ease: [0.22, 1, 0.36, 1] as any, delay },
+  });
+
+  return (
+    <section ref={ref} style={{ background: BG, minHeight: '92vh', display: 'flex', alignItems: 'center', position: 'relative', overflow: 'hidden', padding: '130px 24px 120px' }}>
+
       {/* Background blobs */}
-      <div aria-hidden style={{ position: 'absolute', top: '-15%', right: '-8%', width: '700px', height: '700px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(40,85,112,0.06) 0%, transparent 65%)', pointerEvents: 'none' }} />
-      <div aria-hidden style={{ position: 'absolute', bottom: '-5%', left: '-10%', width: '550px', height: '550px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(227,222,215,0.45) 0%, transparent 65%)', pointerEvents: 'none' }} />
+      <div aria-hidden style={{ position: 'absolute', top: '-10%', right: '-5%', width: '800px', height: '800px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(40,85,112,0.05) 0%, transparent 65%)', pointerEvents: 'none' }} />
+      <div aria-hidden style={{ position: 'absolute', bottom: '-10%', left: '-8%', width: '640px', height: '640px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(227,222,215,0.55) 0%, transparent 65%)', pointerEvents: 'none' }} />
 
-      {/* Watermark text — high above the devices */}
-      <div aria-hidden style={{
-        position: 'absolute',
-        top: '8%',
-        left: '50%',
-        transform: 'translateX(-50%)',
-        fontFamily: 'var(--font-display)',
-        fontSize: 'clamp(52px, 10vw, 148px)',
-        fontWeight: 300,
-        letterSpacing: '-0.04em',
-        lineHeight: 0.9,
-        color: 'rgba(26,46,61,0.22)',
-        userSelect: 'none',
-        pointerEvents: 'none',
-        zIndex: 0,
-        whiteSpace: 'nowrap',
-        textAlign: 'center',
-      }}>
-        WEB KTERÝ<br />PRODÁVÁ
-      </div>
-
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-5 sm:px-10" style={{ paddingTop: '120px', paddingBottom: '60px' }}>
-
-        {/* ── Two devices side by side, pushed lower ── */}
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-end', gap: '48px', marginTop: '120px' }}>
-
-          {/* Tablet — comes from bottom-left */}
-          <motion.div
-            initial={{ opacity: 0, x: -220, y: 160, rotate: -32 }}
-            animate={{ opacity: 1, x: 0, y: 0, rotate: -14 }}
-            transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-          >
-            <TabletVisual />
-          </motion.div>
-
-          {/* Monitor — comes from bottom-right, pushed higher */}
-          <motion.div
-            initial={{ opacity: 0, x: 220, y: 160, rotate: -28 }}
-            animate={{ opacity: 1, x: 0, y: 0, rotate: -14 }}
-            transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1], delay: 0.08 }}
-            style={{ marginBottom: '180px' }}
-          >
-            <MonitorVisual />
-          </motion.div>
-
+      {/* ── Floating badges ── */}
+      <FloatBadge delay={0.6} visible={inView} style={{ top: '18%', left: '6%', rotate: '-3deg' }}>
+        <div style={{ width: '30px', height: '30px', borderRadius: '8px', background: 'rgba(40,85,112,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke={ACCENT} strokeWidth="2" strokeLinecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
         </div>
-      </div>
-
-      {/* Scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 pointer-events-none" style={{ opacity: 0.3 }}>
-        <div style={{ width: '20px', height: '32px', borderRadius: '10px', border: `1px solid ${ACCENT}`, display: 'flex', alignItems: 'flex-start', justifyContent: 'center', paddingTop: '6px' }}>
-          <motion.div style={{ width: '4px', height: '6px', borderRadius: '2px', background: ACCENT }}
-            animate={{ y: [0, 10, 0] }} transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }} />
+        <div>
+          <p style={{ fontSize: '16px', fontWeight: 700, color: '#1a2e3d', margin: 0, lineHeight: 1 }}>48 h</p>
+          <p style={{ fontSize: '11px', color: '#9a9590', margin: 0, marginTop: '2px' }}>dodání návrhu</p>
         </div>
+      </FloatBadge>
+
+      <FloatBadge delay={0.72} visible={inView} style={{ top: '14%', right: '7%', rotate: '2.5deg' }}>
+        <div style={{ width: '30px', height: '30px', borderRadius: '8px', background: 'rgba(40,85,112,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke={ACCENT} strokeWidth="2" strokeLinecap="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/></svg>
+        </div>
+        <div>
+          <p style={{ fontSize: '16px', fontWeight: 700, color: '#1a2e3d', margin: 0, lineHeight: 1 }}>od 9 900 Kč</p>
+          <p style={{ fontSize: '11px', color: '#9a9590', margin: 0, marginTop: '2px' }}>jasná cena předem</p>
+        </div>
+      </FloatBadge>
+
+      <FloatBadge delay={0.84} visible={inView} style={{ bottom: '18%', left: '5%', rotate: '2deg' }}>
+        <div style={{ width: '30px', height: '30px', borderRadius: '8px', background: 'rgba(40,85,112,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke={ACCENT} strokeWidth="2" strokeLinecap="round"><path d="M9 12l2 2 4-4"/><path d="M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9c1.51 0 2.93.37 4.18 1.03"/></svg>
+        </div>
+        <div>
+          <p style={{ fontSize: '13px', fontWeight: 700, color: '#1a2e3d', margin: 0, lineHeight: 1 }}>Platíte po schválení</p>
+          <p style={{ fontSize: '11px', color: '#9a9590', margin: 0, marginTop: '2px' }}>nulové riziko</p>
+        </div>
+      </FloatBadge>
+
+      <FloatBadge delay={0.78} visible={inView} style={{ bottom: '20%', right: '6%', rotate: '-2deg' }}>
+        <div style={{ width: '30px', height: '30px', borderRadius: '8px', background: 'rgba(40,85,112,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke={ACCENT} strokeWidth="2" strokeLinecap="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        </div>
+        <div>
+          <p style={{ fontSize: '13px', fontWeight: 700, color: '#1a2e3d', margin: 0, lineHeight: 1 }}>SEO & analytiky</p>
+          <p style={{ fontSize: '11px', color: '#9a9590', margin: 0, marginTop: '2px' }}>v ceně projektu</p>
+        </div>
+      </FloatBadge>
+
+      {/* ── Centered content ── */}
+      <div style={{ maxWidth: '860px', margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 2 }}>
+
+        <motion.div {...item(0)} style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'rgba(40,85,112,0.07)', borderRadius: '100px', padding: '6px 16px 6px 8px', marginBottom: '40px' }}>
+          <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: ACCENT, display: 'inline-block' }} />
+          <span style={{ fontSize: '12px', fontWeight: 600, color: ACCENT, letterSpacing: '0.08em' }}>Weby pro lokální firmy</span>
+        </motion.div>
+
+        <motion.h1 {...item(0.1)} style={{
+          fontFamily: 'var(--font-display)',
+          fontSize: 'clamp(52px, 8vw, 108px)',
+          fontWeight: 300, lineHeight: 1.0, letterSpacing: '-0.04em',
+          color: '#1a2e3d', margin: '0 0 36px',
+        }}>
+          Váš web,<br />
+          který{' '}
+          <span style={{ display: 'inline-block', position: 'relative', verticalAlign: 'bottom' }}>
+            {/* ghost — reserves width of longest word so layout never shifts */}
+            <span style={{ visibility: 'hidden', color: ACCENT }}>konvertuje</span>
+            <span style={{
+              position: 'absolute', left: 0, top: 0, color: ACCENT,
+              opacity: exiting ? 0 : 1,
+              filter: exiting ? 'blur(6px)' : 'blur(0px)',
+              transition: 'opacity 0.28s ease, filter 0.28s ease',
+            }}>
+              {HERO_WORDS[wordIdx]}
+            </span>
+          </span>
+        </motion.h1>
+
+        <motion.p {...item(0.2)} style={{ fontFamily: 'var(--font-body)', fontSize: '18px', lineHeight: 1.75, color: '#7a8e98', maxWidth: '480px', margin: '0 auto 44px' }}>
+          Tvoříme moderní weby a landing pages pro české firmy. Hotovo do 48 hodin, platíte až po schválení výsledku.
+        </motion.p>
+
+        <motion.div {...item(0.28)} style={{ display: 'flex', gap: '14px', justifyContent: 'center', flexWrap: 'wrap' }}>
+          <a href="/kalkulace"
+            style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: ACCENT, color: '#fff', fontSize: '15px', fontWeight: 700, padding: '16px 32px', borderRadius: '12px', textDecoration: 'none', letterSpacing: '0.01em', transition: 'transform 0.2s, box-shadow 0.2s' }}
+            onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.transform = 'translateY(-2px)'; el.style.boxShadow = '0 10px 28px rgba(40,85,112,0.32)'; }}
+            onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.transform = ''; el.style.boxShadow = ''; }}
+          >Začít projekt →</a>
+          <a href="/sluzby"
+            style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: '15px', fontWeight: 600, color: ACCENT, padding: '15px 32px', borderRadius: '12px', border: '1.5px solid rgba(40,85,112,0.2)', textDecoration: 'none', transition: 'transform 0.2s, border-color 0.2s, box-shadow 0.2s' }}
+            onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.transform = 'translateY(-2px)'; el.style.borderColor = 'rgba(40,85,112,0.45)'; el.style.boxShadow = '0 6px 18px rgba(40,85,112,0.1)'; }}
+            onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.transform = ''; el.style.borderColor = 'rgba(40,85,112,0.2)'; el.style.boxShadow = ''; }}
+          >Zobrazit ceník</a>
+        </motion.div>
+
       </div>
     </section>
   );
@@ -500,13 +764,6 @@ function Pricing() {
   );
 }
 
-/* ─── SECTION DIVIDER ────────────────────────────────────────── */
-function SectionDivider({ from, to }: { from: string; to: string }) {
-  return (
-    <div style={{ height: '160px', background: `linear-gradient(to bottom, ${from}, ${to})` }} />
-  );
-}
-
 /* ─── PAGE ROOT ───────────────────────────────────────────────── */
 export default function HomePage() {
   return (
@@ -516,13 +773,9 @@ export default function HomePage() {
       <CursorBlob />
       <Hero />
       <ServicesSection />
-      <SectionDivider from={BG} to={BG2} />
       <ProcessSection />
-      <SectionDivider from={BG2} to="#1a2e3d" />
       <WebNestaci />
-      <SectionDivider from="#1a2e3d" to={ACCENT} />
       <CTA />
-      <SectionDivider from={ACCENT} to={BG} />
       <Pricing />
     </>
   );

@@ -17,6 +17,118 @@ interface Version {
 
 const CHANGELOG: Version[] = [
   {
+    version: '4.19',
+    date: '22. 6. 2026',
+    changes: [
+      { type: 'fix', text: 'Hero — "který" se nepohybuje: ghost span rezervuje šířku nejdelšího slova (konvertuje), animované slovo je position:absolute uvnitř — layout se nehýbe.' },
+    ],
+  },
+  {
+    version: '4.18',
+    date: '22. 6. 2026',
+    changes: [
+      { type: 'fix', text: 'Hero — slovo "který" se nehýbe (odstraněn translateY z cycling spanu). Animace se přehrává při každém scrollu na sekci i z ní (once: false, amount: 0.15). Badges reagují na inView.' },
+    ],
+  },
+  {
+    version: '4.17',
+    date: '22. 6. 2026',
+    changes: [
+      { type: 'feat', text: 'Hero — centrovaný layout, animované střídání slov (prodává/zaujme/konvertuje/roste) s blur přechodem, 4 plovoucí stat-badge karty rozmístěné kolem textu.' },
+    ],
+  },
+  {
+    version: '4.16',
+    date: '22. 6. 2026',
+    changes: [
+      { type: 'change', text: 'Hero — odstraněna scroll story (5 scén). Nový statický hero: nadpis + perex + 2 CTA + trust badges + device mockupy vpravo s floating animací.' },
+    ],
+  },
+  {
+    version: '4.15',
+    date: '22. 6. 2026',
+    changes: [
+      { type: 'fix', text: 'Hero — scéna 4 trvá déle: vstup mobilu na 0.73–0.82, CTA na 0.76–0.85, nadpis se vrátí až od 94%. Sekce oddělovače odstraněny, přechody mezi sekcemi čisté přímé hrany.' },
+    ],
+  },
+  {
+    version: '4.14',
+    date: '22. 6. 2026',
+    changes: [
+      { type: 'fix', text: 'Hero — mobil přijíždí zleva (x: -320→0). Nadpis na konci se vrátí až od 93% scrollu (větší mezera mezi scénou 4 a závěrem).' },
+    ],
+  },
+  {
+    version: '4.13',
+    date: '22. 6. 2026',
+    changes: [
+      { type: 'feat', text: 'Hero scroll story: sc.3 monitor jde do středu (-150px) + features 18px čitelně zprava. Sc.4 portrait tablet (mobil) přijede zprava + CTA text zleva. Monitor zmizí, nevraví se.' },
+    ],
+  },
+  {
+    version: '4.12',
+    date: '22. 6. 2026',
+    changes: [
+      { type: 'fix', text: 'Hero — levý tablet odjede úplně mimo obrazovku (700px). Nadpis viditelný jen na začátku a na konci scrollu (opacity 0 v průběhu scén s tablety), na konci přijede mírně zdola.' },
+    ],
+  },
+  {
+    version: '4.11',
+    date: '22. 6. 2026',
+    changes: [
+      { type: 'feat', text: 'Hero — kompletní scroll-story (560vh sticky): sc.1 velký nadpis, sc.2 oba příjíždí zdola, sc.3 levý tablet odjede dolů + pravý text zprava, sc.4 monitor odjede nahoru + přijede znovu zdola, sc.5 levý text s CTA zleva.' },
+    ],
+  },
+  {
+    version: '4.10',
+    date: '22. 6. 2026',
+    changes: [
+      { type: 'feat', text: 'Hero — scroll mount animace na oba textové bloky (x: ±48px). Levý nadpis zvětšen na 58px, šířka 300px. Podtext Inter font (--font-body). Hover efekt tlačítek: translateY(-2px) + box-shadow. Pravý odkaz: gap animace.' },
+    ],
+  },
+  {
+    version: '4.09',
+    date: '22. 6. 2026',
+    changes: [
+      { type: 'change', text: 'Hero — zařízení zmenšena (tablet 220×370, monitor 340×220). Textové bloky zvětšeny: levý width 270px, nadpis 46px, popis 15px; pravý width 240px, features 15px.' },
+    ],
+  },
+  {
+    version: '4.08',
+    date: '22. 6. 2026',
+    changes: [
+      { type: 'feat', text: 'Hero — přidány textové bloky po stranách (levý: headline + 2 CTA tlačítka, pravý: 4 features + odkaz). Watermark přesunut na střed (top:52%). Monitor vrácen nahoru (marginBottom:180px). Parallax zredukován na ±100px.' },
+    ],
+  },
+  {
+    version: '4.07',
+    date: '22. 6. 2026',
+    changes: [
+      { type: 'fix', text: 'Hero — tablet a monitor se při scrollu nepřekrývají: tablet startuje výš (marginBottom:180px), monitor níž. Pohybují se od sebe (tablet nahoru, monitor dolů).' },
+    ],
+  },
+  {
+    version: '4.06',
+    date: '22. 6. 2026',
+    changes: [
+      { type: 'feat', text: 'Hero — scroll parallax: tablet se při scrollu pohybuje nahoru (−220px), monitor dolů (+220px). Mount animace zůstává.' },
+    ],
+  },
+  {
+    version: '4.05',
+    date: '22. 6. 2026',
+    changes: [
+      { type: 'change', text: 'Hero — tablet i monitor jsou průhledné outlined obdélníky (jen border, žádné tmavé tělo zařízení). Preview webu topenicz viditelné uvnitř.' },
+    ],
+  },
+  {
+    version: '4.04',
+    date: '22. 6. 2026',
+    changes: [
+      { type: 'feat', text: 'Hero — tablet i monitor zobrazují mini preview fiktivního webu „topenicz" (oranžová paleta). Scrollující obsah: navbar, hero, fotoblok, služby, postup, CTA.' },
+    ],
+  },
+  {
     version: '4.03',
     date: '22. 6. 2026',
     changes: [

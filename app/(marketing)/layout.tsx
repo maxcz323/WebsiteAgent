@@ -1,9 +1,10 @@
 import { MarketingNav } from '@/components/marketing/MarketingNav';
 import { Footer } from '@/components/marketing/Footer';
-import { Montserrat } from 'next/font/google';
+import { Montserrat, Inter } from 'next/font/google';
 import type { Metadata } from 'next';
 
 const display = Montserrat({ subsets: ['latin'], weight: ['300', '400', '600', '700'], variable: '--font-display' });
+const body    = Inter({ subsets: ['latin'], weight: ['400', '500', '600'], variable: '--font-body' });
 
 export const metadata: Metadata = {
   title: { default: 'WebsiteAgent – Profesionální weby pro lokální firmy', template: '%s | WebsiteAgent' },
@@ -20,7 +21,7 @@ export const metadata: Metadata = {
 
 export default function MarketingLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className={`bg-[#faf7f6] text-[#1a2e3d] antialiased ${display.variable}`}>
+    <div className={`bg-[#faf7f6] text-[#1a2e3d] antialiased ${display.variable} ${body.variable}`}>
 
       <MarketingNav />
       <main style={{ position: 'relative', zIndex: 1 }}>{children}</main>
