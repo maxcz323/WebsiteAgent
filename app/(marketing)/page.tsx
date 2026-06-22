@@ -336,172 +336,71 @@ function ProcessSection() {
   );
 }
 
-/* ─── MARKETING ECOSYSTEM ────────────────────────────────────── */
-const ECO_CHANNELS = [
+/* ─── WEB NESTACI ─────────────────────────────────────────────── */
+const WEB_INSIGHTS = [
   {
-    label: 'SEO', sub: 'Organická návštěvnost', stat: 24, unit: 'návštěv/den', color: '#22c55e',
-    icon: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>,
+    title: 'Zákazníci vás musí nejdřív najít',
+    body: '96 % lidí začíná hledání služeb online. Bez SEO, reklamy nebo přítomnosti na sociálních sítích zůstane váš web prázdný — bez ohledu na to, jak dobře vypadá.',
   },
   {
-    label: 'Google Ads', sub: 'Placená reklama', stat: 8, unit: 'leadů/týden', color: '#f59e0b',
-    icon: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></svg>,
+    title: 'Důvěra se buduje opakováním',
+    body: 'Lidé nenakupují hned. Průměrně potřebují 7 kontaktů s vaší firmou před tím, než se rozhodnou. Marketing tyto kontakty vytváří — web je pak místem, kde padne finální rozhodnutí.',
   },
   {
-    label: 'Social Media', sub: 'Instagram & Facebook', stat: 156, unit: 'nových sledujících', color: '#a855f7',
-    icon: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>,
-  },
-  {
-    label: 'E-mailing', sub: 'Newsletter kampaně', stat: 31, unit: '% míra otevření', color: '#0ea5e9',
-    icon: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>,
-  },
-  {
-    label: 'Google My Business', sub: 'Lokální viditelnost', stat: 5, unit: 'hvězd. hodnocení', color: '#f97316',
-    icon: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>,
+    title: 'Web je konec cesty, ne začátek',
+    body: 'Zákazník nejdřív uvidí reklamu, přečte recenzi nebo narazí na váš příspěvek. Web je destinace, kam přichází, aby se přesvědčil. Marketing je vše, co ho tam dovede.',
   },
 ];
 
-const ECO_W = 720, ECO_H = 520, ECO_CX = 360, ECO_CY = 260, ECO_R = 185;
-const ECO_POSITIONS = [-90, -18, 54, 126, 198].map(a => {
-  const r = (a * Math.PI) / 180;
-  return { x: ECO_CX + ECO_R * Math.cos(r), y: ECO_CY + ECO_R * Math.sin(r) };
-});
-
-function EcosystemSection() {
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, amount: 0.3 });
-  const [counts, setCounts] = useState(ECO_CHANNELS.map(() => 0));
-
-  useEffect(() => {
-    if (!inView) return;
-    const targets = ECO_CHANNELS.map(c => c.stat);
-    const duration = 1800;
-    const startTime = performance.now();
-    let rafId: number;
-    const tick = (now: number) => {
-      const progress = Math.min((now - startTime) / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3);
-      setCounts(targets.map(t => Math.floor(t * eased)));
-      if (progress < 1) rafId = requestAnimationFrame(tick);
-    };
-    rafId = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(rafId);
-  }, [inView]);
+function WebNestaci() {
+  const outerRef = useRef<HTMLDivElement>(null);
+  const inView = useInView(outerRef, { once: false, amount: 0.2 });
+  const E = (delay = 0) => ({ duration: 0.9, ease: [0.22, 1, 0.36, 1] as any, delay: inView ? delay : 0 });
 
   return (
-    <div ref={ref} style={{ background: BG2, padding: '120px 24px' }}>
+    <div ref={outerRef} style={{ background: BG2, padding: '220px 24px' }}>
       <div style={{ maxWidth: '1080px', margin: '0 auto' }}>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
 
-        <motion.div
-          className="text-center"
-          style={{ marginBottom: '60px' }}
-          animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 30 }}
-          transition={{ duration: 0.7 }}
-        >
-          <p style={{ fontSize: '11px', fontWeight: 600, color: 'rgba(40,85,112,0.55)', textTransform: 'uppercase', letterSpacing: '0.16em', marginBottom: '14px' }}>Větší obrázek</p>
-          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px,3.8vw,50px)', fontWeight: 300, color: '#1a2e3d', letterSpacing: '-0.03em', lineHeight: 1.1, marginBottom: '16px' }}>
-            Web je cíl.<br />Marketing je cesta.
-          </h2>
-          <p style={{ fontSize: '15px', color: '#8a8480', maxWidth: '500px', margin: '0 auto', lineHeight: 1.65 }}>
-            Krásný web sám o sobě nestačí. Potřebujete zákazníky, kteří ho najdou — a ti přicházejí přes marketing.
-          </p>
-        </motion.div>
-
-        {/* Desktop — radial visual */}
-        <div className="hidden md:block" style={{ position: 'relative', width: ECO_W, height: ECO_H, margin: '0 auto' }}>
-
-          <svg style={{ position: 'absolute', inset: 0, width: ECO_W, height: ECO_H, pointerEvents: 'none', overflow: 'visible' }}>
-            {ECO_POSITIONS.map((pos, i) => (
-              <motion.path
-                key={i}
-                d={`M ${ECO_CX} ${ECO_CY} L ${pos.x} ${pos.y}`}
-                stroke={ECO_CHANNELS[i].color}
-                strokeWidth="1.5"
-                fill="none"
-                initial={{ pathLength: 0, opacity: 0 }}
-                animate={inView ? { pathLength: 1, opacity: 0.35 } : {}}
-                transition={{ duration: 0.6, delay: 0.3 + i * 0.12 }}
-              />
-            ))}
-          </svg>
-
-          {/* Center hub */}
-          <motion.div
-            style={{
-              position: 'absolute', top: ECO_CY, left: ECO_CX,
-              transform: 'translate(-50%, -50%)',
-              width: 96, height: 96, borderRadius: '50%',
-              background: ACCENT, display: 'flex', alignItems: 'center', justifyContent: 'center',
-              boxShadow: '0 0 0 14px rgba(40,85,112,0.07), 0 0 0 28px rgba(40,85,112,0.035)',
-              zIndex: 2,
-            }}
-            initial={{ scale: 0, opacity: 0 }}
-            animate={inView ? { scale: 1, opacity: 1 } : {}}
-            transition={{ duration: 0.5, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-          >
-            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
-              <rect x="2" y="3" width="20" height="14" rx="2"/>
-              <line x1="8" y1="21" x2="16" y2="21"/>
-              <line x1="12" y1="17" x2="12" y2="21"/>
-            </svg>
+          {/* Left — heading */}
+          <motion.div animate={{ opacity: inView ? 1 : 0, x: inView ? 0 : -80 }} transition={E(0)}>
+            <p style={{ fontSize: '11px', fontWeight: 600, color: 'rgba(40,85,112,0.55)', textTransform: 'uppercase', letterSpacing: '0.16em', marginBottom: '14px' }}>Pravda o online úspěchu</p>
+            <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px,3.8vw,50px)', fontWeight: 300, color: '#1a2e3d', letterSpacing: '-0.03em', lineHeight: 1.1, marginBottom: '24px' }}>
+              Web sám<br />o sobě nestačí.
+            </h2>
+            <p style={{ fontSize: '15px', lineHeight: 1.75, color: '#6b6560', marginBottom: '32px', maxWidth: '380px' }}>
+              Krásný web je základ — ale jen základ. Firmy, které rostou online, nespoléhají jen na web. Kombinují ho s marketingem, který přivádí zákazníky a buduje důvěru dlouhodobě.
+            </p>
+            <Link href="/kontakt" style={{ display: 'inline-flex', alignItems: 'center', gap: '7px', fontSize: '13px', fontWeight: 600, color: '#cbcac7', textDecoration: 'none', transition: 'color .15s' }}
+              onMouseEnter={e => (e.currentTarget.style.color = ACCENT)}
+              onMouseLeave={e => (e.currentTarget.style.color = '#cbcac7')}
+            >
+              Pobavme se o vašem marketingu
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+            </Link>
           </motion.div>
 
-          {/* Channel cards */}
-          {ECO_CHANNELS.map((ch, i) => {
-            const pos = ECO_POSITIONS[i];
-            return (
+          {/* Right — insight cards */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+            {WEB_INSIGHTS.map((item, i) => (
               <motion.div
-                key={ch.label}
-                style={{
-                  position: 'absolute', top: pos.y, left: pos.x,
-                  transform: 'translate(-50%, -50%)',
-                  background: '#fff', border: `1px solid ${ch.color}40`,
-                  borderRadius: '14px', padding: '14px 16px',
-                  minWidth: '128px', textAlign: 'center',
-                  boxShadow: `0 4px 20px ${ch.color}15`,
-                  zIndex: 2,
-                }}
-                initial={{ opacity: 0, scale: 0.75 }}
-                animate={inView ? { opacity: 1, scale: 1 } : {}}
-                transition={{ duration: 0.5, delay: 0.45 + i * 0.12, ease: [0.22, 1, 0.36, 1] }}
+                key={item.title}
+                animate={{ opacity: inView ? 1 : 0, x: inView ? 0 : 80 }}
+                transition={E(0.1 + i * 0.1)}
+                style={{ background: '#fff', border: '1px solid #e3ded7', borderRadius: '16px', padding: '24px 28px', boxShadow: '0 2px 12px rgba(40,85,112,0.05)' }}
               >
-                <div style={{ width: '28px', height: '28px', borderRadius: '8px', background: `${ch.color}18`, color: ch.color, display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 8px' }}>
-                  {ch.icon}
+                <div style={{ display: 'flex', alignItems: 'flex-start', gap: '16px' }}>
+                  <span style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.05em', color: ACCENT, background: 'rgba(40,85,112,0.08)', borderRadius: '8px', padding: '4px 10px', flexShrink: 0, marginTop: '2px' }}>0{i + 1}</span>
+                  <div>
+                    <p style={{ fontSize: '14px', fontWeight: 600, color: '#1a2e3d', marginBottom: '8px' }}>{item.title}</p>
+                    <p style={{ fontSize: '13px', lineHeight: 1.7, color: '#a8a4a0', margin: 0 }}>{item.body}</p>
+                  </div>
                 </div>
-                <p style={{ fontSize: '11px', fontWeight: 700, color: '#1a2e3d', marginBottom: '6px', lineHeight: 1.3 }}>{ch.label}</p>
-                <p style={{ fontSize: '22px', fontWeight: 700, color: ch.color, lineHeight: 1, marginBottom: '2px' }}>+{counts[i]}</p>
-                <p style={{ fontSize: '10px', color: '#cbcac7', margin: 0 }}>{ch.unit}</p>
               </motion.div>
-            );
-          })}
-        </div>
+            ))}
+          </div>
 
-        {/* Mobile — 2-col grid */}
-        <div className="md:hidden grid grid-cols-2 gap-3" style={{ marginTop: '8px' }}>
-          {ECO_CHANNELS.map((ch) => (
-            <div key={ch.label} style={{ background: '#fff', border: `1px solid ${ch.color}33`, borderRadius: '14px', padding: '16px' }}>
-              <div style={{ width: '28px', height: '28px', borderRadius: '8px', background: `${ch.color}18`, color: ch.color, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '8px' }}>
-                {ch.icon}
-              </div>
-              <p style={{ fontSize: '12px', fontWeight: 700, color: '#1a2e3d', marginBottom: '2px' }}>{ch.label}</p>
-              <p style={{ fontSize: '11px', color: '#a8a4a0', marginBottom: '8px' }}>{ch.sub}</p>
-              <p style={{ fontSize: '22px', fontWeight: 700, color: ch.color, lineHeight: 1 }}>+{ch.stat}</p>
-              <p style={{ fontSize: '10px', color: '#cbcac7' }}>{ch.unit}</p>
-            </div>
-          ))}
         </div>
-
-        <motion.div
-          className="text-center"
-          style={{ marginTop: '56px' }}
-          animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 16 }}
-          transition={{ duration: 0.6, delay: 1.3 }}
-        >
-          <p style={{ fontSize: '14px', color: '#8a8480', marginBottom: '20px' }}>Potřebujete víc než jen web? Pojďme probrat váš marketing.</p>
-          <Link href="/kontakt" className="btn-mkt-primary">
-            Nezávazná konzultace
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
-          </Link>
-        </motion.div>
       </div>
     </div>
   );
@@ -723,7 +622,7 @@ export default function HomePage() {
       <Hero />
       <ServicesSection />
       <ProcessSection />
-      <EcosystemSection />
+      <WebNestaci />
       <CTA />
       <Pricing />
       <FAQ />

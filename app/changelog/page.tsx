@@ -17,6 +17,13 @@ interface Version {
 
 const CHANGELOG: Version[] = [
   {
+    version: '3.86',
+    date: '22. 6. 2026',
+    changes: [
+      { type: 'change', text: 'Homepage — sekce "Web sám o sobě nestačí": nahrazen radial vizuál informativním 2-sloupcovým layoutem. Vlevo headline + popis, vpravo 3 numbered insight cards (Zákazníci vás musí najít / Důvěra se buduje opakováním / Web je konec cesty).' },
+    ],
+  },
+  {
     version: '3.85',
     date: '22. 6. 2026',
     changes: [
