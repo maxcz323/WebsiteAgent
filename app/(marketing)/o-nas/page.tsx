@@ -19,10 +19,10 @@ function useReveal(delay = 0) {
 }
 
 const VALUES = [
-  { title: 'Rychlost bez kompromisů', desc: 'Dodáváme do 48 hodin. Nikdy na úkor kvality. Kde jiní tráví týdny briefy, my jdeme rovnou k výsledku.' },
+  { title: 'Rychlost bez kompromisů', desc: 'Dodáváme do 48 hodin, nikdy na úkor kvality. Kde jiní tráví týdny na briefech, my jdeme rovnou k výsledku.' },
   { title: 'Platíte až za výsledek', desc: 'Zálohy nebereme. Nejdřív uvidíte hotový web, pak se rozhodnete. Riziko je na nás — proto pracujeme pečlivě.' },
   { title: 'Lokální firmy si zaslouží víc', desc: 'Každý řemeslník, živnostník nebo kavárna si zaslouží web, který by mu udělali v Praze za pětinásobek.' },
-  { title: 'Jdeme s dobou', desc: 'Sledujeme trendy v designu i nové nástroje. Kde dává smysl je využít pro rychlejší nebo kvalitnější výsledek, využíváme je.' },
+  { title: 'Jdeme s dobou', desc: 'Sledujeme trendy v designu i nové nástroje. Kde to dává smysl, využíváme je pro rychlejší a kvalitnější výsledek.' },
 ];
 
 function ValueCard({ title, desc, delay }: { title: string; desc: string; delay: number }) {
@@ -64,7 +64,7 @@ export default function ONasPage() {
                 Viděli jsme příliš mnoho šikovných řemeslníků, lékařů a podnikatelů, kteří měli buď žádný web, nebo takový, za který se styděli. Rozhodli jsme se to změnit.
               </p>
               <p style={{ color: '#6b6560', lineHeight: 1.7 }}>
-                Děláme weby poctivě a na míru. S designem se nezabíháme do šablon. Každý projekt bere čas, pozornost a péči — a výsledek to vždy pozná.
+                Děláme weby poctivě a na míru. Design vždy tvoříme od základu — žádné šablony z internetu. Každý projekt si zaslouží potřebný čas a péči, a na výsledku je to znát.
               </p>
             </div>
             <div style={{ borderRadius: 18, overflow: 'hidden', boxShadow: '0 4px 28px rgba(40,85,112,0.10)', border: '1px solid #e3ded7' }}>

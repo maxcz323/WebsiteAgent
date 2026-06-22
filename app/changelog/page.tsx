@@ -17,6 +17,13 @@ interface Version {
 
 const CHANGELOG: Version[] = [
   {
+    version: '4.21',
+    date: '22. 6. 2026',
+    changes: [
+      { type: 'fix', text: 'Opraveny gramatické chyby v textech: "analytiky"→"analytika" (2×), "ke shlédnutí"→"Chci vidět ukázku webu", "tráví týdny briefy"→"na briefech", "Kde dává smysl je využít…využíváme je"→odstraněno opakování, "S designem se nezabíháme do šablon / výsledek to pozná"→přepsáno srozumitelně.' },
+    ],
+  },
+  {
     version: '4.20',
     date: '22. 6. 2026',
     changes: [

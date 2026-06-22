@@ -366,7 +366,7 @@ function Hero() {
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke={ACCENT} strokeWidth="2" strokeLinecap="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
         </div>
         <div>
-          <p style={{ fontSize: '13px', fontWeight: 700, color: '#1a2e3d', margin: 0, lineHeight: 1 }}>SEO & analytiky</p>
+          <p style={{ fontSize: '13px', fontWeight: 700, color: '#1a2e3d', margin: 0, lineHeight: 1 }}>SEO & analytika</p>
           <p style={{ fontSize: '11px', color: '#9a9590', margin: 0, marginTop: '2px' }}>v ceně projektu</p>
         </div>
       </FloatBadge>
@@ -427,7 +427,7 @@ const SERVICES = [
   },
   {
     title: 'Firemní web', price: 'od 14 900 Kč', href: '/kalkulace/firemni-web',
-    desc: 'Kompletní online prezentace firmy. Více stránek, CMS, analytics.',
+    desc: 'Kompletní online prezentace firmy. Více stránek, CMS, analytika.',
     icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>,
   },
   {
@@ -645,7 +645,7 @@ function CTA() {
               onMouseEnter={e => { (e.currentTarget as HTMLElement).style.transform = 'translateY(-1px)'; (e.currentTarget as HTMLElement).style.boxShadow = '0 8px 24px rgba(0,0,0,0.18)'; }}
               onMouseLeave={e => { (e.currentTarget as HTMLElement).style.transform = ''; (e.currentTarget as HTMLElement).style.boxShadow = ''; }}
             >
-              Získat web ke shlédnutí zdarma
+              Chci vidět ukázku webu
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
             </Link>
             <Link href="/sluzby" style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '8px', fontSize: '14px', fontWeight: 500, letterSpacing: '-0.01em', textDecoration: 'none', padding: '13px 28px', borderRadius: '10px', border: '1.5px solid rgba(250,247,246,0.3)', color: 'rgba(250,247,246,0.7)', background: 'transparent', transition: 'border-color 0.25s, color 0.25s, transform 0.2s', whiteSpace: 'nowrap' }}
