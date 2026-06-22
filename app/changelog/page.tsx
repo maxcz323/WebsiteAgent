@@ -17,6 +17,13 @@ interface Version {
 
 const CHANGELOG: Version[] = [
   {
+    version: '3.89',
+    date: '22. 6. 2026',
+    changes: [
+      { type: 'change', text: 'Odstraněn cookie consent banner — smazány CookieConsent.tsx, lib/cookieConsent.ts, odstraněn import a komponenta z marketing layoutu' },
+    ],
+  },
+  {
     version: '3.88',
     date: '22. 6. 2026',
     changes: [

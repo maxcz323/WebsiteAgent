@@ -1,6 +1,5 @@
 import { MarketingNav } from '@/components/marketing/MarketingNav';
 import { Footer } from '@/components/marketing/Footer';
-import { CookieConsent } from '@/components/marketing/CookieConsent';
 import { Montserrat } from 'next/font/google';
 import type { Metadata } from 'next';
 
@@ -26,8 +25,6 @@ export default function MarketingLayout({ children }: { children: React.ReactNod
       <MarketingNav />
       <main style={{ position: 'relative', zIndex: 1 }}>{children}</main>
       <Footer />
-      <CookieConsent />
-
       {/* Decorative lines — asymetrické, každá jiná */}
       <div aria-hidden style={{
         position: 'fixed', top: 0, right: 0,
