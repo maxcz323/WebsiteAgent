@@ -17,6 +17,13 @@ interface Version {
 
 const CHANGELOG: Version[] = [
   {
+    version: '3.99',
+    date: '22. 6. 2026',
+    changes: [
+      { type: 'fix', text: 'Hero — watermark tmavší (opacity 0.22 tmavá modrá). Monitor rozšířen na 780px, výška obrazovky 420px (16:9 poměr), stojan upraven.' },
+    ],
+  },
+  {
     version: '3.98',
     date: '22. 6. 2026',
     changes: [

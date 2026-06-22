@@ -77,6 +77,7 @@ function MonitorVisual() {
 
       {/* ── Monitor body ── */}
       <div style={{
+        width: '780px',
         background: '#1a2e3d',
         borderRadius: '18px 18px 6px 6px',
         padding: '10px 10px 0',
@@ -84,7 +85,7 @@ function MonitorVisual() {
       }}>
         <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'rgba(255,255,255,0.18)', margin: '0 auto 7px' }} />
 
-        <div style={{ background: '#fff', borderRadius: '8px 8px 0 0', overflow: 'hidden', height: '330px' }}>
+        <div style={{ background: '#fff', borderRadius: '8px 8px 0 0', overflow: 'hidden', height: '420px' }}>
           <div style={{ height: '3px', background: ACCENT }} />
 
           <div className="preview-page" style={{ animation: 'autoScrollPreview 18s ease-in-out infinite alternate' }}>
@@ -182,8 +183,8 @@ function MonitorVisual() {
 
       {/* ── Stand ── */}
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-        <div style={{ width: '54px', height: '17px', background: '#1a2e3d', borderRadius: '0 0 5px 5px', opacity: 0.85 }} />
-        <div style={{ width: '108px', height: '5px', background: '#1a2e3d', borderRadius: '3px', opacity: 0.4 }} />
+        <div style={{ width: '64px', height: '18px', background: '#1a2e3d', borderRadius: '0 0 5px 5px', opacity: 0.85 }} />
+        <div style={{ width: '128px', height: '5px', background: '#1a2e3d', borderRadius: '3px', opacity: 0.4 }} />
       </div>
     </div>
   );
@@ -208,7 +209,7 @@ function Hero() {
         fontWeight: 300,
         letterSpacing: '-0.04em',
         lineHeight: 0.9,
-        color: 'rgba(26,46,61,0.055)',
+        color: 'rgba(26,46,61,0.22)',
         userSelect: 'none',
         pointerEvents: 'none',
         zIndex: 0,
