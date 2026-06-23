@@ -24,6 +24,10 @@ const MOBILE_RESET = `
   @media(prefers-reduced-motion: reduce){
     .preview-page { animation: none !important; }
   }
+  @media (max-width: 767px) {
+    .pricing-popular { margin-top: 0 !important; }
+    .warranty-badge { font-size: 13px !important; padding: 10px 14px !important; }
+  }
 `;
 
 /* ─── Grain ───────────────────────────────────────────────────── */
@@ -280,23 +284,15 @@ function MonitorVisual() {
 /* ─── HERO ────────────────────────────────────────────────────── */
 const HERO_WORDS = ['prodává', 'zaujme', 'konvertuje', 'roste'];
 
-function FloatBadge({ children, style, delay = 0, visible }: { children: React.ReactNode; style?: React.CSSProperties; delay?: number; visible: boolean }) {
+/* ─── CrossMark ──────────────────────────────────────────────── */
+function CrossMark({ w = 50, h = 50, color = 'rgba(40,85,112,0.18)', style, className }: {
+  w?: number; h?: number; color?: string; style?: React.CSSProperties; className?: string;
+}) {
   return (
-    <motion.div
-      animate={{ opacity: visible ? 1 : 0, scale: visible ? 1 : 0.88, y: visible ? 0 : 16 }}
-      transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: visible ? delay : 0 }}
-      style={{
-        position: 'absolute', background: '#fff',
-        border: '1px solid #e3ded7',
-        borderRadius: '14px', padding: '12px 18px',
-        boxShadow: '0 4px 20px rgba(40,85,112,0.08)',
-        display: 'flex', alignItems: 'center', gap: '10px',
-        pointerEvents: 'none', whiteSpace: 'nowrap',
-        ...style,
-      }}
-    >
-      {children}
-    </motion.div>
+    <div aria-hidden className={className} style={{ position: 'absolute', width: w, height: h, pointerEvents: 'none', ...style }}>
+      <div style={{ position: 'absolute', top: '50%', left: 0, width: '100%', height: '1px', background: color, transform: 'translateY(-50%)' }} />
+      <div style={{ position: 'absolute', left: '50%', top: 0, height: '100%', width: '1px', background: color, transform: 'translateX(-50%)' }} />
+    </div>
   );
 }
 
@@ -324,52 +320,22 @@ function Hero() {
   });
 
   return (
-    <section ref={ref} style={{ background: BG, minHeight: '92vh', display: 'flex', alignItems: 'center', position: 'relative', overflow: 'hidden', padding: '130px 24px 120px' }}>
+    <section ref={ref} style={{ background: BG, minHeight: '100vh', display: 'flex', alignItems: 'center', position: 'relative', overflow: 'hidden', padding: 'clamp(110px,16vw,210px) clamp(16px,4vw,24px) clamp(80px,10vw,130px)' }}>
 
       {/* Background blobs */}
       <div aria-hidden style={{ position: 'absolute', top: '-10%', right: '-5%', width: '800px', height: '800px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(40,85,112,0.05) 0%, transparent 65%)', pointerEvents: 'none' }} />
       <div aria-hidden style={{ position: 'absolute', bottom: '-10%', left: '-8%', width: '640px', height: '640px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(227,222,215,0.55) 0%, transparent 65%)', pointerEvents: 'none' }} />
 
-      {/* ── Floating badges ── */}
-      <FloatBadge delay={0.6} visible={inView} style={{ top: '18%', left: '6%', rotate: '-3deg' }}>
-        <div style={{ width: '30px', height: '30px', borderRadius: '8px', background: 'rgba(40,85,112,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke={ACCENT} strokeWidth="2" strokeLinecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-        </div>
-        <div>
-          <p style={{ fontSize: '16px', fontWeight: 700, color: '#1a2e3d', margin: 0, lineHeight: 1 }}>48 h</p>
-          <p style={{ fontSize: '11px', color: '#9a9590', margin: 0, marginTop: '2px' }}>dodání návrhu</p>
-        </div>
-      </FloatBadge>
-
-      <FloatBadge delay={0.72} visible={inView} style={{ top: '14%', right: '7%', rotate: '2.5deg' }}>
-        <div style={{ width: '30px', height: '30px', borderRadius: '8px', background: 'rgba(40,85,112,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke={ACCENT} strokeWidth="2" strokeLinecap="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/></svg>
-        </div>
-        <div>
-          <p style={{ fontSize: '16px', fontWeight: 700, color: '#1a2e3d', margin: 0, lineHeight: 1 }}>od 9 900 Kč</p>
-          <p style={{ fontSize: '11px', color: '#9a9590', margin: 0, marginTop: '2px' }}>jasná cena předem</p>
-        </div>
-      </FloatBadge>
-
-      <FloatBadge delay={0.84} visible={inView} style={{ bottom: '18%', left: '5%', rotate: '2deg' }}>
-        <div style={{ width: '30px', height: '30px', borderRadius: '8px', background: 'rgba(40,85,112,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke={ACCENT} strokeWidth="2" strokeLinecap="round"><path d="M9 12l2 2 4-4"/><path d="M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9c1.51 0 2.93.37 4.18 1.03"/></svg>
-        </div>
-        <div>
-          <p style={{ fontSize: '13px', fontWeight: 700, color: '#1a2e3d', margin: 0, lineHeight: 1 }}>Platíte po schválení</p>
-          <p style={{ fontSize: '11px', color: '#9a9590', margin: 0, marginTop: '2px' }}>nulové riziko</p>
-        </div>
-      </FloatBadge>
-
-      <FloatBadge delay={0.78} visible={inView} style={{ bottom: '20%', right: '6%', rotate: '-2deg' }}>
-        <div style={{ width: '30px', height: '30px', borderRadius: '8px', background: 'rgba(40,85,112,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke={ACCENT} strokeWidth="2" strokeLinecap="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-        </div>
-        <div>
-          <p style={{ fontSize: '13px', fontWeight: 700, color: '#1a2e3d', margin: 0, lineHeight: 1 }}>SEO & analytika</p>
-          <p style={{ fontSize: '11px', color: '#9a9590', margin: 0, marginTop: '2px' }}>v ceně projektu</p>
-        </div>
-      </FloatBadge>
+      {/* ── Decorative crosses ── */}
+      <CrossMark w={80} h={80} style={{ top: '14%', left: '5%' }} />
+      <CrossMark w={45} h={110} style={{ top: '11%', right: '5%' }} />
+      <CrossMark w={110} h={45} className="hidden sm:block" style={{ top: '48%', left: '3%' }} />
+      <CrossMark w={55} h={55} className="hidden sm:block" style={{ top: '46%', right: '4%' }} />
+      <CrossMark w={60} h={60} style={{ bottom: '22%', left: '6%' }} />
+      <CrossMark w={50} h={95} style={{ bottom: '16%', right: '5%' }} />
+      <CrossMark w={75} h={45} className="hidden md:block" style={{ bottom: '8%', left: '20%' }} />
+      <CrossMark w={45} h={75} className="hidden md:block" style={{ bottom: '6%', right: '20%' }} />
+      <CrossMark w={55} h={55} className="hidden md:block" style={{ bottom: '4%', left: '48%' }} />
 
       {/* ── Centered content ── */}
       <div style={{ maxWidth: '860px', margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 2 }}>
@@ -443,7 +409,9 @@ function ServicesSection() {
   const E = (delay = 0) => ({ duration: 0.9, ease: [0.22, 1, 0.36, 1] as any, delay: inView ? delay : 0 });
 
   return (
-    <div ref={outerRef} style={{ background: BG, padding: '220px 24px' }}>
+    <div ref={outerRef} style={{ background: BG, padding: 'clamp(56px,16vw,220px) clamp(16px,4vw,24px)', position: 'relative', overflow: 'hidden' }}>
+      <CrossMark w={70} h={70} className="hidden sm:block" style={{ top: '8%', right: '3%' }} />
+      <CrossMark w={45} h={90} className="hidden sm:block" style={{ bottom: '12%', left: '2%' }} />
       <div style={{ maxWidth: '1080px', margin: '0 auto' }}>
 
         <motion.div
@@ -505,9 +473,11 @@ function ProcessSection() {
   const E = (delay = 0) => ({ duration: 0.9, ease: [0.22, 1, 0.36, 1] as any, delay: inView ? delay : 0 });
 
   return (
-    <div ref={outerRef} style={{ background: BG2, padding: '220px 24px' }}>
+    <div ref={outerRef} style={{ background: BG2, padding: 'clamp(56px,16vw,220px) clamp(16px,4vw,24px)', position: 'relative', overflow: 'hidden' }}>
+      <CrossMark w={90} h={45} className="hidden sm:block" style={{ top: '7%', left: '3%' }} />
+      <CrossMark w={55} h={55} className="hidden sm:block" style={{ bottom: '9%', right: '3%' }} />
       <div style={{ maxWidth: '1080px', margin: '0 auto' }}>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
 
           <motion.div animate={{ opacity: inView ? 1 : 0, x: inView ? 0 : -90 }} transition={E(0)}>
             <p style={{ fontSize: '11px', fontWeight: 600, color: 'rgba(40,85,112,0.55)', textTransform: 'uppercase', letterSpacing: '0.16em', marginBottom: '14px' }}>Jak pracujeme</p>
@@ -574,7 +544,7 @@ function WebNestaci() {
   const E = (delay = 0) => ({ duration: 0.85, ease: [0.22, 1, 0.36, 1] as any, delay: inView ? delay : 0 });
 
   return (
-    <section ref={outerRef} style={{ background: '#1a2e3d', padding: '120px 24px', position: 'relative', overflow: 'hidden' }}>
+    <section ref={outerRef} style={{ background: '#1a2e3d', padding: 'clamp(56px,10vw,120px) clamp(16px,4vw,24px)', position: 'relative', overflow: 'hidden' }}>
       <div aria-hidden style={{ position: 'absolute', top: '-20%', right: '-8%', width: '600px', height: '600px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(40,85,112,0.5) 0%, transparent 65%)', pointerEvents: 'none' }} />
       <div aria-hidden style={{ position: 'absolute', bottom: '-15%', left: '-6%', width: '480px', height: '480px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(40,85,112,0.3) 0%, transparent 65%)', pointerEvents: 'none' }} />
 
@@ -594,14 +564,14 @@ function WebNestaci() {
               key={s.number}
               animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 20 }}
               transition={E(0.12 + i * 0.12)}
-              style={{ borderBottom: '1px solid rgba(250,247,246,0.1)', padding: '44px 0' }}
+              style={{ borderBottom: '1px solid rgba(250,247,246,0.1)', padding: 'clamp(24px,4vw,44px) 0' }}
             >
-              <div className="flex flex-col sm:flex-row items-start gap-6 sm:gap-16">
-                <div style={{ flexShrink: 0, minWidth: '160px' }}>
-                  <span style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(48px,5.5vw,72px)', fontWeight: 300, color: '#faf7f6', letterSpacing: '-0.04em', lineHeight: 1, display: 'block' }}>{s.number}</span>
+              <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-16">
+                <div style={{ flexShrink: 0, minWidth: '120px' }}>
+                  <span style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(40px,5.5vw,72px)', fontWeight: 300, color: '#faf7f6', letterSpacing: '-0.04em', lineHeight: 1, display: 'block' }}>{s.number}</span>
                   <p style={{ fontSize: '12px', color: 'rgba(250,247,246,0.35)', marginTop: '6px', margin: '6px 0 0', letterSpacing: '0.04em', textTransform: 'uppercase' }}>{s.label}</p>
                 </div>
-                <p style={{ fontSize: '17px', lineHeight: 1.75, color: 'rgba(250,247,246,0.6)', margin: 0, maxWidth: '600px', paddingTop: '8px' }}>{s.desc}</p>
+                <p style={{ fontSize: 'clamp(15px,1.5vw,17px)', lineHeight: 1.75, color: 'rgba(250,247,246,0.6)', margin: 0, maxWidth: '600px', paddingTop: '8px' }}>{s.desc}</p>
               </div>
             </motion.div>
           ))}
@@ -624,7 +594,7 @@ function WebNestaci() {
 /* ─── CTA ─────────────────────────────────────────────────────── */
 function CTA() {
   return (
-    <section className="overflow-hidden relative" style={{ background: ACCENT, padding: '140px 24px' }}>
+    <section className="overflow-hidden relative" style={{ background: ACCENT, padding: 'clamp(64px,11vw,140px) clamp(16px,4vw,24px)' }}>
       <div aria-hidden style={{ position: 'absolute', inset: 0, pointerEvents: 'none', background: 'radial-gradient(ellipse 70% 60% at 50% 55%, rgba(255,255,255,0.04) 0%, transparent 70%)' }} />
       <div aria-hidden style={{ position: 'absolute', top: '-20%', right: '-5%', width: '500px', height: '500px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 65%)', pointerEvents: 'none' }} />
       <div style={{ maxWidth: '600px', margin: '0 auto', textAlign: 'center', position: 'relative' }}>
@@ -693,7 +663,7 @@ function Pricing() {
   const pOp  = useTransform(scrollYProgress, [0.1, 0.8], [0, 1]);
 
   return (
-    <section ref={ref} style={{ background: BG, position: 'relative', padding: '120px 24px 100px' }}>
+    <section ref={ref} style={{ background: BG, position: 'relative', padding: 'clamp(56px,10vw,120px) clamp(16px,4vw,24px) clamp(40px,8vw,100px)' }}>
       <div aria-hidden style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '1px', background: 'linear-gradient(90deg,transparent 0%,#e3ded7 40%,#e3ded7 60%,transparent 100%)' }} />
 
       <div style={{ maxWidth: '1080px', margin: '0 auto' }}>
@@ -706,9 +676,9 @@ function Pricing() {
         </motion.div>
 
         <motion.div style={{ opacity: pOp }} className="flex items-center justify-center gap-2 mb-10 mx-auto max-w-xl">
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', background: 'rgba(40,85,112,0.05)', border: '1px solid rgba(40,85,112,0.1)', borderRadius: '10px', padding: '12px 20px' }}>
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke={ACCENT} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg>
-            <span style={{ fontSize: '15px', color: '#5c5650', fontWeight: 500 }}>Záruka spokojenosti — web nesplní zadání? Vrátíme 100 % ceny.</span>
+          <div className="warranty-badge" style={{ display: 'flex', alignItems: 'center', gap: '10px', background: 'rgba(40,85,112,0.05)', border: '1px solid rgba(40,85,112,0.1)', borderRadius: '10px', padding: '12px 20px' }}>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke={ACCENT} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg>
+            <span style={{ fontSize: 'clamp(13px,1.5vw,15px)', color: '#5c5650', fontWeight: 500 }}>Záruka spokojenosti — web nesplní zadání? Vrátíme 100 % ceny.</span>
           </div>
         </motion.div>
 
@@ -718,7 +688,8 @@ function Pricing() {
             return (
               <motion.div
                 key={plan.name}
-                style={{ ...motionStyle, position: 'relative', padding: plan.popular ? '40px 28px 32px' : '32px 28px', background: plan.popular ? 'rgba(40,85,112,0.05)' : '#fff', border: `1px solid ${plan.popular ? 'rgba(40,85,112,0.2)' : '#e3ded7'}`, borderRadius: '18px', boxShadow: plan.popular ? '0 4px 24px rgba(40,85,112,0.1)' : '0 2px 12px rgba(40,85,112,0.04)', ...(plan.popular ? { marginTop: '-10px' } : {}) } as any}
+                className={plan.popular ? 'pricing-popular' : ''}
+                style={{ ...motionStyle, position: 'relative', padding: plan.popular ? 'clamp(32px,3vw,40px) clamp(20px,2.5vw,28px) 32px' : 'clamp(24px,3vw,32px) clamp(20px,2.5vw,28px)', background: plan.popular ? 'rgba(40,85,112,0.05)' : '#fff', border: `1px solid ${plan.popular ? 'rgba(40,85,112,0.2)' : '#e3ded7'}`, borderRadius: '18px', boxShadow: plan.popular ? '0 4px 24px rgba(40,85,112,0.1)' : '0 2px 12px rgba(40,85,112,0.04)', ...(plan.popular ? { marginTop: '-10px' } : {}) } as any}
               >
                 {plan.popular && (
                   <div style={{ position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)', background: ACCENT, color: '#fff', fontSize: '10px', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', padding: '5px 16px', borderRadius: '0 0 10px 10px' }}>

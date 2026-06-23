@@ -17,6 +17,27 @@ interface Version {
 
 const CHANGELOG: Version[] = [
   {
+    version: '4.24',
+    date: '23. 6. 2026',
+    changes: [
+      { type: 'feat', text: 'Plná responzivita homepage: všechny sekce přepsány z fixních px paddingů na clamp() (Hero, Services, Process, WebNestaci, CTA, Pricing). CrossMarky skryty na mobilu/tabletu přes hidden sm:block / hidden md:block. Popular pricing karta odstraněna negativní margin na mobilu. WebNestaci čísla a text škálují přes clamp. Stats řádky zmenšeny padding. Warranty badge zmenšen na mobilu.' },
+    ],
+  },
+  {
+    version: '4.23',
+    date: '23. 6. 2026',
+    changes: [
+      { type: 'change', text: 'Hero: padding upraven na 210px/130px (symetrické vizuální mezery kolem navbaru), minHeight 100vh. Kříže zviditelnější (rgba(40,85,112,0.18)), přidány 4 nové dole v hero sekci (celkem 9 křížů).' },
+    ],
+  },
+  {
+    version: '4.22',
+    date: '23. 6. 2026',
+    changes: [
+      { type: 'change', text: 'Homepage: odstraněny levitující badges (FloatBadge) z Hero sekce, nahrazeny statickými dekorativními kříži (překrývající se čáry) rozmístěnými po Hero, ServicesSection a ProcessSection.' },
+    ],
+  },
+  {
     version: '4.21',
     date: '22. 6. 2026',
     changes: [
