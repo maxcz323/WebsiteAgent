@@ -98,7 +98,7 @@ function ServiceCard({ s, delay }: { s: Service; delay: number }) {
       ...r.style, position: 'relative',
       background: '#fff',
       border: s.popular ? `1.5px solid ${ACCENT}` : '1px solid #e3ded7',
-      borderRadius: 18, padding: 'clamp(20px, 4vw, 32px) clamp(16px, 4vw, 40px)',
+      borderRadius: 18, padding: '32px 40px',
       boxShadow: s.popular ? '0 4px 32px rgba(40,85,112,0.10)' : '0 2px 12px rgba(40,85,112,0.04)',
     }}>
       {s.popular && (
@@ -106,7 +106,7 @@ function ServiceCard({ s, delay }: { s: Service; delay: number }) {
           <span style={{ background: ACCENT, color: '#fff', fontSize: 11, fontWeight: 700, padding: '4px 14px', borderRadius: 20 }}>Nejoblíbenější</span>
         </div>
       )}
-      <div className="grid grid-cols-1 md:grid-cols-[1fr_280px] lg:grid-cols-[1fr_320px] gap-6 md:gap-10">
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-10">
         <div>
           <div className="flex items-start gap-4 mb-5">
             <div style={{ width: 48, height: 48, borderRadius: 14, background: 'rgba(40,85,112,0.07)', border: '1px solid rgba(40,85,112,0.13)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: ACCENT, flexShrink: 0 }}>

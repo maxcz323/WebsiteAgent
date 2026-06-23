@@ -40,10 +40,10 @@ function MockBrowser({ color }: { color: string }) {
 function ProjectCard({ p, delay }: { p: Project; delay: number }) {
   const r = useReveal(delay);
   return (
-    <div ref={r.ref} style={{ ...r.style, background: '#fff', border: '1px solid #e3ded7', boxShadow: '0 2px 12px rgba(40,85,112,0.05)' }} className={`group relative rounded-2xl overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300 min-h-[220px] sm:min-h-[280px] ${p.size}`}>
+    <div ref={r.ref} style={{ ...r.style, minHeight: 280, background: '#fff', border: '1px solid #e3ded7', boxShadow: '0 2px 12px rgba(40,85,112,0.05)' }} className={`group relative rounded-2xl overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ${p.size}`}>
       <MockBrowser color={p.color} />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 sm:p-6">
-        <div className="transform translate-y-0 md:translate-y-4 md:group-hover:translate-y-0 transition-transform duration-300">
+      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+        <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
           <div className="flex items-center gap-2 mb-2">
             <span className="text-xs font-semibold text-white/60 uppercase tracking-wide">{p.obor}</span>
             <span className="text-white/30">·</span>
@@ -85,7 +85,7 @@ export default function PortfolioPage() {
       </section>
 
       <section className="pb-28 px-5 sm:px-8">
-        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-5" style={{ gridAutoRows: 'minmax(220px, auto)' }}>
+        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-5" style={{ gridAutoRows: '280px' }}>
           {PROJECTS.map((p, i) => <ProjectCard key={p.client} p={p} delay={i * 60} />)}
         </div>
       </section>

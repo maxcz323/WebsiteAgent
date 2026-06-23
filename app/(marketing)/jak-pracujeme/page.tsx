@@ -48,30 +48,11 @@ const STEPS: Step[] = [
 ];
 
 const FAQS = [
-  {
-    q: 'Proč nabízíme platbu až po schválení, když to nese riziko pro nás?',
-    a: 'Protože jsme na začátku a nemáme portfolio, které by mluvilo za nás. Jediný způsob, jak přesvědčit první klienty, je odstranit jejich riziko úplně. Pokud odvedeme dobrou práci, dostaneme zaplaceno. Pokud ne, nezasluhujeme si to.',
-  },
-  {
-    q: 'Jak zaručíme 48hodinový termín, když jsme malý tým?',
-    a: 'Tím, že nepřijímáme víc projektů najednou, než zvládneme. Raději odmítneme novou poptávku, než abychom nesplnili slib stávajícímu klientovi. Termín je pro nás závazek, ne odhad.',
-  },
-  {
-    q: 'Jak poznáme, že web bude skutečně dobrý, ne jen "hotový"?',
-    a: 'Testujeme každý web na rychlost (Google PageSpeed), čitelnost na mobilu i desktopu a procházíme ho očima zákazníka — ne jen checklist. Neodevzdáme nic, za co bychom se styděli podepsat.',
-  },
-  {
-    q: 'Co uděláme, když se dostaneme do problémů, které neumíme vyřešit?',
-    a: 'Řekneme to rovnou a přivedeme odborníka, který to zvládne. Jsme malý tým — to znamená osobní odpovědnost, ne anonymní tiketing. Vždy víte, kdo váš projekt řeší.',
-  },
-  {
-    q: 'Proč platíme hosting prvního roku za klienta?',
-    a: 'Protože web, který nikde neběží, je k ničemu. Chceme, aby klient viděl výsledek v produkci — ne jen v náhledu. A upřímně: je to dobrá motivace pro nás dodat věc, na kterou jsme pyšní.',
-  },
-  {
-    q: 'Jak přistupujeme k projektům, do kterých nás klient nechá mluvit jen minimálně?',
-    a: 'S vděčností. Nejlépe pracujeme, když dostaneme zadání a důvěru. Ale respektujeme i klienty, kteří mají přesnou vizi — v tom případě jsme realizátoři, ne kreativci, a dáváme to jasně najevo předem.',
-  },
+  { q: 'Co potřebuju připravit předem?', a: 'Nic. Stačí vyplnit formulář. Texty, fotky (nebo jejich alternativy), styl — to vše řešíme my. Pokud máte vlastní fotky nebo loga, samozřejmě je použijeme.' },
+  { q: 'Jak rychle web dostanu?', a: 'Landing page typicky do 24–48 hodin od první zprávy. Firemní web do 72 hodin. E-shop do 5–7 dní. Pokud spěcháte, napište to — umíme přidat prioritu.' },
+  { q: 'Co když se mi web nebude líbit?', a: 'Bezplatně upravíme cokoli. Pokud web ani po úpravách neschválíte, neplatíte nic. Žádné storno poplatky, žádné podmínky.' },
+  { q: 'Kdo bude vlastnit web po dodání?', a: 'Vy. Dostanete zdrojový kód, přístupy k hostingu i k doméně. Web je 100% váš.' },
+  { q: 'Potřebuju technické znalosti?', a: 'Vůbec ne. Vše za vás vyřídíme — od registrace domény po nastavení e-mailu. Stačí schválit výsledek a podepsat fakturu.' },
 ];
 
 function StepCard({ s, delay }: { s: Step; delay: number }) {
@@ -143,8 +124,8 @@ export default function JakPracujemePage() {
       <section className="py-20 px-5 sm:px-8" style={{ background: BG2, borderTop: '1px solid #e3ded7' }}>
         <div className="max-w-3xl mx-auto">
           <div ref={faqTitle.ref} style={faqTitle.style} className="text-center mb-12">
-            <h2 style={{ fontSize: 30, fontWeight: 700, color: '#1a2e3d', marginBottom: 10 }}>Otázky, které si klademe sami</h2>
-            <p style={{ color: '#6b6560' }}>Věci, nad kterými přemýšlíme — a jak na ně odpovídáme.</p>
+            <h2 style={{ fontSize: 30, fontWeight: 700, color: '#1a2e3d', marginBottom: 10 }}>Časté otázky</h2>
+            <p style={{ color: '#6b6560' }}>Odpovědi na to, co řeší většina klientů.</p>
           </div>
           <div style={{ background: '#fff', borderRadius: 18, border: '1px solid #e3ded7', padding: '0 32px' }}>
             {FAQS.map((f, i) => <FaqItem key={f.q} q={f.q} a={f.a} delay={i * 60} />)}

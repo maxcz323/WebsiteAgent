@@ -7,9 +7,6 @@ const nextConfig: NextConfig = {
       bodySizeLimit: '4mb',
     },
   },
-  turbopack: {
-    root: '/Users/max323/Downloads/website-agent-improved',
-  },
 };
 
 export default nextConfig;

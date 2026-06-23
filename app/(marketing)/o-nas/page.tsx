@@ -82,7 +82,7 @@ export default function ONasPage() {
       {/* Stats strip */}
       <section className="py-14" style={{ background: ACCENT }}>
         <div className="max-w-5xl mx-auto px-5 sm:px-8 grid grid-cols-2 sm:grid-cols-4 gap-8 text-center">
-          {[['48 h', 'maximální dodávka webu'], ['0 Kč', 'záloha předem'], ['100%', 'vlastníte výsledek'], ['∞', 'úprav do schválení']].map(([val, label]) => (
+          {[['50+', 'spokojených klientů'], ['48h', 'průměrná dodávka'], ['0 Kč', 'záloha předem'], ['100%', 'vlastníte výsledek']].map(([val, label]) => (
             <div key={label}>
               <p style={{ fontSize: 30, fontWeight: 700, color: '#fff', fontFamily: 'var(--font-display)' }}>{val}</p>
               <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.6)', marginTop: 4 }}>{label}</p>
@@ -105,7 +105,7 @@ export default function ONasPage() {
               <img
                 src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&q=80&auto=format&fit=crop"
                 alt="Tým při práci"
-                className="w-full h-40 sm:h-52 object-cover object-top"
+                className="w-full h-52 object-cover object-top"
                 loading="lazy"
               />
               <div style={{ padding: 28 }}>
