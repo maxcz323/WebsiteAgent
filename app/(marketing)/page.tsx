@@ -663,7 +663,7 @@ function Pricing() {
   const pOp  = useTransform(scrollYProgress, [0.1, 0.8], [0, 1]);
 
   return (
-    <section ref={ref} style={{ background: BG, position: 'relative', padding: 'clamp(56px,10vw,120px) clamp(16px,4vw,24px) clamp(40px,8vw,100px)' }}>
+    <section ref={ref} style={{ background: BG, position: 'relative', overflow: 'hidden', padding: 'clamp(56px,10vw,120px) clamp(16px,4vw,24px) clamp(40px,8vw,100px)' }}>
       <div aria-hidden style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '1px', background: 'linear-gradient(90deg,transparent 0%,#e3ded7 40%,#e3ded7 60%,transparent 100%)' }} />
 
       <div style={{ maxWidth: '1080px', margin: '0 auto' }}>

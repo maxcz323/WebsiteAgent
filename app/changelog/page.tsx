@@ -17,6 +17,13 @@ interface Version {
 
 const CHANGELOG: Version[] = [
   {
+    version: '4.25',
+    date: '23. 6. 2026',
+    changes: [
+      { type: 'fix', text: 'Mobil: odstraněno horizontální posouvání a mezera dole — Pricing sekce dostala overflow:hidden (framer-motion x-animace karet přesahovaly viewport), globals.css přidáno overflow-x:hidden na html a body.' },
+    ],
+  },
+  {
     version: '4.24',
     date: '23. 6. 2026',
     changes: [
