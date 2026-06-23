@@ -68,7 +68,7 @@ export function Navbar() {
         <div className="flex items-center h-14 gap-4 sm:gap-8">
           <Link href="/dashboard" className="flex items-center gap-2 shrink-0">
             <img src="/logo.png" alt="WebsiteAgent" className="h-9 w-auto" />
-            <span className="text-white/20 font-mono text-[10px] hidden sm:inline">v4.25</span>
+            <span className="text-white/20 font-mono text-[10px] hidden sm:inline">v4.26</span>
           </Link>
 
           {/* Desktop nav links */}

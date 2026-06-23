@@ -17,6 +17,13 @@ interface Version {
 
 const CHANGELOG: Version[] = [
   {
+    version: '4.26',
+    date: '23. 6. 2026',
+    changes: [
+      { type: 'fix', text: 'Navbar: hamburger menu viditelný na malých zařízeních — logo dostalo maxWidth:160px aby nevytlačovalo tlačítko mimo viewport. globals.css: overflow-x:hidden přesunuto z html+body pouze na body (overflow:hidden na html ruší position:fixed na iOS Safari).' },
+    ],
+  },
+  {
     version: '4.25',
     date: '23. 6. 2026',
     changes: [

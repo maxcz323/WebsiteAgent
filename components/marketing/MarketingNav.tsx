@@ -80,8 +80,8 @@ export function MarketingNav() {
       }}>
 
         {/* Logo */}
-        <Link href="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none', flexShrink: 0 }}>
-          <img src="/logo.png" alt="WebsiteAgent" style={{ height: '34px', width: 'auto' }} />
+        <Link href="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none', flexShrink: 0, minWidth: 0 }}>
+          <img src="/logo.png" alt="WebsiteAgent" style={{ height: '34px', width: 'auto', maxWidth: '160px', objectFit: 'contain' }} />
         </Link>
 
         {/* Desktop links */}
