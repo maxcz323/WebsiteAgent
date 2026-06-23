@@ -105,7 +105,7 @@ export default function ONasPage() {
               <img
                 src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&q=80&auto=format&fit=crop"
                 alt="Tým při práci"
-                className="w-full h-52 object-cover object-top"
+                className="w-full h-40 sm:h-52 object-cover object-top"
                 loading="lazy"
               />
               <div style={{ padding: 28 }}>

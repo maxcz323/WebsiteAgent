@@ -87,7 +87,7 @@ function Column({
   const { setNodeRef, isOver } = useDroppable({ id: column.id });
 
   return (
-    <div className="flex flex-col min-w-[220px] w-[220px] shrink-0">
+    <div className="flex flex-col min-w-[180px] w-full sm:min-w-[220px] sm:w-[220px] sm:shrink-0">
       {/* Header */}
       <div className={`flex items-center justify-between px-3 py-2 mb-2 rounded-lg border-l-4 ${column.accent} bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm`}>
         <span className="text-xs font-bold text-slate-700 dark:text-slate-200">{column.label}</span>
@@ -99,7 +99,7 @@ function Column({
       {/* Drop zone */}
       <div
         ref={setNodeRef}
-        className={`flex-1 min-h-[500px] rounded-xl p-2 space-y-2 transition-colors ${column.bg} ${
+        className={`flex-1 min-h-[120px] sm:min-h-[500px] rounded-xl p-2 space-y-2 transition-colors ${column.bg} ${
           isOver ? 'ring-2 ring-blue-400 ring-offset-1' : ''
         }`}
       >
@@ -156,7 +156,7 @@ export function KanbanBoard({
 
   return (
     <DndContext sensors={sensors} onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
-      <div className="flex gap-3 overflow-x-auto pb-4">
+      <div className="flex flex-col sm:flex-row gap-3 overflow-x-auto pb-4">
         {COLUMNS.map((col) => (
           <Column key={col.id} column={col} leads={grouped[col.id]} activeId={activeId} />
         ))}
