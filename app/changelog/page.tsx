@@ -17,6 +17,13 @@ interface Version {
 
 const CHANGELOG: Version[] = [
   {
+    version: '4.27',
+    date: '23. 6. 2026',
+    changes: [
+      { type: 'fix', text: 'iOS Safari hamburger fix: odstraněno overflow:hidden z nav elementu (kombinace position:fixed + transform + overflow:hidden způsobovala nefunkčnost na iOS), dropdown má vlastní overflow:hidden a border-radius 0 0 14px 14px. Hamburger button zvětšen na 44×44px (Apple HIG minimum), přidáno WebkitTapHighlightColor:transparent a touchAction:manipulation. Odstraněno overflow-x:hidden z body (každá sekce již má vlastní overflow:hidden).' },
+    ],
+  },
+  {
     version: '4.26',
     date: '23. 6. 2026',
     changes: [

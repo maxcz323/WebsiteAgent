@@ -54,9 +54,9 @@ export function MarketingNav() {
       width: 'calc(100% - 48px)', maxWidth: '1140px', zIndex: 50,
       background: '#ffffff',
       border: '1px solid #e3ded7',
-      borderRadius: '14px',
+      borderRadius: menuOpen ? '14px 14px 0 0' : '14px',
       boxShadow: '0 4px 24px rgba(40,85,112,0.09)',
-      overflow: 'hidden',
+      transition: 'border-radius 0.01s',
     }}>
 
       {/* Sliding bottom indicator */}
@@ -126,12 +126,17 @@ export function MarketingNav() {
           <button
             onClick={() => setMenuOpen(v => !v)}
             className="md:hidden"
-            aria-label="Menu"
+            aria-label={menuOpen ? 'Zavřít menu' : 'Otevřít menu'}
+            aria-expanded={menuOpen}
             style={{
-              width: '38px', height: '38px', display: 'flex', flexDirection: 'column',
+              width: '44px', height: '44px',
+              display: 'flex', flexDirection: 'column',
               alignItems: 'center', justifyContent: 'center', gap: '5px',
               background: 'transparent', border: '1px solid #e3ded7',
               borderRadius: '8px', cursor: 'pointer', padding: 0,
+              WebkitTapHighlightColor: 'transparent',
+              touchAction: 'manipulation',
+              userSelect: 'none',
             }}
           >
             <span style={{ display: 'block', width: '16px', height: '1.5px', background: '#285570', transform: menuOpen ? 'rotate(45deg) translate(4px,4px)' : 'none', transition: 'transform 0.2s' }} />
@@ -141,13 +146,14 @@ export function MarketingNav() {
         </div>
       </div>
 
-      {/* Mobile dropdown */}
+      {/* Mobile dropdown — outside overflow:hidden, rounded bottom corners */}
       <div style={{
-        overflow: 'hidden',
         maxHeight: menuOpen ? '400px' : '0',
+        overflow: 'hidden',
         transition: 'max-height 0.3s ease',
-        borderTop: menuOpen ? '1px solid #e3ded7' : 'none',
         background: '#fff',
+        borderRadius: '0 0 14px 14px',
+        marginTop: '-1px',
       }}>
         <div style={{ padding: '10px 16px 16px' }}>
           {LINKS.map(({ href, label }) => {
