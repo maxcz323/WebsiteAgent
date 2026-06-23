@@ -27,6 +27,10 @@ const MOBILE_RESET = `
   @media (max-width: 767px) {
     .pricing-popular { margin-top: 0 !important; }
     .warranty-badge { font-size: 13px !important; padding: 10px 14px !important; }
+    .hero-badge-text { display: none !important; }
+  }
+  @media (max-width: 480px) {
+    .hero-badge { flex-direction: column !important; text-align: center !important; }
   }
 `;
 
@@ -320,7 +324,7 @@ function Hero() {
   });
 
   return (
-    <section ref={ref} style={{ background: BG, minHeight: '100vh', display: 'flex', alignItems: 'center', position: 'relative', overflow: 'hidden', padding: 'clamp(110px,16vw,210px) clamp(16px,4vw,24px) clamp(80px,10vw,130px)' }}>
+    <section ref={ref} style={{ background: BG, minHeight: '100vh', display: 'flex', alignItems: 'center', position: 'relative', overflow: 'hidden', padding: 'clamp(80px,16vw,210px) clamp(16px,4vw,24px) clamp(60px,10vw,130px)' }}>
 
       {/* Background blobs */}
       <div aria-hidden style={{ position: 'absolute', top: '-10%', right: '-5%', width: '800px', height: '800px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(40,85,112,0.05) 0%, transparent 65%)', pointerEvents: 'none' }} />
@@ -338,9 +342,19 @@ function Hero() {
       <CrossMark w={55} h={55} className="hidden md:block" style={{ bottom: '4%', left: '48%' }} />
 
       {/* ── Centered content ── */}
-      <div style={{ maxWidth: '860px', margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 2 }}>
+      <div style={{ maxWidth: '1000px', margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 2 }}>
 
-        <motion.h1 {...item(0)} style={{
+        {/* Honest guarantee badge */}
+        <motion.div {...item(0)} style={{ marginBottom: '28px', display: 'flex', justifyContent: 'center' }}>
+          <div className="hero-badge" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: '#fff', border: '1px solid rgba(40,85,112,0.15)', borderRadius: '100px', padding: '8px 20px', boxShadow: '0 2px 12px rgba(40,85,112,0.07)' }}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={ACCENT} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <span style={{ fontSize: '13px', fontWeight: 600, color: '#1a2e3d' }}>Platíte až po schválení</span>
+            <span className="hero-badge-text" style={{ width: '4px', height: '4px', borderRadius: '50%', background: '#e3ded7', flexShrink: 0 }} />
+            <span className="hero-badge-text" style={{ fontSize: '13px', color: '#7a8e98' }}>100% záruka vrácení peněz</span>
+          </div>
+        </motion.div>
+
+        <motion.h1 {...item(0.05)} style={{
           fontFamily: 'var(--font-display)',
           fontSize: 'clamp(52px, 8vw, 108px)',
           fontWeight: 300, lineHeight: 1.0, letterSpacing: '-0.04em',
@@ -368,15 +382,31 @@ function Hero() {
 
         <motion.div {...item(0.18)} style={{ display: 'flex', gap: '14px', justifyContent: 'center', flexWrap: 'wrap' }}>
           <a href="/kalkulace"
-            style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: ACCENT, color: '#fff', fontSize: '15px', fontWeight: 700, padding: '16px 32px', borderRadius: '12px', textDecoration: 'none', letterSpacing: '0.01em', transition: 'transform 0.2s, box-shadow 0.2s' }}
-            onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.transform = 'translateY(-2px)'; el.style.boxShadow = '0 10px 28px rgba(40,85,112,0.32)'; }}
-            onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.transform = ''; el.style.boxShadow = ''; }}
+            style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: ACCENT, color: '#fff', fontSize: '15px', fontWeight: 700, padding: '16px 32px', borderRadius: '12px', textDecoration: 'none', letterSpacing: '0.01em', transition: 'transform 0.2s, box-shadow 0.2s', boxShadow: '0 4px 16px rgba(40,85,112,0.25)' }}
+            onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.transform = 'translateY(-2px)'; el.style.boxShadow = '0 10px 28px rgba(40,85,112,0.38)'; }}
+            onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.transform = ''; el.style.boxShadow = '0 4px 16px rgba(40,85,112,0.25)'; }}
           >Začít projekt →</a>
           <a href="/sluzby"
-            style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: '15px', fontWeight: 600, color: ACCENT, padding: '15px 32px', borderRadius: '12px', border: '1.5px solid rgba(40,85,112,0.2)', textDecoration: 'none', transition: 'transform 0.2s, border-color 0.2s, box-shadow 0.2s' }}
+            style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: '15px', fontWeight: 600, color: ACCENT, padding: '15px 32px', borderRadius: '12px', border: '1.5px solid rgba(40,85,112,0.2)', textDecoration: 'none', transition: 'transform 0.2s, border-color 0.2s, box-shadow 0.2s', background: '#fff' }}
             onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.transform = 'translateY(-2px)'; el.style.borderColor = 'rgba(40,85,112,0.45)'; el.style.boxShadow = '0 6px 18px rgba(40,85,112,0.1)'; }}
             onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.transform = ''; el.style.borderColor = 'rgba(40,85,112,0.2)'; el.style.boxShadow = ''; }}
           >Zobrazit ceník</a>
+        </motion.div>
+
+        {/* Trust signals */}
+        <motion.div {...item(0.26)} style={{ display: 'flex', gap: '20px', justifyContent: 'center', flexWrap: 'wrap', marginTop: '20px' }}>
+          {['Bez zálohy', 'Hotovo do 48 h', 'Záruka vrácení peněz'].map(label => (
+            <div key={label} style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={ACCENT} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              <span style={{ fontSize: '13px', color: '#7a8e98', fontWeight: 500 }}>{label}</span>
+            </div>
+          ))}
+        </motion.div>
+
+        {/* ── Device previews ── */}
+        <motion.div {...item(0.32)} className="hidden lg:flex" style={{ justifyContent: 'center', alignItems: 'flex-end', gap: '20px', marginTop: '52px' }}>
+          <TabletVisual />
+          <MonitorVisual />
         </motion.div>
 
       </div>
@@ -730,6 +760,424 @@ function Pricing() {
   );
 }
 
+/* ─── INDUSTRY BAR ────────────────────────────────────────────── */
+const INDUSTRIES = [
+  { icon: '🔧', label: 'Řemeslníci' },
+  { icon: '🍽️', label: 'Restaurace' },
+  { icon: '💆', label: 'Kosmetické salony' },
+  { icon: '⚖️', label: 'Advokáti' },
+  { icon: '🏋️', label: 'Fitness studia' },
+  { icon: '🦷', label: 'Zubní ordinace' },
+  { icon: '📸', label: 'Fotografové' },
+  { icon: '🏗️', label: 'Stavební firmy' },
+];
+
+function LogoBar() {
+  return (
+    <div style={{ background: BG, borderTop: '1px solid #e3ded7', borderBottom: '1px solid #e3ded7', padding: '18px clamp(16px,4vw,24px)', overflow: 'hidden' }}>
+      <div style={{ maxWidth: '1080px', margin: '0 auto' }}>
+        <p style={{ fontSize: '11px', fontWeight: 600, color: 'rgba(40,85,112,0.4)', textTransform: 'uppercase', letterSpacing: '0.14em', textAlign: 'center', marginBottom: '14px' }}>
+          Weby tvoříme pro všechny typy lokálních firem
+        </p>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px 10px', justifyContent: 'center', alignItems: 'center' }}>
+          {INDUSTRIES.map(({ icon, label }) => (
+            <span key={label} style={{
+              fontSize: '13px', fontWeight: 500, color: 'rgba(40,85,112,0.55)',
+              letterSpacing: '0.01em', whiteSpace: 'nowrap',
+              padding: '6px 14px', border: '1px solid rgba(40,85,112,0.1)',
+              borderRadius: '100px', background: 'rgba(40,85,112,0.03)',
+              display: 'inline-flex', alignItems: 'center', gap: '6px',
+            }}>
+              <span style={{ fontSize: '14px' }}>{icon}</span>
+              {label}
+            </span>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ─── STATS BAR ───────────────────────────────────────────────── */
+const STATS = [
+  { target: 48, suffix: ' h', label: 'maximální doba dodání' },
+  { target: 0, suffix: ' Kč', label: 'záloha předem' },
+  { target: 100, suffix: ' %', label: 'vrácení peněz při nespokojenosti' },
+  { target: 0, suffix: '', label: 'skrytých poplatků' },
+];
+
+function useCountUp(target: number, active: boolean) {
+  const [count, setCount] = useState(0);
+  useEffect(() => {
+    if (!active) return;
+    const duration = 1400;
+    const start = performance.now();
+    const raf = (t: number) => {
+      const p = Math.min((t - start) / duration, 1);
+      const ease = 1 - Math.pow(1 - p, 3);
+      setCount(Math.round(ease * target));
+      if (p < 1) requestAnimationFrame(raf);
+    };
+    requestAnimationFrame(raf);
+  }, [active, target]);
+  return count;
+}
+
+function StatItem({ stat, delay, active }: { stat: typeof STATS[0]; delay: number; active: boolean }) {
+  const count = useCountUp(stat.target, active);
+  return (
+    <motion.div
+      animate={{ opacity: active ? 1 : 0, y: active ? 0 : 20 }}
+      transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay }}
+      style={{ textAlign: 'center' }}
+    >
+      <div style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(34px,4vw,52px)', fontWeight: 300, color: '#1a2e3d', letterSpacing: '-0.04em', lineHeight: 1 }}>
+        {count}{stat.suffix}
+      </div>
+      <div style={{ fontSize: '13px', color: '#a8a4a0', marginTop: '6px', letterSpacing: '0.01em' }}>{stat.label}</div>
+    </motion.div>
+  );
+}
+
+function StatsBar() {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, amount: 0.3 });
+
+  return (
+    <div ref={ref} style={{ background: BG2, padding: 'clamp(32px,5vw,56px) clamp(16px,4vw,24px)', borderTop: '1px solid #e3ded7' }}>
+      <div style={{ maxWidth: '1080px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '24px' }}>
+        {STATS.map((s, i) => (
+          <StatItem key={s.label} stat={s} delay={i * 0.08} active={inView} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ─── GUARANTEES ──────────────────────────────────────────────── */
+const GUARANTEES = [
+  {
+    icon: (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
+      </svg>
+    ),
+    title: 'Nejdřív uvidíte, pak zaplatíte',
+    desc: 'Pošleme vám hotový web ke schválení. Teprve po vašem souhlasu vystavíme fakturu. Žádná záloha, žádné platby naslepo.',
+    proof: 'Zapsáno ve smlouvě',
+  },
+  {
+    icon: (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+      </svg>
+    ),
+    title: '100% vrácení peněz',
+    desc: 'Pokud web nesplní zadání z formuláře, vrátíme celou částku bez otázek. Naším zájmem je váš spokojený výsledek — ne vaše peníze.',
+    proof: 'Bez podmínek',
+  },
+  {
+    icon: (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+      </svg>
+    ),
+    title: 'Hotovo do 48 hodin',
+    desc: 'Po odeslání formuláře máte první verzi webu do dvou pracovních dnů. Pokud to nestihneme, nabídneme vám slevu — bez toho, abyste o ni museli žádat.',
+    proof: 'Garance v termínu',
+  },
+  {
+    icon: (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+      </svg>
+    ),
+    title: 'Neomezené úpravy do schválení',
+    desc: 'Dokud web neschválíte, máte nárok na libovolný počet úprav. Zapracujeme každou připomínku — fontů, textů, layoutu, barev.',
+    proof: 'Bez příplatku',
+  },
+];
+
+const WHY_US = [
+  { label: 'Moderní technologie', desc: 'Next.js, Tailwind, Vercel — stack používaný Airbnb a Netlify. Rychlé, bezpečné, škálovatelné.', icon: '⚡' },
+  { label: 'Jasná smlouva', desc: 'Žádné překvapení v malém písmu. Dostanete přesné zadání v PDF ještě před spuštěním.', icon: '📄' },
+  { label: 'Vlastníte web vy', desc: 'Předáme vám přístup ke všemu — kód, hosting, doména. Nejste na nás závislí.', icon: '🔑' },
+];
+
+function GuaranteesSection() {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: false, amount: 0.15 });
+  const E = (d = 0) => ({ duration: 0.85, ease: [0.22, 1, 0.36, 1] as any, delay: inView ? d : 0 });
+
+  return (
+    <div ref={ref} style={{ background: BG, padding: 'clamp(56px,10vw,110px) clamp(16px,4vw,24px)', position: 'relative', overflow: 'hidden' }}>
+      <CrossMark w={60} h={60} className="hidden sm:block" style={{ top: '8%', right: '3%' }} />
+      <CrossMark w={50} h={90} className="hidden sm:block" style={{ bottom: '10%', left: '2%' }} />
+
+      <div style={{ maxWidth: '1080px', margin: '0 auto' }}>
+        <motion.div animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 28 }} transition={E(0)} style={{ marginBottom: '48px' }}>
+          <p style={{ fontSize: '11px', fontWeight: 600, color: 'rgba(40,85,112,0.55)', textTransform: 'uppercase', letterSpacing: '0.16em', marginBottom: '14px' }}>Proč nám věřit</p>
+          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px,3.8vw,50px)', fontWeight: 300, color: '#1a2e3d', letterSpacing: '-0.03em', lineHeight: 1.1, margin: 0 }}>
+            Jsme nová firma.<br />
+            <span style={{ color: 'rgba(40,85,112,0.45)' }}>Proto riskujeme my, ne vy.</span>
+          </h2>
+        </motion.div>
+
+        {/* Guarantee cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-10">
+          {GUARANTEES.map((g, i) => (
+            <motion.div
+              key={g.title}
+              animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 24 }}
+              transition={E(0.08 + i * 0.08)}
+              style={{ background: '#fff', border: '1px solid #e3ded7', borderRadius: '18px', padding: '28px', boxShadow: '0 2px 16px rgba(40,85,112,0.05)', display: 'flex', flexDirection: 'column', gap: '14px' }}
+            >
+              <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '12px' }}>
+                <div style={{ width: '44px', height: '44px', borderRadius: '12px', background: 'rgba(40,85,112,0.07)', color: ACCENT, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  {g.icon}
+                </div>
+                <span style={{ fontSize: '11px', fontWeight: 700, color: ACCENT, background: 'rgba(40,85,112,0.07)', border: '1px solid rgba(40,85,112,0.14)', borderRadius: '100px', padding: '4px 12px', whiteSpace: 'nowrap', marginTop: '2px' }}>
+                  {g.proof}
+                </span>
+              </div>
+              <div>
+                <h3 style={{ fontSize: '16px', fontWeight: 600, color: '#1a2e3d', marginBottom: '8px' }}>{g.title}</h3>
+                <p style={{ fontSize: '14px', lineHeight: 1.7, color: '#7a8e98', margin: 0 }}>{g.desc}</p>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Why us strip */}
+        <motion.div
+          animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 16 }}
+          transition={E(0.4)}
+          style={{ background: 'rgba(40,85,112,0.04)', border: '1px solid rgba(40,85,112,0.1)', borderRadius: '16px', padding: '24px 28px' }}
+        >
+          <p style={{ fontSize: '11px', fontWeight: 600, color: 'rgba(40,85,112,0.55)', textTransform: 'uppercase', letterSpacing: '0.14em', marginBottom: '18px' }}>Navíc</p>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+            {WHY_US.map(item => (
+              <div key={item.label} style={{ display: 'flex', gap: '14px', alignItems: 'flex-start' }}>
+                <span style={{ fontSize: '20px', lineHeight: 1, marginTop: '2px' }}>{item.icon}</span>
+                <div>
+                  <p style={{ fontSize: '14px', fontWeight: 600, color: '#1a2e3d', marginBottom: '4px' }}>{item.label}</p>
+                  <p style={{ fontSize: '13px', lineHeight: 1.6, color: '#8a8480', margin: 0 }}>{item.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+
+        <motion.div animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 12 }} transition={E(0.5)} style={{ textAlign: 'center', marginTop: '36px' }}>
+          <p style={{ fontSize: '14px', color: '#a8a4a0', marginBottom: '16px' }}>Máte konkrétní otázku k tomu, jak pracujeme?</p>
+          <Link href="/jak-pracujeme" className="btn-mkt-primary">Podívejte se jak pracujeme →</Link>
+        </motion.div>
+      </div>
+    </div>
+  );
+}
+
+/* ─── PORTFOLIO TEASER ────────────────────────────────────────── */
+const PORTFOLIO_ITEMS = [
+  {
+    type: 'Landing page',
+    client: 'Instalatér Praha',
+    industry: 'Řemeslné služby',
+    color: '#1a2e3d',
+    accent: '#285570',
+    result: '+340 %',
+    resultLabel: 'více poptávek',
+    tag: 'Landing page',
+  },
+  {
+    type: 'Firemní web',
+    client: 'Kavárna Brno',
+    industry: 'Gastronomie',
+    color: '#2d4a1e',
+    accent: '#4a7c30',
+    result: '2.4×',
+    resultLabel: 'více rezervací',
+    tag: 'Firemní web',
+  },
+  {
+    type: 'E-commerce',
+    client: 'Lokální výrobce',
+    industry: 'Online prodej',
+    color: '#4a2010',
+    accent: '#c05a20',
+    result: '1. měsíc',
+    resultLabel: '38 objednávek',
+    tag: 'E-commerce',
+  },
+];
+
+function MiniWebPreview({ color, accent }: { color: string; accent: string }) {
+  const Bar = ({ w, h = 4, bg = 'rgba(255,255,255,0.15)' }: { w: string; h?: number; bg?: string }) => (
+    <div style={{ width: w, height: h, borderRadius: 3, background: bg }} />
+  );
+  return (
+    <div style={{ width: '100%', height: '160px', background: color, borderRadius: '10px', overflow: 'hidden', position: 'relative' }}>
+      <div style={{ height: '2px', background: accent }} />
+      <div style={{ padding: '10px 12px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <div style={{ width: '20px', height: '20px', borderRadius: '4px', background: accent, opacity: 0.9 }} />
+        <div style={{ display: 'flex', gap: '8px' }}>
+          <Bar w="22px" /><Bar w="28px" /><Bar w="18px" />
+        </div>
+        <div style={{ width: '36px', height: '16px', borderRadius: '4px', background: accent }} />
+      </div>
+      <div style={{ padding: '10px 12px 0' }}>
+        <Bar w="70%" h={8} bg="rgba(255,255,255,0.7)" />
+        <div style={{ height: 5 }} />
+        <Bar w="50%" h={8} bg="rgba(255,255,255,0.7)" />
+        <div style={{ height: 8 }} />
+        <Bar w="90%" h={3} />
+        <div style={{ height: 3 }} />
+        <Bar w="75%" h={3} />
+        <div style={{ height: 12 }} />
+        <div style={{ display: 'flex', gap: '6px' }}>
+          <div style={{ width: '60px', height: '20px', borderRadius: '5px', background: accent }} />
+          <div style={{ width: '50px', height: '20px', borderRadius: '5px', border: '1px solid rgba(255,255,255,0.3)' }} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function PortfolioTeaser() {
+  const outerRef = useRef<HTMLDivElement>(null);
+  const inView = useInView(outerRef, { once: false, amount: 0.2 });
+  const E = (delay = 0) => ({ duration: 0.85, ease: [0.22, 1, 0.36, 1] as any, delay: inView ? delay : 0 });
+
+  return (
+    <div ref={outerRef} style={{ background: BG2, padding: 'clamp(56px,10vw,110px) clamp(16px,4vw,24px)', position: 'relative', overflow: 'hidden' }}>
+      <CrossMark w={70} h={70} className="hidden sm:block" style={{ top: '6%', left: '2%' }} />
+      <CrossMark w={50} h={80} className="hidden sm:block" style={{ bottom: '8%', right: '3%' }} />
+      <div style={{ maxWidth: '1080px', margin: '0 auto' }}>
+
+        <motion.div animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 28 }} transition={E(0)} style={{ marginBottom: '48px' }}>
+          <p style={{ fontSize: '11px', fontWeight: 600, color: 'rgba(40,85,112,0.55)', textTransform: 'uppercase', letterSpacing: '0.16em', marginBottom: '14px' }}>Portfolio</p>
+          <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'flex-end', justifyContent: 'space-between', gap: '12px' }}>
+            <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px,3.8vw,50px)', fontWeight: 300, color: '#1a2e3d', letterSpacing: '-0.03em', lineHeight: 1.1, margin: 0 }}>
+              Weby, které<br />přinášejí výsledky
+            </h2>
+            <Link href="/portfolio" style={{ fontSize: '13px', fontWeight: 600, color: '#cbcac7', textDecoration: 'none', transition: 'color .15s' }}
+              onMouseEnter={e => (e.currentTarget.style.color = ACCENT)}
+              onMouseLeave={e => (e.currentTarget.style.color = '#cbcac7')}
+            >Všechny projekty →</Link>
+          </div>
+        </motion.div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {PORTFOLIO_ITEMS.map((item, i) => (
+            <motion.div
+              key={item.client}
+              animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 36 }}
+              transition={E(0.1 + i * 0.1)}
+              style={{ background: '#fff', border: '1px solid #e3ded7', borderRadius: '18px', overflow: 'hidden', boxShadow: '0 2px 16px rgba(40,85,112,0.06)', cursor: 'pointer' }}
+            >
+              <div style={{ padding: '16px 16px 12px' }}>
+                <MiniWebPreview color={item.color} accent={item.accent} />
+              </div>
+              <div style={{ padding: '4px 20px 22px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '8px' }}>
+                  <div>
+                    <p style={{ fontSize: '15px', fontWeight: 600, color: '#1a2e3d', marginBottom: '2px' }}>{item.client}</p>
+                    <p style={{ fontSize: '12px', color: '#a8a4a0' }}>{item.industry}</p>
+                  </div>
+                  <span style={{ fontSize: '11px', fontWeight: 600, color: ACCENT, background: 'rgba(40,85,112,0.07)', border: '1px solid rgba(40,85,112,0.14)', borderRadius: '100px', padding: '3px 10px', whiteSpace: 'nowrap' }}>
+                    {item.tag}
+                  </span>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 12px', background: 'rgba(40,85,112,0.04)', borderRadius: '10px', border: '1px solid rgba(40,85,112,0.08)' }}>
+                  <span style={{ fontFamily: 'var(--font-display)', fontSize: '22px', fontWeight: 300, color: '#1a2e3d', letterSpacing: '-0.03em' }}>{item.result}</span>
+                  <span style={{ fontSize: '13px', color: '#7a8e98' }}>{item.resultLabel}</span>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+
+        <motion.div animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 12 }} transition={E(0.45)} style={{ textAlign: 'center', marginTop: '40px' }}>
+          <Link href="/portfolio" className="btn-mkt-primary">Prohlédnout portfolio →</Link>
+        </motion.div>
+      </div>
+    </div>
+  );
+}
+
+/* ─── FAQ ─────────────────────────────────────────────────────── */
+const FAQ_ITEMS = [
+  {
+    q: 'Kdy zaplatím za web?',
+    a: 'Platíte až po schválení hotového webu — ne zálohu, ne nic předem. Pokud nejste spokojeni s výsledkem, vrátíme 100 % ceny.',
+  },
+  {
+    q: 'Jak dlouho trvá vytvoření webu?',
+    a: 'Standardně do 48 hodin od vyplnění formuláře máte první verzi webu připravenou ke schválení. U složitějších projektů (e-commerce) může být doba delší — vždy vás dopředu informujeme.',
+  },
+  {
+    q: 'Co potřebuji připravit?',
+    a: 'Nic speciálního. Stačí vyplnit náš dotazník (asi 5 minut), kde popíšete svou firmu a co od webu čekáte. Texty, fotky ani nic dalšího nepotřebujeme — postaráme se o vše.',
+  },
+  {
+    q: 'Mohu web po dodání sám upravovat?',
+    a: 'Ano. U Firemního webu a E-commerce je součástí dodání přístup do jednoduché administrace (CMS), kde si sami upravíte texty, fotky nebo ceník bez znalosti programování.',
+  },
+  {
+    q: 'Kde bude web hostovaný?',
+    a: 'Hosting první rok platíme my. Poté se domluvíme na převzetí — nebo vám zajistíme správu webu za pevnou měsíční cenu.',
+  },
+];
+
+function FAQ() {
+  const [open, setOpen] = useState<number | null>(null);
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: false, amount: 0.15 });
+  const E = (d = 0) => ({ duration: 0.85, ease: [0.22, 1, 0.36, 1] as any, delay: inView ? d : 0 });
+
+  return (
+    <div ref={ref} style={{ background: BG2, padding: 'clamp(56px,10vw,110px) clamp(16px,4vw,24px)', position: 'relative', overflow: 'hidden' }}>
+      <div style={{ maxWidth: '720px', margin: '0 auto' }}>
+        <motion.div animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 28 }} transition={E(0)} style={{ marginBottom: '40px', textAlign: 'center' }}>
+          <p style={{ fontSize: '11px', fontWeight: 600, color: 'rgba(40,85,112,0.55)', textTransform: 'uppercase', letterSpacing: '0.16em', marginBottom: '14px' }}>Časté otázky</p>
+          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px,3.8vw,50px)', fontWeight: 300, color: '#1a2e3d', letterSpacing: '-0.03em', lineHeight: 1.1, margin: 0 }}>
+            Máte otázky?<br />Máme odpovědi.
+          </h2>
+        </motion.div>
+
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+          {FAQ_ITEMS.map((item, i) => (
+            <motion.div
+              key={item.q}
+              animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 16 }}
+              transition={E(0.06 + i * 0.07)}
+              style={{ background: '#fff', border: '1px solid', borderColor: open === i ? 'rgba(40,85,112,0.2)' : '#e3ded7', borderRadius: '14px', overflow: 'hidden', transition: 'border-color 0.2s' }}
+            >
+              <button
+                onClick={() => setOpen(open === i ? null : i)}
+                style={{ width: '100%', padding: '18px 22px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px', background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left' }}
+              >
+                <span style={{ fontSize: '15px', fontWeight: 600, color: '#1a2e3d', flex: 1 }}>{item.q}</span>
+                <span style={{ flexShrink: 0, width: '24px', height: '24px', borderRadius: '50%', background: open === i ? ACCENT : 'rgba(40,85,112,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'background 0.2s, transform 0.2s', transform: open === i ? 'rotate(45deg)' : 'none' }}>
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke={open === i ? '#fff' : ACCENT} strokeWidth="3" strokeLinecap="round"><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
+                </span>
+              </button>
+              <div style={{ maxHeight: open === i ? '300px' : '0', overflow: 'hidden', transition: 'max-height 0.3s ease' }}>
+                <p style={{ padding: '0 22px 18px', fontSize: '15px', lineHeight: 1.7, color: '#6b6560', margin: 0 }}>{item.a}</p>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+
+        <motion.div animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 12 }} transition={E(0.5)} style={{ textAlign: 'center', marginTop: '36px' }}>
+          <p style={{ fontSize: '15px', color: '#a8a4a0', marginBottom: '14px' }}>Nenašli jste odpověď?</p>
+          <Link href="/kontakt" className="btn-mkt-primary">Napište nám →</Link>
+        </motion.div>
+      </div>
+    </div>
+  );
+}
+
 /* ─── PAGE ROOT ───────────────────────────────────────────────── */
 export default function HomePage() {
   return (
@@ -738,9 +1186,14 @@ export default function HomePage() {
       <Grain />
       <CursorBlob />
       <Hero />
+      <LogoBar />
       <ServicesSection />
+      <StatsBar />
       <ProcessSection />
+      <GuaranteesSection />
+      <PortfolioTeaser />
       <WebNestaci />
+      <FAQ />
       <CTA />
       <Pricing />
     </>

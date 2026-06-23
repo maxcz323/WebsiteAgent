@@ -48,8 +48,8 @@ function TestimonialCard({ t, delay }: { t: Testimonial; delay: number }) {
   };
 
   return (
-    <div ref={r.ref} style={{ ...r.style, background: '#fff', borderRadius: 18, padding: 28, display: 'flex', flexDirection: 'column', ...featuredStyle, transition: 'border-color 0.2s' }}
-      className={t.featured ? 'md:col-span-2' : ''}
+    <div ref={r.ref} style={{ ...r.style, background: '#fff', borderRadius: 18, display: 'flex', flexDirection: 'column', ...featuredStyle, transition: 'border-color 0.2s' }}
+      className={`p-5 sm:p-7 ${t.featured ? 'md:col-span-2' : ''}`}
       onMouseEnter={e => { if (!t.featured) (e.currentTarget as HTMLElement).style.borderColor = '#cbcac7'; }}
       onMouseLeave={e => { if (!t.featured) (e.currentTarget as HTMLElement).style.borderColor = '#e3ded7'; }}>
       {t.featured && (
@@ -57,7 +57,7 @@ function TestimonialCard({ t, delay }: { t: Testimonial; delay: number }) {
       )}
       <Stars count={t.stars} />
       <p style={{ color: '#5c5650', lineHeight: 1.7, marginTop: 16, marginBottom: 20, flex: 1, fontSize: 14 }}>&ldquo;{t.text}&rdquo;</p>
-      <div style={{ display: 'flex', flexDirection: t.featured ? 'row' : 'column', alignItems: t.featured ? 'center' : 'flex-start', justifyContent: t.featured ? 'space-between' : undefined, gap: t.featured ? 0 : 12, marginTop: 'auto' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 12, marginTop: 'auto' }} className={t.featured ? 'sm:flex-row sm:items-center sm:justify-between sm:gap-0' : ''}>
         <div>
           <p style={{ fontWeight: 600, color: '#1a2e3d', fontSize: 14 }}>{t.name}</p>
           <p style={{ color: '#cbcac7', fontSize: 12, marginTop: 2 }}>{t.obor}</p>
@@ -89,12 +89,12 @@ export default function ReferencePage() {
 
       {/* Stats bar */}
       <section className="pb-16 px-5 sm:px-8">
-        <div ref={stats.ref} style={{ ...stats.style, maxWidth: 720, margin: '0 auto', background: '#fff', border: '1px solid #e3ded7', borderRadius: 18, padding: '24px 32px' }}>
+        <div ref={stats.ref} style={{ ...stats.style, maxWidth: 720, margin: '0 auto', background: '#fff', border: '1px solid #e3ded7', borderRadius: 18 }} className="px-4 py-5 sm:px-8 sm:py-6">
           <div className="grid grid-cols-3 text-center" style={{ gap: 0 }}>
             {[['50+', 'spokojených klientů'], ['4.9/5', 'průměrné hodnocení'], ['100%', 'doporučilo by nás']].map(([val, label], i) => (
-              <div key={label} style={{ padding: '0 16px', borderRight: i < 2 ? '1px solid #e3ded7' : 'none' }}>
-                <p style={{ fontSize: 24, fontWeight: 700, color: '#1a2e3d' }}>{val}</p>
-                <p style={{ fontSize: 12, color: '#cbcac7', marginTop: 4 }}>{label}</p>
+              <div key={label} className="px-2 sm:px-4" style={{ borderRight: i < 2 ? '1px solid #e3ded7' : 'none' }}>
+                <p className="text-lg sm:text-2xl" style={{ fontWeight: 700, color: '#1a2e3d' }}>{val}</p>
+                <p className="text-[10px] sm:text-xs" style={{ color: '#cbcac7', marginTop: 4 }}>{label}</p>
               </div>
             ))}
           </div>

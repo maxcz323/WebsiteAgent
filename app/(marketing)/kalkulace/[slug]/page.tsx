@@ -228,7 +228,7 @@ export default function KalkulacePage({ params }: { params: Promise<{ slug: stri
           <div className="space-y-8">
 
             {/* Base features */}
-            <div className="bg-white border border-slate-100 rounded-2xl p-7 shadow-sm">
+            <div className="bg-white border border-slate-100 rounded-2xl p-4 sm:p-7 shadow-sm">
               <h2 className="text-base font-bold text-slate-900 mb-5 flex items-center gap-2.5">
                 <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: service.colorBg }}>
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={service.color} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
@@ -246,7 +246,7 @@ export default function KalkulacePage({ params }: { params: Promise<{ slug: stri
             </div>
 
             {/* Addons */}
-            <div className="bg-white border border-slate-100 rounded-2xl p-7 shadow-sm">
+            <div className="bg-white border border-slate-100 rounded-2xl p-4 sm:p-7 shadow-sm">
               <h2 className="text-base font-bold text-slate-900 mb-1 flex items-center gap-2.5">
                 <div className="w-7 h-7 rounded-lg flex items-center justify-center bg-slate-50">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#64748b" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
@@ -294,7 +294,7 @@ export default function KalkulacePage({ params }: { params: Promise<{ slug: stri
             </div>
 
             {/* Special requirements */}
-            <div className="bg-white border border-slate-100 rounded-2xl p-7 shadow-sm">
+            <div className="bg-white border border-slate-100 rounded-2xl p-4 sm:p-7 shadow-sm">
               <h2 className="text-base font-bold text-slate-900 mb-1 flex items-center gap-2.5">
                 <div className="w-7 h-7 rounded-lg flex items-center justify-center bg-slate-50">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#64748b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" /></svg>

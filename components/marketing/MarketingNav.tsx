@@ -51,7 +51,7 @@ export function MarketingNav() {
   return (
     <nav ref={navRef} style={{
       position: 'fixed', top: '16px', left: '50%', transform: 'translateX(-50%)',
-      width: 'calc(100% - 48px)', maxWidth: '1140px', zIndex: 50,
+      width: 'calc(100% - 24px)', maxWidth: '1140px', zIndex: 50,
       background: '#ffffff',
       border: '1px solid #e3ded7',
       borderRadius: menuOpen ? '14px 14px 0 0' : '14px',
@@ -75,7 +75,7 @@ export function MarketingNav() {
 
       {/* Main bar */}
       <div style={{
-        padding: '0 24px', height: '64px',
+        padding: '0 14px', height: '58px',
         display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px',
       }}>
 
@@ -114,9 +114,17 @@ export function MarketingNav() {
         </div>
 
         {/* CTA + mobile toggle */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexShrink: 0 }}>
+          {/* Phone — desktop only */}
+          <a href="tel:+420777000000" className="hidden lg:flex" style={{ alignItems: 'center', gap: '6px', fontSize: '13px', fontWeight: 500, color: '#a8a4a0', textDecoration: 'none', transition: 'color 0.15s' }}
+            onMouseEnter={e => ((e.currentTarget as HTMLElement).style.color = '#285570')}
+            onMouseLeave={e => ((e.currentTarget as HTMLElement).style.color = '#a8a4a0')}
+          >
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.65 3.38 2 2 0 0 1 3.62 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.54a16 16 0 0 0 6 6l.95-.95a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            777 000 000
+          </a>
           <Link href="/kontakt" className="hidden sm:inline-flex btn-nav-cta">
-            Kontaktujte nás
+            Bezplatná konzultace
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <path d="M5 12h14M12 5l7 7-7 7" />
             </svg>

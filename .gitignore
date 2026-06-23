@@ -1,14 +1,21 @@
-.env.local
-.env*.local
-.env.vercel
+# dependencies
 node_modules/
+
+# next.js
 .next/
 out/
-*.log
+
+# production
+build/
+
+# env files
+.env
+.env.local
+.env.*.local
+
+# debug
+npm-debug.log*
+
+# misc
 .DS_Store
-tsconfig.tsbuildinfo
-supabase/.temp/
-
-.vercel
-
-.vercel
+*.tsbuildinfo
