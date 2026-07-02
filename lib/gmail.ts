@@ -13,7 +13,10 @@ export function getAuthUrl(): string {
   const client = makeOAuth2Client();
   return client.generateAuthUrl({
     access_type: 'offline',
-    scope: ['https://www.googleapis.com/auth/gmail.compose'],
+    scope: [
+      'https://www.googleapis.com/auth/gmail.compose',
+      'https://www.googleapis.com/auth/calendar.events',
+    ],
     prompt: 'consent',
   });
 }
