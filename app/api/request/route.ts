@@ -3,19 +3,25 @@ import { supabaseAdmin } from '@/lib/supabase';
 import { notifyLeadCreated } from '@/lib/discord';
 
 export async function POST(req: NextRequest) {
-  const { business_name, business_niche, city, contact_email, notes } = await req.json();
+  const body = await req.json();
+  const { name, email, phone, business_name, notes, business_niche, city, contact_email } = body;
 
-  if (!business_niche || !city || !contact_email) {
-    return NextResponse.json({ error: 'Vyplňte obor, město a email.' }, { status: 400 });
+  const finalEmail = contact_email || email;
+  const finalNiche = business_niche || business_name || 'Neuvedeno';
+  const finalCity = city || 'Neuvedeno';
+
+  if (!finalEmail) {
+    return NextResponse.json({ error: 'Vyplňte email.' }, { status: 400 });
   }
 
   const { data, error } = await supabaseAdmin
     .from('leads')
     .insert({
       business_name: business_name || null,
-      business_niche,
-      city,
-      contact_email,
+      business_niche: finalNiche,
+      city: finalCity,
+      contact_name: name || null,
+      contact_email: finalEmail,
       notes: notes ? `[Web formulář] ${notes}` : '[Web formulář]',
       website_style: 'modern-minimal',
       color_scheme: 'auto',
