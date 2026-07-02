@@ -49,7 +49,7 @@ export async function createCalendarEvent(activity: {
     const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://www.website-agent.cz';
 
     const { data } = await calendar.events.insert({
-      calendarId: 'primary',
+      calendarId: process.env.GOOGLE_CALENDAR_ID || 'primary',
       requestBody: {
         summary: `${TYPE_LABELS[activity.type] ?? activity.type} — ${activity.leadName}`,
         description: [
@@ -81,7 +81,7 @@ export async function deleteCalendarEvent(googleEventId: string): Promise<void> 
 
   try {
     await calendar.events.delete({
-      calendarId: 'primary',
+      calendarId: process.env.GOOGLE_CALENDAR_ID || 'primary',
       eventId: googleEventId,
     });
   } catch (err) {
