@@ -1,12 +1,3 @@
-import { NextResponse } from 'next/server';
-
-// TEMPORARILY DISABLED — original Supabase auth middleware commented out below
-export function middleware() {
-  return NextResponse.next();
-}
-
-/*
-// ORIGINAL MIDDLEWARE — restore when Supabase is configured
 import { createServerClient } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
 
@@ -47,6 +38,7 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL('/admin/dashboard', request.url));
   }
 
+  // Redirect old routes to admin equivalents
   if (user && pathname.startsWith('/dashboard')) {
     return NextResponse.redirect(new URL('/admin/dashboard', request.url));
   }
@@ -66,4 +58,3 @@ export async function middleware(request: NextRequest) {
 export const config = {
   matcher: ['/((?!_next/static|_next/image|favicon.ico).*)'],
 };
-*/

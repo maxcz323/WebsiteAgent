@@ -1,5 +1,5 @@
-"use client";
+import { redirect } from 'next/navigation';
 
-export default function Admin() {
-  return <div>ADMIN OK</div>;
+export default function AdminRoot() {
+  redirect('/admin/dashboard');
 }
