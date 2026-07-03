@@ -227,8 +227,8 @@ OBRÁZKY — POVINNÉ:
 - Pro obrázky používej Unsplash: https://images.unsplash.com/photo-XXXXX?w=SIRKA&q=80&fit=crop
 - Používej POUZE photo ID, které si jsi JISTÝ že existují — vybírej z fotek, které znáš ze svých trénovacích dat.
 - Fotky MUSÍ tematicky odpovídat oboru firmy (káva pro kavárnu, jídlo pro restauraci, sklo pro sklenářství, atd.).
-- Používej OBECNÉ/abstraktní tematické fotky — šálek kávy, talíř jídla, abstraktní interiér, pracovní nástroje.
-- NIKDY nepoužívej fotky konkrétních podniků, konkrétních restaurací nebo kaváren z jiných měst. Žádné fotky s viditelným logem nebo názvem cizí firmy.
+- Pokud znáš reálné fotky TOHO KONKRÉTNÍHO podniku na Unsplash → použij je, to je ideální.
+- Pokud ne → použij obecné tematické fotky (šálek kávy, talíř jídla, pracovní nástroje, abstraktní interiér). Tyto fotky NESMÍ ukazovat rozpoznatelný JINÝ podnik — žádné fotky s viditelným logem, názvem nebo interiérem cizí firmy z jiného města.
 - Pro každý obrázek použij JINÉ photo ID aby byly fotky různé.
 - Hero obrázek: použij CSS gradient overlay aby byl text čitelný přes fotku.
 - Kde je to vhodné, doplň fotky CSS gradienty, SVG ilustracemi nebo geometrickými tvary.
