@@ -224,11 +224,16 @@ TYPOGRAFIE:
 - Experimentuj s velikostmi — hero nadpis může být extrémně velký (clamp(48px, 8vw, 96px)) nebo naopak elegantně malý.
 
 OBRÁZKY — POVINNÉ:
-- Pro obrázky používej VÝHRADNĚ Picsum: https://picsum.photos/seed/UNIKATNI_SLOVO/SIRKA/VYSKA
-- Příklady: https://picsum.photos/seed/hero-${seed}/1920/1080, https://picsum.photos/seed/services-${seed}/800/600
-- Pro každý obrázek použij JINÉ seed slovo (hero, about, service1, service2, gallery1, atd.) aby byly fotky různé.
-- NIKDY nepoužívej Unsplash URL — ty nefungují s vymyšlenými photo ID.
-- Místo fotek konkrétních podniků (interiéry kaváren, restaurací atd.) používej ABSTRAKTNÍ nebo tematické fotky — barvy, textury, příroda, architektura. Web je NÁHLED/UKÁZKA, ne finální produkt — nesmí vypadat jako fotka z cizího podniku.
+- Pro obrázky používej Unsplash Source API s TEMATICKÝMI klíčovými slovy: https://source.unsplash.com/SIRKAxVYSKA/?klicove,slova
+- Klíčová slova MUSÍ souviset s oborem firmy. Příklady:
+  - Kavárna: https://source.unsplash.com/1920x1080/?coffee,latte,beans
+  - Restaurace: https://source.unsplash.com/800x600/?food,cuisine,dish
+  - Kadeřnictví: https://source.unsplash.com/800x600/?hairstyle,salon,beauty
+  - Fitness: https://source.unsplash.com/1920x1080/?gym,workout,fitness
+  - Právník: https://source.unsplash.com/1920x1080/?law,office,justice
+- Pro každý obrázek použij JINÁ klíčová slova aby byly fotky různé (ne stejná query pro všechny).
+- Používej OBECNÉ/abstraktní klíčové pojmy (coffee, food, interior, workspace) — NIKDY nehledej konkrétní podniky nebo místa.
+- ZAKÁZÁNO: nepoužívej Unsplash s konkrétním photo ID (https://images.unsplash.com/photo-xxx) — ty neexistují.
 - Hero obrázek: použij CSS gradient overlay aby byl text čitelný.
 - Kde je to vhodné, místo fotek použij CSS gradienty, barevné bloky, SVG ilustrace nebo geometrické tvary.
 
