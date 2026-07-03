@@ -30,7 +30,7 @@ export default function KontaktPage() {
   const form = useReveal(100);
 
   const [state, setState] = useState<FormState>('idle');
-  const [fields, setFields] = useState({ name: '', email: '', phone: '', obor: '', message: '' });
+  const [fields, setFields] = useState({ name: '', email: '', phone: '', obor: '', city: '', website_style: 'modern-minimal', message: '' });
 
   useEffect(() => {
     const msg = new URLSearchParams(window.location.search).get('message');
@@ -62,6 +62,8 @@ export default function KontaktPage() {
           email: fields.email,
           phone: fields.phone,
           business_name: fields.obor,
+          city: fields.city,
+          website_style: fields.website_style,
           notes: fields.message || undefined,
         }),
       });
@@ -153,10 +155,29 @@ export default function KontaktPage() {
                   <input required type="email" value={fields.email} onChange={(e) => setField('email', e.target.value)}
                     style={INPUT} placeholder="jan@mafirma.cz" onFocus={onFocus} onBlur={onBlur} />
                 </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#6b6560', marginBottom: 6 }}>Čím se zabýváte?</label>
+                    <input value={fields.obor} onChange={(e) => setField('obor', e.target.value)}
+                      style={INPUT} placeholder="Instalatér, kavárna, advokát..." onFocus={onFocus} onBlur={onBlur} />
+                  </div>
+                  <div>
+                    <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#6b6560', marginBottom: 6 }}>Město</label>
+                    <input value={fields.city} onChange={(e) => setField('city', e.target.value)}
+                      style={INPUT} placeholder="Praha, Brno, Ostrava..." onFocus={onFocus} onBlur={onBlur} />
+                  </div>
+                </div>
                 <div>
-                  <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#6b6560', marginBottom: 6 }}>Čím se zabýváte?</label>
-                  <input value={fields.obor} onChange={(e) => setField('obor', e.target.value)}
-                    style={INPUT} placeholder="Instalatér, kavárna, advokát..." onFocus={onFocus} onBlur={onBlur} />
+                  <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#6b6560', marginBottom: 6 }}>Styl webu</label>
+                  <select value={fields.website_style} onChange={(e) => setField('website_style', e.target.value)}
+                    style={{ ...INPUT, appearance: 'none', backgroundImage: 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'12\' height=\'12\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%236b6560\' stroke-width=\'2\'%3E%3Cpolyline points=\'6 9 12 15 18 9\'/%3E%3C/svg%3E")', backgroundRepeat: 'no-repeat', backgroundPosition: 'right 14px center', paddingRight: 36 }}>
+                    <option value="modern-minimal">Moderní minimál</option>
+                    <option value="bold-colorful">Výrazný & Barevný</option>
+                    <option value="professional-corporate">Korporátní</option>
+                    <option value="creative-agency">Kreativní agentura</option>
+                    <option value="restaurant-food">Restaurace / Jídlo</option>
+                    <option value="ecommerce">E-commerce</option>
+                  </select>
                 </div>
                 <div>
                   <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#6b6560', marginBottom: 6 }}>Zpráva (volitelné)</label>

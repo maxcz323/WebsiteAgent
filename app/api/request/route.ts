@@ -4,7 +4,7 @@ import { notifyLeadCreated } from '@/lib/discord';
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
-  const { name, email, phone, business_name, notes, business_niche, city, contact_email } = body;
+  const { name, email, phone, business_name, notes, business_niche, city, contact_email, website_style } = body;
 
   const finalEmail = contact_email || email;
   const finalNiche = business_niche || business_name || 'Neuvedeno';
@@ -23,7 +23,7 @@ export async function POST(req: NextRequest) {
       contact_name: name || null,
       contact_email: finalEmail,
       notes: notes ? `[Web formulář] ${notes}` : '[Web formulář]',
-      website_style: 'modern-minimal',
+      website_style: website_style || 'modern-minimal',
       color_scheme: 'auto',
       status: 'new',
       created_by: null,
