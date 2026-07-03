@@ -84,6 +84,55 @@ const COLOR_GUIDES: Record<string, string> = {
   dark: 'Tmavé pozadí (#0f172a), světlý text, akcenty ve světlých barvách.',
 };
 
+async function researchBusiness(
+  businessNiche: string,
+  city: string,
+  businessName?: string | null
+): Promise<string> {
+  const name = businessName || `${businessNiche} ${city}`;
+
+  try {
+    const response = await anthropic.messages.create({
+      model: 'claude-sonnet-4-6',
+      max_tokens: 1024,
+      tools: [
+        {
+          type: 'web_search_20250305' as const,
+          name: 'web_search',
+          max_uses: 3,
+        },
+      ],
+      messages: [
+        {
+          role: 'user',
+          content: `Vyhledej informace o firmě "${name}" z oboru "${businessNiche}" v městě "${city}".
+
+Zjisti:
+- Přesný název firmy
+- Čím se přesně zabývají (konkrétní služby/produkty)
+- Adresa nebo lokalita
+- Otevírací doba (pokud relevantní)
+- Telefonní číslo a email (pokud najdeš)
+- Jakékoliv unikátní vlastnosti, speciality, nebo odlišnosti od konkurence
+- Ceník nebo cenové rozmezí (pokud dostupné)
+- Reference nebo hodnocení zákazníků
+
+Pokud firmu nenajdeš, vyhledej alespoň typické informace o firmách v oboru "${businessNiche}" v ${city} — jaké služby nabízí, typické ceny, atd.
+
+Odpověz STRUČNĚ ve formátu klíčových bodů. Piš česky.`,
+        },
+      ],
+    });
+
+    // Extract text from response (may contain tool_use and tool_result blocks)
+    const textBlocks = response.content.filter((b) => b.type === 'text');
+    return textBlocks.map((b) => b.text).join('\n') || 'Žádné informace nenalezeny.';
+  } catch (err) {
+    console.error('Business research failed:', err);
+    return 'Vyhledávání informací selhalo — použij obecné informace pro obor.';
+  }
+}
+
 export async function generateLandingPage(
   businessNiche: string,
   city: string,
@@ -95,6 +144,9 @@ export async function generateLandingPage(
   const styleGuide = STYLE_GUIDES[websiteStyle] ?? websiteStyle;
   const colorGuide = colorScheme ? (COLOR_GUIDES[colorScheme] ?? '') : '';
   const name = businessName || '{{BUSINESS_NAME}}';
+
+  // Step 1: Research the business online
+  const researchResult = await researchBusiness(businessNiche, city, businessName);
 
   // Generate a random seed to force unique designs each time
   const seed = Math.random().toString(36).slice(2, 10);
@@ -150,6 +202,10 @@ Název firmy: ${name}
 Vizuální styl: ${styleGuide}
 ${colorGuide ? `Barevné schéma: ${colorGuide}` : ''}
 ${customDescription ? `\nVLASTNÍ INSTRUKCE OD ZÁKAZNÍKA (má NEJVYŠŠÍ prioritu):\n${customDescription}` : ''}
+
+REÁLNÉ INFORMACE O FIRMĚ (z vyhledávání na internetu — použij je v obsahu webu, pokud jsou relevantní):
+${researchResult}
+DŮLEŽITÉ: Použij výše nalezené reálné informace (služby, ceny, adresa, speciality) v obsahu stránky. Pokud jsou k dispozici reálné kontaktní údaje (telefon, email, adresa), použij JE místo placeholder dat. Texty na webu musí odpovídat skutečné činnosti firmy.
 
 UNIKÁTNÍ DESIGN — SEED ${seed}:
 Každý web MUSÍ vypadat zásadně jinak. Pro tento konkrétní web POVINNĚ použij:
