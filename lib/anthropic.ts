@@ -44,6 +44,54 @@ export async function generateLandingPage(
   const colorGuide = colorScheme ? (COLOR_GUIDES[colorScheme] ?? '') : '';
   const name = businessName || '{{BUSINESS_NAME}}';
 
+  // Generate a random seed to force unique designs each time
+  const seed = Math.random().toString(36).slice(2, 10);
+  const layoutVariants = [
+    'split hero (text vlevo, obrázek vpravo)',
+    'full-width hero s video-style overlay a centered textem',
+    'hero s diagonálním dělením (šikmá linka mezi obrázkem a barvou)',
+    'hero s velkým obrázkem dole a textem nahoře na čistém pozadí',
+    'dark immersive hero na celou obrazovku s parallax efektem',
+    'hero s geometrickými tvary a floating kartami',
+    'minimalistický hero jen s velkým nadpisem a jednou barvou, obrázek až v další sekci',
+    'hero s bočním vertikálním menu a full-bleed fotkou',
+  ];
+  const sectionVariants = [
+    'bento grid (nestejně velké karty v mřížce)',
+    'horizontální scroll sekce s kartami',
+    'timeline/kroky vertikálně s čísly a ikonami',
+    'velké čísla/statistiky s countery',
+    'tabs s přepínáním obsahu',
+    'accordion/FAQ styl',
+    'masonry grid s obrázky a textem',
+    'full-width sekce střídající světlé a tmavé pozadí',
+  ];
+  const decorVariants = [
+    'blob tvary v pozadí (SVG)',
+    'jemné geometrické čáry a úhly',
+    'tečkovaný/grid pattern v pozadí',
+    'gradient mesh efekty',
+    'kruhové a organické tvary',
+    'žádné dekorace — čistý minimál',
+    'diagonální sekce dělení',
+    'jemný noise/grain texture',
+  ];
+  const fontPairs = [
+    'Playfair Display + Inter',
+    'DM Serif Display + DM Sans',
+    'Fraunces + Space Grotesk',
+    'Libre Baskerville + Source Sans 3',
+    'Cormorant Garamond + Montserrat',
+    'Sora + Crimson Pro',
+    'Plus Jakarta Sans + Lora',
+    'Outfit + Merriweather',
+  ];
+  const pick = (arr: string[]) => arr[Math.floor(Math.random() * arr.length)];
+  const chosenLayout = pick(layoutVariants);
+  const chosenSection = pick(sectionVariants);
+  const chosenDecor = pick(decorVariants);
+  const chosenFonts = pick(fontPairs);
+
   const prompt = `Vytvoř kompletní, vizuálně ohromující, responzivní HTML landing page pro firmu z oboru "${businessNiche}" sídlící v ${city}. Celý obsah (texty, nadpisy, CTA) piš ČESKY.
 
 Název firmy: ${name}
@@ -51,34 +99,43 @@ Vizuální styl: ${styleGuide}
 ${colorGuide ? `Barevné schéma: ${colorGuide}` : ''}
 ${customDescription ? `\nVLASTNÍ INSTRUKCE OD ZÁKAZNÍKA (má NEJVYŠŠÍ prioritu):\n${customDescription}` : ''}
 
-TYPOGRAFIE — POVINNÉ:
-- Importuj Google Fonts přímo v <style> tagu: @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600&display=swap');
-- Pro nadpisy (h1, h2, h3) vždy použij Playfair Display nebo jinou prémiovou serifovou/display rodinu.
-- Pro texty (p, li, nav) použij Inter nebo podobnou čistou sans-serif rodinu.
-- Pokud styl firmy vyžaduje odlišný charakter (moderní, tech), vyber vhodné Google Fonts a importuj je — vždy alespoň 2 různé rodiny.
+UNIKÁTNÍ DESIGN — SEED ${seed}:
+Každý web MUSÍ vypadat zásadně jinak. Pro tento konkrétní web POVINNĚ použij:
+- LAYOUT HERO: ${chosenLayout}
+- LAYOUT SEKCÍ: ${chosenSection}
+- DEKORATIVNÍ PRVKY: ${chosenDecor}
+- FONTY: ${chosenFonts} (importuj z Google Fonts v <style> tagu)
+- Vymysli unikátní barevnou paletu, která odpovídá oboru "${businessNiche}" — NEvyužívej generické modré/šedé pokud to obor nevyžaduje.
+- Zvol unikátní border-radius styl (ostré rohy NEBO velké zaoblení NEBO pill tvary — ale konzistentně).
+- Navrhni unikátní CTA tlačítka (ne vždy stejný obdélník — zkus pill, ghost, s ikonou, s animací, atd.).
+
+TYPOGRAFIE:
+- Importuj zvolené Google Fonts v <style> tagu přes @import url().
+- Nadpisy a body text MUSÍ mít výrazně odlišný charakter (serif vs sans-serif, display vs text, atd.).
+- Experimentuj s velikostmi — hero nadpis může být extrémně velký (clamp(48px, 8vw, 96px)) nebo naopak elegantně malý.
 
 OBRÁZKY — POVINNÉ:
-- Hero sekce MUSÍ mít reálný fotografický background: použij <img> tag nebo CSS background-image s URL z Unsplash.
-- Formát URL: https://images.unsplash.com/photo-PHOTO_ID?w=1920&q=80&fit=crop — VŽDY použij konkrétní photo ID z Unsplash které tematicky odpovídá oboru "${businessNiche}".
-- Vyber 2–3 různé reálné fotky z Unsplash pro různé sekce (hero, about/proč my, případně services background).
-- Hero obrázek musí mít tmavý overlay (rgba(0,0,0,0.5) nebo barevný gradient overlay) aby byl text čitelný.
+- Hero sekce MUSÍ mít reálný fotografický background z Unsplash.
+- Formát URL: https://images.unsplash.com/photo-PHOTO_ID?w=1920&q=80&fit=crop — použij konkrétní photo ID tematicky odpovídající oboru "${businessNiche}".
+- Vyber 3–5 různých reálných fotek z Unsplash pro různé sekce.
+- Overlay nemusí být vždy tmavý — zkus barevný gradient overlay, duotone efekt, nebo jemný blur.
 
-IKONKY — POVINNÉ:
-- ABSOLUTNĚ ŽÁDNÉ EMOJI v celém dokumentu. Emoji jsou neprofesionální.
-- Pro ikonky ve služby/features sekcích použij jednoduché SVG ikony inline v HTML, nebo čisté CSS tvary (čtverce, kruhy, šipky).
-- Případně použij Unicode symboly jako → ← • — nebo jednoduché čáry/linky jako dekorativní prvky.
+IKONKY:
+- ABSOLUTNĚ ŽÁDNÉ EMOJI. Použij SVG ikony inline nebo čisté CSS tvary.
 
-DESIGN:
-- Vrať POUZE kompletní HTML dokument (<!DOCTYPE html> … </html>). Žádné markdown bloky, žádné vysvětlivky.
-- Veškeré CSS v <style> tagu, žádné inline style atributy kde to jde.
-- Žádné externí JavaScript knihovny — pouze vanilla JS pokud nutné.
-- Stránka musí být VIZUÁLNĚ BOHATÁ a profesionální — výrazné barvy, velká typografie, hero sekce s fotografickým pozadím a overlay.
-- Sekce: Hero (fotografické pozadí + overlay + velký nadpis + podnadpis + CTA), Služby (3–4 karty se SVG ikonami), Proč nás zvolit (3 body), Kontakt (formulář UI, nefunkční), Patička.
+SEKCE — vymysli unikátní strukturu, nepoužívej vždy stejné pořadí. Vyber 5-7 z těchto:
+Hero, O nás/Příběh, Služby/Co děláme, Proces/Jak pracujeme, Čísla/Statistiky, Reference/Testimonials, Galerie/Portfolio, FAQ, Ceník, Kontakt/CTA, Patička.
+Pořadí a výběr sekcí přizpůsob oboru — restaurace potřebuje menu a galerii, advokát potřebuje důvěru a reference, atd.
+
+TECHNICKÉ:
+- Vrať POUZE kompletní HTML (<!DOCTYPE html> … </html>). Žádný markdown.
+- Veškeré CSS v <style> tagu. Používej CSS custom properties.
+- Žádné externí JS knihovny.
+- Plně responzivní, mobile-first.
 - Přirozeně zmiň město "${city}" v textu.
-- Placeholder telefon: +420 777 123 456 | email: info@${name.toLowerCase().replace(/\s+/g, '')}.cz
-- Plně responzivní s mobile-first přístupem.
-- Použij CSS custom properties (--primary, --secondary, --bg, --text atd.) pro konzistentní theming.
-- DŮLEŽITÉ: Veškerý obsah musí být OKAMŽITĚ viditelný bez JS. Animace NESMÍ používat opacity:0 jako výchozí stav. Pokud chceš animace, používej transform ale opacity musí být vždy 1. Žádné JS pro zobrazení obsahu.`;
+- Placeholder: +420 777 123 456 | info@${name.toLowerCase().replace(/\s+/g, '')}.cz
+- Obsah MUSÍ být viditelný bez JS. Animace nesmí používat opacity:0 jako výchozí stav.
+- Stránka musí vypadat jako od profesionálního designéra — NE jako generický template.`;
 
   const stream = anthropic.messages.stream({
     model: 'claude-sonnet-4-6',
