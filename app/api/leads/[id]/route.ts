@@ -74,7 +74,20 @@ export async function PATCH(req: NextRequest, { params }: Params) {
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
 
-  await notifyLeadUpdated(id, updates, before ?? undefined);
+  // Resolve assigned_to UUID to display name for Discord
+  const discordUpdates = { ...updates };
+  if ('assigned_to' in updates && updates.assigned_to) {
+    const { data: profile } = await supabaseAdmin
+      .from('profiles')
+      .select('full_name')
+      .eq('id', updates.assigned_to as string)
+      .single();
+    if (profile) discordUpdates.assigned_to = profile.full_name;
+  } else if ('assigned_to' in updates && !updates.assigned_to) {
+    discordUpdates.assigned_to = 'Nikdo';
+  }
+
+  await notifyLeadUpdated(id, discordUpdates, before ?? undefined);
   return NextResponse.json(data);
 }
 
