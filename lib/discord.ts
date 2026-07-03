@@ -69,7 +69,7 @@ export async function notifyLeadCreated(lead: Lead) {
   });
 }
 
-export async function notifyLeadUpdated(id: string, changes: Record<string, unknown>, before?: Partial<Lead>) {
+export async function notifyLeadUpdated(id: string, changes: Record<string, unknown>, before?: Partial<Lead>, leadName?: string) {
   const isStatusChange = 'status' in changes;
   const fields: Field[] = Object.entries(changes).map(([key, val]) => {
     const label = key === 'status' ? 'Status'
@@ -89,7 +89,9 @@ export async function notifyLeadUpdated(id: string, changes: Record<string, unkn
   });
 
   await sendEmbed({
-    title: isStatusChange ? '🔄 Změna statusu leadu' : '✏️ Lead upraven',
+    title: isStatusChange
+      ? `🔄 Změna statusu — ${leadName || 'Lead'}`
+      : `✏️ ${leadName || 'Lead'} upraven`,
     color: isStatusChange ? COLORS.yellow : COLORS.blue,
     fields,
     footer: `ID: ${id}`,

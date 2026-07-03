@@ -87,7 +87,8 @@ export async function PATCH(req: NextRequest, { params }: Params) {
     discordUpdates.assigned_to = 'Nikdo';
   }
 
-  await notifyLeadUpdated(id, discordUpdates, before ?? undefined);
+  const leadName = data.business_name || `${data.business_niche} — ${data.city}`;
+  await notifyLeadUpdated(id, discordUpdates, before ?? undefined, leadName);
   return NextResponse.json(data);
 }
 
