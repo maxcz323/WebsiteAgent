@@ -223,19 +223,16 @@ TYPOGRAFIE:
 - Nadpisy a body text MUSÍ mít výrazně odlišný charakter (serif vs sans-serif, display vs text, atd.).
 - Experimentuj s velikostmi — hero nadpis může být extrémně velký (clamp(48px, 8vw, 96px)) nebo naopak elegantně malý.
 
-OBRÁZKY — POVINNÉ:
-- Pro obrázky používej Unsplash Source API s TEMATICKÝMI klíčovými slovy: https://source.unsplash.com/SIRKAxVYSKA/?klicove,slova
-- Klíčová slova MUSÍ souviset s oborem firmy. Příklady:
-  - Kavárna: https://source.unsplash.com/1920x1080/?coffee,latte,beans
-  - Restaurace: https://source.unsplash.com/800x600/?food,cuisine,dish
-  - Kadeřnictví: https://source.unsplash.com/800x600/?hairstyle,salon,beauty
-  - Fitness: https://source.unsplash.com/1920x1080/?gym,workout,fitness
-  - Právník: https://source.unsplash.com/1920x1080/?law,office,justice
-- Pro každý obrázek použij JINÁ klíčová slova aby byly fotky různé (ne stejná query pro všechny).
-- Používej OBECNÉ/abstraktní klíčové pojmy (coffee, food, interior, workspace) — NIKDY nehledej konkrétní podniky nebo místa.
-- ZAKÁZÁNO: nepoužívej Unsplash s konkrétním photo ID (https://images.unsplash.com/photo-xxx) — ty neexistují.
-- Hero obrázek: použij CSS gradient overlay aby byl text čitelný.
-- Kde je to vhodné, místo fotek použij CSS gradienty, barevné bloky, SVG ilustrace nebo geometrické tvary.
+VIZUÁLNÍ PRVKY (MÍSTO FOTEK):
+- NEPOUŽÍVEJ žádné externí obrázky (žádné Unsplash, Picsum, ani jiné URL na fotky). Externí obrázkové služby jsou nespolehlivé a rozbíjí stránku.
+- Místo fotek vytvoř vizuálně atraktivní design ČISTĚ pomocí CSS a SVG:
+  - Hero sekce: výrazný CSS gradient nebo barevný blok s textem. Gradient musí odpovídat oboru (teplé tóny pro restauraci, studené pro tech firmu, zelené pro přírodu, atd.).
+  - Galerie/portfolio: barevné karty s CSS gradienty, ikonami (SVG inline) a popisky. Každá karta jiná barva/gradient.
+  - Služby: ikony vytvořené pomocí SVG (jednoduché tvary — kruhy, čtverce, čáry) nebo CSS shapes.
+  - Pozadí sekcí: střídej gradienty, solid barvy, jemné CSS patterny (repeating-linear-gradient pro pruhy, radial-gradient pro tečky, atd.).
+  - Dekorace: CSS blur blob efekty (div s border-radius: 50% a filter: blur), geometrické SVG tvary, CSS conic-gradient.
+- Tam kde by normálně byla fotka (galerie, portfolio, "naše práce"), vytvoř PLACEHOLDER s CSS gradientem, ikonou a textem "Vaše fotografie" nebo popisem služby — musí vypadat designově, NE jako rozbitý obrázek.
+- Web je NÁHLED/UKÁZKA — klient pochopí že fotky se doplní. Důležité je aby design vypadal profesionálně i BEZ fotek.
 
 ZAKÁZANÉ PRVKY — toto NIKDY nepoužívej:
 - ŽÁDNÝ scrolling marquee / running text / ticker pás. Tenhle prvek je otřepaný a generický.
