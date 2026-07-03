@@ -167,13 +167,24 @@ TYPOGRAFIE:
 - Experimentuj s velikostmi — hero nadpis může být extrémně velký (clamp(48px, 8vw, 96px)) nebo naopak elegantně malý.
 
 OBRÁZKY — POVINNÉ:
-- Hero sekce MUSÍ mít reálný fotografický background z Unsplash.
-- Formát URL: https://images.unsplash.com/photo-PHOTO_ID?w=1920&q=80&fit=crop — použij konkrétní photo ID tematicky odpovídající oboru "${businessNiche}".
-- Vyber 3–5 různých reálných fotek z Unsplash pro různé sekce.
-- Overlay nemusí být vždy tmavý — zkus barevný gradient overlay, duotone efekt, nebo jemný blur.
+- Pro obrázky používej VÝHRADNĚ Picsum: https://picsum.photos/seed/UNIKATNI_SLOVO/SIRKA/VYSKA
+- Příklady: https://picsum.photos/seed/hero-${seed}/1920/1080, https://picsum.photos/seed/services-${seed}/800/600
+- Pro každý obrázek použij JINÉ seed slovo (hero, about, service1, service2, gallery1, atd.) aby byly fotky různé.
+- NIKDY nepoužívej Unsplash URL — ty nefungují s vymyšlenými photo ID.
+- Místo fotek konkrétních podniků (interiéry kaváren, restaurací atd.) používej ABSTRAKTNÍ nebo tematické fotky — barvy, textury, příroda, architektura. Web je NÁHLED/UKÁZKA, ne finální produkt — nesmí vypadat jako fotka z cizího podniku.
+- Hero obrázek: použij CSS gradient overlay aby byl text čitelný.
+- Kde je to vhodné, místo fotek použij CSS gradienty, barevné bloky, SVG ilustrace nebo geometrické tvary.
+
+ZAKÁZANÉ PRVKY — toto NIKDY nepoužívej:
+- ŽÁDNÝ scrolling marquee / running text / ticker pás. Tenhle prvek je otřepaný a generický.
+- ŽÁDNÝ scroll indikátor ("SCROLL" text, scroll šipka, scroll animace). Uživatel ví jak scrollovat.
+- ŽÁDNÉ emoji v celém dokumentu.
+- ŽÁDNÝ horizontálně scrollující obsah.
+- ŽÁDNÉ animace které skrývají obsah (opacity:0 jako výchozí stav).
 
 IKONKY:
-- ABSOLUTNĚ ŽÁDNÉ EMOJI. Použij SVG ikony inline nebo čisté CSS tvary.
+- Použij jednoduché SVG ikony inline v HTML, nebo čisté CSS tvary (čtverce, kruhy, šipky).
+- Unicode symboly jako → ← • — jsou OK.
 
 SEKCE — vymysli unikátní strukturu, nepoužívej vždy stejné pořadí. Vyber 5-7 z těchto:
 Hero, O nás/Příběh, Služby/Co děláme, Proces/Jak pracujeme, Čísla/Statistiky, Reference/Testimonials, Galerie/Portfolio, FAQ, Ceník, Kontakt/CTA, Patička.
@@ -186,7 +197,7 @@ TECHNICKÉ:
 - Plně responzivní, mobile-first.
 - Přirozeně zmiň město "${city}" v textu.
 - Placeholder: +420 777 123 456 | info@${name.toLowerCase().replace(/\s+/g, '')}.cz
-- Obsah MUSÍ být viditelný bez JS. Animace nesmí používat opacity:0 jako výchozí stav.
+- Obsah MUSÍ být viditelný bez JS.
 - Stránka musí vypadat jako od profesionálního designéra — NE jako generický template.`;
 
   const stream = anthropic.messages.stream({
