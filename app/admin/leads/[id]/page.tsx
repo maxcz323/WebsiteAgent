@@ -37,14 +37,15 @@ function formatCzkAdmin(n: number) {
 }
 
 const GEN_STEPS = [
-  { label: 'Příprava dat', endSec: 3, endPct: 5 },
-  { label: 'Analýza firmy', endSec: 10, endPct: 15 },
-  { label: 'Generování struktury webu', endSec: 25, endPct: 40 },
-  { label: 'Vytváření obsahu', endSec: 50, endPct: 70 },
-  { label: 'Finalizace a stylování', endSec: 65, endPct: 90 },
-  { label: 'Ukládání', endSec: 75, endPct: 99 },
+  { label: 'Příprava dat', endSec: 3, endPct: 3 },
+  { label: 'Vyhledávání informací o firmě', endSec: 20, endPct: 15 },
+  { label: 'Analýza výsledků', endSec: 30, endPct: 25 },
+  { label: 'Generování struktury webu', endSec: 55, endPct: 45 },
+  { label: 'Vytváření obsahu', endSec: 90, endPct: 70 },
+  { label: 'Finalizace a stylování', endSec: 110, endPct: 90 },
+  { label: 'Ukládání', endSec: 120, endPct: 99 },
 ];
-const TOTAL_ESTIMATED_SEC = 75;
+const TOTAL_ESTIMATED_SEC = 120;
 
 export default function LeadDetailPage() {
   const { id } = useParams<{ id: string }>();
