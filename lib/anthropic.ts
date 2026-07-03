@@ -224,18 +224,15 @@ TYPOGRAFIE:
 - Experimentuj s velikostmi — hero nadpis může být extrémně velký (clamp(48px, 8vw, 96px)) nebo naopak elegantně malý.
 
 OBRÁZKY — POVINNÉ:
-- Pro obrázky používej VÝHRADNĚ službu LoremFlickr: https://loremflickr.com/SIRKA/VYSKA/klicove,slova
-- Klíčová slova MUSÍ souviset s oborem firmy. Příklady:
-  - Kavárna: https://loremflickr.com/1920/1080/coffee,cafe,latte
-  - Restaurace: https://loremflickr.com/800/600/food,dish,cuisine
-  - Sklenářství: https://loremflickr.com/800/600/glass,window,mirror
-  - Kadeřnictví: https://loremflickr.com/800/600/hairstyle,beauty,salon
-  - Fitness: https://loremflickr.com/1920/1080/gym,workout,fitness
-- Pro každý obrázek použij JINÁ klíčová slova aby byly fotky různé (ne stejná query pro všechny).
-- Používej OBECNÉ/abstraktní anglické pojmy — NIKDY nehledej názvy konkrétních podniků, měst nebo míst.
-- NIKDY nepoužívej Unsplash, Picsum, ani žádné jiné obrázkové služby — POUZE loremflickr.com.
+- Pro obrázky používej Unsplash: https://images.unsplash.com/photo-XXXXX?w=SIRKA&q=80&fit=crop
+- Používej POUZE photo ID, které si jsi JISTÝ že existují — vybírej z fotek, které znáš ze svých trénovacích dat.
+- Fotky MUSÍ tematicky odpovídat oboru firmy (káva pro kavárnu, jídlo pro restauraci, sklo pro sklenářství, atd.).
+- Používej OBECNÉ/abstraktní tematické fotky — šálek kávy, talíř jídla, abstraktní interiér, pracovní nástroje.
+- NIKDY nepoužívej fotky konkrétních podniků, konkrétních restaurací nebo kaváren z jiných měst. Žádné fotky s viditelným logem nebo názvem cizí firmy.
+- Pro každý obrázek použij JINÉ photo ID aby byly fotky různé.
 - Hero obrázek: použij CSS gradient overlay aby byl text čitelný přes fotku.
-- Kde je to vhodné, doplň fotky i CSS gradienty, SVG ilustracemi nebo geometrickými tvary pro lepší vizuál.
+- Kde je to vhodné, doplň fotky CSS gradienty, SVG ilustracemi nebo geometrickými tvary.
+- NIKDY nepoužívej Picsum, LoremFlickr ani jiné placeholder služby.
 
 ZAKÁZANÉ PRVKY — toto NIKDY nepoužívej:
 - ŽÁDNÝ scrolling marquee / running text / ticker pás. Tenhle prvek je otřepaný a generický.
