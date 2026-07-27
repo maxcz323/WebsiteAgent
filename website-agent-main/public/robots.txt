@@ -6,4 +6,4 @@ Disallow: /login
 Disallow: /auth
 Disallow: /preview
 
-Sitemap: https://website-agent.cz/sitemap.xml
+Sitemap: https://www.website-agent.cz/sitemap.xml
