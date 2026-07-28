@@ -1,9 +1,0 @@
-User-agent: *
-Allow: /
-Disallow: /admin
-Disallow: /api
-Disallow: /login
-Disallow: /auth
-Disallow: /preview
-
-Sitemap: https://www.website-agent.cz/sitemap.xml
