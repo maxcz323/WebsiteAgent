@@ -11,8 +11,6 @@ Sitemap: https://www.website-agent.cz/sitemap.xml
 `
 
   return new Response(body, {
-    headers: {
-      'Content-Type': 'text/plain',
-    },
+    headers: { 'Content-Type': 'text/plain' },
   })
 }
