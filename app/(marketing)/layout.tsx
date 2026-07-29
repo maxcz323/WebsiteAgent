@@ -7,15 +7,15 @@ const display = Montserrat({ subsets: ['latin'], weight: ['300', '400', '600', '
 const body    = Inter({ subsets: ['latin'], weight: ['400', '500', '600'], variable: '--font-body' });
 
 export const metadata: Metadata = {
-  title: { default: 'WebsiteAgent – Profesionální weby pro lokální firmy', template: '%s | WebsiteAgent' },
-  description: 'Tvoříme moderní webové stránky pro lokální firmy. Profesionální design, rychlé dodání do 48 hodin, platíte až po schválení.',
-  keywords: ['weby pro firmy', 'webové stránky', 'landing page', 'lokální firmy'],
+  title: { default: 'WebsiteAgent – Tvorba webových stránek pro firmy', template: '%s | WebsiteAgent' },
+  description: 'Tvoříme profesionální webové stránky a landing pages pro české firmy. Moderní design, hotovo do 48 hodin, platíte až po schválení výsledku. Od 9 900 Kč.',
+  keywords: ['tvorba webových stránek', 'weby pro firmy', 'webové stránky', 'landing page', 'webdesign', 'tvorba webu', 'webová agentura', 'web pro firmu', 'moderní web'],
   openGraph: {
     type: 'website',
     locale: 'cs_CZ',
     siteName: 'WebsiteAgent',
-    title: 'WebsiteAgent – Profesionální weby pro lokální firmy',
-    description: 'Moderní weby pro lokální firmy. Hotové do 48 hodin. Platíte až po schválení.',
+    title: 'WebsiteAgent – Tvorba webových stránek pro firmy',
+    description: 'Profesionální weby pro české firmy. Moderní design, hotovo do 48 hodin, platíte až po schválení. Od 9 900 Kč.',
   },
 };
 
