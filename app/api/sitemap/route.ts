@@ -7,7 +7,6 @@ export async function GET() {
     { loc: `${baseUrl}/o-nas`, changefreq: 'monthly', priority: '0.7' },
     { loc: `${baseUrl}/portfolio`, changefreq: 'weekly', priority: '0.8' },
     { loc: `${baseUrl}/reference`, changefreq: 'monthly', priority: '0.7' },
-    { loc: `${baseUrl}/kalkulace`, changefreq: 'monthly', priority: '0.8' },
     { loc: `${baseUrl}/kontakt`, changefreq: 'monthly', priority: '0.6' },
     { loc: `${baseUrl}/jak-pracujeme`, changefreq: 'monthly', priority: '0.7' },
     { loc: `${baseUrl}/changelog`, changefreq: 'weekly', priority: '0.5' },
