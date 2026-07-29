@@ -44,8 +44,14 @@ export function MarketingNav() {
       });
       hasInitialized.current = true;
     };
-    const id = requestAnimationFrame(() => requestAnimationFrame(measure));
-    return () => cancelAnimationFrame(id);
+    // Wait for fonts to load before measuring to avoid mispositioned indicator
+    if (document.fonts?.ready) {
+      document.fonts.ready.then(() => requestAnimationFrame(measure));
+    } else {
+      requestAnimationFrame(() => requestAnimationFrame(measure));
+    }
+    window.addEventListener('resize', measure);
+    return () => window.removeEventListener('resize', measure);
   }, [pathname]);
 
   return (
@@ -56,6 +62,7 @@ export function MarketingNav() {
       border: '1px solid #e3ded7',
       borderRadius: menuOpen ? '14px 14px 0 0' : '14px',
       boxShadow: '0 4px 24px rgba(40,85,112,0.09)',
+      overflow: menuOpen ? 'visible' : 'hidden',
       transition: 'border-radius 0.01s',
     }}>
 
