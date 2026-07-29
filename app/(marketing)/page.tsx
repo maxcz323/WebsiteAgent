@@ -27,10 +27,6 @@ const MOBILE_RESET = `
   @media (max-width: 767px) {
     .pricing-popular { margin-top: 0 !important; }
     .warranty-badge { font-size: 13px !important; padding: 10px 14px !important; }
-    .hero-badge-text { display: none !important; }
-  }
-  @media (max-width: 480px) {
-    .hero-badge { flex-direction: column !important; text-align: center !important; }
   }
 `;
 
@@ -324,7 +320,7 @@ function Hero() {
   });
 
   return (
-    <section ref={ref} style={{ background: BG, minHeight: '100vh', display: 'flex', alignItems: 'center', position: 'relative', overflow: 'hidden', padding: 'clamp(80px,16vw,210px) clamp(16px,4vw,24px) clamp(60px,10vw,130px)' }}>
+    <section ref={ref} style={{ background: BG, minHeight: '100vh', display: 'flex', alignItems: 'center', position: 'relative', overflow: 'hidden', padding: 'clamp(110px,16vw,210px) clamp(16px,4vw,24px) clamp(80px,10vw,130px)' }}>
 
       {/* Background blobs */}
       <div aria-hidden style={{ position: 'absolute', top: '-10%', right: '-5%', width: '800px', height: '800px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(40,85,112,0.05) 0%, transparent 65%)', pointerEvents: 'none' }} />
@@ -371,7 +367,7 @@ function Hero() {
         </motion.p>
 
         <motion.div {...item(0.18)} style={{ display: 'flex', gap: '14px', justifyContent: 'center', flexWrap: 'wrap' }}>
-          <a href="/kalkulace"
+          <a href="/sluzby"
             style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: ACCENT, color: '#fff', fontSize: '15px', fontWeight: 700, padding: '16px 32px', borderRadius: '12px', textDecoration: 'none', letterSpacing: '0.01em', transition: 'transform 0.2s, box-shadow 0.2s' }}
             onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.transform = 'translateY(-2px)'; el.style.boxShadow = '0 10px 28px rgba(40,85,112,0.32)'; }}
             onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.transform = ''; el.style.boxShadow = ''; }}
